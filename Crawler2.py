@@ -3,14 +3,15 @@ import yfinance as yf
 import matplotlib.pyplot as plt
 
 yf.pdr_override()
+#samsung = '005930.KS'
+print("会社のコードとスタート日を入力してください。：ex) 005930.KS, 2020-01-01")
+company = pdr.get_data_yahoo(input(), start=input())
+print(company)
 
-samsung = pdr.get_data_yahoo('005930.KS', start='2020-07-01')
-print(samsung)
+print(company.index)
+print(company.columns)
 
-print(samsung.index)
-print(samsung.columns)
-
-plt.plot(samsung.index, samsung.Close, 'b', label='Samsung Electronics')
+plt.plot(company.index, company.Close, 'b')
 plt.show()
 
-samsung.to_csv("삼성전자.csv")
+company.to_csv("finance.csv")
