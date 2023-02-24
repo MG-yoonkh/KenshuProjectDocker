@@ -3,7 +3,7 @@ import yfinance as yf
 import matplotlib.pyplot as plt
 
 yf.pdr_override()
-#samsung = '005930.KS'
+
 print("会社のコードとスタート日を入力してください。：ex) 005930.KS, 2020-01-01")
 company = pdr.get_data_yahoo(input(), start=input())
 print(company)
@@ -15,3 +15,4 @@ plt.plot(company.index, company.Close, 'b')
 plt.show()
 
 company.to_csv("finance.csv")
+# volume
