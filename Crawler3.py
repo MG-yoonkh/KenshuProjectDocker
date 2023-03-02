@@ -81,23 +81,29 @@ try:
 except Exception as e:
     logger.error("error!!!")
 
+
+
+df.rename(columns={"날짜": "Date"}, inplace=True)
+df.rename(columns={"종가": "Close"}, inplace=True)
+df.rename(columns={"거래량": "Volume"}, inplace=True)
+
+data = df.iloc[:, [0, 1, 6]]
+data.sort_values(by="Date", inplace=True)
+
 # 콘솔창에 출력
-print(df)
+print(data.to_string(index=False))
 
 # matplotlib 이용해서 그래프 그리기
 fig = plt.figure()
 
-ax1 = fig.add_subplot(2,1,1)
-ax2 = fig.add_subplot(2,1,2)
+ax1 = fig.add_subplot(2, 1, 1)
+ax2 = fig.add_subplot(2, 1, 2)
 
-ax1.plot(df["날짜"],df["종가"], color="navy" , linewidth = 3)
-ax2.plot(df["날짜"],df["거래량"], color="green" , linewidth = 3)
+ax1.plot(data["Date"], data["Close"], color="navy" , linewidth = 3)
+ax2.plot(data["Date"], data["Volume"], color="green" , linewidth = 3)
 
 plt.show()
 
 
 # csv파일 저장
-df.to_csv('finance.csv', columns=['날짜', '종가', '시가', '거래량'])
-
-
-
+df.to_csv('finance.csv')
