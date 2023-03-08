@@ -43,6 +43,7 @@ class FinanceData:
             return df
         except:
             val.Validator.validate_code(self.code)
+            log.Log()
             return None
 
     def get_data(self):
@@ -62,6 +63,7 @@ class FinanceData:
                     break
         except Exception as e:
             val.Validator.validate_date(self.date)
+            log.Log()
 
     def clean_data(self):
         self.df.rename(columns={"날짜": "Date"}, inplace=True)

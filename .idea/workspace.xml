@@ -5,10 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b7438c58-ca4f-4545-b24e-8baab7267601" name="Changes" comment="20230308 commit">
-      <change afterPath="$PROJECT_DIR$/Validation.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Crawler3.py" beforeDir="false" afterPath="$PROJECT_DIR$/Crawler3.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FinanceLog.log" beforeDir="false" afterPath="$PROJECT_DIR$/FinanceLog.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/finance.csv" beforeDir="false" afterPath="$PROJECT_DIR$/finance.csv" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -154,7 +151,14 @@
       <option name="project" value="LOCAL" />
       <updated>1678253328356</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="20230308 commit">
+      <created>1678265457503</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1678265457503</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
