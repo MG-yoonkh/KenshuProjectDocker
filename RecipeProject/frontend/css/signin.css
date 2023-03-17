@@ -1,0 +1,166 @@
+/* * {
+    padding: 0;
+    margin: 0;
+    border: none;
+} */
+
+/* body {
+    font-size: 14px;
+    font-family: 'Roboto', sans-serif;
+    margin-bottom: 50px;
+} */
+
+
+.signin_container {
+    position: relative;
+    width: 500px;
+    /* padding: 10px; */
+    padding-bottom: 0px;
+    box-sizing: border-box;
+    margin-left: -230px;
+    /* margin-top: 10050px; */
+    margin-bottom: 200px;
+    left: 50%;
+    top: 50%; 
+}
+
+.signin_container > h1 {
+    font-size: 30px;
+    font-weight: bold;
+    color: #e53222;
+    margin-bottom: 25px;
+}
+
+.join_title {
+    margin: 13px 0 -2px;
+    font-size: 15px;
+    font-weight:600
+}
+
+.join_row > .form-group {
+    margin-bottom: 0rem;
+}
+
+.join_row > .form-group > input {
+    width: 100%;
+    height: 48px;
+    padding: 10px;
+    box-sizing: border-box;
+    /* margin-bottom: 16px; */
+    border-radius: 6px;
+    background-color: #eae7e7c5;
+    border: 1px solid #969696;
+}
+
+#signin_form > input::placeholder {
+    color: #7f7e7e;
+}
+
+#signin_form > .btn_area > button[type="submit"] {
+    width: 100%;
+    height: 48px;
+    padding: 0 10px;
+    box-sizing: border-box;
+    margin-bottom: 16px;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 16px;
+    background-color: #e53222;
+    margin-top: 20px;
+}
+
+#signin_form > input[type="checkbox"] {
+    display: none;
+}
+
+#signin_form > input[type="checkbox"]+label[for="terms"] {
+    cursor: pointer;
+    padding-left: 20px;
+    background-image: url("checkbox.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+#signin_form > input[type="checkbox"]:checked+label {
+    background-image: url("checkbox-active.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+#signin_form > input[type="tel"] {
+    width: 100%;
+    height: 48px;
+    padding: 0 10px;
+    box-sizing: border-box;
+    margin-bottom: 16px;
+    border-radius: 6px;
+    background-color: #eae7e7c5;
+    border: 1px solid #969696;
+}
+
+.error .error_next_box {
+    text-align: left;
+    display: block;
+    margin: 5px 0px;
+    font-size: 12px;
+    line-height: 14px;
+    color: red;
+}
+
+
+.pagetop {
+    margin: 0;
+    padding: 0 15px;
+    width: 100%;
+  }
+  
+  @media screen and (min-width: 768px) {
+    .pagetop {
+      margin: 0 auto;
+      padding: 0;
+      width: 1180px;
+    }
+  }
+  
+  .pagetop__item {
+    border-top: 1px solid #bebebe;
+    margin-bottom: 0;
+    text-align: center;
+  }
+  
+  .pagetop__link {
+    color: #000;
+    display: block;
+    padding: 15px;
+    text-decoration: none;
+    -webkit-transition: opacity 0.4s;
+    transition: opacity 0.4s;
+  }
+  
+  .pagetop__link:hover {
+    opacity: 0.7;
+    text-decoration: none;
+    -webkit-transition: opacity 0.4s;
+    transition: opacity 0.4s;
+  }
+  
+  .pagetop__icon {
+    display: inline-block;
+    padding-left: 26px;
+    position: relative;
+    vertical-align: middle;
+  }
+  
+  .pagetop__icon::before {
+    background: url(../../images/mem/icon_arrow_top_black.png) no-repeat center;
+    background-size: 16px 9px;
+    content: "";
+    display: block;
+    height: 9px;
+    left: 0;
+    margin: -5px auto 0;
+    position: absolute;
+    top: 50%;
+    width: 16px;
+  }
+  
