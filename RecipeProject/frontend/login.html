@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login Page</title>
+  <!-- css, js -->
+  <link rel="stylesheet" href="./css/common.css" />
+  <link rel="stylesheet" href="./css/header.css" />
+  <link rel="stylesheet" href="./css/login.css" />
+  <script type="text/javascript" src="./js/login.js"></script>
+  <!-- favicon -->
+  <link rel="icon" href="./icon/logo_favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+  <!-- font -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+  <!-- icon - fa-solid fa-use -->
+  <script src="https://kit.fontawesome.com/d35341ad90.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <!-- Header -->
+  <header>
+    <div class="header_area" id="">
+      <a class="navbar-brand" href="./index.html">
+        <img src="./img/food.png" title="" id="thumb_nail" />
+        <p id="head-tagline"><img src="./img/head-tagline.png" alt="" id="iii"></p>
+      </a>
+      <nav>
+        <ul>
+          <li><a href="./index.html">ホーム</a></li>
+          <li><a href="./writeRecipe.html">レシピ投稿</a></li>
+          <li><a href="./myPage.html">マイページ</a></li>
+          <li><a href="./adminPage.html">管理者ページ</a></li>
+          <li><a href="./signin.html">会員登録</a></li>
+          <li class="active"><a href="#">ログイン</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <div class="login_wrapper" style="width: 400px">
+    <h1><i class="fa-solid fa-user"></i> ログイン</h1>
+    <form id="login_form" method="post" action="#">
+      <p>まだ会員登録をされていない方は<a href="./signin.html">こちら</a></p>
+      <input type="email" id="user_email" placeholder="メールアドレス" />
+      <input type="password" id="user_password" name="user_password" placeholder="パスワード" />
+      <label for="remember_check">
+        <input type="checkbox" id="remember_check" />
+        ログインメールアドレスを記憶する。
+      </label>
+      <input type="submit" onclick="checkValue();" value="ログイン" />
+      <a href="./newpassword.html">パスワードを忘れた場合</a>
+    </form>
+  </div>
+</body>
+<script type="text/javascript">
+
+</script>
+
+</html>
