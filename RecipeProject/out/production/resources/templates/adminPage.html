@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>管理者ページ</title>
+    <!-- css, js -->
+    <link rel="stylesheet" href="css/header.css" />
+    <link rel="stylesheet" href="login.css" />
+    <script type="text/javascript" src="js/login.js"></script>
+    <!-- favicon -->
+    <link rel="icon" href="assets/icon/logo_favicon.ico" type="image/x-icon">
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://kit.fontawesome.com/d35341ad90.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+
+  <body>
+    <!-- Header -->
+    <header>
+      <div class="header_area" id="">
+        <a class="navbar-brand" href="index">
+          <img src="assets/img/food.png" title="" id="thumb_nail" />
+        </a>
+        <nav>
+          <ul>
+            <li><a href="index">ホーム</a></li>
+            <li><a href="writeRecipe">レシピ投稿</a></li>
+            <li><a href="myPage">マイページ</a></li>
+            <li class="active"><a href="#">管理者ページ</a></li>
+            <li><a href="signin">会員登録</a></li>
+            <li><a href="login">ログイン</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <!-- 개인정보 -->
+    <div class="container-fluid">
+      <div class="row">
+        <div class="container justify-content-center my-auto p-3">
+          <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+              <div class="row text-center">
+                <div class="col-md-12">
+                  <h3>個人情報</h3>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <img
+                    src="https://via.placeholder.com/250x250.png?text=Profile+Picture"
+                    alt="プロフィール写真"
+                  />
+                  <div class="container text-center">
+                    <ul class="list-group p-3">
+                      <li class="list-group-item">
+                        <strong>ニックネーム</strong>
+                      </li>
+                      <li class="list-group-item">yoon</li>
+                      <li class="list-group-item">
+                        <a href="#" class="btn btn-dark">ニックネーム変更</a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <ul class="list-group">
+                    <li class="list-group-item">
+                      <strong>メールアドレス</strong>
+                    </li>
+                    <li class="list-group-item">user1@example.com</li>
+                    <li class="list-group-item">
+                      <a href="#" class="btn btn-dark">パスワード変更</a>
+                    </li>
+                    <li class="list-group-item"><strong>誕生日</strong></li>
+                    <li class="list-group-item">1990年1月1日</li>
+                    <li class="list-group-item"><strong>電話番号</strong></li>
+                    <li class="list-group-item">080-1234-5678</li>
+                    <li class="list-group-item">
+                      <a href="#" class="btn btn-dark">電話番号変更</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="com-md-3"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 유저정보 -->
+    <div class="container my-auto p-3">
+      <h3>ユーザー情報一覧</h3>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">メールアドレス</th>
+            <th scope="col">ニックネーム</th>
+            <th scope="col">誕生日</th>
+            <th scope="col">電話番号</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>user1@example.com</td>
+            <td>ユーザーA</td>
+            <td>1990年1月1日</td>
+            <td>080-1234-5678</td>
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <td>user2@example.com</td>
+            <td>ユーザーB</td>
+            <td>1985年5月10日</td>
+            <td>090-1111-2222</td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td>user3@example.com</td>
+            <td>ユーザーC</td>
+            <td>1985年5月10日</td>
+            <td>090-1111-2222</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 유저 상세정보 -->
+    <div class="container my-4">
+      <h3 class="row p-3">ユーザー情報詳細</h3>
+      <div class="row">
+        <div class="col-md-6">
+          <h4>ユーザーA</h4>
+          <ul class="list-group">
+            <li class="list-group-item">ID: 1</li>
+            <li class="list-group-item">メールアドレス: user1@example.com</li>
+            <li class="list-group-item">ニックネーム: ユーザーA</li>
+            <li class="list-group-item">誕生日: 1990年1月1日</li>
+            <li class="list-group-item">電話番号: 080-1234-5678</li>
+          </ul>
+        </div>
+        <div class="col-md-6">
+          <img
+            src="https://via.placeholder.com/300x300.png?text=Profile+Picture"
+            alt="プロフィール写真"
+          />
+        </div>
+      </div>
+      <div class="mt-4">
+        <h3>ユーザーAの投稿一覧</h3>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="card mb-4">
+              <img
+                src="https://via.placeholder.com/300x200.png?text=Recipe+Image"
+                class="card-img-top"
+                alt="..."
+              />
+              <div class="card-body">
+                <h5 class="card-title">料理名</h5>
+                <p class="card-text">簡単に作れる料理のレシピです。</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card mb-4">
+              <img
+                src="https://via.placeholder.com/300x200.png?text=Recipe+Image"
+                class="card-img-top"
+                alt="..."
+              />
+              <div class="card-body">
+                <h5 class="card-title">料理名</h5>
+                <p class="card-text">簡単に作れる料理のレシピです。</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card mb-4">
+              <img
+                src="https://via.placeholder.com/300x200.png?text=Recipe+Image"
+                class="card-img-top"
+                alt="..."
+              />
+              <div class="card-body">
+                <h5 class="card-title">料理名</h5>
+                <p class="card-text">簡単に作れる料理のレシピです。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- Bootstrap Bundle with Popper -->
+
+    <footer class="bg-light mt-3 p-3 text-center">
+      <p>Recipe Management Site &copy; 2023</p>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
