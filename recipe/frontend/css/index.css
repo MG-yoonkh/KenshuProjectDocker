@@ -1,12 +1,10 @@
 .recipe_list .card {
-
-    /* margin-top: 50px; */
     margin-bottom: 10px;
 }
 
-
 .img-bg{
-    position: relative;                       
+    position: relative;
+    top:0px;                 
     height: 70vh;
     background-size: cover;
   }
@@ -51,8 +49,6 @@
       opacity: 1;
     }
   }
-  
-  
 
   .row .category_drop {
     margin:0px 0px 0px 0px;

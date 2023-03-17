@@ -15,15 +15,6 @@ html {
   overflow-y: scroll;
 }
 
-/* body {
-  font-family: "ヒラギノ角ゴ Pro", "Hiragino Kaku Gothic Pro", "メイリオ", "Meiryo", "ＭＳ Ｐゴシック", sans-serif;
-  font-size: 160%;
-  line-height: 1.68;
-  overflow: hidden;
-  min-width: 1024px;
-  -webkit-text-size-adjust: 100%;
-} */
-
 main {
   z-index: 4;
   overflow: hidden;

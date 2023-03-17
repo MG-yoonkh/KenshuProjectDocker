@@ -1,4 +1,4 @@
-.login_wrapper {
+.user_form_wrapper {
     position: absolute;
     width: 400px;
     height: 350px;
@@ -11,7 +11,7 @@
     top: 50%; 
 }
 
-.login_wrapper>h1 {
+.user_form_wrapper>h1 {
     font-size: 30px;
     font-weight: bold;
     color: #e53222;
@@ -40,6 +40,7 @@
     font-size: 16px;
     background-color: #e53222;
     margin-top: 20px;
+    text-align: center;
 }
 
 #login_form>input[type="checkbox"] {
