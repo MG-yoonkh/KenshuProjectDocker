@@ -1,16 +1,21 @@
 @import url(https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css);
 
-:root {
-    --baseColor: #333;
-    --selectColor: #e53222;
-    --baseContainer: 79.375rem;
-    /*1270px*/
-}
+
 
 /* 이부분 header만 적용되게 바꾸기 */
-header nav ul li > a:link, a:visited, a:hover, a:active {
-    color: var(--baseColor);
-    font-family: "Roboto", sans-serif;
+.header_link_action + a:link, a:visited, a:hover, a:active {
+    color: var(--baseColor-black);
+    font-family: var(--baseFont);
+}
+
+main + a{
+    color: var(--baseColor-white);
+}
+
+header nav ul li.active a,
+header nav ul li:hover a {
+    color: var(--selectColor-red);
+    text-decoration: none;
 }
 
 header .header_area {
@@ -62,7 +67,7 @@ header nav ul li a {
 
 header nav ul li.active a,
 header nav ul li:hover a {
-    color: var(--selectColor);
+    color: var(--selectColor-red);
     text-decoration: none;
 }
 
@@ -72,7 +77,7 @@ header nav ul li a:after {
     position: absolute;
     width: 100%;
     height: 2px;
-    background-color: var(--selectColor);
+    background-color: var(--selectColor-red);
     left: 0;
     bottom: 0;
     transition: all 0.3s ease-in-out;
@@ -83,23 +88,40 @@ header nav ul li:hover a:after {
     opacity: 1;
 }
 
-li {
+/* li {
     list-style-type: none;
-}
+} */
 
 header #thumb_nail {
     width: 45px;
     height: 45px;
 }
 
-main {
-    z-index: 4;
-    overflow: hidden;
-    position:relative;
-    top:70px;
+header .thumb_nail {
+    width: 45px;
+    height: 45px;
 }
 
+.head-tagline {
+    position: absolute;
+    display: inline;
+    white-space: nowrap;
+    zoom: 1;
+    width: 200px;
+    left: 100px;
+    top: 14px;
+  }
 
-#indexSearch {
+ #head-tagline {
+    position: absolute;
+    display: inline;
+    white-space: nowrap;
+    zoom: 1;
+    width: 200px;
+    left: 100px;
+    top: 14px;
+}
+
+.indexSearch {
     z-index: auto;
 }
