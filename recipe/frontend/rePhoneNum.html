@@ -55,12 +55,15 @@
     <h1><i class="fa-solid fa-user"></i>電話番号変更</h1>
     <form id="login_form" method="post" action="#">
       <p>登録情報の入力してくだたい</p>
-      <input type="email" id="user_email" placeholder="現在パスワード" />
-      <input type="tel" id="user_tel" name="user_password" placeholder="新しいパスワード" />
-      <input type="date" id="user_birthdate" name="user_birthdate" placeholder="新しいパスワード（確認）" />
-      <input type="submit" onclick="checkValue();" value="電話番号を変更する" />
-      <!-- <a href="./login.html">ログインページに戻る</a> -->
-      <a href="./index.html">トップに戻る</a>
+      <input type="email" id="user_email" placeholder="新しい電話番号" />
+      <input type="tel" id="user_tel" name="user_password" placeholder="新しい電話番号（確認）" />
+      <!-- <input type="submit" onclick="checkValue();" value="電話番号を変更する" /> -->
+      <div class="btn_area">
+        <button type="submit" class="btn_submit" onclick="checkValue();">
+          <span>電話番号を変更する</span>
+        </button>
+      </div>
+      <a href="./myPage.html">マイページに戻る</a>
     </form>
   </div>
 </body>

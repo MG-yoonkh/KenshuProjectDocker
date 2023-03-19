@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="./css/common.css" />
   <link rel="stylesheet" href="./css/header.css" />
   <link rel="stylesheet" href="./css/login.css" />
-  <script type="text/javascript" src="./js/login.js"></script>
+  <!-- <script type="text/javascript" src="./js/login.js"></script> -->
   <!-- favicon -->
   <link rel="icon" href="./icon/logo_favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -58,10 +58,16 @@
       <input type="email" id="user_email" placeholder="メールアドレス" />
       <input type="password" id="user_password" name="user_password" placeholder="パスワード" />
       <label for="remember_check">
-        <input type="checkbox" id="remember_check" />
-        ログインメールアドレスを記憶する。
+        <input type="checkbox" class="checkbox_login" id="" />ログインメールアドレスを記憶する。
       </label>
-      <input type="submit" onclick="checkValue();" value="ログイン" />
+
+      <!-- <input type="submit" onclick="checkValue();" value="ログイン" /> -->
+      <div class="btn_area">
+        <button type="submit" class="btn_submit" onclick="checkValue();">
+          <span>ログイン</span>
+        </button>
+      </div>
+
       <a href="./newpassword.html">パスワードを忘れた場合</a>
     </form>
   </div>

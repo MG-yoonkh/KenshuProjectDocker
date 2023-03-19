@@ -43,6 +43,7 @@ function login(id, pw) {
         alert("Invalid ID");
         displayRememberId();
     }
+    displayRememberId();
 }
 
 if ($('#remember_check').is(':checked')) {
