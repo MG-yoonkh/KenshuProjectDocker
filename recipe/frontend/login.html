@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="./css/common.css" />
   <link rel="stylesheet" href="./css/header.css" />
   <link rel="stylesheet" href="./css/login.css" />
-  <!-- <script type="text/javascript" src="./js/login.js"></script> -->
+
   <!-- favicon -->
   <link rel="icon" href="./icon/logo_favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -31,8 +31,9 @@
 
 <body>
   <!-- Header -->
+  <!-- <div id="header"></div> -->
   <header>
-    <div class="header_area" id="">
+    <div class="header_area" id="header">
       <a class="navbar-brand" href="./index.html">
         <img src="./img/food.png" title="" class="thumb_nail" />
         <p class="head-tagline"><img src="./img/head-tagline.png" alt=""></p>
@@ -53,15 +54,14 @@
 
   <div class="user_form_wrapper" style="width: 400px">
     <h1><i class="fa-solid fa-user"></i> ログイン</h1>
-    <form id="login_form" method="post" action="#">
+    <form name="f1" id="login_form" method="post" action="#">
       <p>まだ会員登録をされていない方は<a href="./signin.html">こちら</a></p>
-      <input type="email" id="user_email" placeholder="メールアドレス" />
-      <input type="password" id="user_password" name="user_password" placeholder="パスワード" />
-      <label for="remember_check">
-        <input type="checkbox" class="checkbox_login" id="" />ログインメールアドレスを記憶する。
+      <!-- Enterキーが押されたらcheckValue() -->
+      <input type="email" id="user_email" placeholder="メールアドレス" /> 
+      <input type="password" id="user_password" name="user_password" placeholder="パスワード" onKeyDown="if(event.keyCode == 13) checkValue()"/>
+      <label for="js-remember_check">
+        <input type="checkbox" class="checkbox_login" id="js-remember_check" />ログインメールアドレスを記憶する。
       </label>
-
-      <!-- <input type="submit" onclick="checkValue();" value="ログイン" /> -->
       <div class="btn_area">
         <button type="submit" class="btn_submit" onclick="checkValue();">
           <span>ログイン</span>
@@ -72,7 +72,10 @@
     </form>
   </div>
 </body>
+<script type="text/javascript" src="./js/login.js"></script>
 <script type="text/javascript">
+      // $('#header').load('./header.html');
+
 
 </script>
 
