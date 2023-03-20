@@ -1,60 +1,62 @@
 .recipe_list .card {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
+}
+.recipe_list .card .card-img-top {
+  height: 170px;
 }
 
-.img-bg{
-    position: relative;
-    top:0px;                 
-    height: 70vh;
-    background-size: cover;
-  }
+.img-bg {
+  position: relative;
+  top: 0px;
+  height: 70vh;
+  background-size: cover;
+}
 
-  .img-cover{
-     position: absolute;
-     height: 100%;
-     width: 100%;
-     background-color: rgba(0, 0, 0, 0.7);
-     opacity: 0.9;
-     z-index:1;
-  }
+.img-cover {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  opacity: 0.9;
+  z-index: 1;
+}
 
-  .img-bg .content{
-     position: absolute;
-     top:50%;
-     left:50%;
-     transform: translate(-50%, -50%);                                                                   
-     font-size:5rem;
-     color: white;
-     z-index: 2;
-     text-align: center;
-  }
-  .img-bg .search_label {
-    font-size: 40px;
-    font-family: 'Roboto', sans-serif;
-    font-weight: bold;
-    color: white;
-    /* text-shadow: -3px 1px black, 0px 2px black, 2px 0px black, 0px -2px black; */
-  }
-  .img-bg .search input[type="text"]{
-    height: 35px;
-    margin-top: 0px;
-  }
+.img-bg .content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 5rem;
+  color: white;
+  z-index: 2;
+  text-align: center;
+}
+.img-bg .search_label {
+  font-size: 40px;
+  font-family: "Roboto", sans-serif;
+  font-weight: bold;
+  color: white;
+  /* text-shadow: -3px 1px black, 0px 2px black, 2px 0px black, 0px -2px black; */
+}
+.img-bg .search input[type="text"] {
+  height: 35px;
+  margin-top: 0px;
+}
 
-  @keyframes dropdown {
-    from {
-      opacity: 0;
-      transform: translateY(5px);
-    }
-    to {
-      opacity: 1;
-    }
+@keyframes dropdown {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
   }
-
-  .row .category_drop {
-    margin:0px 0px 0px 0px;
-
+  to {
+    opacity: 1;
   }
+}
 
-  .row .dropdown {
-    margin-top: -30px;
-  }
+.row .category_drop {
+  margin: 0px 0px 0px 0px;
+}
+
+.row .dropdown {
+  margin-top: -30px;
+}
