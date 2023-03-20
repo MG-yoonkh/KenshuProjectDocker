@@ -105,3 +105,8 @@ header .thumb_nail {
 .indexSearch {
     z-index: auto;
 }
+
+/* footer {
+    position: fixed;
+    bottom:50px;
+} */
