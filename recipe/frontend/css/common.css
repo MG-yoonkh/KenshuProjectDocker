@@ -22,5 +22,8 @@ main {
   top:80px;
 }
 
+/* .category_box {
+  display: block;
+} */
 
-
+a { display: block}
