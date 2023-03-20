@@ -6,12 +6,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>New Nickname</title>
-  <!-- css, js -->
+  <!-- css -->
   <link rel="stylesheet" href="./css/reset.css" />
   <link rel="stylesheet" href="./css/common.css" />
   <link rel="stylesheet" href="./css/header.css" />
   <link rel="stylesheet" href="./css/login.css" />
-  <script type="text/javascript" src="./js/login.js"></script>
+
   <!-- favicon -->
   <link rel="icon" href="./icon/logo_favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -30,7 +30,7 @@
 </head>
 
 <body>
-  <!-- Header -->
+  <!-- ヘッダー -->
   <header>
     <div class="header_area" id="">
       <a class="navbar-brand" href="./index.html">
@@ -55,15 +55,18 @@
     <h1><i class="fa-solid fa-user"></i>ニックネーム変更</h1>
     <form id="login_form" method="post" action="#">
       <p>登録情報の入力してくだたい</p>
-      <input type="email" id="user_email" placeholder="現在パスワード" />
-      <input type="tel" id="user_tel" name="user_password" placeholder="新しいパスワード" />
-      <input type="date" id="user_birthdate" name="user_birthdate" placeholder="新しいパスワード（確認）" />
-      <input type="submit" onclick="checkValue();" value="ニックネームを変更する" />
-      <!-- <a href="./login.html">ログインページに戻る</a> -->
-      <a href="./index.html">トップに戻る</a>
+      <input type="text" id="nickname" name="user_password" placeholder="新しいニックネーム" />
+      <input type="text" id="nickname" name="user_birthdate" placeholder="新しいニックネーム（確認）" />
+      <!-- <input type="submit" onclick="checkValue();" value="ニックネームを変更する" /> -->
+      <div class="btn_area">
+        <button type="submit" class="btn_submit" onclick="checkValue();">
+          <span>ニックネームを変更する</span>
+        </button>
+      </div>
+      <a href="./myPage.html">マイページに戻る</a>
     </form>
   </div>
 </body>
 <script type="text/javascript"></script>
-
+<script type="text/javascript" src="./js/login.js"></script>
 </html>
