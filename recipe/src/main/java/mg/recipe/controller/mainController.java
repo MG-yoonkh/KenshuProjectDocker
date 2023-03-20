@@ -2,17 +2,34 @@ package mg.recipe.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 
 @Controller
 public class mainController {
 
-    @GetMapping("/study")
+    @GetMapping("study-api")
     @ResponseBody
-    public String study(){
-        return "공부용 페이지입니다.감사합니다.";
+    public Study study(@RequestParam("name") String name){
+        Study study = new Study();
+        study.setName(name);
+        return study;
     }
+
+    static class Study {
+        private String name;
+        public String getName() {
+            return name;
+        }
+        public void setName(String name) {
+            this.name = name;
+        }
+    }
+
+
+
+
 
     @GetMapping("/index")
     public String index(){
