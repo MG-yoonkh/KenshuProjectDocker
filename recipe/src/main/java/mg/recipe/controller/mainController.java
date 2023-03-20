@@ -27,9 +27,9 @@ public class mainController {
     @GetMapping("/signin")
     public String signin(){ return "signin"; }
 
-    @GetMapping("/newPassword")
+    @GetMapping("/newpassword")
     public String newPassword(){
-        return "newPassword";
+        return "newpassword";
     }
 
     @GetMapping("/myPage")
