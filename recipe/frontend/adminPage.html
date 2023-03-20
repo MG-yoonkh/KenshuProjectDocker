@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>管理者ページ</title>
     <!-- css, js -->
+    <link rel="stylesheet" href="./css/reset.css" />
     <link rel="stylesheet" href="./css/common.css" />
     <link rel="stylesheet" href="./css/header.css" />
     <link rel="stylesheet" href="./login.css" />
@@ -37,17 +38,17 @@
       src="https://kit.fontawesome.com/d35341ad90.js"
       crossorigin="anonymous"
     ></script>
-    <!-- 차트 -->
+    <!-- チャート -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
   </head>
 
   <body>
-    <!-- Header -->
+  <!-- ヘッダー -->->
     <header>
       <div class="header_area" id="">
         <a class="navbar-brand" href="./index.html">
-          <img src="./img/food.png" title="" id="thumb_nail" />
-          <p id="head-tagline">
+          <img src="./img/food.png" title="" class="thumb_nail" />
+          <p class="head-tagline">
             <img src="./img/head-tagline.png" alt="" id="iii" />
           </p>
         </a>
@@ -65,10 +66,11 @@
     </header>
 
     <main>
-      <!-- 사이트정보 -->
+      <!-- サイト情報 -->
       <div class="container-fluid">
         <div class="row">
           <div class="col-md-12">
+<<<<<<< HEAD
             <div class="row text-center justify-content-center">
               <div class="col-md-12 p-3">
                 <h1>サイト管理</h1>
@@ -168,11 +170,46 @@
                 <label for="">
                   <h2 class="p-5">ユーザー情報 修正、削除</h2>
                 </label>
+=======
+          <h1>サイト管理</h1>
+        </div>
+        <!-- 会員登録、接続者グラフ -->
+        <div class="row text-center justify-content-center">
+          <div class="col-md-12">
+            <h2>会員登録、接続者グラフ</h2>
+          </div>
+        </div>
+        <div class="row text-center justify-content-center">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-body">
+                <canvas class="myChart"></canvas>
+>>>>>>> 32df21dddcefd20ed757ef6abe7e8ad6a656c313
               </div>
             </div>
           </div>
         </div>
       </div>
+<<<<<<< HEAD
+=======
+      <!-- ユーザー情報 -->
+      <div class="container">
+        <div class="row">
+          <!-- 총 유저수 -->
+          <div class="col-md-auto">
+            
+          </div>
+          <!-- 유저정보 수정,삭제 -->
+        </div>
+      </div>
+      <!-- 레시피정보 -->
+      <div class="container">
+        <div class="row">
+          <!-- 총 레시피수 -->
+          <!-- 레시피 수정,삭제 -->
+        </div>
+      </div>
+>>>>>>> 32df21dddcefd20ed757ef6abe7e8ad6a656c313
     </main>
 
     <footer class="bg-light mt-3 p-3 text-center">

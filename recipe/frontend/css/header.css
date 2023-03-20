@@ -1,6 +1,6 @@
 @import url(https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css);
 
-/* 이부분 header만 적용되게 바꾸기 */
+/*  */
 .header_link_action + a:link, a:visited, a:hover, a:active {
     color: var(--baseColor-black);
     font-family: var(--baseFont);
@@ -86,14 +86,6 @@ header nav ul li:hover a:after {
     opacity: 1;
 }
 
-/* li {
-    list-style-type: none;
-} */
-
-header #thumb_nail {
-    width: 45px;
-    height: 45px;
-}
 
 header .thumb_nail {
     width: 45px;
@@ -109,16 +101,6 @@ header .thumb_nail {
     left: 100px;
     top: 14px;
   }
-
- #head-tagline {
-    position: absolute;
-    display: inline;
-    white-space: nowrap;
-    zoom: 1;
-    width: 200px;
-    left: 100px;
-    top: 14px;
-}
 
 .indexSearch {
     z-index: auto;
