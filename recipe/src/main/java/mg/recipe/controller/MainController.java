@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 
 @Controller
-public class mainController {
+public class MainController {
 
     @GetMapping("study-api")
     @ResponseBody
