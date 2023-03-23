@@ -15,6 +15,10 @@ html {
   overflow-y: scroll;
 }
 
+/* body {
+  background-color: #DCD0B4;
+} */
+
 main {
   z-index: 4;
   overflow: hidden;
@@ -26,7 +30,11 @@ main {
   display: block;
 } */
 
-a { display: block}
+a {
+  display: block;
+  color: var(--baseColor-black);
+  text-decoration: none;
+}
 
 /* ul{display:inline-block;}  */
 
