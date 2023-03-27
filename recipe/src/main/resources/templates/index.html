@@ -6,8 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>レシピサイト</title>
   <!-- css, js -->
+  <link rel="stylesheet" href="css/reset.css" />
   <link rel="stylesheet" href="css/common.css" />
-  <link rel="stylesheet" href="css/header.css" />
   <link rel="stylesheet" href="css/index.css" />
   <script type="text/javascript" src="js/index.js"></script>
   <!-- favicon -->
@@ -30,6 +30,9 @@
   <!-- font -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@500&display=swap" rel="stylesheet" />
   <!-- icon - fa-solid fa-use -->
   <script src="https://kit.fontawesome.com/d35341ad90.js" crossorigin="anonymous"></script>
 </head>
@@ -39,7 +42,7 @@
   <header>
     <div class="header_area" id="">
       <a class="navbar-brand" href="#">
-        <img src="assets/img/food.png" title="" id="thumb_nail" />
+        <img src="assets/img/food.png" title="" class="thumb_nail" />
       </a>
       <p id="head-tagline"><img src="assets/img/head-tagline-font.png" alt="" id="iii"></p>
       <nav>
@@ -49,252 +52,310 @@
           <li><a href="myPage">マイページ</a></li>
           <li><a href="adminPage">管理者ページ</a></li>
           <li><a href="signin">会員登録</a></li>
-          <li><a href="login">ログイddン</a></li>
+          <li><a href="login">ログイン</a></li>
+          <li class="header_link_action"><a href="#">ログアウト</a></li>
         </ul>
       </nav>
     </div>
   </header>
-
   <main>
-    <div class="container-fluid">
-      <div class="row" id="roww">
+    <div class="img-bg">
+      <!-- 検索 -->
+      <div class="row justify-content-center">
+        <div class="content col-md-6 justify-content-center search">
+          <label for="" class="search_label">キーワードでレシピ検索!</label>
 
-        <!-- カテゴリー -->
-        <div class="col-md-2 bg-light">
-          <h3>カテゴリ</h3>
-          <ul class="list-group">
-            <li class="list-group-item">
-              <a href="#">韓国料理</a>
-            </li>
-            <li class="list-group-item">
-              <a href="#">日本料理</a>
-            </li>
-            <li class="list-group-item">
-              <a href="#">中華料理</a>
-            </li>
-            <li class="list-group-item">
-              <a href="#">西洋料理</a>
-            </li>
-          </ul>
-        </div>
-        <div class="col-md-10">
-          <div class="container mt-3">
-            <!-- 検索 -->
-            <div class="row">
-              <h3 class="col-sm-12">レシピ検索</h3>
+          <div class="search_input">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="" aria-label="" />
+              <button class="btn btn-dark indexSearch" type="submit">
+                検索
+              </button>
             </div>
-            <div class="row">
-              <form class="row p-3" action="#">
-                <div class="col-sm-12">
-                  <div class="input-group">
-                    <input type="text" class="form-control" placeholder="レシピ入力．．．" aria-label="レシピ入力．．．" />
-                    <button class="btn btn-secondary" id="indexSearch" type="submit">
-                      検索
-                    </button>
-                  </div>
-                </div>
+          </div>
 
-                <div class="row p-2">
-                  <!-- ドロップダウン　カテゴリー -->
-                  <div class="col-sm-2">
-                    <div class="dropdown">
-                      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        カテゴリ
-                      </button>
-                      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        <li>
-                          <a class="dropdown-item" href="#">Option 1</a>
-                        </li>
-                        <li>
-                          <a class="dropdown-item" href="#">Option 2</a>
-                        </li>
-                        <li>
-                          <a class="dropdown-item" href="#">Option 3</a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div class="col-sm-2">
-                    <!-- ドロップダウン　調理時間 -->
-                    <div class="dropdown">
-                      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        調理時間
-                      </button>
-                      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        <li>
-                          <a class="dropdown-item" href="#">Option 1</a>
-                        </li>
-                        <li>
-                          <a class="dropdown-item" href="#">Option 2</a>
-                        </li>
-                        <li>
-                          <a class="dropdown-item" href="#">Option 3</a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                  <!-- ドロップダウン　カロリー -->
-                  <div class="col-sm-2">
-                    <div class="dropdown">
-                      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        カロリー
-                      </button>
-                      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-                        <li>
-                          <a class="dropdown-item" href="#">Option A</a>
-                        </li>
-                        <li>
-                          <a class="dropdown-item" href="#">Option B</a>
-                        </li>
-                        <li>
-                          <a class="dropdown-item" href="#">Option C</a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                  <!-- ドロップダウン　ソート順 (人気・日付) -->
-                  <div class="col-md-2">
-                    <div class="row">
-                      <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2"
-                          data-bs-toggle="dropdown" aria-expanded="false">
-                          ソート順
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-                          <li>
-                            <a class="dropdown-item" href="#">人気順</a>
-                          </li>
-                          <li>
-                            <a class="dropdown-item" href="#">日付順</a>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </form>
-            </div>
-            <!-- レシピ -->
-            <div class="row">
-              <div class="col-sm-12">
-                <h3>レシピイメージ</h3>
+          <div class="row justify-content-center gap-2">
+            <!-- ドロップダウン　カテゴリー -->
+            <div class="col-md-2 category_box">
+              <div class="dropdown">
+                <button class="btn btn-dark dropdown-toggle" type="button" id="" data-bs-toggle="dropdown"
+                  aria-expanded="false">
+                  カテゴリ
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="">
+                  <li>
+                    <a class="dropdown-item" href="#">韓国料理</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="#">日本料理</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="#">中華料理</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="#">西洋料理</a>
+                  </li>
+                </ul>
               </div>
             </div>
-
-            <div class="row">
-              <div class="col-sm-4">
-                <div class="card">
-                  <a href="recipeInfo" class="btn btn-light">
-                    <img class="card-img-top" src="https://via.placeholder.com/350x200" alt="Card image cap" />
-                  </a>
-                  <div class="card-body">
-                    <h5 class="card-title">レシピ１</h5>
-                    <p class="card-text">レシピ説明</p>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-4">
-                <div class="card">
-                  <a href="recipeInfo" class="btn btn-light">
-                    <img class="card-img-top" src="https://via.placeholder.com/350x200" alt="Card image cap" />
-                  </a>
-                  <div class="card-body">
-                    <h5 class="card-title">レシピ２</h5>
-                    <p class="card-text">レシピ説明</p>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-4">
-                <div class="card">
-                  <a href="recipeInfo" class="btn btn-light">
-                    <img class="card-img-top" src="https://via.placeholder.com/350x200" alt="Card image cap" />
-                  </a>
-                  <div class="card-body">
-                    <h5 class="card-title">レシピ３</h5>
-                    <p class="card-text">レシピ説明</p>
-                  </div>
-                </div>
+            <div class="col-md-2">
+              <!-- ドロップダウン　調理時間 -->
+              <div class="dropdown">
+                <button class="btn btn-dark dropdown-toggle" type="button" id="" data-bs-toggle="dropdown"
+                  aria-expanded="false">
+                  調理時間
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="">
+                  <li>
+                    <a class="dropdown-item" href="#">0分~10分</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="#">11分~20分</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="#">21分~30分</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="#">31分~40分</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="#">41分~1時間</a>
+                  </li>
+                </ul>
               </div>
             </div>
-
-            <div class="row">
-              <div class="col-sm-4">
-                <div class="card">
-                  <a href="recipeInfo" class="btn btn-light">
-                    <img class="card-img-top" src="https://via.placeholder.com/350x200" alt="Card image cap" />
-                  </a>
-                  <div class="card-body">
-                    <h5 class="card-title">レシピ４</h5>
-                    <p class="card-text">レシピ説明</p>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-4">
-                <div class="card">
-                  <a href="recipeInfo" class="btn btn-light">
-                    <img class="card-img-top" src="https://via.placeholder.com/350x200" alt="Card image cap" />
-                  </a>
-                  <div class="card-body">
-                    <h5 class="card-title">レシピ５</h5>
-                    <p class="card-text">レシピ説明</p>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-4">
-                <div class="card">
-                  <a href="recipeInfo" class="btn btn-light">
-                    <img class="card-img-top" src="https://via.placeholder.com/350x200" alt="Card image cap" />
-                  </a>
-                  <div class="card-body">
-                    <h5 class="card-title">レシピ６</h5>
-                    <p class="card-text">レシピ説明</p>
-                  </div>
-                </div>
+            <!-- ドロップダウン　カロリー -->
+            <div class="col-md-2">
+              <div class="dropdown">
+                <button class="btn btn-dark dropdown-toggle" type="button" id="" data-bs-toggle="dropdown"
+                  aria-expanded="false">
+                  カロリー
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="">
+                  <li>
+                    <a class="dropdown-item" href="#">0~200kcal</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="#">201~400kcal</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="#">401~600kcal</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="#">601~800kcal</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="#">801~1000kcal</a>
+                  </li>
+                </ul>
               </div>
             </div>
-
-            <div class="row">
-              <div class="col-sm-4">
-                <div class="card">
-                  <a href="recipeInfo" class="btn btn-light">
-                    <img class="card-img-top" src="https://via.placeholder.com/350x200" alt="Card image cap" />
-                  </a>
-                  <div class="card-body">
-                    <h5 class="card-title">レシピ7</h5>
-                    <p class="card-text">レシピ説明</p>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-4">
-                <div class="card">
-                  <a href="recipeInfo" class="btn btn-light">
-                    <img class="card-img-top" src="https://via.placeholder.com/350x200" alt="Card image cap" />
-                  </a>
-                  <div class="card-body">
-                    <h5 class="card-title">レシピ8</h5>
-                    <p class="card-text">レシピ説明</p>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-4">
-                <div class="card">
-                  <a href="recipeInfo" class="btn btn-light">
-                    <img class="card-img-top" src="https://via.placeholder.com/350x200" alt="Card image cap" />
-                  </a>
-                  <div class="card-body">
-                    <h5 class="card-title">レシピ9</h5>
-                    <p class="card-text">レシピ説明</p>
-                  </div>
-                </div>
+            <!-- ドロップダウン　ソート順 (人気・日付) -->
+            <div class="col-md-2">
+              <div class="dropdown">
+                <button class="btn btn-dark dropdown-toggle" type="button" id="" data-bs-toggle="dropdown"
+                  aria-expanded="false">
+                  ソート順
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="">
+                  <li>
+                    <a class="dropdown-item" href="#">人気順</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="#">日付順</a>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
         </div>
       </div>
+      <!-- carousel -->
+      <div id="carouselExampleIndicators" class="carousel slide carousel-fade" data-bs-ride="true">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
+            aria-current="true" aria-label="Slide 1"></button>
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+            aria-label="Slide 2"></button>
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+            aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+          <div class="carousel-item active" data-bs-interval="3000">
+            <img src="assets/img/pasta_1920.jpg" class="d-block w-100 img-bg" alt="..." />
+          </div>
+          <div class="carousel-item" data-bs-interval="3000">
+            <img src="assets/img/food-meal_640.jpg" class="d-block w-100 img-bg" alt="..." />
+          </div>
+          <div class="carousel-item" data-bs-interval="3000">
+            <img src="assets/img/food-steak_640.jpg" class="d-block w-100 img-bg" alt="..." />
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+          data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+          data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+      <!-- end carousel-->
     </div>
+    <!-- end 検索 -->
+    <div class="container-fluid my-5 container_recipe">
+      <div class="row" id="">
+        <!-- カテゴリー -->
+        <div class="col-md-2">
+          <h3>カテゴリ</h3>
+          <ul class="list-group">
+            <li class="list-group-item" id="list_korean">
+              <a href="index" class="block_none">韓国料理<img src="assets/img/thumb_peppers.png" title="" class="thumb_nail" /></a>
+            </li>
+            <li class="list-group-item" id="list_japanese">
+              <a href="index" class="block_none">日本料理<img src="assets/img/thumb_sushi.png" title="" class="thumb_nail" /></a>
+            </li>
+            <li class="list-group-item" id="list_chinese">
+              <a href="index" class="block_none">中華料理<img src="assets/img/thumb_takeaway.png" title="" class="thumb_nail" /></a>
+            </li>
+            <li class="list-group-item" id="list_western">
+              <a href="index" class="block_none">西洋料理<img src="assets/img/thumb_quesadilla.png" title="" class="thumb_nail" /></a>
+            </li>
+          </ul>
+        </div>
+        <!-- end カテゴリー -->
+        <!-- レシピリスト -->
+        <div class="col-md-9">
+          <div class="container mt-3">
+            <div class="recipe_list">
+              <div class="row p-2">
+                <div class="col-sm-12">
+                  <h3>レシピイメージ</h3>
+                </div>
+              </div>
+              <div class="row p-2">
+                <div class="col-sm-4 h-100">
+                  <div class="card border-0">
+                    <a href="recipeInfo" class="btn btn-light">
+                      <img class="card-img-top zoom" src="assets/img/food-breakfast_640.jpg" alt="Card image cap" />
+                    </a>
+                    <div class="card-body">
+                      <h5 class="card-title">レシピ１</h5>
+                      <p class="card-text">レシピ説明</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="card border-0">
+                    <a href="recipeInfo" class="btn btn-light">
+                      <img class="card-img-top zoom" src="assets/img/food-meal_640.jpg" alt="Card image cap" />
+                    </a>
+                    <div class="card-body">
+                      <h5 class="card-title">レシピ２</h5>
+                      <p class="card-text">レシピ説明</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="card border-0">
+                    <a href="recipeInfo" class="btn btn-light">
+                      <img class="card-img-top zoom" src="assets/img/food-pizza_640.jpg" alt="Card image cap" />
+                    </a>
+                    <div class="card-body">
+                      <h5 class="card-title">レシピ３</h5>
+                      <p class="card-text">レシピ説明</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row p-2">
+                <div class="col-sm-4">
+                  <div class="card border-0">
+                    <a href="recipeInfo" class="btn btn-light">
+                      <img class="card-img-top zoom" src="assets/img/food-salmon_640.jpg" alt="Card image cap" />
+                    </a>
+                    <div class="card-body">
+                      <h5 class="card-title">レシピ４</h5>
+                      <p class="card-text">レシピ説明</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="card border-0">
+                    <a href="recipeInfo" class="btn btn-light">
+                      <img class="card-img-top zoom" src="assets/img/food-teriyaki_640.jpg" alt="Card image cap" />
+                    </a>
+                    <div class="card-body">
+                      <h5 class="card-title">レシピ５</h5>
+                      <p class="card-text">レシピ説明</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="card border-0">
+                    <a href="recipeInfo" class="btn btn-light">
+                      <img class="card-img-top zoom" src="assets/img/food-bowl_640.jpg" alt="Card image cap" />
+                    </a>
+                    <div class="card-body">
+                      <h5 class="card-title">レシピ６</h5>
+                      <p class="card-text">レシピ説明</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row p-2">
+                <div class="col-sm-4">
+                  <div class="card border-0">
+                    <a href="recipeInfo" class="btn btn-light">
+                      <img class="card-img-top zoom" src="assets/img/food-pasta_640.jpg" alt="Card image cap" />
+                    </a>
+                    <div class="card-body">
+                      <h5 class="card-title">レシピ7</h5>
+                      <p class="card-text">レシピ説明</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="card border-0">
+                    <a href="recipeInfo" class="btn btn-light">
+                      <img class="card-img-top zoom" src="assets/img/food-steak_640.jpg" alt="Card image cap" />
+                    </a>
+                    <div class="card-body">
+                      <h5 class="card-title">レシピ8</h5>
+                      <p class="card-text">レシピ説明</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="card border-0">
+                    <a href="recipeInfo" class="btn btn-light">
+                      <img class="card-img-top zoom" src="assets/img/food-grill_1280.jpg" alt="Card image cap" />
+                    </a>
+                    <div class="card-body">
+                      <h5 class="card-title">レシピ9</h5>
+                      <p class="card-text">レシピ説明</p>
+                    </div>
+                  </div>
+                </div>
+                <!-- end .col-sm-4 -->
+              </div>
+              <!-- end inner .row -->
+            </div>
+            <!-- end .recipe_list -->
+          </div>
+          <!-- end .container mt-3 -->
+        </div>
+        <!-- end レシピリスト -->
+      </div>
+      <!-- end .row -->
+    </div>
+    <!-- end .container_recipe -->
+
+
+
+
   </main>
   <footer class="bg-light mt-3 p-3 text-center">
     <p>Recipe Management Site &copy; 2023</p>
