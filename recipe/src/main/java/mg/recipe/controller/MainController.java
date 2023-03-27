@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class MainController {
 
     @GetMapping("study-api")
-    @ResponseBody
+
     public Study study(@RequestParam("name") String name){
         Study study = new Study();
         study.setName(name);
@@ -31,20 +31,20 @@ public class MainController {
 
 
 
-    @GetMapping("/index")
+    @GetMapping("index")
     public String index(){
         return "index";
     }
 
-    @GetMapping("/login")
+    @GetMapping("login")
     public String login(){
         return "login";
     }
 
-    @GetMapping("/signin")
+    @GetMapping("signin")
     public String signin(){ return "signin"; }
 
-    @GetMapping("/newpassword")
+    @GetMapping("newpassword")
     public String newPassword(){
         return "newpassword";
     }
