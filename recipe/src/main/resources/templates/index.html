@@ -240,15 +240,15 @@
 
               <div class="row p-2">
 
-                <div th:each="recipeInfo : ${recipeInfoList}">
+                <div th:each="recipe : ${recipeList}">
                   <div class="col-sm-4 h-100">
                     <div class="card border-0">
-                      <a href="recipeInfo" class="btn btn-light">
-                        <img class="card-img-top zoom" src="assets/img/food-breakfast_640.jpg" alt="Card image cap" />
+                      <a th:href="@{|/recipeDetail/${recipe.id}|}" class="btn btn-light">
+                        <img class="card-img-top zoom" th:src="@{recipe.thumbnail}" alt="Card image cap" />
                       </a>
                       <div class="card-body">
-                        <h5 class="card-title" th:text="${recipeInfo.recipeName}"></h5>
-                        <h5 class="card-title" th:text="${recipeInfo.createDate}"></h5>
+                        <h5 class="card-title" th:text="${recipe.recipeName}"></h5>
+                        <h5 class="card-title" th:text="${recipe.createDate}"></h5>
                       </div>
                     </div>
                   </div>
@@ -257,7 +257,7 @@
 
 <!--                <div class="col-sm-4">-->
 <!--                  <div class="card border-0">-->
-<!--                    <a href="recipeInfo" class="btn btn-light">-->
+<!--                    <a href="recipe" class="btn btn-light">-->
 <!--                      <img class="card-img-top zoom" src="assets/img/food-meal_640.jpg" alt="Card image cap" />-->
 <!--                    </a>-->
 <!--                    <div class="card-body">-->
@@ -268,7 +268,7 @@
 <!--                </div>-->
 <!--                <div class="col-sm-4">-->
 <!--                  <div class="card border-0">-->
-<!--                    <a href="recipeInfo" class="btn btn-light">-->
+<!--                    <a href="recipe" class="btn btn-light">-->
 <!--                      <img class="card-img-top zoom" src="assets/img/food-pizza_640.jpg" alt="Card image cap" />-->
 <!--                    </a>-->
 <!--                    <div class="card-body">-->
@@ -281,7 +281,7 @@
 <!--              <div class="row p-2">-->
 <!--                <div class="col-sm-4">-->
 <!--                  <div class="card border-0">-->
-<!--                    <a href="recipeInfo" class="btn btn-light">-->
+<!--                    <a href="recipe" class="btn btn-light">-->
 <!--                      <img class="card-img-top zoom" src="assets/img/food-salmon_640.jpg" alt="Card image cap" />-->
 <!--                    </a>-->
 <!--                    <div class="card-body">-->
@@ -292,7 +292,7 @@
 <!--                </div>-->
 <!--                <div class="col-sm-4">-->
 <!--                  <div class="card border-0">-->
-<!--                    <a href="recipeInfo" class="btn btn-light">-->
+<!--                    <a href="recipe" class="btn btn-light">-->
 <!--                      <img class="card-img-top zoom" src="assets/img/food-teriyaki_640.jpg" alt="Card image cap" />-->
 <!--                    </a>-->
 <!--                    <div class="card-body">-->
@@ -303,7 +303,7 @@
 <!--                </div>-->
 <!--                <div class="col-sm-4">-->
 <!--                  <div class="card border-0">-->
-<!--                    <a href="recipeInfo" class="btn btn-light">-->
+<!--                    <a href="recipe" class="btn btn-light">-->
 <!--                      <img class="card-img-top zoom" src="assets/img/food-bowl_640.jpg" alt="Card image cap" />-->
 <!--                    </a>-->
 <!--                    <div class="card-body">-->
@@ -316,7 +316,7 @@
 <!--              <div class="row p-2">-->
 <!--                <div class="col-sm-4">-->
 <!--                  <div class="card border-0">-->
-<!--                    <a href="recipeInfo" class="btn btn-light">-->
+<!--                    <a href="recipe" class="btn btn-light">-->
 <!--                      <img class="card-img-top zoom" src="assets/img/food-pasta_640.jpg" alt="Card image cap" />-->
 <!--                    </a>-->
 <!--                    <div class="card-body">-->
@@ -327,7 +327,7 @@
 <!--                </div>-->
 <!--                <div class="col-sm-4">-->
 <!--                  <div class="card border-0">-->
-<!--                    <a href="recipeInfo" class="btn btn-light">-->
+<!--                    <a href="recipe" class="btn btn-light">-->
 <!--                      <img class="card-img-top zoom" src="assets/img/food-steak_640.jpg" alt="Card image cap" />-->
 <!--                    </a>-->
 <!--                    <div class="card-body">-->
@@ -338,7 +338,7 @@
 <!--                </div>-->
 <!--                <div class="col-sm-4">-->
 <!--                  <div class="card border-0">-->
-<!--                    <a href="recipeInfo" class="btn btn-light">-->
+<!--                    <a href="recipe" class="btn btn-light">-->
 <!--                      <img class="card-img-top zoom" src="assets/img/food-grill_1280.jpg" alt="Card image cap" />-->
 <!--                    </a>-->
 <!--                    <div class="card-body">-->

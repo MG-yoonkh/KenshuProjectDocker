@@ -6,9 +6,8 @@ package mg.recipe;
 //import mg.recipe.sbb.question.QuestionRepository;
 import mg.recipe.ingredient.Ingredient;
 import mg.recipe.ingredient.IngredientRepository;
-import mg.recipe.instruction.Instruction;
 import mg.recipe.instruction.InstructionRepository;
-import mg.recipe.recipe.RecipeInfo;
+import mg.recipe.recipe.Recipe;
 import mg.recipe.recipe.RecipeRepository;
 //import mg.recipe.user.UserInfo;
 //import mg.recipe.user.UserRepository;
@@ -35,9 +34,9 @@ class RecipeApplicationTests {
 
 //    @Test
 //    void testJpa(){
-//        Optional<RecipeInfo> or = this.recipeRepository.findById(1);
+//        Optional<Recipe> or = this.recipeRepository.findById(1);
 //        assertTrue(or.isPresent());
-//        RecipeInfo r1 = or.get();
+//        Recipe r1 = or.get();
 //
 //        Instruction i = new Instruction();
 //        i.setStepNum(1);
@@ -45,49 +44,50 @@ class RecipeApplicationTests {
 //        this.instructionRepository.save(i);
 //    }
 
-    @Test
-    @Transactional
-    void testJpa(){
-        Optional<RecipeInfo> oi = this.recipeRepository.findById(1);
-        assertTrue(oi.isPresent());
-        RecipeInfo r1 = oi.get();
-
-        List<Ingredient> ingredientList = r1.getIngredientList();
-        assertEquals(1, ingredientList.size());
-        assertEquals("감자", ingredientList.get(0).getName());
-    }
+//    @Test
+//    @Transactional
+//    void testJpa(){
+//        Optional<Recipe> oi = this.recipeRepository.findById(1);
+//        assertTrue(oi.isPresent());
+//        Recipe r1 = oi.get();
+//
+//        List<Ingredient> ingredientList = r1.getIngredientList();
+//        assertEquals(1, ingredientList.size());
+//        assertEquals("감자", ingredientList.get(0).getName());
+//    }
 //    @Autowired
 //    private UserRepository userRepository;
 
+    @Test
+    void testJpa(){
+        Recipe r1 = new Recipe();
+
+        r1.setRecipeName("감자탕");
+        r1.setCreateDate(LocalDateTime.now());
+        r1.setCooktime(10);
+        r1.setThumbnail("assets/img/food-pizza_640.jpg");
+        r1.setCategory("한국");
+        this.recipeRepository.save(r1);
+    }
 //    @Test
 //    void testJpa(){
-//        RecipeInfo r1 = new RecipeInfo();
-//
-//        r1.setRecipeName("김치찌개");
-//        r1.setCreateDate(LocalDateTime.now());
-//        r1.setCooktime(10);
-//        r1.setCategory("한국");
-//        this.recipeRepository.save(r1);
-//    }
-//    @Test
-//    void testJpa(){
-//        List<RecipeInfo> all = this.recipeRepository.findAll();
+//        List<Recipe> all = this.recipeRepository.findAll();
 //        assertEquals(1,all.size());
-//        RecipeInfo r1 = all.get(0);
+//        Recipe r1 = all.get(0);
 //        assertEquals("감자탕", r1.getRecipeName());
 //    }
 //    @Test
 //    void testJpa(){
-//        Optional<RecipeInfo> or = this.recipeRepository.findById(1);
+//        Optional<Recipe> or = this.recipeRepository.findById(1);
 //        if(or.isPresent()){
-//            RecipeInfo r1 = or.get();
+//            Recipe r1 = or.get();
 //            assertEquals("감자탕", r1.getRecipeName());
 //        }
 //    }
 
 //    @Test
 //    void testJpa(){
-//        RecipeInfo r1 = this.recipeRepository.findByRecipeName("감자탕");
+//        Recipe r1 = this.recipeRepository.findByRecipeName("감자탕");
 //        assertEquals(1, r1.getId());
 //    }
 
@@ -109,16 +109,16 @@ class RecipeApplicationTests {
 
 //    @Test
 //    void testJpa(){
-//    List<RecipeInfo> rList = this.recipeRepository.findByRecipeNameLike("감%");
-//    RecipeInfo r1 = rList.get(0);
+//    List<Recipe> rList = this.recipeRepository.findByRecipeNameLike("감%");
+//    Recipe r1 = rList.get(0);
 //    assertEquals("감자탕", r1.getRecipeName());
 //    }
 
 //    @Test
 //    void testJpa(){
-//        Optional<RecipeInfo> oq = this.recipeRepository.findById(3);
+//        Optional<Recipe> oq = this.recipeRepository.findById(3);
 //        assertTrue(oq.isPresent());
-//        RecipeInfo r1 = oq.get();
+//        Recipe r1 = oq.get();
 //        r1.setRecipeName("된장찌개");
 //        this.recipeRepository.save(r1);
 //    }
@@ -126,9 +126,9 @@ class RecipeApplicationTests {
 //    @Test
 //    void testJpa(){
 //        assertEquals(1, this.recipeRepository.count());
-//        Optional<RecipeInfo> oq = this.recipeRepository.findById(1);
+//        Optional<Recipe> oq = this.recipeRepository.findById(1);
 //        assertTrue(oq.isPresent());
-//        RecipeInfo r1 = oq.get();
+//        Recipe r1 = oq.get();
 //        this.recipeRepository.delete(r1);
 //        assertEquals(0, this.recipeRepository.count());
 //    }

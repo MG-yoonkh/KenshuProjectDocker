@@ -3,7 +3,7 @@ package mg.recipe.ingredient;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import mg.recipe.recipe.RecipeInfo;
+import mg.recipe.recipe.Recipe;
 
 @Getter
 @Setter
@@ -21,5 +21,5 @@ public class Ingredient {
     private String notes;
 
     @ManyToOne
-    private RecipeInfo recipeInfo;
+    private Recipe recipe;
 }

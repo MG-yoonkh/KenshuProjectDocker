@@ -3,7 +3,7 @@ package mg.recipe.instruction;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import mg.recipe.recipe.RecipeInfo;
+import mg.recipe.recipe.Recipe;
 
 @Getter
 @Setter
@@ -22,7 +22,7 @@ public class Instruction {
     private String videoUrl;
 
     @ManyToOne
-    private RecipeInfo recipeInfo;
+    private Recipe recipe;
 
 
 }

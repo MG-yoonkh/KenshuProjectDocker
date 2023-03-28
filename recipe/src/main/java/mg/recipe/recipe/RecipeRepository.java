@@ -4,10 +4,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface RecipeRepository extends JpaRepository<RecipeInfo, Integer> {
-    RecipeInfo findByRecipeName(String recipeName);
+public interface RecipeRepository extends JpaRepository<Recipe, Integer> {
+    Recipe findByRecipeName(String recipeName);
 
-    RecipeInfo findByRecipeNameAndCategory(String recipeName, String category);
+    Recipe findByRecipeNameAndCategory(String recipeName, String category);
 
-    List<RecipeInfo> findByRecipeNameLike(String recipeName);
+    List<Recipe> findByRecipeNameLike(String recipeName);
 }

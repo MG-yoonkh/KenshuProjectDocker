@@ -13,7 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-public class RecipeInfo {
+public class Recipe {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,9 +35,9 @@ public class RecipeInfo {
     @Column(length = 255)
     private String thumbnail;
 
-    @OneToMany(mappedBy = "recipeInfo", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.REMOVE)
     private List<Ingredient> ingredientList;
-    @OneToMany(mappedBy = "recipeInfo", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.REMOVE)
     private List<Instruction> instructionList;
 
 
