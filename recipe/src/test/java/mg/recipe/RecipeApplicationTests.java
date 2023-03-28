@@ -4,11 +4,16 @@ package mg.recipe;
 //import mg.recipe.sbb.answer.AnswerRepository;
 //import mg.recipe.sbb.question.Question;
 //import mg.recipe.sbb.question.QuestionRepository;
+import mg.recipe.recipe.RecipeInfo;
+import mg.recipe.recipe.RecipeRepository;
+import mg.recipe.user.UserInfo;
+import mg.recipe.user.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,6 +22,23 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 class RecipeApplicationTests {
+    @Autowired
+    private RecipeRepository recipeRepository;
+    @Autowired
+    private UserRepository userRepository;
+
+    @Test
+    void testJpa(){
+        RecipeInfo r1 = new RecipeInfo();
+        
+        this.recipeRepository.findByRecipeName("감자탕");
+        assertEquals(1, r1.getId());
+    }
+    @Test
+    void testJpa2(){
+        UserInfo user1 = new UserInfo();
+
+    }
 
 //	@Test
 //	void create() { // 컬럼생성
