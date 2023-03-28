@@ -22,8 +22,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 class RecipeApplicationTests {
-    @Autowired
-    private RecipeRepository recipeRepository;
+@Autowired
+private RecipeRepository recipeRepository;
 //    @Autowired
 //    private UserRepository userRepository;
 
@@ -31,7 +31,7 @@ class RecipeApplicationTests {
 //    void testJpa(){
 //        RecipeInfo r1 = new RecipeInfo();
 //
-//        r1.setRecipeName("감자탕");
+//        r1.setRecipeName("김치찌개");
 //        r1.setCreateDate(LocalDateTime.now());
 //        r1.setCooktime(10);
 //        r1.setCategory("한국");
@@ -53,11 +53,11 @@ class RecipeApplicationTests {
 //        }
 //    }
 
-    @Test
-    void testJpa(){
-        RecipeInfo r1 = this.recipeRepository.findByRecipeName("감자탕");
-        assertEquals(1, r1.getId());
-    }
+//    @Test
+//    void testJpa(){
+//        RecipeInfo r1 = this.recipeRepository.findByRecipeName("감자탕");
+//        assertEquals(1, r1.getId());
+//    }
 
 //	@Test
 //	void create() { // 컬럼생성
@@ -74,6 +74,32 @@ class RecipeApplicationTests {
 //		this.questionRepository.save(q2); // 두번째 질문 저장
 //	}
 
+
+//    @Test
+//    void testJpa(){
+//    List<RecipeInfo> rList = this.recipeRepository.findByRecipeNameLike("감%");
+//    RecipeInfo r1 = rList.get(0);
+//    assertEquals("감자탕", r1.getRecipeName());
+//    }
+
+    @Test
+    void testJpa(){
+        Optional<RecipeInfo> oq = this.recipeRepository.findById(3);
+        assertTrue(oq.isPresent());
+        RecipeInfo r1 = oq.get();
+        r1.setRecipeName("된장찌개");
+        this.recipeRepository.save(r1);
+    }
+
+//    @Test
+//    void testJpa(){
+//        assertEquals(1, this.recipeRepository.count());
+//        Optional<RecipeInfo> oq = this.recipeRepository.findById(1);
+//        assertTrue(oq.isPresent());
+//        RecipeInfo r1 = oq.get();
+//        this.recipeRepository.delete(r1);
+//        assertEquals(0, this.recipeRepository.count());
+//    }
 
 
 //	@Test
