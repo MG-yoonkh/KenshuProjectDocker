@@ -6,8 +6,8 @@ package mg.recipe;
 //import mg.recipe.sbb.question.QuestionRepository;
 import mg.recipe.recipe.RecipeInfo;
 import mg.recipe.recipe.RecipeRepository;
-import mg.recipe.user.UserInfo;
-import mg.recipe.user.UserRepository;
+//import mg.recipe.user.UserInfo;
+//import mg.recipe.user.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,20 +24,39 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class RecipeApplicationTests {
     @Autowired
     private RecipeRepository recipeRepository;
-    @Autowired
-    private UserRepository userRepository;
+//    @Autowired
+//    private UserRepository userRepository;
+
+//    @Test
+//    void testJpa(){
+//        RecipeInfo r1 = new RecipeInfo();
+//
+//        r1.setRecipeName("감자탕");
+//        r1.setCreateDate(LocalDateTime.now());
+//        r1.setCooktime(10);
+//        r1.setCategory("한국");
+//        this.recipeRepository.save(r1);
+//    }
+//    @Test
+//    void testJpa(){
+//        List<RecipeInfo> all = this.recipeRepository.findAll();
+//        assertEquals(1,all.size());
+//        RecipeInfo r1 = all.get(0);
+//        assertEquals("감자탕", r1.getRecipeName());
+//    }
+//    @Test
+//    void testJpa(){
+//        Optional<RecipeInfo> or = this.recipeRepository.findById(1);
+//        if(or.isPresent()){
+//            RecipeInfo r1 = or.get();
+//            assertEquals("감자탕", r1.getRecipeName());
+//        }
+//    }
 
     @Test
     void testJpa(){
-        RecipeInfo r1 = new RecipeInfo();
-        
-        this.recipeRepository.findByRecipeName("감자탕");
+        RecipeInfo r1 = this.recipeRepository.findByRecipeName("감자탕");
         assertEquals(1, r1.getId());
-    }
-    @Test
-    void testJpa2(){
-        UserInfo user1 = new UserInfo();
-
     }
 
 //	@Test
