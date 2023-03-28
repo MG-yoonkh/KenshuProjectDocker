@@ -3,9 +3,7 @@ package mg.recipe.recipe;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,5 +28,17 @@ public class RecipeController {
         Recipe recipe = this.recipeService.getRecipe(id);
         model.addAttribute("recipe",recipe);
         return "recipeDetail";
+    }
+
+    @PostMapping("/recipe/create/{id}")
+    public String createRecipe(Model model, @PathVariable("id") Integer id, @RequestParam String recipeName) {
+        Recipe r = this.recipeService.getRecipe(id);
+
+        return String.format("redirect:/recipeDetail/%s", id);
+    }
+
+    @GetMapping("/writeRecipe")
+    public String writeRecipe() {
+        return "writeRecipe";
     }
 }
