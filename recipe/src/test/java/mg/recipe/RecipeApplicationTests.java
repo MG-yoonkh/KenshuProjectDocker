@@ -4,6 +4,10 @@ package mg.recipe;
 //import mg.recipe.sbb.answer.AnswerRepository;
 //import mg.recipe.sbb.question.Question;
 //import mg.recipe.sbb.question.QuestionRepository;
+import mg.recipe.ingredient.Ingredient;
+import mg.recipe.ingredient.IngredientRepository;
+import mg.recipe.instruction.Instruction;
+import mg.recipe.instruction.InstructionRepository;
 import mg.recipe.recipe.RecipeInfo;
 import mg.recipe.recipe.RecipeRepository;
 //import mg.recipe.user.UserInfo;
@@ -22,8 +26,36 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 class RecipeApplicationTests {
-@Autowired
-private RecipeRepository recipeRepository;
+    @Autowired
+    private RecipeRepository recipeRepository;
+    @Autowired
+    private InstructionRepository instructionRepository;
+    @Autowired
+    private IngredientRepository ingredientRepository;
+
+//    @Test
+//    void testJpa(){
+//        Optional<RecipeInfo> or = this.recipeRepository.findById(1);
+//        assertTrue(or.isPresent());
+//        RecipeInfo r1 = or.get();
+//
+//        Instruction i = new Instruction();
+//        i.setStepNum(1);
+//        i.setDescription("감자씻기");
+//        this.instructionRepository.save(i);
+//    }
+
+    @Test
+    @Transactional
+    void testJpa(){
+        Optional<RecipeInfo> oi = this.recipeRepository.findById(1);
+        assertTrue(oi.isPresent());
+        RecipeInfo r1 = oi.get();
+
+        List<Ingredient> ingredientList = r1.getIngredientList();
+        assertEquals(1, ingredientList.size());
+        assertEquals("감자", ingredientList.get(0).getName());
+    }
 //    @Autowired
 //    private UserRepository userRepository;
 
@@ -82,14 +114,14 @@ private RecipeRepository recipeRepository;
 //    assertEquals("감자탕", r1.getRecipeName());
 //    }
 
-    @Test
-    void testJpa(){
-        Optional<RecipeInfo> oq = this.recipeRepository.findById(3);
-        assertTrue(oq.isPresent());
-        RecipeInfo r1 = oq.get();
-        r1.setRecipeName("된장찌개");
-        this.recipeRepository.save(r1);
-    }
+//    @Test
+//    void testJpa(){
+//        Optional<RecipeInfo> oq = this.recipeRepository.findById(3);
+//        assertTrue(oq.isPresent());
+//        RecipeInfo r1 = oq.get();
+//        r1.setRecipeName("된장찌개");
+//        this.recipeRepository.save(r1);
+//    }
 
 //    @Test
 //    void testJpa(){

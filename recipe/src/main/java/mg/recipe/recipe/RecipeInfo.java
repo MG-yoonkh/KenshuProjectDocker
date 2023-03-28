@@ -3,9 +3,12 @@ package mg.recipe.recipe;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import mg.recipe.ingredient.Ingredient;
+import mg.recipe.instruction.Instruction;
 //import mg.recipe.user.UserInfo;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -31,6 +34,13 @@ public class RecipeInfo {
     private String videoUrl;
     @Column(length = 255)
     private String thumbnail;
+
+    @OneToMany(mappedBy = "recipeInfo", cascade = CascadeType.REMOVE)
+    private List<Ingredient> ingredientList;
+    @OneToMany(mappedBy = "recipeInfo", cascade = CascadeType.REMOVE)
+    private List<Instruction> instructionList;
+
+
 //    @ManyToOne
 //    private UserInfo author;
 
