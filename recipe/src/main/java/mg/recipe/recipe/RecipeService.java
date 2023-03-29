@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import mg.recipe.DataNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,5 +25,12 @@ public class RecipeService {
         }else{
             throw new DataNotFoundException("레시피가 없습니다.");
         }
+    }
+
+    public void create(String recipeName){
+        Recipe r1 = new Recipe();
+        r1.setRecipeName(recipeName);
+        r1.setCreateDate(LocalDateTime.now());
+        this.recipeRepository.save(r1);
     }
 }

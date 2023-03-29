@@ -1,8 +1,10 @@
 package mg.recipe.recipe;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,11 +32,18 @@ public class RecipeController {
         return "recipeDetail";
     }
 
-    @PostMapping("/recipe/create/{id}")
-    public String createRecipe(Model model, @PathVariable("id") Integer id, @RequestParam String recipeName) {
-        Recipe r = this.recipeService.getRecipe(id);
+    @PostMapping("/recipe/create")
+    public String createRecipe(@Valid RecipeForm recipeForm, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()){
+            return "writeRecipe";
+        }
+        this.recipeService.create(recipeForm.getRecipeName());
+        return "redirect:/index";
+    }
 
-        return String.format("redirect:/recipeDetail/%s", id);
+    @GetMapping("/recipe/create")
+    public String createRecipe(RecipeForm recipeForm){
+        return "writeRecipe";
     }
 
     @GetMapping("/writeRecipe")
