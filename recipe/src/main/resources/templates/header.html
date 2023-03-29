@@ -1,9 +1,9 @@
  <header th:fragment="headerFragment">
     <div class="header_area" id="">
-      <a class="navbar-brand" href="#">
+      <a class="navbar-brand" th:href="@{/writeRecipe}">
         <img th:src="@{/assets/img/food.png}" title="" class="thumb_nail" />
       </a>
-      <p id="head-tagline"><img th:src="@{/assets/img/head-tagline-font.png}" alt="" id="iii"></p>
+      <p class="head-tagline"><img th:src="@{/assets/img/head-tagline.png}" alt="" id="iii"></p>
       <nav>
         <ul>
           <li class="active"><a th:href="@{/index}">ホーム</a></li>
