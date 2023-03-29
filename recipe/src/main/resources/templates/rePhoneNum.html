@@ -1,55 +1,7 @@
-<!DOCTYPE html>
-<html lang="ja">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>New Phonenumber</title>
-  <!-- css -->
-  <link rel="stylesheet" href="css/reset.css" />
-  <link rel="stylesheet" href="css/common.css" />
-  <link rel="stylesheet" href="css/login.css" />
-  <script type="text/javascript" src="js/login.js"></script>
-  <!-- favicon -->
-  <link rel="icon" href="assets/icon/logo_favicon.ico" type="image/x-icon">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-    crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-    crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-    crossorigin="anonymous"></script>
-  <script src="https://kit.fontawesome.com/d35341ad90.js" crossorigin="anonymous"></script>
-</head>
-
-<body>
-  <!-- ヘッダー -->
-  <header>
-    <div class="header_area" id="">
-      <a class="navbar-brand" href="index">
-        <img src="assets/img/food.png" title="" class="thumb_nail" />
-        <p class="head-tagline"><img src="assets/img/head-tagline.png" alt=""></p>
-      </a>
-      <nav>
-        <ul>
-          <li><a href="index">ホーム</a></li>
-          <li><a href="writeRecipe">レシピ投稿</a></li>
-          <li class="active"><a href="myPage">マイページ</a></li>
-          <li><a href="adminPage">管理者ページ</a></li>
-          <li><a href="signin">会員登録</a></li>
-          <li><a href="login">ログイン</a></li>
-          <li class="header_link_action"><a href="#">ログアウト</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
-
-  
+<html layout:decorate="~{layout}">
+<div layout:fragment="content">
+  <link rel="stylesheet" type="text/css" th:href="@{/css/login.css}">
+  <header th:replace="~{header :: headerFragment}"></header>
   <div class="user_form_wrapper" style="width: 400px">
     <h1><i class="fa-solid fa-user"></i>電話番号変更</h1>
     <form id="login_form" method="post" action="#">

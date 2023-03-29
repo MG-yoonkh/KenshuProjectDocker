@@ -62,8 +62,5 @@ public class RecipeController {
         return "login";
     }
 
-    @GetMapping("/recipeList")
-    public String recipeList() {
-        return "recipeList";
-    }
+
 }
