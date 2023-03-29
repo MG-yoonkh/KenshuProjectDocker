@@ -12,4 +12,10 @@ public class RecipeForm {
     @Size(max = 100)
     private String recipeName;
 
+    private String ingredient;
+
+    private String instruction;
+
+
+
 }

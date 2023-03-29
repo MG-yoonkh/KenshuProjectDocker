@@ -27,10 +27,11 @@ public class RecipeService {
         }
     }
 
-    public void create(String recipeName){
+    public Recipe create(String recipeName){
         Recipe r1 = new Recipe();
         r1.setRecipeName(recipeName);
         r1.setCreateDate(LocalDateTime.now());
         this.recipeRepository.save(r1);
+        return r1;
     }
 }

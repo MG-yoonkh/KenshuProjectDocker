@@ -2,6 +2,7 @@ package mg.recipe.recipe;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import mg.recipe.ingredient.IngredientService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,6 +14,7 @@ import java.util.List;
 @Controller
 public class RecipeController {
     private final RecipeService recipeService;
+    private final IngredientService ingredientService;
     @GetMapping("/")
     public String root() {
         return "redirect:/index";
@@ -37,7 +39,13 @@ public class RecipeController {
         if(bindingResult.hasErrors()){
             return "writeRecipe";
         }
-        this.recipeService.create(recipeForm.getRecipeName());
+        //this.recipeService.create(recipeForm.getRecipeName()); //recipe id
+        Recipe r = this.recipeService.create(recipeForm.getRecipeName());
+        this.ingredientService.create(r, recipeForm.getIngredient());
+        //this.instructionService.create(recipe, recipeForm);
+
+
+
         return "redirect:/index";
     }
 
