@@ -4,10 +4,15 @@
   <header th:replace="~{header :: headerFragment}"></header>
   <div class="user_form_wrapper" style="width: 400px">
     <h1><i class="fa-solid fa-user"></i> ログイン</h1>
-    <form name="f1" id="login_form" method="post" action="#">
+    <form name="f1" id="login_form" method="post" th:action="@{/login}">
+      <div th:if="${param.error}">
+        <div class="alert alert-danger">
+            ニックネーム又はパスワードを確認してください。
+        </div>
+      </div>
       <p>まだ会員登録をされていない方は<a href="signin">こちら</a></p>
-      <input type="text" name="id" id="user_email" placeholder="メールアドレス" />
-      <input type="password" id="user_password" name="user_password" placeholder="パスワード" />
+      <input type="text" name="username" id="user_email" placeholder="ID" />
+      <input type="password" name="password" id="password" placeholder="パスワード" />
       <label for="js-remember_check">
         <input type="checkbox" class="checkbox_login" id="js-remember_check" />メールアドレスを記憶する。
       </label>

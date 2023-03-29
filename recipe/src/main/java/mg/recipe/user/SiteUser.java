@@ -14,7 +14,7 @@ public class SiteUser {
     private Integer id;
 
     @Column(unique = true)
-    private String nickname;
+    private String username;
 
     private String password;
 

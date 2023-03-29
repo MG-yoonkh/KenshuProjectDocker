@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
@@ -28,10 +29,20 @@ public class UserController {
             return "signin";
         }
 
-        userService.create(userCreateForm.getNickname(), userCreateForm.getEmail(),
+        userService.create(userCreateForm.getUsername(), userCreateForm.getEmail(),
                 userCreateForm.getPassword1());
         return "redirect:/";
 
     }
+
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
+
+//    @PostMapping("/login")
+//    public String login() {
+//        return "login";
+//    }
 
 }

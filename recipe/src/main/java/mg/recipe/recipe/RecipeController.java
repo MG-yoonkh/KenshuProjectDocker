@@ -67,10 +67,7 @@ public class RecipeController {
         return "adminPage";
     }
 
-    @GetMapping("/login")
-    public String login() {
-        return "login";
-    }
+
 
 
 }
