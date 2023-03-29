@@ -191,6 +191,7 @@
                     <div class="card-body">
                       <h5 class="card-title" th:text="${recipe.recipeName}"></h5>
                       <h5 class="card-title" th:text="${recipe.createDate}"></h5>
+                      <h5 class="card-title" th:if="${recipe.author != null}" th:text="${recipe.author.username}"></h5>
                     </div>
                   </div>
                 </div>

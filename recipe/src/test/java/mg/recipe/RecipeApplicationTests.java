@@ -65,7 +65,8 @@ class RecipeApplicationTests {
     void testJpa(){
         for(int i=1;i<=30;i++){
             String recipeName = String.format("テストデータ2 [%03d]です。",i);
-            this.recipeService.create(recipeName);
+            String author = String.format("作成者【%03d】。",i);
+            this.recipeService.create(recipeName,null);
         }
     }
 //    @Test

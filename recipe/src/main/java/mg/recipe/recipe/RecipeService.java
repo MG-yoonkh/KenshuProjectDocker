@@ -2,6 +2,7 @@ package mg.recipe.recipe;
 
 import lombok.RequiredArgsConstructor;
 import mg.recipe.DataNotFoundException;
+import mg.recipe.user.SiteUser;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -35,10 +36,11 @@ public class RecipeService {
         }
     }
 
-    public Recipe create(String recipeName){
+    public Recipe create(String recipeName, SiteUser user){
         Recipe r1 = new Recipe();
         r1.setRecipeName(recipeName);
         r1.setCreateDate(LocalDateTime.now());
+        r1.setAuthor(user);
         this.recipeRepository.save(r1);
         return r1;
     }

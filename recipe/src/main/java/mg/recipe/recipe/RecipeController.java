@@ -4,12 +4,16 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import mg.recipe.ingredient.IngredientService;
 import mg.recipe.instruction.InstructionService;
+import mg.recipe.user.SiteUser;
+import mg.recipe.user.UserService;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -18,6 +22,7 @@ public class RecipeController {
     private final RecipeService recipeService;
     private final IngredientService ingredientService;
     private final InstructionService instructionService;
+    private final UserService userService;
     @GetMapping("/")
     public String root() {
         return "redirect:/index";
@@ -36,20 +41,21 @@ public class RecipeController {
         model.addAttribute("recipe",recipe);
         return "recipeDetail";
     }
-
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/writeRecipe")
-    public String createRecipe(@Valid RecipeForm recipeForm, BindingResult bindingResult) {
+    public String createRecipe(@Valid RecipeForm recipeForm, BindingResult bindingResult,
+                               Principal principal) {
         if(bindingResult.hasErrors()){
             return "writeRecipe";
         }
-        //this.recipeService.create(recipeForm.getRecipeName()); //recipe id
-        Recipe r = this.recipeService.create(recipeForm.getRecipeName());
+        SiteUser siteUser = this.userService.getUser(principal.getName());
+        Recipe r = this.recipeService.create(recipeForm.getRecipeName(),siteUser);
         this.ingredientService.create(r, recipeForm.getIngredient());
         this.instructionService.create(r, recipeForm.getInstruction());
 
         return "redirect:/index";
     }
-
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/writeRecipe")
     public String createRecipe(RecipeForm recipeForm){
         return "writeRecipe";
