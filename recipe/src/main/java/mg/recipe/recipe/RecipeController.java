@@ -32,7 +32,7 @@ public class RecipeController {
         return "recipeDetail";
     }
 
-    @PostMapping("/recipe/create")
+    @PostMapping("/writeRecipe")
     public String createRecipe(@Valid RecipeForm recipeForm, BindingResult bindingResult) {
         if(bindingResult.hasErrors()){
             return "writeRecipe";
@@ -41,15 +41,12 @@ public class RecipeController {
         return "redirect:/index";
     }
 
-    @GetMapping("/recipe/create")
+    @GetMapping("/writeRecipe")
     public String createRecipe(RecipeForm recipeForm){
         return "writeRecipe";
     }
 
-    @GetMapping("/writeRecipe")
-    public String writeRecipe() {
-        return "writeRecipe";
-    }
+
 
     @GetMapping("/myPage")
     public String myPage() {

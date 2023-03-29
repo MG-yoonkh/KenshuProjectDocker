@@ -6,7 +6,7 @@
     <div class="row">
       <div class="col-md-2"></div>
       <div class="col-md-auto">
-        <form th:action="@{/recipe/create}" th:object="${recipeForm}" method="post">
+        <form th:action="@{/writeRecipe}" th:object="${recipeForm}" method="post">
           <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
             <div th:each="err : ${#fields.allErrors()}" th:text="${err}"/>
           </div>
