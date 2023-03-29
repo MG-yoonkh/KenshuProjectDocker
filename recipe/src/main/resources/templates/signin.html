@@ -5,13 +5,16 @@
   <main>
   <div class="signin_container">
     <h1><i class="fa-solid fa-user"></i> 会員登録フォーム</h1>
-    <form id="signin_form">
+    <form id="signin_form" th:action="@{/signin}" th:object="${userCreateForm}" method="post">
+      <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
+        <div th:each="err : ${#fields.allErrors()}" th:text="${err}"/>
+      </div>
       <div class="join_row">
         <div class="form-group">
           <h3 class="join_title">
             <label for="email">メールアドレス</label>
           </h3>
-          <input type="email" class="form-control" id="email" placeholder="メールアドレスを入力してください" />
+          <input type="email" class="form-control" id="email" th:field="*{email}" placeholder="メールアドレスを入力してください" />
         </div>
         <div class="error">
           <!-- "assertive" -->
@@ -23,7 +26,7 @@
           <h3 class="join_title">
             <label for="password1">パスワード</label>
           </h3>
-        <input type="password" class="form-control" id="password1" placeholder="パスワードを入力してください" />
+        <input type="password" class="form-control" id="password1" th:field="*{password1}" placeholder="パスワードを入力してください" />
         </div>
         <div class="error">
           <!-- "assertive" -->
@@ -35,7 +38,7 @@
           <h3 class="join_title">
             <label for="password2">パスワード再入力</label>
           </h3>
-        <input type="password" class="form-control" id="password2" placeholder="パスワードを入力してください" />
+        <input type="password" class="form-control" id="password2" th:field="*{password2}" placeholder="パスワードを入力してください" />
         </div>
         <div class="error">
           <!-- "assertive" -->
@@ -47,7 +50,7 @@
           <h3 class="join_title">
             <label for="nickname">ニックネーム</label>
           </h3>
-          <input type="text" class="form-control" id="nickname" placeholder="ニックネームを入力してください" />
+          <input type="text" class="form-control" id="nickname" th:field="*{nickname}" placeholder="ニックネームを入力してください" />
         </div>
         <div class="error">
           <!-- "assertive" -->

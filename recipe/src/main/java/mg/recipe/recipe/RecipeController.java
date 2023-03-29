@@ -3,6 +3,7 @@ package mg.recipe.recipe;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import mg.recipe.ingredient.IngredientService;
+import mg.recipe.instruction.InstructionService;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +17,7 @@ import java.util.List;
 public class RecipeController {
     private final RecipeService recipeService;
     private final IngredientService ingredientService;
+    private final InstructionService instructionService;
     @GetMapping("/")
     public String root() {
         return "redirect:/index";
@@ -43,9 +45,7 @@ public class RecipeController {
         //this.recipeService.create(recipeForm.getRecipeName()); //recipe id
         Recipe r = this.recipeService.create(recipeForm.getRecipeName());
         this.ingredientService.create(r, recipeForm.getIngredient());
-        //this.instructionService.create(recipe, recipeForm);
-
-
+        this.instructionService.create(r, recipeForm.getInstruction());
 
         return "redirect:/index";
     }
