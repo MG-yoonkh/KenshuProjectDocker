@@ -185,19 +185,41 @@
 
               <div class="row p-2">
 
-                <div th:each="recipe : ${recipeList}">
-                  <div class="col-sm-4 h-100">
-                    <div class="card border-0">
-                      <a th:href="@{|/recipeDetail/${recipe.id}|}" class="btn btn-light">
-                        <img class="card-img-top zoom" th:src="@{|/${recipe.thumbnail}|}" alt="Card image cap" />
-                      </a>
-                      <div class="card-body">
-                        <h5 class="card-title" th:text="${recipe.recipeName}"></h5>
-                        <h5 class="card-title" th:text="${recipe.createDate}"></h5>
-                      </div>
+                <div th:each="recipe, loop : ${paging}" class="col-sm-4 h-100">
+                  <div class="card border-0">
+                    <a th:href="@{|/recipeDetail/${recipe.id}|}" class="btn btn-light">
+                      <img class="card-img-top zoom" th:src="@{|/${recipe.thumbnail}|}" alt="Card image cap" />
+                    </a>
+                    <div class="card-body">
+                      <h5 class="card-title" th:text="${recipe.recipeName}"></h5>
+                      <h5 class="card-title" th:text="${recipe.createDate}"></h5>
                     </div>
                   </div>
                 </div>
+                <!-- 페이징처리 시작 -->
+                <div th:if="${!paging.isEmpty()}">
+                  <ul class="pagination justify-content-center">
+                    <li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">
+                      <a class="page-link"
+                         th:href="@{|?page=${paging.number-1}|}">
+                        <span>이전</span>
+                      </a>
+                    </li>
+                    <li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
+                        th:if="${page >= paging.number-3 and page <= paging.number+3}"
+                        th:classappend="${page == paging.number} ? 'active'"
+                        class="page-item">
+                      <a th:text="${page}" class="page-link" th:href="@{|?page=${page}|}"></a>
+                    </li>
+                    <li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
+                      <a class="page-link" th:href="@{|?page=${paging.number+1}|}">
+                        <span>다음</span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+                <!-- 페이징처리 끝 -->
+
               </div>
               <!-- end inner .row -->
             </div>

@@ -3,6 +3,7 @@ package mg.recipe.recipe;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import mg.recipe.ingredient.IngredientService;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,9 +22,9 @@ public class RecipeController {
     }
 
     @GetMapping("/index")
-    public String index(Model model) {
-        List<Recipe> recipeList = this.recipeService.getList();
-        model.addAttribute("recipeList", recipeList);
+    public String index(Model model, @RequestParam(value = "page", defaultValue = "0") int page) {
+        Page<Recipe> paging = this.recipeService.getList(page);
+        model.addAttribute("paging", paging);
         return "index";
     }
 

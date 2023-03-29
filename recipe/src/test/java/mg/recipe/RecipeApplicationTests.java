@@ -11,6 +11,7 @@ import mg.recipe.recipe.Recipe;
 import mg.recipe.recipe.RecipeRepository;
 //import mg.recipe.user.UserInfo;
 //import mg.recipe.user.UserRepository;
+import mg.recipe.recipe.RecipeService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,6 +28,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class RecipeApplicationTests {
     @Autowired
     private RecipeRepository recipeRepository;
+    @Autowired
+    private RecipeService recipeService;
     @Autowired
     private InstructionRepository instructionRepository;
     @Autowired
@@ -60,14 +63,10 @@ class RecipeApplicationTests {
 
     @Test
     void testJpa(){
-        Recipe r1 = new Recipe();
-
-        r1.setRecipeName("감자탕");
-        r1.setCreateDate(LocalDateTime.now());
-        r1.setCooktime(10);
-        r1.setThumbnail("assets/img/food-pizza_640.jpg");
-        r1.setCategory("한국");
-        this.recipeRepository.save(r1);
+        for(int i=1;i<=30;i++){
+            String recipeName = String.format("テストデータ2 [%03d]です。",i);
+            this.recipeService.create(recipeName);
+        }
     }
 //    @Test
 //    void testJpa(){
