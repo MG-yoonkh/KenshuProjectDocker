@@ -41,4 +41,24 @@ public class RecipeController {
     public String writeRecipe() {
         return "writeRecipe";
     }
+
+    @GetMapping("/myPage")
+    public String myPage() {
+        return "myPage";
+    }
+
+    @GetMapping("/adminPage")
+    public String adminPage() {
+        return "adminPage";
+    }
+
+    @GetMapping("/signin")
+    public String signin() {
+        return "signin";
+    }
+
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
 }
