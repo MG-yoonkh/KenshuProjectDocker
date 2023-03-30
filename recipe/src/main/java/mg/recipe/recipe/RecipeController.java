@@ -113,7 +113,7 @@ public class RecipeController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @GetMapping("/vote/{id}")
+    @GetMapping("/recipe/vote/{id}")
     public String recipeVote(Principal principal, @PathVariable("id") Integer id){
         Recipe recipe = this.recipeService.getRecipe(id);
         SiteUser siteUser = this.userService.getUser(principal.getName());
