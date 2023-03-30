@@ -66,7 +66,7 @@ class RecipeApplicationTests {
         for(int i=1;i<=30;i++){
             String recipeName = String.format("テストデータ2 [%03d]です。",i);
             String author = String.format("作成者【%03d】。",i);
-            this.recipeService.create(recipeName,null);
+            this.recipeService.create(recipeName,null, null);
         }
     }
 //    @Test

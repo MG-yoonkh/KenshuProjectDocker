@@ -13,9 +13,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.sql.rowset.serial.SerialBlob;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.Principal;
+import java.sql.Blob;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -47,13 +55,18 @@ public class RecipeController {
     }
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/writeRecipe")
-    public String createRecipe(@Valid RecipeForm recipeForm, BindingResult bindingResult,
-                               Principal principal) {
+    public String createRecipe(@Valid RecipeForm recipeForm,
+                               @RequestParam("thumbnail") MultipartFile file,
+                               BindingResult bindingResult,
+                               Principal principal)throws IOException {
         if(bindingResult.hasErrors()){
             return "writeRecipe";
         }
+        byte[] imageBytes = file.getBytes();
+
         SiteUser siteUser = this.userService.getUser(principal.getName());
-        Recipe r = this.recipeService.create(recipeForm.getRecipeName(),siteUser);
+        Recipe r = this.recipeService.create(recipeForm.getRecipeName(),siteUser, imageBytes);
+
         this.ingredientService.create(r, recipeForm.getIngredient());
         this.instructionService.create(r, recipeForm.getInstruction());
 
@@ -122,6 +135,5 @@ public class RecipeController {
         this.recipeService.vote(recipe,siteUser);
         return String.format("redirect:/recipeDetail/%s",id);
     }
-
 
 }

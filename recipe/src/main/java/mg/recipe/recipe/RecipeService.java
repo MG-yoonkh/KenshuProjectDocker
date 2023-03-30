@@ -12,7 +12,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,10 +47,11 @@ public class RecipeService {
         }
     }
 
-    public Recipe create(String recipeName, SiteUser user){
+    public Recipe create(String recipeName, SiteUser user, byte[] bytes){
         Recipe r1 = new Recipe();
         r1.setRecipeName(recipeName);
         r1.setCreateDate(LocalDateTime.now());
+        r1.setThumbnail(bytes);
         r1.setAuthor(user);
         this.recipeRepository.save(r1);
         return r1;
@@ -80,4 +87,6 @@ public class RecipeService {
             }
         };
     }
+
+
 }

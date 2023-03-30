@@ -6,7 +6,7 @@
         <div class="row">
           <div class="col-md-2"></div>
           <div class="col-md-auto">
-            <form th:object="${recipeForm}" method="post">
+            <form th:object="${recipeForm}" method="post" enctype="multipart/form-data">
               <input
                 type="hidden"
                 th:name="${_csrf.parameterName}"
@@ -49,12 +49,6 @@
               <!-- イメージ -->
               <div class="row justify-content-center">
                 <div class="col-md-6">
-                  <img
-                    src="assets/img/zyagabata.webp"
-                    class="img-fluid p-3"
-                    alt="Recipe Image"
-                    id="recipe_image"
-                  />
                 </div>
               </div>
               <!-- イメージ登録 -->
@@ -63,7 +57,7 @@
                   <h3>イメージ登録 :</h3>
                 </div>
                 <div class="col-md-3">
-                  <input type="file" class="form-control" />
+                  <input type="file" name="thumbnail" class="form-control" />
                 </div>
               </div>
               <div class="row justify-content-center p-5">

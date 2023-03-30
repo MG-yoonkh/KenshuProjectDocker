@@ -35,8 +35,8 @@ public class Recipe {
     @Column(length = 255)
     private String videoUrl;
 
-    @Column(length = 255)
-    private String thumbnail;
+    @Lob
+    private byte[] thumbnail;
 
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.REMOVE)
     private List<Ingredient> ingredientList;
