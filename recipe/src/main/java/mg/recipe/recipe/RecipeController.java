@@ -102,7 +102,7 @@ public class RecipeController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @PostMapping("/recipe/delete/{id}")
+    @GetMapping("/recipe/delete/{id}")
     public String recipeDelete(Principal principal, @PathVariable("id") Integer id) {
         Recipe recipe = this.recipeService.getRecipe(id);
         if(!recipe.getAuthor().getUsername().equals(principal.getName())) {
@@ -110,6 +110,15 @@ public class RecipeController {
         }
         this.recipeService.delete(recipe);
         return "redirect:/";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/vote/{id}")
+    public String recipeVote(Principal principal, @PathVariable("id") Integer id){
+        Recipe recipe = this.recipeService.getRecipe(id);
+        SiteUser siteUser = this.userService.getUser(principal.getName());
+        this.recipeService.vote(recipe,siteUser);
+        return String.format("redirect:/recipeDetail/%s",id);
     }
 
 
