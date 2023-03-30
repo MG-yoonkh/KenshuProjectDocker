@@ -7,11 +7,13 @@ import mg.recipe.instruction.InstructionService;
 import mg.recipe.user.SiteUser;
 import mg.recipe.user.UserService;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
 import java.util.List;
@@ -73,6 +75,31 @@ public class RecipeController {
         return "adminPage";
     }
 
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/recipe/modify/{id}")
+    public String recipeModify(RecipeForm recipeForm, @PathVariable("id") Integer id,
+                               Principal principal){
+        Recipe recipe = this.recipeService.getRecipe(id);
+        if(!recipe.getAuthor().getUsername().equals(principal.getName())){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"修正権限がありません。");
+        }
+        recipeForm.setRecipeName(recipe.getRecipeName());
+        return "writeRecipe";
+    }
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/recipe/modify/{id}")
+    public String recipeModify(@Valid RecipeForm recipeForm, BindingResult bindingResult,
+                               Principal principal, @PathVariable Integer id){
+        if(bindingResult.hasErrors()){
+            return "writeRecipe";
+        }
+        Recipe recipe = this.recipeService.getRecipe(id);
+        if(!recipe.getAuthor().getUsername().equals(principal.getName())){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"修正権限がありません。");
+        }
+        this.recipeService.modify(recipe, recipeForm.getRecipeName());
+        return String.format("redirect:/recipeDetail/%s", id);
+    }
 
 
 

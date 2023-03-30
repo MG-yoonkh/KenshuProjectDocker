@@ -45,5 +45,11 @@ public class RecipeService {
         return r1;
     }
 
+    public void modify(Recipe recipe, String recipeName){
+        recipe.setRecipeName(recipeName);
+        recipe.setModifyDate(LocalDateTime.now());
+        this.recipeRepository.save(recipe);
+    }
+
 
 }
