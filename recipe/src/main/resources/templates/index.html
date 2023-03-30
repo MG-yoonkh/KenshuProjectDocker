@@ -9,7 +9,6 @@
       <div class="row justify-content-center">
         <div class="content col-md-6 justify-content-center search">
           <label for="" class="search_label">キーワードでレシピ検索!</label>
-
           <div class="search_input">
             <div class="input-group">
               <input type="text" id="search_kw" class="form-control" th:value="${kw}" />
@@ -18,7 +17,6 @@
               </button>
             </div>
           </div>
-
           <div class="row justify-content-center gap-2">
             <!-- ドロップダウン　カテゴリー -->
             <div class="col-md-2 category_box">
@@ -245,6 +243,12 @@
   </footer>
 </div>
 <script>
+
+
+</script>
+
+<script layout:fragment="script" type='text/javascript'>
+
   const recommend_elements = document.getElementsByClassName("recommend");
   Array.from(recommend_elements).forEach(function (element) {
     element.addEventListener("click", function () {
