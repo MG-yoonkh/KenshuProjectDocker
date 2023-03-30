@@ -31,9 +31,11 @@ public class RecipeController {
     }
 
     @GetMapping("/index")
-    public String index(Model model, @RequestParam(value = "page", defaultValue = "0") int page) {
-        Page<Recipe> paging = this.recipeService.getList(page);
+    public String index(Model model, @RequestParam(value = "page", defaultValue = "0") int page,
+                        @RequestParam(value="kw", defaultValue = "") String kw) {
+        Page<Recipe> paging = this.recipeService.getList(page, kw);
         model.addAttribute("paging", paging);
+        model.addAttribute("kw", kw);
         return "index";
     }
 

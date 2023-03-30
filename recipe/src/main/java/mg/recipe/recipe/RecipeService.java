@@ -1,12 +1,16 @@
 package mg.recipe.recipe;
 
+import jakarta.persistence.criteria.*;
 import lombok.RequiredArgsConstructor;
 import mg.recipe.DataNotFoundException;
+import mg.recipe.ingredient.Ingredient;
+import mg.recipe.instruction.Instruction;
 import mg.recipe.user.SiteUser;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -20,11 +24,12 @@ public class RecipeService {
 
     private final RecipeRepository recipeRepository;
 
-    public Page<Recipe> getList(int page){
+    public Page<Recipe> getList(int page, String kw){
         List<Sort.Order> sorts = new ArrayList<>();
         sorts.add(Sort.Order.desc("createDate"));
         Pageable pageable = PageRequest.of(page, 9, Sort.by(sorts));
-        return this.recipeRepository.findAll(pageable);
+        Specification<Recipe> spec = search(kw);
+        return this.recipeRepository.findAll(spec, pageable);
     }
 
     public Recipe getRecipe(Integer id){
@@ -61,4 +66,18 @@ public class RecipeService {
     }
 
 
+    private Specification<Recipe> search(String kw) {
+        return new Specification<>() {
+            private static final long serialVersionUID = 1L;
+            @Override
+            public Predicate toPredicate(Root<Recipe> r, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                query.distinct(true); //重複 除去
+                Join<Recipe, SiteUser> u1 = r.join("author", JoinType.LEFT);
+                //Join<Recipe, Ingredient> ig = r.join("ingredientList", JoinType.LEFT);
+                return cb.or(cb.like(r.get("recipeName"), "%" + kw + "%"),
+                        cb.like(u1.get("username"), "%" + kw + "%")
+                        );
+            }
+        };
+    }
 }
