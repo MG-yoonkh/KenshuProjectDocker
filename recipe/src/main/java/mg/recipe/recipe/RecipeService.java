@@ -51,5 +51,9 @@ public class RecipeService {
         this.recipeRepository.save(recipe);
     }
 
+    public void delete(Recipe recipe) {
+        this.recipeRepository.delete(recipe);
+    }
+
 
 }

@@ -101,6 +101,16 @@ public class RecipeController {
         return String.format("redirect:/recipeDetail/%s", id);
     }
 
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/recipe/delete/{id}")
+    public String recipeDelete(Principal principal, @PathVariable("id") Integer id) {
+        Recipe recipe = this.recipeService.getRecipe(id);
+        if(!recipe.getAuthor().getUsername().equals(principal.getName())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"削除権限がありません。");
+        }
+        this.recipeService.delete(recipe);
+        return "redirect:/";
+    }
 
 
 }
