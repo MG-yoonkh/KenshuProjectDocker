@@ -116,7 +116,7 @@ public class RecipeController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"修正権限がありません。");
         }
         this.recipeService.modify(recipe, recipeForm.getRecipeName());
-        return String.format("redirect:/recipeDetail/%s", id);
+        return String.format("redirect:/recipe/detail/%s", id);
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -136,7 +136,7 @@ public class RecipeController {
         Recipe recipe = this.recipeService.getRecipe(id);
         SiteUser siteUser = this.userService.getUser(principal.getName());
         this.recipeService.vote(recipe,siteUser);
-        return String.format("redirect:/recipeDetail/%s",id);
+        return String.format("redirect:/recipe/detail/%s",id);
     }
 
 }
