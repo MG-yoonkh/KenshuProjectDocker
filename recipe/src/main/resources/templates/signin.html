@@ -12,13 +12,13 @@
       <div class="join_row">
         <div class="form-group">
           <h3 class="join_title">
-            <label for="email">メールアドレス</label>
+            <label for="nickname">ID</label>
           </h3>
-          <input type="email" class="form-control" id="email" th:field="*{email}" placeholder="メールアドレスを入力してください" />
+          <input type="text" class="form-control" id="nickname" name="username" placeholder="IDを入力してください" />
         </div>
         <div class="error">
           <!-- "assertive" -->
-          <p class="error_next_box" id="email_msg" style aria-live="assertive">必須項目です</p>
+          <span class="error_next_box" id="nickname_msg" style aria-live="assertive">必須項目です</span>
         </div>
       </div>
       <div class="join_row">
@@ -26,7 +26,7 @@
           <h3 class="join_title">
             <label for="password1">パスワード</label>
           </h3>
-        <input type="password" class="form-control" id="password1" th:field="*{password1}" placeholder="パスワードを入力してください" />
+        <input type="password" class="form-control" id="password1" name="password1" placeholder="パスワードを入力してください" />
         </div>
         <div class="error">
           <!-- "assertive" -->
@@ -38,7 +38,7 @@
           <h3 class="join_title">
             <label for="password2">パスワード再入力</label>
           </h3>
-        <input type="password" class="form-control" id="password2" th:field="*{password2}" placeholder="パスワードを入力してください" />
+        <input type="password" class="form-control" id="password2" name="password2" placeholder="パスワードを入力してください" />
         </div>
         <div class="error">
           <!-- "assertive" -->
@@ -48,25 +48,13 @@
       <div class="join_row">
         <div class="form-group">
           <h3 class="join_title">
-            <label for="nickname">ニックネーム</label>
+            <label for="email">メールアドレス</label>
           </h3>
-          <input type="text" class="form-control" id="nickname" th:field="*{username}" placeholder="IDを入力してください" />
+          <input type="email" class="form-control" id="email" name="email" placeholder="メールアドレスを入力してください" />
         </div>
         <div class="error">
           <!-- "assertive" -->
-          <span class="error_next_box" id="nickname_msg" style aria-live="assertive">必須項目です</span>
-        </div>
-      </div>
-      <div class="join_row">
-        <div class="form-group">
-          <h3 class="join_title">
-            <label for="birthday">誕生日</label>
-          </h3>
-          <input type="date" class="form-control" id="birthday" />
-        </div>
-        <div class="error">
-          <!-- "assertive" -->
-          <span class="error_next_box" id="birthday_msg" style aria-live="assertive">必須項目です</span>
+          <p class="error_next_box" id="email_msg" style aria-live="assertive">必須項目です</p>
         </div>
       </div>
       <div class="join_row">
@@ -79,14 +67,6 @@
         <div class="error">
           <!-- "assertive" -->
           <span class="error_next_box" id="phone_msg" style aria-live="assertive">必須項目です</span>
-        </div>
-      </div>
-      <div class="join_row">
-        <div class="form-group-profile">
-          <h3 class="join_title">
-            <label for="profilePicture">プロフィール画像</label>
-          </h3>
-          <input type="file" class="form-control-file" id="profilePicture" />
         </div>
       </div>
       <div class="join_row">
