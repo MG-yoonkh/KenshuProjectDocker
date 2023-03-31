@@ -178,9 +178,9 @@
           <div class="container mt-3">
             <div class="recipe_list">
               <div class="row p-2">
-                <div class="col-sm-12">
-                  <h3>レシピ</h3>
-<!--                  <h2 th:if="${#lists.size(recipe) != null}" th:text="${#lists.size(recipe.id)}"></h2>-->
+                <div class="col-sm-12" th:if="${not #strings.isEmpty(kw)}" >
+                  <h3 th:text="@{|「${kw}」の検索結果|}"></h3>
+                  <h6 th:text="@{| レシピ ${paging.totalElements}件 見つかりました。|}"></h6>
                 </div>
               </div>
 
@@ -244,7 +244,6 @@
   </footer>
 </div>
 <script layout:fragment="script" type='text/javascript'>
-
 /*  const recommend_elements = document.getElementsByClassName("recommend");
   Array.from(recommend_elements).forEach(function (element) {
     element.addEventListener("click", function () {
@@ -265,9 +264,11 @@ Array.from(page_elements).forEach(function(element) {
 const btn_search = document.getElementById("btn_search");
 btn_search.addEventListener('click', function() {
     document.getElementById('kw').value = document.getElementById('search_kw').value;
-    document.getElementById('page').value = 0;  // 검색버튼을 클릭할 경우 0페이지부터 조회한다.
+    document.getElementById('page').value = 0;
     document.getElementById('searchForm').submit();
 });
+
+
 </script>
 
 </html>

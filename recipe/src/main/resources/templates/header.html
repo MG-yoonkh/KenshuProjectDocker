@@ -6,7 +6,7 @@
       </a>
       <nav>
         <ul>
-          <li class="active"><a th:href="@{/index}">ホーム</a></li>
+          <li th:classappend="${header} == 'index' ? 'active'"><a th:href="@{/index}">ホーム</a></li>
           <li sec:authorize="isAuthenticated()"><a th:href="@{/recipe/write}">レシピ投稿</a></li>
           <li sec:authorize="isAuthenticated()"><a th:href="@{/myPage}">マイページ</a></li>
           <li sec:authorize="isAuthenticated()"><a th:href="@{/adminPage}" >管理者ページ</a></li>
