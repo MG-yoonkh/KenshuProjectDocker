@@ -15,12 +15,16 @@ import java.util.Map;
 public class UserController {
     private final UserService userService;
 
+    @PostMapping("/api/check-duplicate")
     public ResponseEntity<?> checkDuplicate(@RequestBody Map<String, String> body){
         String username = body.get("username");
         SiteUser user = userService.getUser(username);
+        System.out.println("1");
         if(user != null){
+            System.out.println("既に利用中のIDです");
             return ResponseEntity.badRequest().body(new ApiResponse(false, "既に利用中のIDです。"));
         }else{
+            System.out.println("使用可能なIDです");
             return ResponseEntity.ok(new ApiResponse(true,"使用可能なIDです。"));
         }
     }

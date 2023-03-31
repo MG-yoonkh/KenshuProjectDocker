@@ -93,6 +93,12 @@
   </footer>
 
 </div>
+
+<script layout:fragment="script" type='text/javascript'>
+
+var header = $("meta[name='_csrf_header']").attr('content');
+var token = $("meta[name='_csrf']").attr('content');
+
 $(document).ready(function() {
 $('#check-duplicate').click(function() {
 var username = $('#username').val();
@@ -102,13 +108,17 @@ url: '/api/check-duplicate',
 type: 'POST',
 contentType: 'application/json',
 data: JSON.stringify({username: username}),
+beforeSend: function(xhr){
+        xhr.setRequestHeader(header, token);
+},
 success: function(data) {
-alert(data.message);
+alert(既に利用中のIDです。);
 },
 error: function(xhr, status, error) {
-alert(xhr.responseText);
+alert("使用可能なIDです。");
 }
 });
 });
 });
+</script>
 </html>
