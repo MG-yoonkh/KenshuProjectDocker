@@ -15,16 +15,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.sql.rowset.serial.SerialBlob;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.security.Principal;
-import java.sql.Blob;
-import java.util.List;
 
 @RequiredArgsConstructor
 @Controller
@@ -38,23 +31,27 @@ public class RecipeController {
         return "redirect:/index";
     }
 
+    // メイン、検索結果ページ
     @GetMapping("/index")
     public String index(Model model, @RequestParam(value = "page", defaultValue = "0") int page,
                         @RequestParam(value="kw", defaultValue = "") String kw) {
         Page<Recipe> paging = this.recipeService.getList(page, kw);
-        model.addAttribute("paging", paging);
-        model.addAttribute("kw", kw);
+        model.addAttribute("paging", paging); // ページング
+        model.addAttribute("kw", kw); // 検索キーワード
         return "index";
     }
 
-    @GetMapping("/recipeDetail/{id}")
+    // レシピ詳細
+    @GetMapping("/recipe/detail/{id}")
     public String detail(Model model, @PathVariable("id") Integer id){
         Recipe recipe = this.recipeService.getRecipe(id);
         model.addAttribute("recipe",recipe);
         return "recipeDetail";
     }
+
+    // レシピ登録機能
     @PreAuthorize("isAuthenticated()")
-    @PostMapping("/writeRecipe")
+    @PostMapping("/recipe/write")
     public String createRecipe(@Valid RecipeForm recipeForm,
                                @RequestParam("thumbnail") MultipartFile file,
                                BindingResult bindingResult,
@@ -62,22 +59,28 @@ public class RecipeController {
         if(bindingResult.hasErrors()){
             return "writeRecipe";
         }
+        // ファイルをbyte[]に入れる
         byte[] imageBytes = file.getBytes();
 
+        // レシピ登録
         SiteUser siteUser = this.userService.getUser(principal.getName());
         Recipe r = this.recipeService.create(recipeForm.getRecipeName(),siteUser, imageBytes);
 
+        // 材料を登録
         this.ingredientService.create(r, recipeForm.getIngredient());
+        // 調理方法を登録
         this.instructionService.create(r, recipeForm.getInstruction());
 
         return "redirect:/index";
     }
+
+
+    // レシピ登録画面
     @PreAuthorize("isAuthenticated()")
-    @GetMapping("/writeRecipe")
+    @GetMapping("/recipe/write")
     public String createRecipe(RecipeForm recipeForm){
         return "writeRecipe";
     }
-
 
 
     @GetMapping("/myPage")
