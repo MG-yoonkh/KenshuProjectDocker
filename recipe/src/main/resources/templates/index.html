@@ -188,7 +188,8 @@
                 <div th:each="recipe, loop : ${paging}" class="col-sm-4 h-100">
                   <div class="card border-0">
                     <a th:href="@{|/recipe/detail/${recipe.id}|}" class="btn btn-light">
-                      <img class="card-img-top zoom" th:src="@{|/${recipe.thumbnail}|}" alt="Card image cap" />
+                      <img class="card-img-top zoom" th:src="@{|${recipe.thumbnail}|}" alt="Card image cap" />
+<!--                      <img class="card-img-top zoom" th:src="@{/upload/food-pizza_640.jpg}" alt="Card image cap" />-->
                     </a>
                     <div class="card-body">
                       <h5 class="card-title" th:text="${recipe.recipeName}"></h5>

@@ -61,14 +61,15 @@ class RecipeApplicationTests {
 //    @Autowired
 //    private UserRepository userRepository;
 
-    @Test
-    void testJpa(){
-        for(int i=1;i<=10;i++){
-            String recipeName = String.format("ラーメン [%03d]",i);
-            String author = String.format("作成者【%03d】。",i);
-            this.recipeService.create(recipeName,null);
-        }
-    }
+//    @Test
+//    void testJpa(){
+//        for(int i=1;i<=10;i++){
+//            String recipeName = String.format("ラーメン [%03d]",i);
+//
+//            String author = String.format("作成者【%03d】。",i);
+//            this.recipeService.create(recipef,null);
+//        }
+//    }
 //    @Test
 //    void testJpa(){
 //        List<Recipe> all = this.recipeRepository.findAll();

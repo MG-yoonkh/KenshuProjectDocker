@@ -57,10 +57,10 @@ public class RecipeController {
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/recipe/write")
     public String createRecipe(@Valid RecipeForm recipeForm,
-                               @RequestParam("thumbnail") MultipartFile file,
+                               @RequestParam("thumbFile") MultipartFile file,
                                BindingResult bindingResult,
                                Principal principal)throws IOException {
-        Recipe recipe = new Recipe();
+
         if(bindingResult.hasErrors()){
             return "writeRecipe";
         }
@@ -77,14 +77,14 @@ public class RecipeController {
             file.transferTo(targetLocation.toFile());
 
             // Recipe 객체에 파일 경로 저장
-            recipe.setThumbnail(targetLocation.toString());
+            recipeForm.setThumbnail(targetLocation.toString());
         }catch (IOException e) {
             throw new RuntimeException("Could not store file " + fileName + ". Please try again!", e);
         }
 
         // レシピ登録
         SiteUser siteUser = this.userService.getUser(principal.getName());
-        recipe = this.recipeService.create(recipeForm.getRecipeName(),siteUser);
+        Recipe recipe = this.recipeService.create(recipeForm,siteUser);
 
         // 材料を登録
         this.ingredientService.create(recipe, recipeForm.getIngredient());

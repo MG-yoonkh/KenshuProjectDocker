@@ -47,9 +47,10 @@ public class RecipeService {
         }
     }
 
-    public Recipe create(String recipeName, SiteUser user){
+    public Recipe create(RecipeForm recipeForm, SiteUser user){
         Recipe r1 = new Recipe();
-        r1.setRecipeName(recipeName);
+        r1.setRecipeName(recipeForm.getRecipeName());
+        r1.setThumbnail(recipeForm.getThumbnail());
         r1.setCreateDate(LocalDateTime.now());
         r1.setAuthor(user);
         this.recipeRepository.save(r1);
