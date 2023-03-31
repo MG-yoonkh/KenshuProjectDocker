@@ -47,11 +47,10 @@ public class RecipeService {
         }
     }
 
-    public Recipe create(String recipeName, SiteUser user, byte[] bytes){
+    public Recipe create(String recipeName, SiteUser user){
         Recipe r1 = new Recipe();
         r1.setRecipeName(recipeName);
         r1.setCreateDate(LocalDateTime.now());
-        r1.setThumbnail(bytes);
         r1.setAuthor(user);
         this.recipeRepository.save(r1);
         return r1;

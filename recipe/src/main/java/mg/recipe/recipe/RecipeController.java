@@ -11,12 +11,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.Principal;
 
 @RequiredArgsConstructor
@@ -56,20 +60,36 @@ public class RecipeController {
                                @RequestParam("thumbnail") MultipartFile file,
                                BindingResult bindingResult,
                                Principal principal)throws IOException {
+        Recipe recipe = new Recipe();
         if(bindingResult.hasErrors()){
             return "writeRecipe";
         }
-        // ファイルをbyte[]に入れる
-        byte[] imageBytes = file.getBytes();
+        // イメージ登録
+        Path fileStorageLocation = Paths.get("upload").toAbsolutePath().normalize();
+        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+
+        try {
+            //파일저장위치생성
+            Files.createDirectories(fileStorageLocation);
+
+            //파일저장
+            Path targetLocation = fileStorageLocation.resolve(fileName);
+            file.transferTo(targetLocation.toFile());
+
+            // Recipe 객체에 파일 경로 저장
+            recipe.setThumbnail(targetLocation.toString());
+        }catch (IOException e) {
+            throw new RuntimeException("Could not store file " + fileName + ". Please try again!", e);
+        }
 
         // レシピ登録
         SiteUser siteUser = this.userService.getUser(principal.getName());
-        Recipe r = this.recipeService.create(recipeForm.getRecipeName(),siteUser, imageBytes);
+        recipe = this.recipeService.create(recipeForm.getRecipeName(),siteUser);
 
         // 材料を登録
-        this.ingredientService.create(r, recipeForm.getIngredient());
+        this.ingredientService.create(recipe, recipeForm.getIngredient());
         // 調理方法を登録
-        this.instructionService.create(r, recipeForm.getInstruction());
+        this.instructionService.create(recipe, recipeForm.getInstruction());
 
         return "redirect:/index";
     }

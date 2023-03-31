@@ -36,7 +36,7 @@ public class Recipe {
     private String videoUrl;
 
     @Lob
-    private byte[] thumbnail;
+    private String thumbnail;
 
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.REMOVE)
     private List<Ingredient> ingredientList;

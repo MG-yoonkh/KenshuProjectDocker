@@ -16,6 +16,8 @@ public class RecipeForm {
 
     private String instruction;
 
+    private String thumbnail;
+
 
 
 }
