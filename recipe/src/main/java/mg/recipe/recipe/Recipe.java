@@ -49,6 +49,4 @@ public class Recipe {
 
     @ManyToMany
     Set<SiteUser> voter;
-
-
 }
