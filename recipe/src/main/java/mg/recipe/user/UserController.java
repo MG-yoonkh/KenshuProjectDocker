@@ -3,16 +3,27 @@ package mg.recipe.user;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.Mapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+
+    public ResponseEntity<?> checkDuplicate(@RequestBody Map<String, String> body){
+        String username = body.get("username");
+        SiteUser user = userService.getUser(username);
+        if(user != null){
+            return ResponseEntity.badRequest().body(new ApiResponse(false, "既に利用中のIDです。"));
+        }else{
+            return ResponseEntity.ok(new ApiResponse(true,"使用可能なIDです。"));
+        }
+    }
 
     @GetMapping("/signin")
     public String signin(UserCreateForm userCreateForm){

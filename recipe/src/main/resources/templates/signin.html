@@ -12,9 +12,10 @@
       <div class="join_row">
         <div class="form-group">
           <h3 class="join_title">
-            <label for="nickname">ID</label>
+            <label for="username">ID</label>
           </h3>
-          <input type="text" class="form-control" id="nickname" th:field="*{username}" placeholder="IDを入力してください" />
+          <input type="text" class="form-control" id="username" th:field="*{username}" placeholder="IDを入力してください" />
+          <button type="button" id="check-duplicate">チェック</button>
         </div>
         <div class="error">
           <!-- "assertive" -->
@@ -92,5 +93,22 @@
   </footer>
 
 </div>
+$(document).ready(function() {
+$('#check-duplicate').click(function() {
+var username = $('#username').val();
 
+$.ajax({
+url: '/api/check-duplicate',
+type: 'POST',
+contentType: 'application/json',
+data: JSON.stringify({username: username}),
+success: function(data) {
+alert(data.message);
+},
+error: function(xhr, status, error) {
+alert(xhr.responseText);
+}
+});
+});
+});
 </html>
