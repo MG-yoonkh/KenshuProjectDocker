@@ -37,7 +37,7 @@
                 ></a>
               </div>
               <div class="text-center" id="recipe_title">
-                <h1 th:text="${recipe.recipeName}" class="p-2"></h1>
+                <h1 th:text="${recipe.recipeName}" class="p-2 font-face"></h1>
               </div>
               <div class="col-md-6">
                 <img
@@ -58,19 +58,19 @@
                 <label for="" class="p-2">
                   <h3>調理時間</h3>
                 </label>
-                <h5>30分</h5>
+                <h5 th:text="@{|${recipe.cooktime}分|}"></h5>
               </div>
               <div class="col-md-2">
                 <label for="" class="p-2">
-                  <h3>カロリー</h3>
-                  <h5>350kcal</h5>
+                  <h3>予算</h3>
                 </label>
+                <h5>100円以内</h5>
               </div>
               <div class="col-md-2">
                 <label for="" class="p-2">
                   <h3>カテゴリー</h3>
-                  <h5>西洋料理</h5>
                 </label>
+                <h5 th:text="@{|${recipe.category}|}">西洋料理</h5>
               </div>
             </div>
             <div class="row justify-content-center p-5">

@@ -134,6 +134,7 @@ main {
   overflow: hidden;
   position: relative;
   top: 80px;
+  /*font-family: 'neon';*/
 }
 
 
@@ -141,6 +142,11 @@ main>.container>.col-md-2>.nav>a {
   color: var(--baseColor-white);
 }
 
+
+@font-face {
+    font-family: 'neon';
+    src: url('../src/main/resources/static/assets/font/NotoSerifJP-Bold.otf') format('truetype');
+}
 
 /* フッター */
 /* ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー */
