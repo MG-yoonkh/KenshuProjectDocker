@@ -7,10 +7,10 @@
       <nav>
         <ul>
           <li th:classappend="${header} == 'index' ? 'active'"><a th:href="@{/index}">ホーム</a></li>
-          <li sec:authorize="isAuthenticated()"><a th:href="@{/recipe/write}">レシピ投稿</a></li>
-          <li sec:authorize="isAuthenticated()"><a th:href="@{/myPage}">マイページ</a></li>
-          <li sec:authorize="isAuthenticated()"><a th:href="@{/adminPage}" >管理者ページ</a></li>
-          <li sec:authorize="isAnonymous()"><a th:href="@{/signin}" >会員登録</a></li>
+          <li sec:authorize="isAuthenticated()"><a th:href="@{/recipe/write}">レシピ投稿(未完成)</a></li>
+          <li sec:authorize="isAuthenticated()"><a th:href="@{/myPage}">マイページ(未完成)</a></li>
+          <li sec:authorize="isAuthenticated()"><a th:href="@{/adminPage}" >管理者ページ(未完成)</a></li>
+          <li sec:authorize="isAnonymous()"><a th:href="@{/signin}" >会員登録(チェック)</a></li>
           <li>
             <a th:href="@{/login}" sec:authorize="isAnonymous()">ログイン</a>
             <a th:href="@{/logout}" sec:authorize="isAuthenticated()">ログアウト</a>
