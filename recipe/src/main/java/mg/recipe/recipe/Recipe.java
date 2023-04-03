@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import mg.recipe.ingredient.Ingredient;
+import mg.recipe.ingredient.Recipe_Ingredients;
 import mg.recipe.instruction.Instruction;
 import mg.recipe.user.SiteUser;
 //import mg.recipe.user.UserInfo;
@@ -49,4 +50,7 @@ public class Recipe {
 
     @ManyToMany
     Set<SiteUser> voter;
+
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.REMOVE)
+    private List<Recipe_Ingredients> recipeIngredients;
 }
