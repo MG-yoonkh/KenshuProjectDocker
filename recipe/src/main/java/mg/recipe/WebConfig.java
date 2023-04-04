@@ -14,21 +14,21 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/upload/**")
-                .addResourceLocations("file:/C:/test/upload/");
+                .addResourceLocations("file:/C:/KenshuProject/upload/");
 
         registry.addResourceHandler("/assets/**")
-                .addResourceLocations("file:/C:/test/recipe/src/main/resources/static/");
+                .addResourceLocations("file:/C:/KenshuProject/recipe/src/main/resources/static/");
 
         registry.addResourceHandler("/css/**")
-                .addResourceLocations("file:/C:/test/recipe/src/main/resources/static/css/");
+                .addResourceLocations("file:/C:/KenshuProject/recipe/src/main/resources/static/css/");
 
         registry.addResourceHandler("/js/**")
-                .addResourceLocations("file:/C:/test/recipe/src/main/resources/static/css/");
+                .addResourceLocations("file:/C:/KenshuProject/recipe/src/main/resources/static/css/");
 
         registry.addResourceHandler("/assets/img/**")
-                .addResourceLocations("file:/C:/test/recipe/src/main/resources/static/assets/img/");
+                .addResourceLocations("file:/C:/KenshuProject/recipe/src/main/resources/static/assets/img/");
 
         registry.addResourceHandler("/assets/icon/**")
-                .addResourceLocations("file:/C:/test/recipe/src/main/resources/static/assets/icon/");
+                .addResourceLocations("file:/C:/KenshuProject/recipe/src/main/resources/static/assets/icon/");
     }
 }
