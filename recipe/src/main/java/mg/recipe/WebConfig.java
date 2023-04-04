@@ -16,14 +16,11 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/upload/**")
                 .addResourceLocations("file:/C:/KenshuProject/upload/");
 
-        registry.addResourceHandler("/assets/**")
-                .addResourceLocations("file:/C:/KenshuProject/recipe/src/main/resources/static/");
-
         registry.addResourceHandler("/css/**")
                 .addResourceLocations("file:/C:/KenshuProject/recipe/src/main/resources/static/css/");
 
         registry.addResourceHandler("/js/**")
-                .addResourceLocations("file:/C:/KenshuProject/recipe/src/main/resources/static/css/");
+                .addResourceLocations("file:/C:/KenshuProject/recipe/src/main/resources/static/js/");
 
         registry.addResourceHandler("/assets/img/**")
                 .addResourceLocations("file:/C:/KenshuProject/recipe/src/main/resources/static/assets/img/");
