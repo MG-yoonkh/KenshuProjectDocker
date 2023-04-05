@@ -1,9 +1,14 @@
 .recipe_list .card {
   margin-bottom: 10px;
 }
-.recipe_list .card .card-img-top {
+
+.recipe_list .card .image-container {
   height: 200px;
   width: 100%
+}
+
+.recipe_list .card .image-container .thumb-size {
+  height: 200px;
 }
 
 .img-bg {

@@ -152,7 +152,10 @@ main>.container>.col-md-2>.nav>a {
 /* ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー */
 
 
-/* footer {
-    position: fixed;
-    bottom:50px;
-} */
+footer {
+  margin-top:150px;
+  padding: 20px 0px 10px 0px;
+  width: 100%;
+  left: 0;
+  bottom:0px;
+}
