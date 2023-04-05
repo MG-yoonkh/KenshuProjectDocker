@@ -31,6 +31,5 @@ public class UserService {
         } else{
             throw new DataNotFoundException("ユーザー情報が見つかりません。");
         }
-
     }
 }
