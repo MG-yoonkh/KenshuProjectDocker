@@ -189,18 +189,23 @@
                 <div th:each="recipe, loop : ${paging}" class="col-sm-4 h-100">
                   <div class="card border-0">
                     <a th:href="@{|/recipe/detail/${recipe.id}|}" class="btn btn-light">
-                      <img class="card-img-top zoom" th:if="${not #strings.isEmpty(recipe.thumbnail)}" th:src="@{__${recipe.thumbnail.substring(16)}__}" alt="Card image cap" />
-<!--                      <img class="card-img-top zoom" th:src="@{/upload/food-pizza_640.jpg}" alt="Card image cap" />-->
+                      <div class="image-container">
+                        <img class="card-img-top zoom" th:if="${not #strings.isEmpty(recipe.thumbnail)}"
+                             th:src="@{__${recipe.thumbnail.substring(16)}__}" alt="Card image cap" />
+                        <span class="like-btn zoom">
+                          <span class="like-count" th:text="${#lists.size(recipe.voter)}"></span>
+                        </span>
+                      </div>
                     </a>
                     <div class="card-body">
                       <h5 class="card-title" th:text="${recipe.recipeName}"></h5>
-                      <h5 class="card-title" th:text="${recipe.thumbnail}"></h5>
+<!--                      <h5 class="card-title" th:text="${recipe.thumbnail}"></h5>-->
                       <h5 class="card-title" th:if="${recipe.author != null}" th:text="${recipe.author.username}"></h5>
-                      <a href="javascript:void(0);" class="recommend btn btn-sm btn-outline-secondary"
-                         th:data-uri="@{|/recipe/vote/${recipe.id}|}">
-                        いいね
-                        <span class="badge rounded-pill bg-success" th:text="${#lists.size(recipe.voter)}"></span>
-                      </a>
+<!--                      <a href="javascript:void(0);" class="recommend btn btn-sm btn-outline-secondary"-->
+<!--                         th:data-uri="@{|/recipe/vote/${recipe.id}|}">-->
+<!--                        いいね-->
+<!--                        <span class="badge rounded-pill bg-pink" th:text="${#lists.size(recipe.voter)}"></span>-->
+<!--                      </a>-->
                     </div>
                   </div>
                 </div>
