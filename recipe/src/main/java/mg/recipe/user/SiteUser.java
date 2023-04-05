@@ -1,6 +1,7 @@
 package mg.recipe.user;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,6 +20,7 @@ public class SiteUser {
     private String password;
 
     @Column(unique = true)
+    @Email
     private String email;
 
 }
