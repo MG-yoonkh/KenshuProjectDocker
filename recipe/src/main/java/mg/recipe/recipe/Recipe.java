@@ -28,7 +28,8 @@ public class Recipe {
     @Column(length = 20)
     private String category;
 
-    private Integer cooktime;
+    private String cookTime;
+    private String budget;
     private LocalDateTime createDate;
     private LocalDateTime modifyDate;
 

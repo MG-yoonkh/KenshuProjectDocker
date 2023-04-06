@@ -38,10 +38,18 @@ public class RecipeController {
     // メイン、検索結果ページ
     @GetMapping("/index")
     public String index(Model model, @RequestParam(value = "page", defaultValue = "0") int page,
-                        @RequestParam(value="kw", defaultValue = "") String kw) {
-        Page<Recipe> paging = this.recipeService.getList(page, kw);
+                        @RequestParam(value="kw", required = false, defaultValue = "") String kw,
+                        @RequestParam(value="category", required = false, defaultValue = "") String category,
+                        @RequestParam(value="cookTime", required = false, defaultValue = "") String cookTime,
+                        @RequestParam(value="budget", required = false, defaultValue = "") String budget,
+                        @RequestParam(value="orderBy", required = false, defaultValue = "") String orderBy) {
+        Page<Recipe> paging = this.recipeService.getList(page, kw, category, cookTime, budget, orderBy);
         model.addAttribute("paging", paging); // ページング
         model.addAttribute("kw", kw); // 検索キーワード
+        model.addAttribute("category", category);
+        model.addAttribute("cookTime", cookTime);
+        model.addAttribute("budget", budget);
+        model.addAttribute("orderBy", orderBy);
         return "index";
     }
 
@@ -69,14 +77,14 @@ public class RecipeController {
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
         try {
-            //파일저장위치생성
+            // ファイルセーブする場所の生成
             Files.createDirectories(fileStorageLocation);
 
-            //파일저장
+            //ファイルセーブ
             Path targetLocation = fileStorageLocation.resolve(fileName);
             file.transferTo(targetLocation.toFile());
 
-            // Recipe 객체에 파일 경로 저장
+            // Recipe オブジェクトに経路を格納
             recipeForm.setThumbnail(targetLocation.toString());
         }catch (IOException e) {
             throw new RuntimeException("Could not store file " + fileName + ". Please try again!", e);

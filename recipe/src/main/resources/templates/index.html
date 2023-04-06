@@ -8,7 +8,6 @@
       <!-- 検索 -->
       <div class="row justify-content-center">
         <div class="content col-md-6 justify-content-center search">
-          <form class="form-inline" th:action="@{/index}" method="get">
             <label for="" class="search_label">キーワードでレシピ検索!</label>
             <div class="search_input">
               <div class="input-group">
@@ -19,11 +18,11 @@
               </div>
             </div>
             <div class="row justify-content-center">
-              <!-- ドロップダウン　カテゴリー -->
+              <!-- カテゴリー -->
               <h4>カテゴリ未完成</h4>
               <div class="col-md-3 category_box">
                 <div class="form-group">
-                  <select class="form-select" name="category" aria-label="category">
+                  <select class="form-select" id="search_category" th:value="${category}" aria-label="category">
                     <option selected>カテゴリ</option>
                     <option value="韓国料理">韓国料理</option>
                     <option value="日本料理">日本料理</option>
@@ -32,11 +31,11 @@
                   </select>
                 </div>
               </div>
-              <div class="col-md-3">
-                <!-- ドロップダウン　調理時間 -->
+              <!-- 調理時間 -->
+              <div class="col-md-3 category_box">
                 <div class="form-group">
-                  <select class="form-select" name="cookTime" aria-label="cookTime">
-                    <option selected>調理時間</option>
+                  <select class="form-select" id="search_cookTime" th:value="${cookTime}" aria-label="cookTime">
+                    <option value="" selected>調理時間</option>
                     <option value="">全体</option>
                     <option value="10">10分以内</option>
                     <option value="30">30分以内</option>
@@ -45,11 +44,11 @@
                   </select>
                 </div>
               </div>
-              <!-- ドロップダウン　カロリー -->
-              <div class="col-md-3">
+              <!-- 予算 -->
+              <div class="col-md-3 category_box">
                 <div class="form-group">
-                  <select class="form-select" name="budget" aria-label="budget">
-                    <option selected>予算</option>
+                  <select class="form-select" id="search_budget" th:value="${budget}" aria-label="budget">
+                    <option value="" selected>予算</option>
                     <option value="">全体</option>
                     <option value="100">100円以内</option>
                     <option value="500">101~500円</option>
@@ -60,10 +59,10 @@
                   </select>
                 </div>
               </div>
-              <!-- ドロップダウン　ソート順 (人気・日付) -->
-              <div class="col-md-3">
+              <!-- ソート順 (人気・日付) -->
+              <div class="col-md-3 category_box">
                 <div class="form-group">
-                  <select class="form-select" name="orderby" aria-label="orderby">
+                  <select class="form-select" id="search_orderBy" aria-label="orderBy">
                     <option selected>ソート順</option>
                     <option value="popular">人気順</option>
                     <option value="date">日付順</option>
@@ -71,7 +70,6 @@
                 </div>
               </div>
             </div>
-          </form>
         </div>
       </div>
       <!-- carousel -->
@@ -198,6 +196,10 @@
                 <!-- ページング終わり -->
                 <form th:action="@{/index}" method="get" id="searchForm">
                   <input type="hidden" id="kw" name="kw" th:value="${kw}">
+                  <input type="hidden" id="category" name="category" th:value="${category}">
+                  <input type="hidden" id="cookTime" name="cookTime" th:value="${cookTime}">
+                  <input type="hidden" id="budget" name="budget" th:value="${budget}">
+                  <input type="hidden" id="orderBy" name="orderBy" th:value="${orderBy}">
                   <input type="hidden" id="page" name="page" th:value="${paging.number}">
                 </form>
               </div>
@@ -237,12 +239,14 @@ Array.from(page_elements).forEach(function(element) {
 });
 const btn_search = document.getElementById("btn_search");
 btn_search.addEventListener('click', function() {
-    document.getElementById('kw').value = document.getElementById('search_kw').value;
-    document.getElementById('page').value = 0;
-    document.getElementById('searchForm').submit();
+document.getElementById('kw').value = document.getElementById('search_kw').value;
+document.getElementById('category').value = document.getElementById('search_category').value;
+document.getElementById('cookTime').value = document.getElementById('search_cookTime').value;
+document.getElementById('budget').value = document.getElementById('search_budget').value;
+document.getElementById('orderBy').value = document.getElementById('search_orderBy').value;
+document.getElementById('page').value = 0;
+document.getElementById('searchForm').submit();
 });
 
-
 </script>
-
 </html>

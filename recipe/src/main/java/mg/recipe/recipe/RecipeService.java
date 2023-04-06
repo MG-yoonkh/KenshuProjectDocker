@@ -30,11 +30,34 @@ public class RecipeService {
 
     private final RecipeRepository recipeRepository;
 
-    public Page<Recipe> getList(int page, String kw){
+    public Page<Recipe> getList(int page, String kw, String category, String cookTime, String budget, String orderBy){
         List<Sort.Order> sorts = new ArrayList<>();
-        sorts.add(Sort.Order.desc("createDate"));
+
+        if (orderBy.equals("new")) {
+            sorts.add(Sort.Order.desc("createDate"));
+        } else if (orderBy.equals("popular")) {
+            sorts.add(Sort.Order.desc("voter"));
+        }
         Pageable pageable = PageRequest.of(page, 9, Sort.by(sorts));
-        Specification<Recipe> spec = search(kw);
+        Specification<Recipe> spec = Specification.where(search(kw,category, cookTime, budget));
+        if (!kw.isEmpty()) {
+            spec = spec.and((root, query, cb) -> cb.or(
+                    cb.like(root.get("recipeName"), "%" + kw + "%"),
+                    cb.like(root.get("author").get("username"), "%" + kw + "%")
+            ));
+        }
+
+        if (!category.isEmpty()) {
+            spec = spec.and((root, query, cb) -> cb.equal(root.get("category"), category));
+        }
+
+        if (!cookTime.isEmpty()) {
+            spec = spec.and((root, query, cb) -> cb.equal(root.get("cookTime"), cookTime));
+        }
+
+        if (!budget.isEmpty()) {
+            spec = spec.and((root, query, cb) -> cb.equal(root.get("budget"), budget));
+        }
         return this.recipeRepository.findAll(spec, pageable);
     }
 
@@ -73,20 +96,54 @@ public class RecipeService {
     }
 
 
-    private Specification<Recipe> search(String kw) {
+    private Specification<Recipe> search(String kw, String category, String cookTime, String budget) {
         return new Specification<>() {
             private static final long serialVersionUID = 1L;
             @Override
             public Predicate toPredicate(Root<Recipe> r, CriteriaQuery<?> query, CriteriaBuilder cb) {
                 query.distinct(true); //重複 除去
+
                 Join<Recipe, SiteUser> u1 = r.join("author", JoinType.LEFT);
-                //Join<Recipe, Ingredient> ig = r.join("ingredientList", JoinType.LEFT);
+
+                Predicate p = cb.conjunction(); // AND演算のためのPredicate
+
+                // 検索ワードに関するレシピ名または作者名の条件追加
+                if (!kw.isEmpty()) {
+                    Predicate p1 = cb.like(r.get("recipeName"), "%" + kw + "%");
+                    Predicate p2 = cb.like(r.get("author").get("username"), "%" + kw + "%");
+                    p = cb.or(p1, p2);
+                }
+
+                // カテゴリに関する条件追加
+                if (!category.isEmpty()) {
+                    Predicate p3 = cb.equal(r.get("category"), category);
+                    p = cb.and(p, p3);
+                    return p;
+                }
+
+                // 調理時間に関する条件追加
+                if (!cookTime.isEmpty()) {
+//                    String[] range = cookTime.split("-");
+                    Predicate p4 = cb.equal(r.get("cookTime"), cookTime);
+                    p = cb.and(p, p4);
+                    return p;
+                }
+
+                // 予算に関する条件追加
+                if (!budget.isEmpty()) {
+//                    String[] range = budget.split("-");
+                    Predicate p5 = cb.equal(r.get("budget"), budget);
+                    p = cb.and(p, p5);
+                    return p;
+                }
+
+
+
+//                //Join<Recipe, Ingredient> ig = r.join("ingredientList", JoinType.LEFT);
                 return cb.or(cb.like(r.get("recipeName"), "%" + kw + "%"),
                         cb.like(u1.get("username"), "%" + kw + "%")
                         );
             }
         };
     }
-
-
 }
