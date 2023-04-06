@@ -29,6 +29,8 @@ public class Recipe {
     private String category;
 
     private Integer cooktime;
+
+    private Integer budget;
     private LocalDateTime createDate;
     private LocalDateTime modifyDate;
 
