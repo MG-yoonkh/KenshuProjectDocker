@@ -26,7 +26,6 @@ import java.security.Principal;
 @Controller
 public class RecipeController {
     private final RecipeService recipeService;
-    private final IngredientService ingredientService;
     private final InstructionService instructionService;
     private final UserService userService;
     @GetMapping("/")
@@ -88,7 +87,7 @@ public class RecipeController {
         // 材料を登録
 //        this.ingredientService.create(recipe, recipeForm.getIngredient());
         // 調理方法を登録
-        this.instructionService.create(recipe, recipeForm.getInstruction());
+//        this.instructionService.create(recipe, recipeForm.getInstruction());
 
         return "redirect:/index";
     }
