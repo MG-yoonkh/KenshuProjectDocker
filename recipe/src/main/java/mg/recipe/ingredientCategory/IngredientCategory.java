@@ -20,7 +20,9 @@ public class IngredientCategory {
 
     // 単位
     @Column(name = "ingredient_category_name")
-    private String ingredientCategoryName;
+    private String name;
+
+    private Integer level;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
