@@ -8,110 +8,70 @@
       <!-- 検索 -->
       <div class="row justify-content-center">
         <div class="content col-md-6 justify-content-center search">
-          <label for="" class="search_label">キーワードでレシピ検索!</label>
-          <div class="search_input">
-            <div class="input-group">
-              <input type="text" id="search_kw" class="form-control" th:value="${kw}" />
-              <button class="btn btn-dark indexSearch" type="button" id="btn_search">
-                検索
-              </button>
-            </div>
-          </div>
-          <div class="row justify-content-center gap-2">
-            <!-- ドロップダウン　カテゴリー -->
-            <h4>カテゴリ未完成</h4>
-            <div class="col-md-2 category_box">
-              <div class="dropdown">
-                <button class="btn btn-dark dropdown-toggle" type="button" id="" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                  カテゴリ
+          <form class="form-inline" th:action="@{/index}" method="get">
+            <label for="" class="search_label">キーワードでレシピ検索!</label>
+            <div class="search_input">
+              <div class="input-group">
+                <input type="text" id="search_kw" class="form-control" th:value="${kw}" />
+                <button class="btn btn-dark indexSearch" type="button" id="btn_search">
+                  検索
                 </button>
-                <ul class="dropdown-menu" aria-labelledby="">
-                  <li>
-                    <a class="dropdown-item" href="#">韓国料理</a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#">日本料理</a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#">中華料理</a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#">西洋料理</a>
-                  </li>
-                </ul>
               </div>
             </div>
-            <div class="col-md-2">
-              <!-- ドロップダウン　調理時間 -->
-              <div class="dropdown">
-                <button class="btn btn-dark dropdown-toggle" type="button" id="" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                  調理時間
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="">
-                  <li>
-                    <a class="dropdown-item" href="#">0分~10分</a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#">11分~20分</a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#">21分~30分</a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#">31分~40分</a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#">41分~1時間</a>
-                  </li>
-                </ul>
+            <div class="row justify-content-center">
+              <!-- ドロップダウン　カテゴリー -->
+              <h4>カテゴリ未完成</h4>
+              <div class="col-md-3 category_box">
+                <div class="form-group">
+                  <select class="form-select" name="category" aria-label="category">
+                    <option selected>カテゴリ</option>
+                    <option value="韓国料理">韓国料理</option>
+                    <option value="日本料理">日本料理</option>
+                    <option value="中華料理">中華料理</option>
+                    <option value="西洋料理">西洋料理</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <!-- ドロップダウン　調理時間 -->
+                <div class="form-group">
+                  <select class="form-select" name="cookTime" aria-label="cookTime">
+                    <option selected>調理時間</option>
+                    <option value="">全体</option>
+                    <option value="10">10分以内</option>
+                    <option value="30">30分以内</option>
+                    <option value="60">60分以内</option>
+                    <option value="61">60分以上</option>
+                  </select>
+                </div>
+              </div>
+              <!-- ドロップダウン　カロリー -->
+              <div class="col-md-3">
+                <div class="form-group">
+                  <select class="form-select" name="budget" aria-label="budget">
+                    <option selected>予算</option>
+                    <option value="">全体</option>
+                    <option value="100">100円以内</option>
+                    <option value="500">101~500円</option>
+                    <option value="1000">501~1000円</option>
+                    <option value="2000">1000~2000円</option>
+                    <option value="5000">2000~5000円</option>
+                    <option value="5001">5000円以上</option>
+                  </select>
+                </div>
+              </div>
+              <!-- ドロップダウン　ソート順 (人気・日付) -->
+              <div class="col-md-3">
+                <div class="form-group">
+                  <select class="form-select" name="orderby" aria-label="orderby">
+                    <option selected>ソート順</option>
+                    <option value="popular">人気順</option>
+                    <option value="date">日付順</option>
+                  </select>
+                </div>
               </div>
             </div>
-            <!-- ドロップダウン　カロリー -->
-            <div class="col-md-2">
-              <div class="dropdown">
-                <button class="btn btn-dark dropdown-toggle" type="button" id="" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                  予算
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="">
-                  <li>
-                    <a class="dropdown-item" href="#">100円以内</a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#">101~500円</a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#">501~1000円</a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#">1000~2000円</a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#">2000~5000円</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <!-- ドロップダウン　ソート順 (人気・日付) -->
-            <div class="col-md-2">
-              <div class="dropdown">
-                <button class="btn btn-dark dropdown-toggle" type="button" id="" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                  ソート順
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="">
-                  <li>
-                    <a class="dropdown-item" href="#">人気順</a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#">日付順</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
+          </form>
         </div>
       </div>
       <!-- carousel -->
