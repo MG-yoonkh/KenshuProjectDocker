@@ -48,16 +48,28 @@
               </div>
               <!-- イメージ -->
               <div class="row justify-content-center">
-                <div class="col-md-6">
+                <div class="col-md-8">
+                  <div class="row justify-content-center text-center p-5">
+                    <div class="col-md-3 ">
+                      <h4>タイトル</h4>
+                    </div>
+                    <div class="col-md-9">
+                      <input type="text" th:field="*{recipeName}" id="floatingInput" class="form-control" />
+                    </div>
+                  </div>
                 </div>
               </div>
               <!-- イメージ登録 -->
-              <div class="row justify-content-center text-center">
-                <div class="col-md-2 text-end">
-                  <h3>イメージ登録 :</h3>
-                </div>
-                <div class="col-md-3">
-                  <input type="file" name="thumbFile" class="form-control" />
+              <div class="row justify-content-center">
+                <div class="col-md-8">
+                  <div class="row justify-content-center text-center p-5">
+                    <div class="col-md-3 ">
+                      <h4>イメージ</h4>
+                    </div>
+                    <div class="col-md-9">
+                      <input type="file" name="thumbFile" class="form-control" />
+                    </div>
+                  </div>
                 </div>
               </div>
               <div class="row justify-content-center p-5">
