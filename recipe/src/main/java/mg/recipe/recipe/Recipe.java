@@ -52,6 +52,7 @@ public class Recipe {
     @ManyToMany
     Set<SiteUser> voter;
 
+
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.REMOVE)
     private List<Recipe_Ingredients> recipeIngredients;
 }

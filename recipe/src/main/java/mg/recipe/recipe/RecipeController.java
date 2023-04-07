@@ -42,8 +42,10 @@ public class RecipeController {
                         @RequestParam(value="category", defaultValue = "") String category,
                         @RequestParam(value="cookTime", defaultValue = "") String cookTime,
                         @RequestParam(value="budget", defaultValue = "") String budget,
-                        @RequestParam(value="orderBy", defaultValue = "") String orderBy) {
+                        @RequestParam(value="orderBy", defaultValue = "date") String orderBy) {
+
         Page<Recipe> paging = this.recipeService.getList(page, kw, category, cookTime, budget, orderBy);
+
         model.addAttribute("paging", paging); // ページング
         model.addAttribute("kw", kw); // 検索キーワード
         model.addAttribute("category", category);

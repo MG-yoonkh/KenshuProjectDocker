@@ -36,12 +36,12 @@ public class RecipeService {
         if (orderBy.equals("date")) {
             sorts.add(Sort.Order.desc("createDate"));
         } else if (orderBy.equals("popular")) {
-            sorts.add(Sort.Order.desc("voter"));
+            sorts.add(Sort.Order.desc("voter.size"));
+        } else {
+            sorts.add(Sort.Order.desc("createDate"));
         }
 
-
         Pageable pageable = PageRequest.of(page, 9, Sort.by(sorts));
-
 
         Specification<Recipe> spec = Specification.where(search(kw,category, cookTime, budget));
         if (spec == null) {
@@ -49,7 +49,6 @@ public class RecipeService {
         }
         return this.recipeRepository.findAll(spec, pageable);
     }
-
 
     public Recipe getRecipe(Integer id){
         Optional<Recipe> recipe = this.recipeRepository.findById(id);
