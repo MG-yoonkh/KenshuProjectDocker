@@ -33,40 +33,30 @@ public class RecipeService {
     public Page<Recipe> getList(int page, String kw, String category, String cookTime, String budget, String orderBy){
         List<Sort.Order> sorts = new ArrayList<>();
 
-        if (orderBy.equals("new")) {
+        if (orderBy.equals("date")) {
             sorts.add(Sort.Order.desc("createDate"));
         } else if (orderBy.equals("popular")) {
             sorts.add(Sort.Order.desc("voter"));
         }
+
+
         Pageable pageable = PageRequest.of(page, 9, Sort.by(sorts));
+
+
         Specification<Recipe> spec = Specification.where(search(kw,category, cookTime, budget));
-        if (!kw.isEmpty()) {
-            spec = spec.and((root, query, cb) -> cb.or(
-                    cb.like(root.get("recipeName"), "%" + kw + "%"),
-                    cb.like(root.get("author").get("username"), "%" + kw + "%")
-            ));
-        }
-
-        if (!category.isEmpty()) {
-            spec = spec.and((root, query, cb) -> cb.equal(root.get("category"), category));
-        }
-
-        if (!cookTime.isEmpty()) {
-            spec = spec.and((root, query, cb) -> cb.equal(root.get("cookTime"), cookTime));
-        }
-
-        if (!budget.isEmpty()) {
-            spec = spec.and((root, query, cb) -> cb.equal(root.get("budget"), budget));
+        if (spec == null) {
+            return this.recipeRepository.findAll(pageable);
         }
         return this.recipeRepository.findAll(spec, pageable);
     }
+
 
     public Recipe getRecipe(Integer id){
         Optional<Recipe> recipe = this.recipeRepository.findById(id);
         if(recipe.isPresent()){
             return recipe.get();
         }else{
-            throw new DataNotFoundException("레시피가 없습니다.");
+            throw new DataNotFoundException("レシピがありません。");
         }
     }
 
@@ -101,48 +91,43 @@ public class RecipeService {
             private static final long serialVersionUID = 1L;
             @Override
             public Predicate toPredicate(Root<Recipe> r, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                query.distinct(true); //重複 除去
+
+                query.distinct(true); // 重複 除去
 
                 Join<Recipe, SiteUser> u1 = r.join("author", JoinType.LEFT);
 
-                Predicate p = cb.conjunction(); // AND演算のためのPredicate
+                List<Predicate> predicates = new ArrayList<>(); // Predicate 리스트 생성
 
-                // 検索ワードに関するレシピ名または作者名の条件追加
-                if (!kw.isEmpty()) {
-                    Predicate p1 = cb.like(r.get("recipeName"), "%" + kw + "%");
-                    Predicate p2 = cb.like(r.get("author").get("username"), "%" + kw + "%");
-                    p = cb.or(p1, p2);
+                if (kw != null && !kw.isEmpty()) {
+                    Predicate kwPredicate = cb.or(
+                            cb.like(r.get("recipeName"), "%" + kw + "%"),
+                            cb.like(u1.get("username"), "%" + kw + "%")
+                    );
+                    predicates.add(kwPredicate); // 리스트에 추가
                 }
 
-                // カテゴリに関する条件追加
-                if (!category.isEmpty()) {
-                    Predicate p3 = cb.equal(r.get("category"), category);
-                    p = cb.and(p, p3);
-                    return p;
+                if (category != null && !category.isEmpty()) {
+                    Predicate categoryPredicate = cb.equal(r.get("category"), category);
+                    predicates.add(categoryPredicate); // 리스트에 추가
                 }
 
-                // 調理時間に関する条件追加
-                if (!cookTime.isEmpty()) {
-//                    String[] range = cookTime.split("-");
-                    Predicate p4 = cb.equal(r.get("cookTime"), cookTime);
-                    p = cb.and(p, p4);
-                    return p;
+                if (cookTime != null && !cookTime.isEmpty()) {
+                    Predicate cookTimePredicate = cb.equal(r.get("cookTime"), cookTime);
+                    predicates.add(cookTimePredicate); // 리스트에 추가
                 }
 
-                // 予算に関する条件追加
-                if (!budget.isEmpty()) {
-//                    String[] range = budget.split("-");
-                    Predicate p5 = cb.equal(r.get("budget"), budget);
-                    p = cb.and(p, p5);
-                    return p;
+                if (budget != null && !budget.isEmpty()) {
+                    Predicate budgetPredicate = cb.equal(r.get("budget"), budget);
+                    predicates.add(budgetPredicate); // 리스트에 추가
                 }
 
-
-
-//                //Join<Recipe, Ingredient> ig = r.join("ingredientList", JoinType.LEFT);
-                return cb.or(cb.like(r.get("recipeName"), "%" + kw + "%"),
-                        cb.like(u1.get("username"), "%" + kw + "%")
-                        );
+                // 리스트가 비어있지 않으면 AND 연산 수행
+                if (!predicates.isEmpty()) {
+                    return cb.and(predicates.toArray(new Predicate[predicates.size()]));
+                } else {
+                    // 리스트가 비어있으면 true를 반환하여 모든 결과를 출력
+                    return cb.isTrue(cb.literal(true));
+                }
             }
         };
     }

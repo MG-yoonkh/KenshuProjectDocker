@@ -38,11 +38,11 @@ public class RecipeController {
     // メイン、検索結果ページ
     @GetMapping("/index")
     public String index(Model model, @RequestParam(value = "page", defaultValue = "0") int page,
-                        @RequestParam(value="kw", required = false, defaultValue = "") String kw,
-                        @RequestParam(value="category", required = false, defaultValue = "") String category,
-                        @RequestParam(value="cookTime", required = false, defaultValue = "") String cookTime,
-                        @RequestParam(value="budget", required = false, defaultValue = "") String budget,
-                        @RequestParam(value="orderBy", required = false, defaultValue = "") String orderBy) {
+                        @RequestParam(value="kw", defaultValue = "") String kw,
+                        @RequestParam(value="category", defaultValue = "") String category,
+                        @RequestParam(value="cookTime", defaultValue = "") String cookTime,
+                        @RequestParam(value="budget", defaultValue = "") String budget,
+                        @RequestParam(value="orderBy", defaultValue = "") String orderBy) {
         Page<Recipe> paging = this.recipeService.getList(page, kw, category, cookTime, budget, orderBy);
         model.addAttribute("paging", paging); // ページング
         model.addAttribute("kw", kw); // 検索キーワード
