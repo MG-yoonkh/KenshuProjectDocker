@@ -121,6 +121,9 @@ public class RecipeController {
     @GetMapping("/recipe/write")
     public String createRecipe(Model model, RecipeForm recipeForm){
         List<IngredientCategory> mainCategories = this.ingredientCategoryService.getMainList(0);
+        if(mainCategories == null) {
+            return "writeRecipe";
+        }
         List<IngredientCategory> subCategories = this.ingredientCategoryService.getMainList(1);
         List<Ingredient> ingredients = this.ingredientService.getList();
         List<MeasurementUnit> units = this.measurementUnitService.getList();
