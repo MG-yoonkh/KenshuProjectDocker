@@ -95,36 +95,36 @@ public class RecipeService {
 
                 Join<Recipe, SiteUser> u1 = r.join("author", JoinType.LEFT);
 
-                List<Predicate> predicates = new ArrayList<>(); // Predicate 리스트 생성
+                List<Predicate> predicates = new ArrayList<>(); // Predicate リスト生成
 
                 if (kw != null && !kw.isEmpty()) {
                     Predicate kwPredicate = cb.or(
                             cb.like(r.get("recipeName"), "%" + kw + "%"),
                             cb.like(u1.get("username"), "%" + kw + "%")
                     );
-                    predicates.add(kwPredicate); // 리스트에 추가
+                    predicates.add(kwPredicate); // リスト追加
                 }
 
                 if (category != null && !category.isEmpty()) {
                     Predicate categoryPredicate = cb.equal(r.get("category"), category);
-                    predicates.add(categoryPredicate); // 리스트에 추가
+                    predicates.add(categoryPredicate); // リスト追加
                 }
 
                 if (cookTime != null && !cookTime.isEmpty()) {
                     Predicate cookTimePredicate = cb.equal(r.get("cookTime"), cookTime);
-                    predicates.add(cookTimePredicate); // 리스트에 추가
+                    predicates.add(cookTimePredicate); // リスト追加
                 }
 
                 if (budget != null && !budget.isEmpty()) {
                     Predicate budgetPredicate = cb.equal(r.get("budget"), budget);
-                    predicates.add(budgetPredicate); // 리스트에 추가
+                    predicates.add(budgetPredicate); // リスト追加
                 }
 
-                // 리스트가 비어있지 않으면 AND 연산 수행
+                // リストが空いていないとAND演算
                 if (!predicates.isEmpty()) {
                     return cb.and(predicates.toArray(new Predicate[predicates.size()]));
                 } else {
-                    // 리스트가 비어있으면 true를 반환하여 모든 결과를 출력
+                    // リストが空いていたらTRUEを変換し、全ての結果を出力
                     return cb.isTrue(cb.literal(true));
                 }
             }
