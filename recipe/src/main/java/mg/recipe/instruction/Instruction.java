@@ -13,16 +13,14 @@ public class Instruction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private Integer stepNum;
     @Column(columnDefinition = "TEXT")
     private String description;
+
     @Column(length = 255)
     private String imgUrl;
-    @Column(length = 255)
-    private String videoUrl;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "recipe_id")
     private Recipe recipe;
-
 
 }
