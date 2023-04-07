@@ -1,6 +1,7 @@
 package mg.recipe.ingredientCategory;
 
 import lombok.RequiredArgsConstructor;
+import mg.recipe.recipe.Recipe;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,6 +26,10 @@ public class IngredientCategoryService {
     public List<IngredientCategory> getSubList(Integer parentId, Integer level) {
         List<IngredientCategory> icList = this.ingredientCategoryRepository.findByParentIdAndLevel(parentId, level);
         return icList;
+    }
+
+    public List<IngredientCategory> findAll() {
+        return this.ingredientCategoryRepository.findAll();
     }
 
 }
