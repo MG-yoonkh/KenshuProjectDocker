@@ -122,9 +122,7 @@ public class RecipeController {
     public String createRecipe(Model model, RecipeForm recipeForm){
 
         List<IngredientCategory> categories = this.ingredientCategoryService.findAll();
-        if (categories.isEmpty()) {
-            return "writeRecipe";
-        } else {
+        if (!categories.isEmpty()) {
             List<IngredientCategory> mainCategories = this.ingredientCategoryService.getMainList(0);
             List<IngredientCategory> subCategories = this.ingredientCategoryService.getMainList(1);
             List<Ingredient> ingredients = this.ingredientService.getList();
@@ -134,10 +132,8 @@ public class RecipeController {
             model.addAttribute("subCategories", subCategories);
             model.addAttribute("ingredients", ingredients);
             model.addAttribute("units", units);
-            return "writeRecipe";
         }
-
-
+        return "writeRecipe";
     }
 
 
