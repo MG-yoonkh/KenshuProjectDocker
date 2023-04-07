@@ -9,6 +9,10 @@ public class IngredientSearchForm {
 
     private String name;
     private Long categoryId;
+
+    private Integer ingredientId;
+
+    private Double quantity;
     private Integer measurementUnitId;
 
 }

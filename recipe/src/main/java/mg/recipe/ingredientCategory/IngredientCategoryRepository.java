@@ -15,4 +15,11 @@ public interface IngredientCategoryRepository  extends JpaRepository<IngredientC
 
     List<IngredientCategory> findByParent(IngredientCategory parent);
 
+    // select  ingredient_category_id from INGREDIENT_CATEGORY where level = 0;
+    List<IngredientCategory> findAllByLevel(Integer integer);
+
+    // Query("SELECT ic FROM IngredientCategory ic WHERE ic.parentId = :parentId AND ic.level = :level")
+    List<IngredientCategory> findByParentIdAndLevel(Integer parentId, Integer level);
+
+
 }

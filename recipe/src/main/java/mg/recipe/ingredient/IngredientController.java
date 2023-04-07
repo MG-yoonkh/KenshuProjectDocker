@@ -3,6 +3,7 @@ package mg.recipe.ingredient;
 import lombok.RequiredArgsConstructor;
 import mg.recipe.ingredientCategory.IngredientCategory;
 import mg.recipe.ingredientCategory.IngredientCategoryRepository;
+import mg.recipe.ingredientCategory.IngredientCategoryService;
 import mg.recipe.measurementUnit.MeasurementUnit;
 import mg.recipe.measurementUnit.MeasurementUnitRepository;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,8 @@ public class IngredientController {
     private final IngredientRepository ingredientRepository;
     private final IngredientCategoryRepository ingredientCategoryRepository;
     private final MeasurementUnitRepository measurementUnitRepository;
+
+    private final IngredientCategoryService ingredientCategoryService;
 
     @GetMapping("/search")
     public String searchIngredients(Model model) {
@@ -69,6 +72,19 @@ public class IngredientController {
             return null;
         }
 
+    }
+
+    @PostMapping("/sub")
+    @ResponseBody
+    public List<IngredientCategory> yourMethod(@RequestParam Integer parentId) {
+        return this.ingredientCategoryService.getSubList(parentId, 1);
+    }
+
+    @PostMapping("/test")
+    @ResponseBody
+    public String handlePostRequest(@RequestParam String name) {
+        System.out.println("Received name: " + name);
+        return "success";
     }
 
 }

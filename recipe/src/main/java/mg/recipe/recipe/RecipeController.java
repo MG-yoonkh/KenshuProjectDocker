@@ -2,7 +2,13 @@ package mg.recipe.recipe;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import mg.recipe.ingredient.Ingredient;
+import mg.recipe.ingredient.IngredientService;
+import mg.recipe.ingredientCategory.IngredientCategory;
+import mg.recipe.ingredientCategory.IngredientCategoryService;
 import mg.recipe.instruction.InstructionService;
+import mg.recipe.measurementUnit.MeasurementUnit;
+import mg.recipe.measurementUnit.MeasurementUnitService;
 import mg.recipe.user.SiteUser;
 import mg.recipe.user.UserService;
 import org.springframework.data.domain.Page;
@@ -21,6 +27,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Principal;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Controller
@@ -28,6 +35,12 @@ public class RecipeController {
     private final RecipeService recipeService;
     private final InstructionService instructionService;
     private final UserService userService;
+
+    private final IngredientCategoryService ingredientCategoryService;
+
+    private final IngredientService ingredientService;
+
+    private final MeasurementUnitService measurementUnitService;
     @GetMapping("/")
     public String root() {
         return "redirect:/index";
@@ -96,7 +109,16 @@ public class RecipeController {
     // レシピ登録画面
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/recipe/write")
-    public String createRecipe(RecipeForm recipeForm){
+    public String createRecipe(Model model, RecipeForm recipeForm){
+        List<IngredientCategory> mainCategories = this.ingredientCategoryService.getMainList(0);
+        List<IngredientCategory> subCategories = this.ingredientCategoryService.getMainList(1);
+        List<Ingredient> ingredients = this.ingredientService.getList();
+        List<MeasurementUnit> units = this.measurementUnitService.getList();
+        System.out.println("?: " + subCategories.get(0).getParent().getName().toString());
+        model.addAttribute("mainCategories", mainCategories);
+        model.addAttribute("subCategories", subCategories);
+        model.addAttribute("ingredients", ingredients);
+        model.addAttribute("units", units);
         return "writeRecipe";
     }
 
