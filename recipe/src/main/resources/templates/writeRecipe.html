@@ -12,11 +12,7 @@
                 th:name="${_csrf.parameterName}"
                 th:value="${_csrf.token}"
               />
-              <div
-                class="alert alert-danger"
-                role="alert"
-                th:if="${#fields.hasAnyErrors()}"
-              >
+              <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}" >
                 <div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
               </div>
               <div class="row justify-content-center">
@@ -26,38 +22,28 @@
               </div>
               <!-- レシピ名入力 -->
               <div class="row justify-content-center">
-                <div class="col-md-6">
+                <div class="col-md-8">
                   <div class="row justify-content-center text-center p-5">
-                    <!--                <div class="col-md-3">-->
-                    <!--                  <div class="input-group">-->
-                    <!--                    <input type="text" class="text-start" name="recipeName" id="recipeName" rows="15">-->
-                    <!--                  </div>-->
-                    <!--                </div>-->
-                    <div class="col-md-9 form-floating">
-                      <input
-                        type="text"
-                        th:field="*{recipeName}"
-                        id="floatingInput"
-                        class="form-control"
-                        placeholder="レシピ名"
-                      />
-                      <label for="floatingInput">レシピ名</label>
+                    <div class="col-md-3 ">
+                      <h4>タイトル</h4>
+                    </div>
+                    <div class="col-md-9">
+                      <input type="text" th:field="*{recipeName}" id="floatingInput" class="form-control" />
                     </div>
                   </div>
                 </div>
               </div>
               <!-- イメージ -->
               <div class="row justify-content-center">
-                <div class="col-md-6">
-                </div>
-              </div>
-              <!-- イメージ登録 -->
-              <div class="row justify-content-center text-center">
-                <div class="col-md-2 text-end">
-                  <h3>イメージ登録 :</h3>
-                </div>
-                <div class="col-md-3">
-                  <input type="file" name="thumbFile" class="form-control" />
+                <div class="col-md-8">
+                  <div class="row justify-content-center text-center p-5">
+                    <div class="col-md-3 ">
+                      <h4>イメージ</h4>
+                    </div>
+                    <div class="col-md-9">
+                      <input type="file" name="thumbFile" class="form-control" />
+                    </div>
+                  </div>
                 </div>
               </div>
               <div class="row justify-content-center p-5">
@@ -179,140 +165,99 @@
                 </div>
               </div>
               <!-- 材料登録 -->
-              <div
-                class="row justify-content-center text-center"
-                id="recipe_info"
-              >
+              <div class="row justify-content-center text-center" id="recipe_info">
                 <label for="">
                   <h1 class="p-2">材料</h1>
                 </label>
                 <div class="col-md-6 text-center">
                   <div class="form-group">
-                    <div class="row justify-content-center p-2">
-                      <div class="col-md-3">
-                        <div class="row">
-                          <div class="col-md-6">
-                            <label for="" class="">材料名s :</label>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="staticBackdrop" tabindex="-1" aria-labelledby="staticBackdrop" aria-hidden="true">
+                      <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdrop">材料</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                           </div>
-                          <div class="col-md-6">
-                            <input
-                              type="text"
-                              name="ingredient"
-                              class="form-control"
-                              placeholder="材料名"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-3">
-                        <div class="row">
-                          <div class="col-md-6">
-                            <label for="" class="">数量 :</label>
-                          </div>
-                          <div class="col-md-6">
-                            <input
-                              type="text"
-                              class="form-control"
-                              placeholder="数量"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-3">
-                        <div class="row">
-                          <div class="col-md-6">
-                            <label for="" class="">計量単位 :</label>
-                          </div>
-                          <div class="col-md-6">
-                            <input
-                              type="text"
-                              class="form-control"
-                              placeholder="単位"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-3">
-                        <div class="row">
-                          <div class="col-md-6">
-                            <label for="" class="">補足 :</label>
-                          </div>
-                          <div class="col-md-6">
-                            <input
-                              type="text"
-                              class="form-control"
-                              placeholder="補足"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row justify-content-center p-2">
-                      <div class="col-md-3">
-                        <div class="row">
-                          <div class="col-md-6">
-                            <label for="" class="">材料名 :</label>
-                          </div>
-                          <div class="col-md-6">
-                            <input
-                              type="text"
-                              class="form-control"
-                              placeholder="材料名"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-3">
-                        <div class="row">
-                          <div class="col-md-6">
-                            <label for="" class="">数量 :</label>
-                          </div>
-                          <div class="col-md-6">
-                            <input
-                              type="text"
-                              class="form-control"
-                              placeholder="数量"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-3">
-                        <div class="row">
-                          <div class="col-md-6">
-                            <label for="" class="">計量単位 :</label>
-                          </div>
-                          <div class="col-md-6">
-                            <input
-                              type="text"
-                              class="form-control"
-                              placeholder="単位"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-3">
-                        <div class="row">
-                          <div class="col-md-6">
-                            <label for="" class="">補足 :</label>
-                          </div>
-                          <div class="col-md-6">
-                            <input
-                              type="text"
-                              class="form-control"
-                              placeholder="補足"
-                            />
+                          <div class="modal-body">
+                            <form method="post" th:action="@{/ingredient/search}" >
+
+                              <div class="mb-3">
+                                <label for="main-category-dropdown" class="form-label">メインカテゴリー</label>
+                                <select class="form-select" id="main-category-dropdown" name="mainCategoryId" >
+                                  <option value="">選択してください</option>
+                                  <option th:each="mainCategory : ${mainCategories}"
+                                          th:value="${mainCategory.parent.id}"
+                                          th:text="${mainCategory.name}" ></option>
+                                </select>
+                              </div>
+
+                              <div class="mb-3">
+                                <label for="sub-category-dropdown" class="form-label">詳細カテゴリー</label>
+                                <select class="form-select" id="sub-category-dropdown" name="subCategoryId" >
+                                  <option value="">選択してください</option>
+                                  <option th:each="subCategory : ${subCategories}"
+                                          th:value="${subCategory.id}"
+                                          th:text="${subCategory.name}"
+                                          ></option>
+                                </select>
+                              </div>
+
+                              <div class="mb-3">
+                                <label for="ingredient-dropdown" class="form-label">材料</label>
+                                <select class="form-select" id="ingredient-dropdown" name="name" >
+                                  <option value="">選択してください</option>
+                                  <option th:each="ingredient : ${ingredients}"
+                                          th:value="${ingredient.id}"
+                                          th:text="${ingredient.name}"
+                                  ></option>
+                                </select>
+                              </div>
+                              <div class="mb-3">
+                                <label for="unit-dropdown" class="form-label">計量</label>
+                                <select class="form-select" id="unit-dropdown" name="measurementUnitId" >
+                                  <option value="">選択してください</option>
+                                  <option>1/2</option>
+                                  <option>1/3</option>
+                                  <option>2/3</option>
+                                  <option>1</option>
+                                  <option>10</option>
+                                  <option>100</option>
+                                  <option value="direct">入力</option>
+                                </select>
+                                <input type="text" id="unitDirect" name="unitDirect"/>
+                              </div>
+                              <div class="mb-3">
+                                <label for="unit-dropdown" class="form-label">単位</label>
+                                <select class="form-select" id="unit-dropdown" name="measurementUnitId" >
+                                  <option value="">選択してください</option>
+                                  <option th:each="unit : ${units}"
+                                          th:value="${unit.id}"
+                                          th:text="${unit.name}"
+                                  ></option>
+                                </select>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Search</button>
+                              </div>
+                            </form>
                           </div>
                         </div>
                       </div>
                     </div>
-                    <div class="row justify-content-end text-end">
-                      <div class="col-md-12 p-4 justify-content-end">
-                        <button type="button" class="btn btn-secondary">
-                          材料追加
-                        </button>
-                      </div>
-                    </div>
-                  </div>
+
+
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                      Launch static backdrop modal
+                    </button>
+
+                    <button type="button" class="btn btn-primary" id="myButton">
+
+                    </button>
+
                 </div>
               </div>
               <div class="row justify-content-center p-5">
@@ -342,7 +287,7 @@
                       <input
                         type="image"
                         class="form-control"
-                        src="assets/img/background.jpg"
+                        src=""
                       />
                       <input type="file" class="form-control" />
                     </div>
@@ -362,7 +307,7 @@
                       <input
                         type="image"
                         class="form-control"
-                        src="assets/img/background.jpg"
+                        src=""
                       />
                       <input type="file" class="form-control" />
                     </div>
@@ -434,4 +379,102 @@
       <p>Recipe Management Site &copy; 2023</p>
     </footer>
   </div>
+  <script layout:fragment="script" type='text/javascript'>
+
+  var token = $("meta[name='_csrf']").attr("content");
+  var header = $("meta[name='_csrf_header']").attr("content");
+  $(document).ajaxSend(function(e, xhr, options) { xhr.setRequestHeader(header, token); });
+
+
+  // 直接入力
+  $(function(){
+    $("#unitDirect").hide(); // Input Hidden
+    $("#unit-dropdown").change(function() {
+        if($("#unit-dropdown").val() == "direct") { // 入力をセレクトすると、
+            $("#unitDirect").show(); // Input Display
+        }  else {
+            $("#unitDirect").hide(); // Input Hidden
+        }
+      })
+  });
+
+$(document).ready(function() {
+    $("#main-category-dropdown").change(function() {
+        var parentId = $(this).val();
+        $.ajax({
+            type: "POST",
+            url: "/ingredient/sub",
+            data: { parentId: parentId },
+            dataType: "json",
+            success: function(response) {
+                // Clear the list of categories
+                $("#sub-category-dropdown").empty();
+
+                // Add each category to the list
+                $.each(response, function(index, category) {
+                    var option = $("<option>").text(category.name).attr("value", category.id);
+                    $("#sub-category-dropdown").append(option);
+                });
+            },
+            error: function(xhr, textStatus, errorThrown) {
+                console.log("Error: " + errorThrown);
+            }
+        });
+    });
+});
+
+$(document).ready(function() {
+    $("#myButton").click(function() {
+        $.ajax({
+            type: "POST",
+            url: "/ingredient/test",
+            data: { name: "some data" },
+            success: function(response) {
+                console.log("Ajax request succeeded!");
+                console.log(response);
+            },
+            error: function(xhr, textStatus, errorThrown) {
+                console.log("Ajax request failed!");
+                console.log(errorThrown);
+            }
+        });
+    });
+});
+
+
+
+
+<!--  $(document).ready(function() {-->
+<!--    $('#main-category-dropdown').on('change', function() {-->
+<!--      var parentId = $(this).val();-->
+
+<!--      $.ajax({-->
+<!--        type: "GET",-->
+<!--        url: "/ingredient/sub",-->
+<!--        data: {-->
+<!--            parentId: parentId-->
+<!--        },-->
+<!--        success: function(result){-->
+<!--          var subCategories = result.subCategories;-->
+
+<!--          var subCategoryDropdown = $('#sub-category-dropdown');-->
+
+<!--          subCategoryDropdown.find('option').remove();-->
+
+<!--          subCategoryDropdown.append('<option value="">選択してください</option>');-->
+
+<!--          subCategories.forEach(function(subCategory) {-->
+<!--            subCategoryDropdown.append('<option value="' + subCategory.id + '">' + subCategory.name + '</option>');-->
+<!--          });-->
+<!--        },-->
+<!--        error: function(){-->
+<!--            // handle error-->
+<!--        }-->
+<!--      });-->
+
+<!--    });-->
+<!--  });-->
+
+
+  </script>
 </html>

@@ -188,3 +188,7 @@ footer {
   text-decoration: underline;
   color: var(--baseColor-black);
 }
+
+.modal-backdrop {
+  z-index: -100 !important;
+}

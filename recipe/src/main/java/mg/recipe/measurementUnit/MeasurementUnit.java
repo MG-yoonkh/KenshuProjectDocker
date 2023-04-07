@@ -17,6 +17,6 @@ public class MeasurementUnit {
 
     // 単位
     @Column(name = "measurement_unit_name")
-    private String MeasurenentUnitName;
+    private String Name;
 
 }
