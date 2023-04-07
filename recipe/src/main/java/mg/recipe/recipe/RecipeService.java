@@ -36,7 +36,7 @@ public class RecipeService {
         if (orderBy.equals("date")) {
             sorts.add(Sort.Order.desc("createDate"));
         } else if (orderBy.equals("popular")) {
-            sorts.add(Sort.Order.desc("voter.size"));
+            sorts.add(Sort.Order.desc("voterCount"));
         } else {
             sorts.add(Sort.Order.desc("createDate"));
         }

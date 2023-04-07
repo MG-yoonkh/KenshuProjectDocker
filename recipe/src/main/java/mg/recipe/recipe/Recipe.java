@@ -49,6 +49,12 @@ public class Recipe {
     @ManyToMany(fetch = FetchType.LAZY)
     Set<SiteUser> voter;
 
+    private Integer voterCount;
+
+    public void setVoterCount(Set<SiteUser> voter){
+        this.voterCount = voter.size();
+    }
+
     // レシピ＆材料
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
     private List<RecipeIngredient> recipeIngredientList;
