@@ -192,3 +192,12 @@ footer {
 .modal-backdrop {
   z-index: -100 !important;
 }
+
+.incomplete {
+  background-color: red;
+  color: white;
+}
+
+.needCheck {
+  background-color: green;
+  color: white;
