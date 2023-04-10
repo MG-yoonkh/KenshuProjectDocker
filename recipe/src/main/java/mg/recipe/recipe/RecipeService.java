@@ -65,8 +65,10 @@ public class RecipeService {
         r1.setThumbnail(recipeForm.getThumbnail());
         r1.setCreateDate(LocalDateTime.now());
         r1.setAuthor(user);
-        this.recipeRepository.save(r1);
-        return r1;
+        r1.setCategory(recipeForm.getCategory());
+        r1.setCookTime(recipeForm.getCookTime());
+        r1.setBudget(recipeForm.getBudget());
+        return this.recipeRepository.save(r1);
     }
 
     public void modify(Recipe recipe, String recipeName){
