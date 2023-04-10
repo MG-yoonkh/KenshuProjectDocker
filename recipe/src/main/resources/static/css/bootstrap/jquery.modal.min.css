@@ -34,6 +34,7 @@ vertical-align:middle;
 position:relative;
 z-index:2;
 max-width:840px;
+height: 100%;
 box-sizing:border-box;
 width:140%;
 background:#fff;
@@ -104,3 +105,15 @@ animation-delay:-0.9s
 }
 
 @-webkit-keyframes sk-stretchdelay{0%,40%,100%{-webkit-transform:scaleY(0.5)}20%{-webkit-transform:scaleY(1.0)}}@keyframes sk-stretchdelay{0%,40%,100%{transform:scaleY(0.5);-webkit-transform:scaleY(0.5)}20%{transform:scaleY(1.0);-webkit-transform:scaleY(1.0)}}
+
+body.modal-open {
+
+    overflow: auto;
+
+}
+
+body.modal-open[style] {
+
+    padding-right: 0px !important;
+
+}
