@@ -204,7 +204,7 @@ footer {
 }
 
 .modal-ing {
-  width: 100px;
+  width: 430px;
   height:120px;
   font-style: bold;
   border-style: dotted;
@@ -214,6 +214,11 @@ footer {
 
 .modal-div {
   border-style: dotted;
-    border-color: yellow;
-    border: 1px dotted black;
+  border-color: yellow;
+  border: 1px dotted black;
+}
+
+.modal-div button:hover {
+  color: blue;
+  text-decoration: none;
 }
