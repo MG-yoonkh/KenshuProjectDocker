@@ -32,18 +32,18 @@
                     <li class="list-group-item">
                       <strong>ニックネーム</strong>
                     </li>
-                    <li class="list-group-item">yoon</li>
+                    <li class="list-group-item" th:text="${username}"></li>
                     <li class="list-group-item">
-                      <a th:href="@{myPage/reNickname}" class="btn btn-dark"
+                      <a th:href="@{mypage/renickname}" class="btn btn-dark"
                         >ニックネーム変更</a
                       >
                     </li>
                     <li class="list-group-item">
                       <strong>メールアドレス</strong>
                     </li>
-                    <li class="list-group-item">user1@example.com</li>
+                    <li class="list-group-item" th:text="${email}"></li>
                     <li class="list-group-item">
-                      <a th:href="@{/myPage/rePassword}" class="btn btn-dark"
+                      <a th:href="@{/mypage/repassword}" class="btn btn-dark"
                         >パスワード変更</a
                       >
                     </li>

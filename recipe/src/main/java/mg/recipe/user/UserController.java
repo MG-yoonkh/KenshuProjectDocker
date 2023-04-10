@@ -4,11 +4,14 @@ package mg.recipe.user;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
 import java.util.Map;
@@ -17,20 +20,6 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
-
-//    @PostMapping("/api/check-duplicate")
-//    public ResponseEntity<?> checkDuplicate(@RequestBody Map<String, String> body){
-//        String username = body.get("username");
-//        SiteUser user = userService.getUser(username);
-//        System.out.println("1");
-//        if(user != null){
-//            System.out.println("既に利用中のIDです");
-//            return ResponseEntity.badRequest().body(new ApiResponse(false, "既に利用中のIDです。"));
-//        }else{
-//            System.out.println("使用可能なIDです");
-//            return ResponseEntity.ok(new ApiResponse(true,"使用可能なIDです。"));
-//        }
-//    }
 
     @GetMapping("/signin")
     public String signin(UserCreateForm userCreateForm){
@@ -62,28 +51,50 @@ public class UserController {
 
     }
 
+
+
     @GetMapping("/login")
     public String login() {
         return "login";
     }
 
-//    @PostMapping("/login")
-//    public String login() {
-//        return "login";
-//    }
 
-    @GetMapping("/myPage")
-    public String modifyUserForm(Model model, Principal principal){
+
+    @GetMapping("/mypage")
+    public String myPage(Model model, Principal principal){
 
         SiteUser user = this.userService.getUserByUsername(principal.getName());
         model.addAttribute("user",user);
         return "myPage";
     }
-    @GetMapping("/myPage/reNickname")
-    public String modifyNickNameForm(){
+
+
+
+
+    @GetMapping("/mypage/renickname")
+    public String updateNicknameForm(@ModelAttribute("userCreateForm") UserCreateForm userCreateForm){
         return "reNickname";
     }
-    @GetMapping("/myPage/rePassword")
+    @PostMapping("/mypage/renickname/{id}")
+    public String updateNickname(@PathVariable("id") Integer id,
+                                 @Validated UserCreateForm userCreateForm,
+                                 Principal principal,
+                                 BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            return "reNickname";
+        }
+        SiteUser user = this.userService.getUserById(id);
+        if(!user.getUsername().equals(principal.getName())){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "修正権限がありません。");
+        }
+        this.userService.updateNickname(user, userCreateForm.getUsername2());
+
+        return String.format("redirect:/mypage/%s", id);
+    }
+
+
+
+    @GetMapping("/mypage/repassword")
     public String modifyPasswordForm(){
         return "rePassword";
     }

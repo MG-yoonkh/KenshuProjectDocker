@@ -8,7 +8,7 @@
         <ul>
           <li th:classappend="${header} == 'index' ? 'active'"><a th:href="@{/index}">ホーム</a></li>
           <li class="incomplete" sec:authorize="isAuthenticated()"><a th:href="@{/recipe/write}">レシピ投稿</a></li>
-          <li class="incomplete" sec:authorize="isAuthenticated()"><a th:href="@{/myPage}">マイページ</a></li>
+          <li class="incomplete" sec:authorize="isAuthenticated()"><a th:href="@{/mypage}">マイページ</a></li>
           <li class="incomplete" sec:authorize="isAuthenticated()"><a th:href="@{/adminPage}" >管理者ページ</a></li>
           <li class="needCheck" sec:authorize="isAnonymous()"><a th:href="@{/signin}" >会員登録</a></li>
           <li>

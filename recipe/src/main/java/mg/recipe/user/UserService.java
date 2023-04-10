@@ -46,13 +46,8 @@ public class UserService {
 
 
 
-    public void updateUser(Integer userId, SiteUser updateUser){
-        SiteUser user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("ユーザー情報が見つかりません。"));
-
-        user.setUsername(updateUser.getUsername());
-        user.setEmail(updateUser.getEmail());
-        user.setPassword(updateUser.getPassword());
-
-        userRepository.save(user);
+    public void updateNickname(SiteUser user,String newNickname){
+        user.setUsername(newNickname);
+        this.userRepository.save(user);
     }
 }

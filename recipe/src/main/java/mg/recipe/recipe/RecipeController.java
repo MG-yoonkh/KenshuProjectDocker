@@ -155,8 +155,10 @@ public class RecipeController {
     }
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/recipe/modify/{id}")
-    public String recipeModify(@Valid RecipeForm recipeForm, BindingResult bindingResult,
-                               Principal principal, @PathVariable Integer id){
+    public String recipeModify(@Valid RecipeForm recipeForm,
+                               BindingResult bindingResult,
+                               Principal principal,
+                               @PathVariable Integer id){
         if(bindingResult.hasErrors()){
             return "writeRecipe";
         }
