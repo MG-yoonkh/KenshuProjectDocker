@@ -1,7 +1,9 @@
 package mg.recipe.user;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import mg.recipe.DataNotFoundException;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -24,12 +26,33 @@ public class UserService {
         return user;
     }
 
-    public SiteUser getUser(String username){
+    public SiteUser getUserById(Integer id){
+        Optional<SiteUser> siteUser = this.userRepository.findById(id);
+        if(siteUser.isPresent()){
+            return siteUser.get();
+        } else{
+            throw new DataNotFoundException("ユーザー情報が見つかりません。");
+        }
+    }
+
+    public SiteUser getUserByUsername(String username){
         Optional<SiteUser> siteUser = this.userRepository.findByusername(username);
         if(siteUser.isPresent()){
             return siteUser.get();
         } else{
             throw new DataNotFoundException("ユーザー情報が見つかりません。");
         }
+    }
+
+
+
+    public void updateUser(Integer userId, SiteUser updateUser){
+        SiteUser user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("ユーザー情報が見つかりません。"));
+
+        user.setUsername(updateUser.getUsername());
+        user.setEmail(updateUser.getEmail());
+        user.setPassword(updateUser.getPassword());
+
+        userRepository.save(user);
     }
 }

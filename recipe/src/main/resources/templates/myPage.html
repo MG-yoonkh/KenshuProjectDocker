@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html layout:decorate="~{layout}">
-
-<div layout:fragment="content">
-  <header th:replace="~{header :: headerFragment}"></header>
+  <div layout:fragment="content">
+    <header th:replace="~{header :: headerFragment}"></header>
 
     <main>
       <div class="container my-5">
@@ -19,54 +18,36 @@
           <!-- マイページ -->
           <div class="col-md-10">
             <!-- 個人情報出力 -->
-            <div class="row p-3 text-center" id="item-1"> <!-- NAV LINK Loacation 修正必要 -->
-              <div
-                data-bs-spy="scroll"
-                data-bs-target="navbar-myPage"
-                data-bs-offset="0"
-                tabindex="0"
-              >
-                <h2 class="p-3">個人情報</h2>
-                <div class="row">
-                  <div class="col-md-6">
-
-                    <div class="container text-center">
-                      <ul class="list-group p-3">
-                        <li class="list-group-item">
-                          <strong>ニックネーム</strong>
-                        </li>
-                        <li class="list-group-item">yoon</li>
-                        <li class="list-group-item">
-                          <a href="reNickname" class="btn btn-dark"
-                            >ニックネーム変更</a
-                          >
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <ul class="list-group">
-                      <li class="list-group-item">
-                        <strong>メールアドレス</strong>
-                      </li>
-                      <li class="list-group-item">user1@example.com</li>
-                      <li class="list-group-item">
-                        <a href="rePassword" class="btn btn-dark"
-                          >パスワード変更</a
-                        >
-                      </li>
-
-                      <li class="list-group-item"><strong>誕生日</strong></li>
-                      <li class="list-group-item">1990年1月1日</li>
-                      <li class="list-group-item"><strong>電話番号</strong></li>
-                      <li class="list-group-item">080-1234-5678</li>
-                      <li class="list-group-item">
-                        <a href="rePhoneNum" class="btn btn-dark"
-                          >電話番号変更</a
-                        >
-                      </li>
-                    </ul>
-                  </div>
+            <div class="row p-3 text-center justify-content-center" id="item-1">
+              <div class="col-md-6">
+                <!-- NAV LINK Loacation 修正必要 -->
+                <div
+                  data-bs-spy="scroll"
+                  data-bs-target="navbar-myPage"
+                  data-bs-offset="0"
+                  tabindex="0"
+                >
+                  <h2 class="p-3">個人情報</h2>
+                  <ul class="list-group p-3">
+                    <li class="list-group-item">
+                      <strong>ニックネーム</strong>
+                    </li>
+                    <li class="list-group-item">yoon</li>
+                    <li class="list-group-item">
+                      <a th:href="@{myPage/reNickname}" class="btn btn-dark"
+                        >ニックネーム変更</a
+                      >
+                    </li>
+                    <li class="list-group-item">
+                      <strong>メールアドレス</strong>
+                    </li>
+                    <li class="list-group-item">user1@example.com</li>
+                    <li class="list-group-item">
+                      <a th:href="@{/myPage/rePassword}" class="btn btn-dark"
+                        >パスワード変更</a
+                      >
+                    </li>
+                  </ul>
                 </div>
               </div>
             </div>

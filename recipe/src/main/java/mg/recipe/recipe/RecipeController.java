@@ -104,7 +104,7 @@ public class RecipeController {
         }
 
         // レシピ登録
-        SiteUser siteUser = this.userService.getUser(principal.getName());
+        SiteUser siteUser = this.userService.getUserByUsername(principal.getName());
         Recipe recipe = this.recipeService.create(recipeForm,siteUser);
 
         // 材料を登録
@@ -136,11 +136,6 @@ public class RecipeController {
         return "writeRecipe";
     }
 
-
-    @GetMapping("/myPage")
-    public String myPage() {
-        return "myPage";
-    }
 
     @GetMapping("/adminPage")
     public String adminPage() {
@@ -188,7 +183,7 @@ public class RecipeController {
     @GetMapping("/recipe/vote/{id}")
     public String recipeVote(Principal principal, @PathVariable("id") Integer id){
         Recipe recipe = this.recipeService.getRecipe(id);
-        SiteUser siteUser = this.userService.getUser(principal.getName());
+        SiteUser siteUser = this.userService.getUserByUsername(principal.getName());
         this.recipeService.vote(recipe,siteUser);
         return String.format("redirect:/recipe/detail/%s",id);
     }

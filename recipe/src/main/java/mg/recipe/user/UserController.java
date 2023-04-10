@@ -6,9 +6,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.Map;
 
 @Controller
@@ -70,4 +72,19 @@ public class UserController {
 //        return "login";
 //    }
 
+    @GetMapping("/myPage")
+    public String modifyUserForm(Model model, Principal principal){
+
+        SiteUser user = this.userService.getUserByUsername(principal.getName());
+        model.addAttribute("user",user);
+        return "myPage";
+    }
+    @GetMapping("/myPage/reNickname")
+    public String modifyNickNameForm(){
+        return "reNickname";
+    }
+    @GetMapping("/myPage/rePassword")
+    public String modifyPasswordForm(){
+        return "rePassword";
+    }
 }
