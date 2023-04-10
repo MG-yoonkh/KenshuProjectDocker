@@ -1,4 +1,5 @@
 .recipe_list .card {
+  background-color: var(--selectColor-background);
   margin-bottom: 10px;
 }
 
@@ -130,4 +131,8 @@
 .image-container {
   position: relative;
   display: inline-block;
+}
+
+#search_category {
+  background-color: white;
 }
