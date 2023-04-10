@@ -137,14 +137,27 @@
           <div class="container mt-3">
             <div class="recipe_list">
               <div class="row p-2">
-                <div class="col-sm-12" th:if="${not #strings.isEmpty(kw)}" >
+                <div class="col-sm-12" th:if="${not #strings.isEmpty(kw)} and ${#strings.isEmpty(category)}  and ${#strings.isEmpty(cookTime)} and ${#strings.isEmpty(budget)}" >
                   <h3 th:text="@{|「${kw}」の検索結果|}"></h3>
                   <h6 th:text="@{| レシピ ${paging.totalElements}件 見つかりました。|}"></h6>
                 </div>
-                <div class="col-sm-12" th:if="${not #strings.isEmpty(category)}" >
+                <div class="col-sm-12" th:if="${not #strings.isEmpty(category)} and ${not #strings.isEmpty(kw)}" >
+                  <h3 th:text="@{|「${kw}」と「${category}」の検索結果|}"></h3>
+                  <h6 th:text="@{| レシピ ${paging.totalElements}件 見つかりました。|}"></h6>
+                </div>
+                <div class="col-sm-12" th:if="${not #strings.isEmpty(category)} and ${#strings.isEmpty(kw)}" >
                   <h3 th:text="@{|「${category}」の検索結果|}"></h3>
                   <h6 th:text="@{| レシピ ${paging.totalElements}件 見つかりました。|}"></h6>
                 </div>
+                <div class="col-sm-12" th:if="${not #strings.isEmpty(cookTime)}" >
+                  <h3 th:text="@{|「${cookTime}」分以内レシピの検索結果|}"></h3>
+                  <h6 th:text="@{| レシピ ${paging.totalElements}件 見つかりました。|}"></h6>
+                </div>
+                <div class="col-sm-12" th:if="${not #strings.isEmpty(budget)}" >
+                  <h3 th:text="@{|「${budget}」円以内レシピの検索結果|}"></h3>
+                  <h6 th:text="@{| レシピ ${paging.totalElements}件 見つかりました。|}"></h6>
+                </div>
+
 <!--                <div class="col-sm-12" th:if="${#strings.isEmpty(kw)}" >-->
 <!--                  <h3>レシピリスト</h3>-->
 <!--                </div>-->
