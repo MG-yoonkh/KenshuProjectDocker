@@ -147,12 +147,20 @@
                   <h3 th:text="@{|「${category}」の検索結果|}"></h3>
                   <h6 th:text="@{| レシピ ${paging.totalElements}件 見つかりました。|}"></h6>
                 </div>
-                <div class="col-sm-12" th:if="${not #strings.isEmpty(cookTime)}" >
-                  <h3 th:text="@{|「${cookTime}」分以内レシピの検索結果|}"></h3>
+                <div class="col-sm-12" th:if="${not #strings.isEmpty(cookTime)} and ${not #strings.isEmpty(kw)}" >
+                  <h3 th:text="@{|「${cookTime}分以内」レシピの検索結果|}"></h3>
                   <h6 th:text="@{| レシピ ${paging.totalElements}件 見つかりました。|}"></h6>
                 </div>
-                <div class="col-sm-12" th:if="${not #strings.isEmpty(budget)}" >
-                  <h3 th:text="@{|「${budget}」円以内レシピの検索結果|}"></h3>
+                <div class="col-sm-12" th:if="${not #strings.isEmpty(cookTime)} and ${#strings.isEmpty(kw)}" >
+                  <h3 th:text="@{|「${cookTime}分以内」レシピの検索結果|}"></h3>
+                  <h6 th:text="@{| レシピ ${paging.totalElements}件 見つかりました。|}"></h6>
+                </div>
+                <div class="col-sm-12" th:if="${not #strings.isEmpty(budget)} and ${not #strings.isEmpty(kw)}" >
+                  <h3 th:text="@{|「${budget}円以内」レシピの検索結果|}"></h3>
+                  <h6 th:text="@{| レシピ ${paging.totalElements}件 見つかりました。|}"></h6>
+                </div>
+                <div class="col-sm-12" th:if="${not #strings.isEmpty(budget)} and ${#strings.isEmpty(kw)}" >
+                  <h3 th:text="@{|「${budget}円以内」レシピの検索結果|}"></h3>
                   <h6 th:text="@{| レシピ ${paging.totalElements}件 見つかりました。|}"></h6>
                 </div>
 
