@@ -53,74 +53,32 @@
               </div>
               <!-- 調理時間、カロリー、カテゴリ -->
               <div class="row justify-content-center text-center">
-                <div class="col-md-2">
+                <div class="col-md-2 form-group">
+                  <label for="" class="p-2">
+                    <h3>カテゴリ</h3>
+                  </label>
+                  <select class="form-select" th:field="*{category}" id="write_category">
+                    <option value="韓国料理" selected>韓国料理</option>
+                    <option value="日本料理">日本料理</option>
+                    <option value="中華料理">中華料理</option>
+                    <option value="西洋料理">西洋料理</option>
+                  </select>
+                </div>
+                <div class="col-md-2 form-group">
                   <label for="" class="p-2">
                     <h3>調理時間</h3>
                   </label>
                   <div class="row justify-content-center">
-                    <div class="col-md-6">
-                      <div class="dropdown">
-                        <button
-                          class="btn btn-secondary dropdown-toggle"
-                          type="button"
-                          data-bs-toggle="dropdown"
-                          aria-expanded="false"
-                        >
-                          時間
-                        </button>
-                        <ul class="dropdown-menu">
-                          <li>
-                            <a class="dropdown-item" href="#">0時間</a>
-                          </li>
-                          <li>
-                            <a class="dropdown-item" href="#">1時間</a>
-                          </li>
-                          <li>
-                            <a class="dropdown-item" href="#">2時間</a>
-                          </li>
-                          <li>
-                            <a class="dropdown-item" href="#">3時間</a>
-                          </li>
-                          <li>
-                            <a class="dropdown-item" href="#">4時間</a>
-                          </li>
-                          <li>
-                            <a class="dropdown-item" href="#">5時間</a>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="dropdown">
-                        <button
-                          class="btn btn-secondary dropdown-toggle"
-                          type="button"
-                          data-bs-toggle="dropdown"
-                          aria-expanded="false"
-                        >
-                          分
-                        </button>
-                        <ul class="dropdown-menu">
-                          <li>
-                            <a class="dropdown-item" href="#">00分</a>
-                          </li>
-                          <li>
-                            <a class="dropdown-item" href="#">10分</a>
-                          </li>
-                          <li>
-                            <a class="dropdown-item" href="#">20分</a>
-                          </li>
-                          <li>
-                            <a class="dropdown-item" href="#">30分</a>
-                          </li>
-                          <li>
-                            <a class="dropdown-item" href="#">40分</a>
-                          </li>
-                          <li>
-                            <a class="dropdown-item" href="#">50分</a>
-                          </li>
-                        </ul>
-                      </div>
+                    <div class="col-md-auto">
+                      <select class="form-select" th:field="*{cookTime}" id="write_cookTime">
+                        <option value="10" selected>10分</option>
+                        <option value="20">20分</option>
+                        <option value="30">30分</option>
+                        <option value="40">40分</option>
+                        <option value="50">50分</option>
+                        <option value="60">60分</option>
+                        <option value="61">60分以上</option>
+                      </select>
                     </div>
                   </div>
                 </div>
@@ -128,34 +86,16 @@
                   <label for="" class="p-2">
                     <h3>予算</h3>
                   </label>
-                  <input
-                    type="text"
-                    class="form-control p-2"
-                    placeholder="kcal"
-                  />
-                </div>
-                <div class="col-md-2">
-                  <label for="" class="p-2">
-                    <h3>カテゴリー</h3>
-                    <div
-                      class="btn-group btn-group-sm p-2"
-                      role="group"
-                      aria-label="Basic outlined example"
-                    >
-                      <button type="button" class="btn btn-outline-secondary">
-                        韓国料理
-                      </button>
-                      <button type="button" class="btn btn-outline-secondary">
-                        日本料理
-                      </button>
-                      <button type="button" class="btn btn-outline-secondary">
-                        中華料理
-                      </button>
-                      <button type="button" class="btn btn-outline-secondary">
-                        西洋料理
-                      </button>
-                    </div>
-                  </label>
+                  <div class="col-md-auto">
+                    <select class="form-select" th:field="*{budget}" id="write_budget">
+                      <option value="100" selected>100円以内</option>
+                      <option value="500">101~500円</option>
+                      <option value="1000">501~1000円</option>
+                      <option value="2000">1000~2000円</option>
+                      <option value="5000">2000~5000円</option>
+                      <option value="5001">5000円以上</option>
+                    </select>
+                  </div>
                 </div>
               </div>
 

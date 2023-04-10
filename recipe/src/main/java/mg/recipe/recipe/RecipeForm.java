@@ -14,6 +14,10 @@ public class RecipeForm {
 
     private String ingredient;
 
+    private String category;
+    private String cookTime;
+    private String budget;
+
     private String instruction;
 
     private String thumbnail;
