@@ -6,6 +6,7 @@ import mg.recipe.ingredientCategory.IngredientCategoryRepository;
 import mg.recipe.ingredientCategory.IngredientCategoryService;
 import mg.recipe.measurementUnit.MeasurementUnit;
 import mg.recipe.measurementUnit.MeasurementUnitRepository;
+import mg.recipe.recipe.Recipe;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -76,8 +77,22 @@ public class IngredientController {
 
     @PostMapping("/sub")
     @ResponseBody
-    public List<IngredientCategory> yourMethod(@RequestParam Integer parentId) {
-        return this.ingredientCategoryService.getSubList(parentId, 1);
+    public List<IngredientCategory> getSubList(@RequestParam Integer parentId) {
+        List<IngredientCategory> icList = this.ingredientCategoryService.getSubList(parentId, 1);
+        for(IngredientCategory vo : icList) {
+            System.out.println(vo.getName().toString());
+        }
+        return icList;
+    }
+
+    @PostMapping("/ing")
+    @ResponseBody
+    public List<IngredientCategory> getIngList(@RequestParam Integer subId) {
+        List<IngredientCategory> icList = this.ingredientCategoryService.getSubList(subId, 1);
+        for(IngredientCategory vo : icList) {
+            System.out.println(vo.getName().toString());
+        }
+        return icList;
     }
 
     @PostMapping("/test")

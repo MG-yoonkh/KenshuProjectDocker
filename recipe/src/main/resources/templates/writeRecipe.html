@@ -136,10 +136,6 @@
                               <label for="sub-category-dropdown" class="form-label">詳細カテゴリー</label>
                               <select class="form-select" id="sub-category-dropdown" name="subCategoryId" >
                                 <option value="">選択してください</option>
-                                <option th:each="subCategory : ${subCategories}"
-                                        th:value="${subCategory.id}"
-                                        th:text="${subCategory.name}"
-                                ></option>
                               </select>
                             </div>
 
@@ -157,13 +153,13 @@
                               <label for="unit-dropdown" class="form-label">計量</label>
                               <select class="form-select" id="unit-dropdown" name="measurementUnitId" >
                                 <option value="">選択してください</option>
+                                <option value="direct">直接入力する</option>
                                 <option>1/2</option>
                                 <option>1/3</option>
                                 <option>2/3</option>
                                 <option>1</option>
                                 <option>10</option>
                                 <option>100</option>
-                                <option value="direct">入力</option>
                               </select>
                               <input type="text" id="unitDirect" name="unitDirect"/>
                             </div>
@@ -189,6 +185,9 @@
                                 <table class="table-ing">
                                   <tr>
                                     <td class="table-ing-title" colspan="3">選択された材料</td>
+                                  </tr>
+                                  <tr>
+                                    <td>------</td>
                                   </tr>
                                   <tr>
                                     <td>サーロイン(牛, 肉類)</td>
@@ -349,40 +348,55 @@
     </footer>
   </div>
   <script layout:fragment="script" type='text/javascript'>
-
-  var token = $("meta[name='_csrf']").attr("content");
+var token = $("meta[name='_csrf']").attr("content");
   var header = $("meta[name='_csrf_header']").attr("content");
   $(document).ajaxSend(function(e, xhr, options) { xhr.setRequestHeader(header, token); });
 
+// 直接入力
+$(function(){
+  $("#unitDirect").hide(); // Input Hidden
+  $("#unit-dropdown").change(function() {
+      if($("#unit-dropdown").val() == "direct") { // 入力をセレクトすると、
+          $("#unitDirect").show(); // Input Display
+      }  else {
+          $("#unitDirect").hide(); // Input Hidden
+      }
+    })
+});
 
-  // 直接入力
-  $(function(){
-    $("#unitDirect").hide(); // Input Hidden
-    $("#unit-dropdown").change(function() {
-        if($("#unit-dropdown").val() == "direct") { // 入力をセレクトすると、
-            $("#unitDirect").show(); // Input Display
-        }  else {
-            $("#unitDirect").hide(); // Input Hidden
-        }
-      })
-  });
-
+// 詳細カテゴリー
 $(document).ready(function() {
     $("#main-category-dropdown").change(function() {
         var parentId = $(this).val();
+        console.log("parentId: " + parentId);
         $.ajax({
             type: "POST",
             url: "/ingredient/sub",
             data: { parentId: parentId },
             dataType: "json",
             success: function(response) {
-                // Clear the list of categories
+                // 詳細カテゴリーを削除
                 $("#sub-category-dropdown").empty();
 
-                // Add each category to the list
-                $.each(response, function(index, category) {
-                    var option = $("<option>").text(category.name).attr("value", category.id);
+                // 詳細カテゴリーをリストに入れる
+                $.each(response, function(index, subcategory) {
+                    // 詳細カテゴリーがメインカテゴリーと一緒
+                    if(subcategory.level == 0 && index == 0) {
+                      var option = $("<option>").text("-").attr("value", subcategory.id);
+                      $("#sub-category-dropdown").append(option);
+                    }
+
+                    // 「選択してください」を入れる
+                    if(subcategory.level == 1 && index == 0) {
+                      var option = $("<option>").text("選択してください").attr("value", subcategory.id);
+                      $("#sub-category-dropdown").append(option);
+                    }
+
+                    // 詳細カテゴリー出力
+                    if(subcategory.level == 1) {
+                    var option = $("<option>").text(subcategory.name).attr("value", subcategory.id);
                     $("#sub-category-dropdown").append(option);
+                    }
                 });
             },
             error: function(xhr, textStatus, errorThrown) {
@@ -393,18 +407,41 @@ $(document).ready(function() {
 });
 
 $(document).ready(function() {
-    $("#myButton").click(function() {
+    $("#sub-category-dropdown").change(function() {
+        var categoryId = $(this).val();
+        console.log("categoryId: " + categoryId);
         $.ajax({
             type: "POST",
-            url: "/ingredient/test",
-            data: { name: "some data" },
+            url: "/ingredient/ing",
+            data: { categoryId: categoryId },
+            dataType: "json",
             success: function(response) {
-                console.log("Ajax request succeeded!");
-                console.log(response);
+                // 詳細カテゴリーを削除
+                $("#sub-category-dropdown").empty();
+
+                // 詳細カテゴリーをリストに入れる
+                $.each(response, function(index, subcategory) {
+                    // 詳細カテゴリーがメインカテゴリーと一緒
+                    if(subcategory.level == 0 && index == 0) {
+                      var option = $("<option>").text("-").attr("value", subcategory.id);
+                      $("#sub-category-dropdown").append(option);
+                    }
+
+                    // 「選択してください」を入れる
+                    if(subcategory.level == 1 && index == 0) {
+                      var option = $("<option>").text("選択してください").attr("value", subcategory.id);
+                      $("#sub-category-dropdown").append(option);
+                    }
+
+                    // 詳細カテゴリー出力
+                    if(subcategory.level == 1) {
+                    var option = $("<option>").text(subcategory.name).attr("value", subcategory.id);
+                    $("#sub-category-dropdown").append(option);
+                    }
+                });
             },
             error: function(xhr, textStatus, errorThrown) {
-                console.log("Ajax request failed!");
-                console.log(errorThrown);
+                console.log("Error: " + errorThrown);
             }
         });
     });
@@ -413,36 +450,36 @@ $(document).ready(function() {
 
 
 
-<!--  $(document).ready(function() {-->
-<!--    $('#main-category-dropdown').on('change', function() {-->
-<!--      var parentId = $(this).val();-->
 
-<!--      $.ajax({-->
-<!--        type: "GET",-->
-<!--        url: "/ingredient/sub",-->
-<!--        data: {-->
-<!--            parentId: parentId-->
-<!--        },-->
-<!--        success: function(result){-->
-<!--          var subCategories = result.subCategories;-->
 
-<!--          var subCategoryDropdown = $('#sub-category-dropdown');-->
 
-<!--          subCategoryDropdown.find('option').remove();-->
 
-<!--          subCategoryDropdown.append('<option value="">選択してください</option>');-->
 
-<!--          subCategories.forEach(function(subCategory) {-->
-<!--            subCategoryDropdown.append('<option value="' + subCategory.id + '">' + subCategory.name + '</option>');-->
-<!--          });-->
-<!--        },-->
-<!--        error: function(){-->
-<!--            // handle error-->
-<!--        }-->
-<!--      });-->
 
+
+
+
+<!--$(document).ready(function() {-->
+<!--    $("#myButton").click(function() {-->
+<!--        $.ajax({-->
+<!--            type: "POST",-->
+<!--            url: "/ingredient/test",-->
+<!--            data: { name: "some data" },-->
+<!--            success: function(response) {-->
+<!--                console.log("Ajax request succeeded!");-->
+<!--                console.log(response);-->
+<!--            },-->
+<!--            error: function(xhr, textStatus, errorThrown) {-->
+<!--                console.log("Ajax request failed!");-->
+<!--                console.log(errorThrown);-->
+<!--            }-->
+<!--        });-->
 <!--    });-->
-<!--  });-->
+<!--});-->
+
+
+
+
 
 
   </script>

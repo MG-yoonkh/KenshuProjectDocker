@@ -38,7 +38,12 @@
 <th:block layout:fragment="content"></th:block>
 <!-- 기본 템플릿 안에 삽입될 내용 End -->
 
-<th:block layout:fragment="script"></th:block>
+<th:block layout:fragment="script">
+  var token = $("meta[name='_csrf']").attr("content");
+  var header = $("meta[name='_csrf_header']").attr("content");
+  $(document).ajaxSend(function(e, xhr, options) { xhr.setRequestHeader(header, token); });
+
+</th:block>
 
 
 

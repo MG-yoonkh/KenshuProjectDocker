@@ -5,6 +5,7 @@ import mg.recipe.recipe.Recipe;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -25,11 +26,16 @@ public class IngredientCategoryService {
     // 詳細カテゴリ
     public List<IngredientCategory> getSubList(Integer parentId, Integer level) {
         List<IngredientCategory> icList = this.ingredientCategoryRepository.findByParentIdAndLevel(parentId, level);
+        if (icList.isEmpty()) {
+            icList = this.ingredientCategoryRepository.findByParentId(parentId);
+        }
         return icList;
     }
 
     public List<IngredientCategory> findAll() {
         return this.ingredientCategoryRepository.findAll();
     }
+
+
 
 }

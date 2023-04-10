@@ -21,5 +21,6 @@ public interface IngredientCategoryRepository  extends JpaRepository<IngredientC
     // Query("SELECT ic FROM IngredientCategory ic WHERE ic.parentId = :parentId AND ic.level = :level")
     List<IngredientCategory> findByParentIdAndLevel(Integer parentId, Integer level);
 
+    List<IngredientCategory> findByParentId(Integer parentId);
 
 }
