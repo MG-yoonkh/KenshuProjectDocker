@@ -1,5 +1,6 @@
 <html layout:decorate="~{layout}">
   <div layout:fragment="content">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/writeRecipe.css}" />
     <header th:replace="~{header :: headerFragment}"></header>
     <main>
       <div class="container-fluid">
@@ -110,92 +111,121 @@
                   <h1 class="p-2">材料</h1>
                 </label>
                 <div class="col-md-6 text-center">
-                  <div class="form-group">
+                  <div class="">
+
+                    <!-- Modal ボタン -->
+                    <div class="modal-div">
+                      <button type="button" class="btn modal-ing" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                        クリックして材料をのせる
+                      </button>
+                    </div>
 
                     <!-- Modal -->
-                    <div class="modal fade" id="staticBackdrop" tabindex="-1" aria-labelledby="staticBackdrop" aria-hidden="true">
-                      <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
+                    <div class="modal fade modal-fullsize modal-center" id="staticBackdrop" tabindex="-1" aria-labelledby="staticBackdrop" aria-hidden="true">
+                      <div class="modal-dialog modal-fullsize modal-center modal-lg" style="width: 800px;">
+                        <div class="modal-content modal-fullsize">
                           <div class="modal-header">
                             <h5 class="modal-title" id="staticBackdrop">材料</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                           </div>
                           <div class="modal-body">
-                            <form method="post" th:action="@{/ingredient/search}" >
 
-                              <div class="mb-3">
-                                <label for="main-category-dropdown" class="form-label">メインカテゴリー</label>
-                                <select class="form-select" id="main-category-dropdown" name="mainCategoryId" >
-                                  <option value="">選択してください</option>
-                                  <option th:each="mainCategory : ${mainCategories}"
-                                          th:value="${mainCategory.parent.id}"
-                                          th:text="${mainCategory.name}" ></option>
-                                </select>
+                            <div class="row">
+                              <div class="col-md-6">
+                                  <div class="mb-3">
+                                    <label for="main-category-dropdown" class="form-label">メインカテゴリー</label>
+                                    <select class="form-select" id="main-category-dropdown" name="mainCategoryId" >
+                                      <option value="">選択してください</option>
+                                      <option th:each="mainCategory : ${mainCategories}"
+                                              th:value="${mainCategory.parent.id}"
+                                              th:text="${mainCategory.name}" ></option>
+                                    </select>
+                                  </div>
+                                  <div class="mb-3">
+                                    <label for="sub-category-dropdown" class="form-label">詳細カテゴリー</label>
+                                    <select class="form-select" id="sub-category-dropdown" name="subCategoryId" >
+                                      <option value="">選択してください</option>
+                                      <option th:each="subCategory : ${subCategories}"
+                                              th:value="${subCategory.id}"
+                                              th:text="${subCategory.name}"
+                                      ></option>
+                                    </select>
+                                  </div>
+
+                                  <div class="mb-3">
+                                    <label for="ingredient-dropdown" class="form-label">材料</label>
+                                    <select class="form-select" id="ingredient-dropdown" name="name" >
+                                      <option value="">選択してください</option>
+                                      <option th:each="ingredient : ${ingredients}"
+                                              th:value="${ingredient.id}"
+                                              th:text="${ingredient.name}"
+                                      ></option>
+                                    </select>
+                                  </div>
+                                  <div class="mb-3">
+                                    <label for="unit-dropdown" class="form-label">計量</label>
+                                    <select class="form-select" id="unit-dropdown" name="measurementUnitId" >
+                                      <option value="">選択してください</option>
+                                      <option>1/2</option>
+                                      <option>1/3</option>
+                                      <option>2/3</option>
+                                      <option>1</option>
+                                      <option>10</option>
+                                      <option>100</option>
+                                      <option value="direct">入力</option>
+                                    </select>
+                                    <input type="text" id="unitDirect" name="unitDirect"/>
+                                  </div>
+                                  <div class="mb-3">
+                                    <label for="unit-dropdown" class="form-label">単位</label>
+                                    <select class="form-select" id="unit-dropdown" name="measurementUnitId" >
+                                      <option value="">選択してください</option>
+                                      <option th:each="unit : ${units}"
+                                              th:value="${unit.id}"
+                                              th:text="${unit.name}"
+                                      ></option>
+                                    </select>
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                                    <button type="submit" class="btn btn-primary">追加</button>
+                                  </div>
+                              </div>
+                              <!-- 追加された材料リスト -->
+                              <div class="col-md-6">
+                                <form method="post" th:action="@{/ingredient/search}" >
+                                  <div class="mb-3">
+                                    <table class="table-ing">
+                                      <tr>
+                                        <td class="table-ing-title" colspan="3">選択された材料</td>
+                                      </tr>
+                                      <tr>
+                                        <td>サーロイン(牛, 肉類)</td>
+                                        <td class="table-ing-qty">100</td>
+                                        <td class="table-ing-unit">g</td>
+                                        <td class="table-ing-unit"><button class="">X</button></td>
+                                      </tr>
+                                      <tr>
+                                        <td>ヒレ(豚, 肉類)</td>
+                                        <td class="table-ing-qty">100</td>
+                                        <td class="table-ing-unit">g</td>
+                                        <td class="table-ing-unit"><button class="">X</button></td>
+                                      </tr>
+                                    </table>
+                                  </div>
+
+                                  <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary">保存</button>
+                                  </div>
+                                </form>
                               </div>
 
-                              <div class="mb-3">
-                                <label for="sub-category-dropdown" class="form-label">詳細カテゴリー</label>
-                                <select class="form-select" id="sub-category-dropdown" name="subCategoryId" >
-                                  <option value="">選択してください</option>
-                                  <option th:each="subCategory : ${subCategories}"
-                                          th:value="${subCategory.id}"
-                                          th:text="${subCategory.name}"
-                                          ></option>
-                                </select>
-                              </div>
+                            </div>
 
-                              <div class="mb-3">
-                                <label for="ingredient-dropdown" class="form-label">材料</label>
-                                <select class="form-select" id="ingredient-dropdown" name="name" >
-                                  <option value="">選択してください</option>
-                                  <option th:each="ingredient : ${ingredients}"
-                                          th:value="${ingredient.id}"
-                                          th:text="${ingredient.name}"
-                                  ></option>
-                                </select>
-                              </div>
-                              <div class="mb-3">
-                                <label for="unit-dropdown" class="form-label">計量</label>
-                                <select class="form-select" id="unit-dropdown" name="measurementUnitId" >
-                                  <option value="">選択してください</option>
-                                  <option>1/2</option>
-                                  <option>1/3</option>
-                                  <option>2/3</option>
-                                  <option>1</option>
-                                  <option>10</option>
-                                  <option>100</option>
-                                  <option value="direct">入力</option>
-                                </select>
-                                <input type="text" id="unitDirect" name="unitDirect"/>
-                              </div>
-                              <div class="mb-3">
-                                <label for="unit-dropdown" class="form-label">単位</label>
-                                <select class="form-select" id="unit-dropdown" name="measurementUnitId" >
-                                  <option value="">選択してください</option>
-                                  <option th:each="unit : ${units}"
-                                          th:value="${unit.id}"
-                                          th:text="${unit.name}"
-                                  ></option>
-                                </select>
-                              </div>
-                              <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-                                <button type="submit" class="btn btn-primary">追加</button>
-                              </div>
-                            </form>
                           </div>
                         </div>
                       </div>
                     </div>
-
-
-                    <div class="modal-div">
-                      <!-- Button trigger modal -->
-                      <button type="button" class="btn modal-ing" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                        材料を追加します。
-                      </button>
-                    </div>
-
 
                 </div>
               </div>
