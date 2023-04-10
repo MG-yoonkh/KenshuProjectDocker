@@ -141,9 +141,13 @@
                   <h3 th:text="@{|「${kw}」の検索結果|}"></h3>
                   <h6 th:text="@{| レシピ ${paging.totalElements}件 見つかりました。|}"></h6>
                 </div>
-                <div class="col-sm-12" th:if="${#strings.isEmpty(kw)}" >
-                  <h3>レシピリスト</h3>
+                <div class="col-sm-12" th:if="${not #strings.isEmpty(category)}" >
+                  <h3 th:text="@{|「${category}」の検索結果|}"></h3>
+                  <h6 th:text="@{| レシピ ${paging.totalElements}件 見つかりました。|}"></h6>
                 </div>
+<!--                <div class="col-sm-12" th:if="${#strings.isEmpty(kw)}" >-->
+<!--                  <h3>レシピリスト</h3>-->
+<!--                </div>-->
               </div>
 
               <div class="row p-2">

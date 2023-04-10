@@ -204,21 +204,27 @@ footer {
 }
 
 .modal-ing {
-  width: 430px;
+  width: 668px;
   height:120px;
   font-style: bold;
   border-style: dotted;
   border-color: yellow;
   border: 5px solid black;
+  font-size: 40px;
+    font-family: "Roboto", sans-serif;
+    font-weight: bold;
+    z-index: 11;
 }
 
 .modal-div {
   border-style: dotted;
   border-color: yellow;
   border: 1px dotted black;
+  z-index: -100;
 }
 
 .modal-div button:hover {
   color: blue;
   text-decoration: none;
+
 }
