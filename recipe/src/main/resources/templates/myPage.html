@@ -32,7 +32,7 @@
                     <li class="list-group-item">
                       <strong>ニックネーム</strong>
                     </li>
-                    <li class="list-group-item" th:text="${username}"></li>
+                    <li class="list-group-item" th:text="${user.username}"></li>
                     <li class="list-group-item">
                       <a th:href="@{mypage/renickname}" class="btn btn-dark"
                         >ニックネーム変更</a
@@ -41,7 +41,7 @@
                     <li class="list-group-item">
                       <strong>メールアドレス</strong>
                     </li>
-                    <li class="list-group-item" th:text="${email}"></li>
+                    <li class="list-group-item" th:text="${user.email}"></li>
                     <li class="list-group-item">
                       <a th:href="@{/mypage/repassword}" class="btn btn-dark"
                         >パスワード変更</a
