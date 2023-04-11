@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -59,7 +60,7 @@ public class UserController {
     }
 
 
-
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/mypage")
     public String myPage(Model model, Principal principal){
 
@@ -67,19 +68,20 @@ public class UserController {
         model.addAttribute("user",user);
         return "myPage";
     }
-
-
-
-
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/mypage/renickname")
-    public String updateNicknameForm(@ModelAttribute("userCreateForm") UserCreateForm userCreateForm){
+    public String updateNicknameForm(Model model,
+                                     Principal principal){
+        SiteUser user = this.userService.getUserByUsername(principal.getName());
+        model.addAttribute("user",user);
         return "reNickname";
     }
     @PostMapping("/mypage/renickname/{id}")
     public String updateNickname(@PathVariable("id") Integer id,
-                                 @Validated UserCreateForm userCreateForm,
-                                 Principal principal,
-                                 BindingResult bindingResult){
+                                 @RequestParam("newNickname") String newNickname,
+                                 BindingResult bindingResult,
+                                 Principal principal
+                                 ){
         if(bindingResult.hasErrors()){
             return "reNickname";
         }
@@ -87,7 +89,7 @@ public class UserController {
         if(!user.getUsername().equals(principal.getName())){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "修正権限がありません。");
         }
-        this.userService.updateNickname(user, userCreateForm.getUsername2());
+        this.userService.updateNickname(user, newNickname);
 
         return String.format("redirect:/mypage/%s", id);
     }

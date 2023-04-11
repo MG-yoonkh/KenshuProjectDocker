@@ -5,15 +5,15 @@
   <header th:replace="~{header :: headerFragment}"></header>
   <div class="user_form_wrapper" style="width: 400px">
     <h1><i class="fa-solid fa-user"></i>ニックネーム変更</h1>
-    <form id="login_form" method="post" th:object="${userCreateForm}" >
+    <form id="login_form" method="post" th:action="@{|/mypage/renickname/${id}|}">
       <input
           type="hidden"
           th:name="${_csrf.parameterName}"
           th:value="${_csrf.token}"
       />
       <p>新しいニックネームを入力してくだたい</p>
-      <input type="text" class="form-control" th:field="${userCreateForm.username}" placeholder="現在ニックネーム" />
-      <input type="text" class="form-control" th:field="${userCreateForm.username2}" placeholder="新しいニックネーム" />
+      <input type="text" class="form-control" name="username" placeholder="現在ニックネーム" />
+      <input type="text" class="form-control" name="newNickname" placeholder="新しいニックネーム" />
       <div class="btn_area">
         <button type="submit" class="btn_submit">
           <span>ニックネームを変更する</span>
