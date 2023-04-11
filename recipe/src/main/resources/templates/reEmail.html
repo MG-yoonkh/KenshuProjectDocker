@@ -15,7 +15,7 @@
       <p>新しいE-Mailを入力してくだたい</p>
 
       <input type="email" class="form-control" id="newEmail" name="newEmail" placeholder="新しいE-Mail" />
-      <button type="button" id="checkEmailBtn">중복확인</button>
+      <button type="button" id="checkEmailBtn" >チェック</button>
       <div id="emailCheckResult" class="alert"></div>
       <div class="btn_area">
         <button type="submit" class="btn_submit">
@@ -28,22 +28,28 @@
 </div>
 <script type="text/javascript" src="js/login.js"></script>
 <script layout:fragment="script" type='text/javascript'>
+
 $(document).ready(function() {
     $("#checkEmailBtn").click(function() {
         var newEmail = $("#newEmail").val();
+        var emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!emailRegex.test(newEmail)) {
+            alert("正しいE-Mailを入力してください。");
+            return;
+        }
         $.ajax({
             type: "GET",
             url: "/check-email",
             data: { newEmail: newEmail },
             success: function(result) {
                 if (result) {
-                    $("#emailCheckResult").text("사용 가능한 이메일입니다.");
+                    $("#emailCheckResult").text("使用可能なE-Mailです。");
                 } else {
-                    $("#emailCheckResult").text("이미 등록된 이메일입니다.");
+                    $("#emailCheckResult").text("既に登録されたE-Mailです。");
                 }
             },
             error: function() {
-                alert("이메일 중복확인에 실패하였습니다.");
+                alert("チェック失敗しました。");
             }
         });
     });
