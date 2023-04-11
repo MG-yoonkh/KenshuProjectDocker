@@ -37,5 +37,7 @@ public class IngredientCategoryService {
     }
 
 
-
+    public IngredientCategory getIngredientCategory(Integer categoryId) {
+        return this.ingredientCategoryRepository.findByIngredientCategoryId(categoryId);
+    }
 }

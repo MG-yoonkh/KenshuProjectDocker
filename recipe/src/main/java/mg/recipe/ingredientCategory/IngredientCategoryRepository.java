@@ -23,4 +23,5 @@ public interface IngredientCategoryRepository  extends JpaRepository<IngredientC
 
     List<IngredientCategory> findByParentId(Integer parentId);
 
+    IngredientCategory findByIngredientCategoryId(Integer categoryId);
 }

@@ -14,11 +14,6 @@ public class UserCreateForm {
     @NotEmpty(message = "ニックネームは必須です。")
     private String username;
 
-    @Size(min = 3, max = 25)
-    @NotEmpty(message = "ニックネームは必須です。")
-    private String username2;
-
-
     @NotEmpty(message = "パスワードは必須です。")
     @Pattern(regexp = "(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{8,16}", message = "パスワードは8~16字アルファベット、数字、特集文字を入力してください。")
     private String password1;
