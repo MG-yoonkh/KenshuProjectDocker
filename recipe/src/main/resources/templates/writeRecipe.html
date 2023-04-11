@@ -1,256 +1,263 @@
 <html layout:decorate="~{layout}">
-  <div layout:fragment="content">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/writeRecipe.css}" />
-    <header th:replace="~{header :: headerFragment}"></header>
-    <main>
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-md-2"></div>
-          <div class="col-md-auto">
-            <form th:object="${recipeForm}" method="post" enctype="multipart/form-data">
-              <input
-                type="hidden"
-                th:name="${_csrf.parameterName}"
-                th:value="${_csrf.token}"
-              />
-              <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}" >
-                <div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
+<div layout:fragment="content">
+  <link rel="stylesheet" type="text/css" th:href="@{/css/writeRecipe.css}" />
+  <header th:replace="~{header :: headerFragment}"></header>
+  <main>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-auto">
+          <form th:object="${recipeForm}" method="post" enctype="multipart/form-data">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+            <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
+              <div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
+            </div>
+            <div class="row justify-content-center">
+              <div class="text-center" id="">
+                <h1 class="p-2">レシピ投稿</h1>
               </div>
-              <div class="row justify-content-center">
-                <div class="text-center" id="">
-                  <h1 class="p-2">レシピ投稿</h1>
-                </div>
-              </div>
-              <!-- レシピ名入力 -->
-              <div class="row justify-content-center">
-                <div class="col-md-8">
-                  <div class="row justify-content-center text-center p-5">
-                    <div class="col-md-3 ">
-                      <h4>タイトル</h4>
-                    </div>
-                    <div class="col-md-9">
-                      <input type="text" th:field="*{recipeName}" id="floatingInput" class="form-control" />
-                    </div>
+            </div>
+            <!-- レシピ名入力 -->
+            <div class="row justify-content-center">
+              <div class="col-md-7">
+                <div class="row justify-content-center text-center p-5">
+                  <!-- <div class="col-md-2 ">
+                    <h4>タイトル</h4>
+                  </div> -->
+                  <div class="col-md-8">
+                    <h4>タイトル</h4>
+                    <input type="text" th:field="*{recipeName}" id="floatingInput" class="form-control input-title" />
                   </div>
                 </div>
               </div>
-              <!-- イメージ -->
-              <div class="row justify-content-center">
-                <div class="col-md-8">
-                  <div class="row justify-content-center text-center p-5">
-                    <div class="col-md-3 ">
-                      <h4>イメージ</h4>
-                    </div>
-                    <div class="col-md-9">
-                      <input type="file" name="thumbFile" class="form-control" />
-                    </div>
+            </div>
+            <!-- イメージ -->
+            <div class="row justify-content-center">
+              <div class="col-md-7">
+                <div class="row justify-content-center text-center p-5">
+                  <!-- <div class="col-md-2 ">
+                    <h4>イメージ</h4>
+                  </div> -->
+                  <div class="col-md-8">
+                    <h5>イメージ: ドラッグ＆ドロップで登録</h5>
+                    <label class="label" id="label" for="input">
+                      <!-- Icon -->
+                      <div class="inner" id="inner">
+                        <img th:src="@{/assets/icon/dragndrop.png}" class="dragicon" alt="">
+                        <!-- イメージ preview-->
+                        <div class="preview" id="preview"></div>
+                      </div>
+                    </label>
+                    <!-- イメージファイル thumbFile-->
+                    <input id="input" class="input" accept="image/*" type="file" name="thumbFile" required="true" multiple="true"
+                      hidden="true">
+                      
                   </div>
                 </div>
               </div>
-              <div class="row justify-content-center p-5">
-                <div class="col-md-7">
-                  <hr />
-                </div>
+            </div>
+            
+            <div class="row justify-content-center p-5">
+              <div class="col-md-7">
+                <hr />
               </div>
-              <!-- 調理時間、カロリー、カテゴリ -->
-              <div class="row justify-content-center text-center">
-                <div class="col-md-2 form-group">
-                  <label for="" class="p-2">
-                    <h3>カテゴリ</h3>
-                  </label>
-                  <select class="form-select" th:field="*{category}" id="write_category">
-                    <option value="韓国料理" selected>韓国料理</option>
-                    <option value="日本料理">日本料理</option>
-                    <option value="中華料理">中華料理</option>
-                    <option value="西洋料理">西洋料理</option>
-                  </select>
-                </div>
-                <div class="col-md-2 form-group">
-                  <label for="" class="p-2">
-                    <h3>調理時間</h3>
-                  </label>
-                  <div class="row justify-content-center">
-                    <div class="col-md-auto">
-                      <select class="form-select" th:field="*{cookTime}" id="write_cookTime">
-                        <option value="10" selected>10分</option>
-                        <option value="20">20分</option>
-                        <option value="30">30分</option>
-                        <option value="40">40分</option>
-                        <option value="50">50分</option>
-                        <option value="60">60分</option>
-                        <option value="61">60分以上</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-2">
-                  <label for="" class="p-2">
-                    <h3>予算</h3>
-                  </label>
+            </div>
+            <!-- 調理時間、カロリー、カテゴリ -->
+            <div class="row justify-content-center text-center">
+              <div class="col-md-2 form-group">
+                <label for="" class="p-2">
+                  <h3>カテゴリ</h3>
+                </label>
+                <select class="form-select" th:field="*{category}" id="write_category">
+                  <option value="韓国料理" selected>韓国料理</option>
+                  <option value="日本料理">日本料理</option>
+                  <option value="中華料理">中華料理</option>
+                  <option value="西洋料理">西洋料理</option>
+                </select>
+              </div>
+              <div class="col-md-2 form-group">
+                <label for="" class="p-2">
+                  <h3>調理時間</h3>
+                </label>
+                <div class="row justify-content-center">
                   <div class="col-md-auto">
-                    <select class="form-select" th:field="*{budget}" id="write_budget">
-                      <option value="100" selected>100円以内</option>
-                      <option value="500">101~500円</option>
-                      <option value="1000">501~1000円</option>
-                      <option value="2000">1000~2000円</option>
-                      <option value="5000">2000~5000円</option>
-                      <option value="5001">5000円以上</option>
+                    <select class="form-select" th:field="*{cookTime}" id="write_cookTime">
+                      <option value="10" selected>10分</option>
+                      <option value="20">20分</option>
+                      <option value="30">30分</option>
+                      <option value="40">40分</option>
+                      <option value="50">50分</option>
+                      <option value="60">60分</option>
+                      <option value="61">60分以上</option>
                     </select>
                   </div>
                 </div>
               </div>
-
-              <div class="row justify-content-center p-5">
-                <div class="col-md-7">
-                  <hr />
+              <div class="col-md-2">
+                <label for="" class="p-2">
+                  <h3>予算</h3>
+                </label>
+                <div class="col-md-auto">
+                  <select class="form-select" th:field="*{budget}" id="write_budget">
+                    <option value="100" selected>100円以内</option>
+                    <option value="500">101~500円</option>
+                    <option value="1000">501~1000円</option>
+                    <option value="2000">1000~2000円</option>
+                    <option value="5000">2000~5000円</option>
+                    <option value="5001">5000円以上</option>
+                  </select>
                 </div>
               </div>
-              <!-- 材料登録 -->
-              <div class="row justify-content-center text-center" id="recipe_info">
-                <label for="">
-                  <h1 class="p-2">材料</h1>
-                </label>
+            </div>
 
-                <!-- Modal -->
-                <div class="modal fade" id="staticBackdrop" tabindex="-1" aria-labelledby="staticBackdrop" aria-hidden="true">
-                  <div class="modal-dialog " style="width: 800px;">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="staticBackdrop">材料</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                      </div>
-                      <div class="modal-body">
+            <div class="row justify-content-center p-5">
+              <div class="col-md-7">
+                <hr />
+              </div>
+            </div>
+            <!-- 材料登録 -->
+            <div class="row justify-content-center text-center" id="recipe_info">
+              <label for="">
+                <h1 class="p-2">材料</h1>
+              </label>
 
-                        <div class="row">
-                          <div class="col-md-6">
+              <!-- Modal -->
+              <div class="modal fade" id="staticBackdrop" tabindex="-1" aria-labelledby="staticBackdrop"
+                aria-hidden="true">
+                <div class="modal-dialog " style="width: 800px;">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="staticBackdrop">材料</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="mb-3">
+                            <label for="main-category-dropdown" class="form-label">メインカテゴリー</label>
+                            <select class="form-select" id="main-category-dropdown" name="mainCategoryId">
+                              <option value="">選択してください</option>
+                              <option th:each="mainCategory : ${mainCategories}" th:value="${mainCategory.parent.id}"
+                                th:text="${mainCategory.name}"></option>
+                            </select>
+                          </div>
+                          <div class="mb-3">
+                            <label for="sub-category-dropdown" class="form-label">詳細カテゴリー</label>
+                            <select class="form-select" id="sub-category-dropdown" name="subCategoryId">
+                              <option value="">選択してください</option>
+                            </select>
+                          </div>
+
+                          <div class="mb-3">
+                            <label for="ingredient-dropdown" class="form-label">材料</label>
+                            <select class="form-select" id="ingredient-dropdown" name="name">
+                              <option value="">選択してください</option>
+                            </select>
+                          </div>
+
+                          <div class="mb-3">
+                            <label for="qty-dropdown" class="form-label">計量</label>
+                            <select class="form-select" id="qty-dropdown" name="measurementUnitId">
+                              <option value="" selected>選択してください</option>
+                              <option value="direct">直接入力する</option>
+                              <option>1/2</option>
+                              <option>1/3</option>
+                              <option>2/3</option>
+                              <option>1</option>
+                              <option>10</option>
+                              <option>100</option>
+                            </select>
+                            <input type="text" id="unitDirect" name="unitDirect" />
+                          </div>
+                          <div class="mb-3">
+                            <label for="unit-dropdown" class="form-label">単位</label>
+                            <select class="form-select" id="unit-dropdown" name="measurementUnitId">
+                              <option value="">選択してください</option>
+                              <option th:each="unit : ${units}" th:value="${unit.id}" th:text="${unit.name}"></option>
+                            </select>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                            <button type="submit" class="btn btn-primary">追加</button>
+                          </div>
+                        </div>
+                        <!-- 追加された材料リスト -->
+                        <div class="col-md-6">
+                          <form method="post" th:action="@{/ingredient/search}">
                             <div class="mb-3">
-                              <label for="main-category-dropdown" class="form-label">メインカテゴリー</label>
-                              <select class="form-select" id="main-category-dropdown" name="mainCategoryId" >
-                                <option value="">選択してください</option>
-                                <option th:each="mainCategory : ${mainCategories}"
-                                        th:value="${mainCategory.parent.id}"
-                                        th:text="${mainCategory.name}" ></option>
-                              </select>
-                            </div>
-                            <div class="mb-3">
-                              <label for="sub-category-dropdown" class="form-label">詳細カテゴリー</label>
-                              <select class="form-select" id="sub-category-dropdown" name="subCategoryId" >
-                                <option value="">選択してください</option>
-                              </select>
+                              <table class="table-ing container">
+                                <tr>
+                                  <td class="table-ing-title" colspan="3">選択された材料</td>
+                                </tr>
+                                <tr>
+                                  <td>------</td>
+                                </tr>
+                                <tr class="draggable" draggable="true">
+                                  <div class="el">
+                                    <td>サーロイン(牛, 肉類)</td>
+                                    <td class="table-ing-qty">100</td>
+                                    <td class="table-ing-unit">g</td>
+                                    <td class="table-ing-unit"><button class="">X</button></td>
+                                  </div>
+                                </tr>
+                                <tr class="draggable" draggable="true">
+                                  <div class="el">
+                                    <td>ヒレ(豚, 肉類)</td>
+                                    <td class="table-ing-qty">100</td>
+                                    <td class="table-ing-unit">g</td>
+                                    <td class="table-ing-unit"><button class="">X</button></td>
+                                  </div>
+                                </tr>
+                                <tr class="draggable" draggable="true">
+                                  <div class="el">
+                                    <td>豚足(豚, 肉類)</td>
+                                    <td class="table-ing-qty">300</td>
+                                    <td class="table-ing-unit">g</td>
+                                    <td class="table-ing-unit"><button class="">X</button></td>
+                                  </div>
+                                </tr>
+                                <tr class="draggable" draggable="true">
+                                  <div class="el">
+                                    <td>サーロイン(牛, 肉類)</td>
+                                    <td class="table-ing-qty">100</td>
+                                    <td class="table-ing-unit">g</td>
+                                    <td class="table-ing-unit"><button class="">X</button></td>
+                                  </div>
+                                </tr>
+                                <tr class="draggable" draggable="true">
+                                  <div class="el">
+                                    <td>ヒレ(豚, 肉類)</td>
+                                    <td class="table-ing-qty">100</td>
+                                    <td class="table-ing-unit">g</td>
+                                    <td class="table-ing-unit"><button class="">X</button></td>
+                                  </div>
+                                </tr>
+                              </table>
+
                             </div>
 
-                            <div class="mb-3">
-                              <label for="ingredient-dropdown" class="form-label">材料</label>
-                              <select class="form-select" id="ingredient-dropdown" name="name" >
-                                <option value="">選択してください</option>
-                              </select>
-                            </div>
-
-                            <div class="mb-3">
-                              <label for="qty-dropdown" class="form-label">計量</label>
-                              <select class="form-select" id="qty-dropdown" name="measurementUnitId" >
-                                <option value="" selected>選択してください</option>
-                                <option value="direct">直接入力する</option>
-                                <option>1/2</option>
-                                <option>1/3</option>
-                                <option>2/3</option>
-                                <option>1</option>
-                                <option>10</option>
-                                <option>100</option>
-                              </select>
-                              <input type="text" id="unitDirect" name="unitDirect"/>
-                            </div>
-                            <div class="mb-3">
-                              <label for="unit-dropdown" class="form-label">単位</label>
-                              <select class="form-select" id="unit-dropdown" name="measurementUnitId" >
-                                <option value="">選択してください</option>
-                                <option th:each="unit : ${units}"
-                                        th:value="${unit.id}"
-                                        th:text="${unit.name}"
-                                ></option>
-                              </select>
-                            </div>
                             <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-                              <button type="submit" class="btn btn-primary">追加</button>
+                              <button type="submit" class="btn btn-primary">保存</button>
                             </div>
-                          </div>
-                          <!-- 追加された材料リスト -->
-                          <div class="col-md-6">
-                            <form method="post" th:action="@{/ingredient/search}" >
-                              <div class="mb-3">
-                                <table class="table-ing container">
-                                  <tr>
-                                    <td class="table-ing-title" colspan="3">選択された材料</td>
-                                  </tr>
-                                  <tr>
-                                    <td>------</td>
-                                  </tr>
-                                  <tr class="draggable" draggable="true">
-                                    <div class="el">
-                                      <td>サーロイン(牛, 肉類)</td>
-                                      <td class="table-ing-qty">100</td>
-                                      <td class="table-ing-unit">g</td>
-                                      <td class="table-ing-unit"><button class="">X</button></td>
-                                    </div>
-                                  </tr>
-                                  <tr class="draggable" draggable="true">
-                                    <div class="el">
-                                      <td>ヒレ(豚, 肉類)</td>
-                                      <td class="table-ing-qty">100</td>
-                                      <td class="table-ing-unit">g</td>
-                                      <td class="table-ing-unit"><button class="">X</button></td>
-                                    </div>
-                                  </tr>
-                                  <tr class="draggable" draggable="true">
-                                    <div class="el">
-                                      <td>豚足(豚, 肉類)</td>
-                                      <td class="table-ing-qty">300</td>
-                                      <td class="table-ing-unit">g</td>
-                                      <td class="table-ing-unit"><button class="">X</button></td>
-                                    </div>
-                                  </tr>
-                                  <tr class="draggable" draggable="true">
-                                    <div class="el">
-                                      <td>サーロイン(牛, 肉類)</td>
-                                      <td class="table-ing-qty">100</td>
-                                      <td class="table-ing-unit">g</td>
-                                      <td class="table-ing-unit"><button class="">X</button></td>
-                                    </div>
-                                  </tr>
-                                  <tr class="draggable" draggable="true">
-                                    <div class="el">
-                                      <td>ヒレ(豚, 肉類)</td>
-                                      <td class="table-ing-qty">100</td>
-                                      <td class="table-ing-unit">g</td>
-                                      <td class="table-ing-unit"><button class="">X</button></td>
-                                    </div>
-                                  </tr>
-                                </table>
-
-                              </div>
-
-                              <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary">保存</button>
-                              </div>
-                            </form>
-                          </div>
-
+                          </form>
                         </div>
 
                       </div>
+
                     </div>
                   </div>
                 </div>
-                <div class="col-md-6 text-center">
-                  <div class="">
+              </div>
+              <div class="col-md-6 text-center">
+                <div class="">
 
-                    <!-- Modal ボタン -->
-                    <div class="modal-div">
-                      <button type="button" class="btn modal-ing" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                        クリックして材料をのせる
-                      </button>
-                    </div>
+                  <!-- Modal ボタン -->
+                  <div class="modal-div">
+                    <button type="button" class="btn modal-ing" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                      クリックして材料をのせる
+                    </button>
+                  </div>
 
                 </div>
               </div>
@@ -268,41 +275,23 @@
                   <div class="row justify-content-center">
                     <label for="" class="p-2 text-start">1番目</label>
                     <div class="col-md-8 p-2">
-                      <textarea
-                        class="form-control"
-                        name="instruction"
-                        id="instructions"
-                        rows="5"
-                        placeholder="作り方を入力"
-                      ></textarea>
+                      <textarea class="form-control" name="instruction" id="instructions" rows="5"
+                        placeholder="作り方を入力"></textarea>
                     </div>
                     <div class="col-md-4">
                       <label for="">イメージ登録</label>
-                      <input
-                        type="image"
-                        class="form-control"
-                        src=""
-                      />
+                      <input type="image" class="form-control" src="" />
                       <input type="file" class="form-control" />
                     </div>
                   </div>
                   <div class="row justify-content-center">
                     <label for="" class="p-2 text-start">2番目</label>
                     <div class="col-md-8 p-2">
-                      <textarea
-                        class="form-control"
-                        id="instructions"
-                        rows="5"
-                        placeholder="作り方を入力"
-                      ></textarea>
+                      <textarea class="form-control" id="instructions" rows="5" placeholder="作り方を入力"></textarea>
                     </div>
                     <div class="col-md-4">
                       <label for="">イメージ</label>
-                      <input
-                        type="image"
-                        class="form-control"
-                        src=""
-                      />
+                      <input type="image" class="form-control" src="" />
                       <input type="file" class="form-control" />
                     </div>
                   </div>
@@ -326,26 +315,16 @@
                   <h1>YouTube動画</h1>
                 </label>
                 <div class="col-md-6">
-                  <iframe
-                    class="container-fluid"
-                    width="560"
-                    height="315"
-                    src="https://www.youtube.com/embed/OJN3KIGxnpk"
-                    title="YouTube video player"
-                    frameborder="0"
+                  <iframe class="container-fluid" width="560" height="315"
+                    src="https://www.youtube.com/embed/OJN3KIGxnpk" title="YouTube video player" frameborder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowfullscreen
-                  ></iframe>
+                    allowfullscreen></iframe>
                   <div class="row p-3">
                     <div class="col-md-3">
                       <h3 class="text-center">動画リンク :</h3>
                     </div>
                     <div class="col-md-8">
-                      <input
-                        type="text"
-                        class="form-control"
-                        placeholder="URL入力"
-                      />
+                      <input type="text" class="form-control" placeholder="URL入力" />
                     </div>
                   </div>
                 </div>
@@ -363,154 +342,154 @@
               </div>
 
               <div class="row p-5"></div>
-            </form>
-          </div>
-          <div class="col-md-2"></div>
+          </form>
         </div>
+        <div class="col-md-2"></div>
       </div>
-    </main>
-    <footer class="bg-light mt-3 p-3 text-center">
-      <p>Recipe Management Site &copy; 2023</p>
-    </footer>
-  </div>
-  <script layout:fragment="script" type="text/javascript" th:src="@{/js/writeRecipe.js}"></script>
-  <script layout:fragment="script" type='text/javascript'>
+    </div>
+  </main>
+  <footer class="bg-light mt-3 p-3 text-center">
+    <p>Recipe Management Site &copy; 2023</p>
+  </footer>
+</div>
+<script layout:fragment="script" type="text/javascript" th:src="@{/js/writeRecipe.js}"></script>
+<script layout:fragment="script" type='text/javascript'>
 
-    var token = $("meta[name='_csrf']").attr("content");
+  var token = $("meta[name='_csrf']").attr("content");
   var header = $("meta[name='_csrf_header']").attr("content");
-  $(document).ajaxSend(function(e, xhr, options) { xhr.setRequestHeader(header, token); });
+  $(document).ajaxSend(function (e, xhr, options) { xhr.setRequestHeader(header, token); });
 
-// 直接入力
-$(function(){
-  $("#unitDirect").hide(); // Input Hidden
-  $("#unit-dropdown").change(function() {
-      if($("#unit-dropdown").val() == "direct") { // 入力をセレクトすると、
-          $("#unitDirect").show(); // Input Display
-      }  else {
-          $("#unitDirect").hide(); // Input Hidden
+  // 直接入力
+  $(function () {
+    $("#unitDirect").hide(); // Input Hidden
+    $("#unit-dropdown").change(function () {
+      if ($("#unit-dropdown").val() == "direct") { // 入力をセレクトすると、
+        $("#unitDirect").show(); // Input Display
+      } else {
+        $("#unitDirect").hide(); // Input Hidden
       }
     })
-});
+  });
 
-// 詳細カテゴリー
-$(document).ready(function() {
-    $("#main-category-dropdown").change(function() {
-        var parentId = $(this).val();
-        $.ajax({
-            type: "POST",
-            url: "/ingredient/sub",
-            data: { parentId: parentId },
-            dataType: "json",
-            success: function(response) {
+  // 詳細カテゴリー
+  $(document).ready(function () {
+    $("#main-category-dropdown").change(function () {
+      var parentId = $(this).val();
+      $.ajax({
+        type: "POST",
+        url: "/ingredient/sub",
+        data: { parentId: parentId },
+        dataType: "json",
+        success: function (response) {
 
-                // 詳細カテゴリーをリセット
-                $("#sub-category-dropdown").empty();
+          // 詳細カテゴリーをリセット
+          $("#sub-category-dropdown").empty();
 
-                // メインカテゴリーを選えらび直すと → 以下のリストリセット
-                var option = $("<option>").text("選択してください").attr("value", "");
+          // メインカテゴリーを選えらび直すと → 以下のリストリセット
+          var option = $("<option>").text("選択してください").attr("value", "");
 
-                $("#ingredient-dropdown").empty();
-                $("#ingredient-dropdown").append($("<option>").text("選択してください").attr("value", ""));
+          $("#ingredient-dropdown").empty();
+          $("#ingredient-dropdown").append($("<option>").text("選択してください").attr("value", ""));
 
-                  $(function() {
-                    $("#unitDirect").hide(); // Input Hidden
-                    $("#qty-dropdown").change(function() {
-                      if ($("#qty-dropdown").val() == "direct") {
-                        $("#unitDirect").show(); // Input Display
-                      } else {
-                        $("#unitDirect").hide(); // Input Hidden
-                      }
-                    });
-                    $("#qty-dropdown option:first").prop("selected", true);
-                  });
+          $(function () {
+            $("#unitDirect").hide(); // Input Hidden
+            $("#qty-dropdown").change(function () {
+              if ($("#qty-dropdown").val() == "direct") {
+                $("#unitDirect").show(); // Input Display
+              } else {
+                $("#unitDirect").hide(); // Input Hidden
+              }
+            });
+            $("#qty-dropdown option:first").prop("selected", true);
+          });
 
-                $("#unit-dropdown option:first").prop("selected", true);
+          $("#unit-dropdown option:first").prop("selected", true);
 
-                // 詳細カテゴリーをリストに入れる
-                $.each(response, function(index, subcategory) {
+          // 詳細カテゴリーをリストに入れる
+          $.each(response, function (index, subcategory) {
 
-                    // 詳細カテゴリーがメインカテゴリーと一緒
-                    if(subcategory.level == 0 && index == 0) {
-                      var option = $("<option>").text("-").attr("value", subcategory.id);
-                      $("#sub-category-dropdown").append(option);
-                    }
-
-                    // 「選択してください」を入れる
-                    if(subcategory.level == 1 && index == 0) {
-                      var option = $("<option>").text("選択してください").attr("value", subcategory.id);
-                      $("#sub-category-dropdown").append(option);
-                    }
-
-                    // 詳細カテゴリーを出力
-                    if(subcategory.level == 1) {
-                    var option = $("<option>").text(subcategory.name).attr("value", subcategory.id);
-                    $("#sub-category-dropdown").append(option);
-                    }
-                });
-            },
-            error: function(xhr, textStatus, errorThrown) {
-                console.log("Error: " + errorThrown);
+            // 詳細カテゴリーがメインカテゴリーと一緒
+            if (subcategory.level == 0 && index == 0) {
+              var option = $("<option>").text("-").attr("value", subcategory.id);
+              $("#sub-category-dropdown").append(option);
             }
-        });
-    });
-});
 
-$(document).ready(function() {
-    $("#sub-category-dropdown").change(function() {
-        var categoryId = $(this).val();
-        console.log("categoryId: " + categoryId);
-        $.ajax({
-            type: "POST",
-            url: "/ingredient/ing",
-            data: { categoryId: categoryId },
-            dataType: "json",
-            success: function(response) {
-
-                // 材料リストをリセット
-                $("#ingredient-dropdown").empty();
-
-                // 詳細カテゴリーを選えらび直すと → 以下のリストリセット
-                var option = $("<option>").text("選択してください").attr("value", "");
-                  $(function() {
-                    $("#unitDirect").hide(); // Input Hidden
-                    $("#qty-dropdown").change(function() {
-                      if ($("#qty-dropdown").val() == "direct") {
-                        $("#unitDirect").show(); // Input Display
-                      } else {
-                        $("#unitDirect").hide(); // Input Hidden
-                      }
-                    });
-                    $("#qty-dropdown option:first").prop("selected", true);
-                  });
-
-                $("#unit-dropdown option:first").prop("selected", true);
-
-                // 材料をリストに入れる
-                $.each(response, function(index, ingredient) {
-
-                    // 「選択してください」を入れる
-                    if(index == 0) {
-                      var option = $("<option>").text("選択してください").attr("value", ingredient.id);
-                      $("#ingredient-dropdown").append(option);
-                    } else { // 材料を出力
-                    var option = $("<option>").text(ingredient.name).attr("value", ingredient.id);
-                    $("#ingredient-dropdown").append(option);
-                    }
-                });
-            },
-            error: function(xhr, textStatus, errorThrown) {
-                console.log("Error: " + errorThrown);
+            // 「選択してください」を入れる
+            if (subcategory.level == 1 && index == 0) {
+              var option = $("<option>").text("選択してください").attr("value", subcategory.id);
+              $("#sub-category-dropdown").append(option);
             }
-        });
-    });
-});
 
-// 材料を選えらび直すと → 以下のリストリセット
-$(document).ready(function() {
-    $("#ingredient-dropdown").change(function() {
-      $(function() {
+            // 詳細カテゴリーを出力
+            if (subcategory.level == 1) {
+              var option = $("<option>").text(subcategory.name).attr("value", subcategory.id);
+              $("#sub-category-dropdown").append(option);
+            }
+          });
+        },
+        error: function (xhr, textStatus, errorThrown) {
+          console.log("Error: " + errorThrown);
+        }
+      });
+    });
+  });
+
+  $(document).ready(function () {
+    $("#sub-category-dropdown").change(function () {
+      var categoryId = $(this).val();
+      console.log("categoryId: " + categoryId);
+      $.ajax({
+        type: "POST",
+        url: "/ingredient/ing",
+        data: { categoryId: categoryId },
+        dataType: "json",
+        success: function (response) {
+
+          // 材料リストをリセット
+          $("#ingredient-dropdown").empty();
+
+          // 詳細カテゴリーを選えらび直すと → 以下のリストリセット
+          var option = $("<option>").text("選択してください").attr("value", "");
+          $(function () {
+            $("#unitDirect").hide(); // Input Hidden
+            $("#qty-dropdown").change(function () {
+              if ($("#qty-dropdown").val() == "direct") {
+                $("#unitDirect").show(); // Input Display
+              } else {
+                $("#unitDirect").hide(); // Input Hidden
+              }
+            });
+            $("#qty-dropdown option:first").prop("selected", true);
+          });
+
+          $("#unit-dropdown option:first").prop("selected", true);
+
+          // 材料をリストに入れる
+          $.each(response, function (index, ingredient) {
+
+            // 「選択してください」を入れる
+            if (index == 0) {
+              var option = $("<option>").text("選択してください").attr("value", ingredient.id);
+              $("#ingredient-dropdown").append(option);
+            } else { // 材料を出力
+              var option = $("<option>").text(ingredient.name).attr("value", ingredient.id);
+              $("#ingredient-dropdown").append(option);
+            }
+          });
+        },
+        error: function (xhr, textStatus, errorThrown) {
+          console.log("Error: " + errorThrown);
+        }
+      });
+    });
+  });
+
+  // 材料を選えらび直すと → 以下のリストリセット
+  $(document).ready(function () {
+    $("#ingredient-dropdown").change(function () {
+      $(function () {
         $("#unitDirect").hide(); // Input Hidden
-        $("#qty-dropdown").change(function() {
+        $("#qty-dropdown").change(function () {
           if ($("#qty-dropdown").val() == "direct") {
             $("#unitDirect").show(); // Input Display
           } else {
@@ -520,58 +499,217 @@ $(document).ready(function() {
         $("#qty-dropdown option:first").prop("selected", true);
       });
 
-    $("#unit-dropdown option:first").prop("selected", true);
+      $("#unit-dropdown option:first").prop("selected", true);
 
     });
-});
+  });
 
-/**
-    * [x] 엘리먼트의 .draggable, .container의 배열로 선택자를 지정합니다.
-    * [x] draggables를 전체를 루프하면서 dragstart, dragend를 이벤트를 발생시킵니다.
-    * [x] dragstart, dragend 이벤트를 발생할때 .dragging라는 클래스를 토글시킨다.
-    * [x] dragover 이벤트가 발생하는 동안 마우스 드래그하고 마지막 위치해놓은 Element를 리턴하는 함수를 만듭니다.
-    */
+  /**
+      * [x] 엘리먼트의 .draggable, .container의 배열로 선택자를 지정합니다.
+      * [x] draggables를 전체를 루프하면서 dragstart, dragend를 이벤트를 발생시킵니다.
+      * [x] dragstart, dragend 이벤트를 발생할때 .dragging라는 클래스를 토글시킨다.
+      * [x] dragover 이벤트가 발생하는 동안 마우스 드래그하고 마지막 위치해놓은 Element를 리턴하는 함수를 만듭니다.
+      */
 
-   (() => {
-      const $ = (select) => document.querySelectorAll(select);
-      const draggables = $('.draggable');
-      const containers = $('.container');
+  (() => {
+    const $ = (select) => document.querySelectorAll(select);
+    const draggables = $('.draggable');
+    const containers = $('.container');
 
-      draggables.forEach(el => {
-         el.addEventListener('dragstart', () => {
-            el.classList.add('dragging');
-         });
-
-         el.addEventListener('dragend', () => {
-            el.classList.remove('dragging')
-         });
+    draggables.forEach(el => {
+      el.addEventListener('dragstart', () => {
+        el.classList.add('dragging');
       });
 
-      function getDragAfterElement(container, y) {
-         const draggableElements = [...container.querySelectorAll('.draggable:not(.dragging)')]
+      el.addEventListener('dragend', () => {
+        el.classList.remove('dragging')
+      });
+    });
 
-         return draggableElements.reduce((closest, child) => {
-            const box = child.getBoundingClientRect() //해당 엘리먼트에 top값, height값 담겨져 있는 메소드를 호출해 box변수에 할당
-            const offset = y - box.top - box.height / 2 //수직 좌표 - top값 - height값 / 2의 연산을 통해서 offset변수에 할당
-            if (offset < 0 && offset > closest.offset) { // (예외 처리) 0 이하 와, 음의 무한대 사이에 조건
-               return { offset: offset, element: child } // Element를 리턴
-            } else {
-               return closest
-            }
-         }, { offset: Number.NEGATIVE_INFINITY }).element
+    function getDragAfterElement(container, y) {
+      const draggableElements = [...container.querySelectorAll('.draggable:not(.dragging)')]
+
+      return draggableElements.reduce((closest, child) => {
+        const box = child.getBoundingClientRect() //해당 엘리먼트에 top값, height값 담겨져 있는 메소드를 호출해 box변수에 할당
+        const offset = y - box.top - box.height / 2 //수직 좌표 - top값 - height값 / 2의 연산을 통해서 offset변수에 할당
+        if (offset < 0 && offset > closest.offset) { // (예외 처리) 0 이하 와, 음의 무한대 사이에 조건
+          return { offset: offset, element: child } // Element를 리턴
+        } else {
+          return closest
+        }
+      }, { offset: Number.NEGATIVE_INFINITY }).element
+    };
+
+    containers.forEach(container => {
+      container.addEventListener('dragover', e => {
+        e.preventDefault()
+        const afterElement = getDragAfterElement(container, e.clientY);
+        const draggable = document.querySelector('.dragging')
+        // container.appendChild(draggable)
+        container.insertBefore(draggable, afterElement)
+      })
+    });
+  })();
+
+
+  var input = document.getElementById("input");
+  var initLabel = document.getElementById("label");
+
+
+  // ファイルが選択されたら、handleUpdate関数を呼び出す
+  input.addEventListener("change", (event) => {
+    const files = changeEvent(event);
+    handleUpdate(files);
+  });
+
+  // ラベルにマウスオーバーしたら、ラベルにクラスを追加する
+  initLabel.addEventListener("mouseover", (event) => {
+    event.preventDefault();
+    const label = document.getElementById("label");
+    label?.classList.add("label--hover");
+  });
+
+  // ラベルからマウスが離れたら、ラベルからクラスを削除する
+  initLabel.addEventListener("mouseout", (event) => {
+    event.preventDefault();
+    const label = document.getElementById("label");
+    label?.classList.remove("label--hover");
+  });
+
+  // ドラッグエンター時、ドラッグリーブ時に背景色を変更する
+  document.addEventListener("dragenter", (event) => {
+    event.preventDefault();
+    console.log("dragenter");
+    if (event.target.className === "inner") {
+      event.target.style.background = "#616161";
+    }
+  });
+
+  document.addEventListener("dragover", (event) => {
+    console.log("dragover");
+    event.preventDefault();
+  });
+
+  document.addEventListener("dragleave", (event) => {
+    event.preventDefault();
+    console.log("dragleave");
+    if (event.target.className === "inner") {
+      event.target.style.background = "#3a3a3a";
+    }
+  });
+
+  // ドロップ時、ファイルを取得して、handleUpdate関数を呼び出す
+  document.addEventListener("drop", (event) => {
+    event.preventDefault();
+    console.log("drop");
+    if (event.target.className === "inner") {
+      const files = event.dataTransfer?.files;
+      event.target.style.background = "#3a3a3a";
+      handleUpdate([...files]);
+    }
+  });
+
+  // input要素のchangeイベントで、選択されたファイルを配列で返す関数
+  function changeEvent(event) {
+    const { target } = event;
+    return [...target.files];
+  };
+
+  function handleUpdate(fileList) {
+    // 画像プレビューを表示する要素を取得
+    const preview = document.getElementById("preview");
+    // 既に表示されている画像を取得
+    const existingImg = document.querySelector(".embed-img");
+    // 既に画像がある場合は、プレビューから削除
+    if (existingImg) {
+      preview.removeChild(existingImg.closest(".container-img"));
+    }
+    // FileReaderオブジェクトを作成し、ファイルの読み込みを開始
+    const reader = new FileReader();
+    reader.addEventListener("load", (event) => {
+      // 読み込んだファイルの内容をimg要素に設定
+      const img = el("img", {
+        className: "embed-img",
+        src: event.target?.result,
+      });
+      // img要素を包むコンテナー要素を作成し、プレビューに追加
+      const imgContainer = el("div", { className: "container-img" }, img);
+      preview.append(imgContainer);
+    });
+    // ファイルを読み込み
+    reader.readAsDataURL(fileList[0]);
+  }
+
+  const inputElement = document.getElementById("input");
+  const labelElement = document.getElementById("label");
+  const previewElement = document.getElementById("preview");
+
+  // プレビュー画像を更新する関数
+  function updatePreviewImage(previewImageSrc) {
+    // dragicon要素を削除
+    const dragIconElement = labelElement.querySelector(".dragicon");
+    if (dragIconElement) {
+      dragIconElement.remove();
+    }
+    // 既にプレビュー画像がある場合は、削除
+    if (previewElement) {
+      previewElement.removeChild();
+    }
+    // プレビュー画像を表示するimg要素を作成し、プレビューに追加
+    const previewImageElement = document.createElement("img");
+    previewImageElement.src = previewImageSrc;
+    previewImageElement.classList.add("preview-image");
+    previewElement.appendChild(previewImageElement);
+  }
+
+  // ファイル選択時にプレビュー画像を更新する処理を追加
+  inputElement.addEventListener("change", (event) => {
+    const files = event.target.files;
+    if (files && files.length > 0) {
+      const file = files[0];
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const imageSrc = e.target.result;
+        updatePreviewImage(imageSrc);
       };
+      reader.readAsDataURL(file);
+    }
+  });
 
-      containers.forEach(container => {
-         container.addEventListener('dragover', e => {
-            e.preventDefault()
-            const afterElement = getDragAfterElement(container, e.clientY);
-            const draggable = document.querySelector('.dragging')
-            // container.appendChild(draggable)
-            container.insertBefore(draggable, afterElement)
-         })
-      });
-   })();
+  // DOM要素を作成する関数
+  function el(nodeName, attributes, ...children) {
+    const node =
+      nodeName === "fragment"
+        ? document.createDocumentFragment()
+        : document.createElement(nodeName);
 
+    Object.entries(attributes).forEach(([key, value]) => {
+      if (key === "events") {
+        Object.entries(value).forEach(([type, listener]) => {
+          node.addEventListener(type, listener);
+        });
+      } else if (key in node) {
+        try {
+          node[key] = value;
+        } catch (err) {
+          node.setAttribute(key, value);
+        }
+      } else {
+        node.setAttribute(key, value);
+      }
+    });
 
-  </script>
+    children.forEach((childNode) => {
+      if (typeof childNode === "string") {
+        node.appendChild(document.createTextNode(childNode));
+      } else {
+        node.appendChild(childNode);
+      }
+    });
+
+    return node;
+  }
+
+</script>
+
 </html>
