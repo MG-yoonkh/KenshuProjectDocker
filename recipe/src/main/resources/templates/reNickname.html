@@ -5,7 +5,7 @@
   <header th:replace="~{header :: headerFragment}"></header>
   <div class="user_form_wrapper" style="width: 400px">
     <h1><i class="fa-solid fa-user"></i>ニックネーム変更</h1>
-    <form id="login_form" method="post" th:action="@{|/mypage/renickname/${user.id}|}">
+    <form id="login_form" method="post" th:action="@{/mypage/renickname}">
       <input
           type="hidden"
           th:name="${_csrf.parameterName}"

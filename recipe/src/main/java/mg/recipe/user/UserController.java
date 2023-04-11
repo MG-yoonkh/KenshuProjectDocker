@@ -63,7 +63,6 @@ public class UserController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/mypage")
     public String myPage(Model model, Principal principal){
-        System.out.println(principal.getName());
         SiteUser user = this.userService.getUserByUsername(principal.getName());
         model.addAttribute("user",user);
         return "myPage";
@@ -78,18 +77,15 @@ public class UserController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @PostMapping("/mypage/renickname/{id}")
-    public String updateNickname(@PathVariable("id") Integer id,
-                                 @RequestParam("newNickname") String newNickname,
-                                 Principal principal
+    @PostMapping("/mypage/renickname")
+    public String updateNickname(@RequestParam("newNickname") String newNickname,
+                                 Principal principal,
+                                 Model model
                                  ){
-        SiteUser user = this.userService.getUserById(id);
-        if(!user.getUsername().equals(principal.getName())){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "修正権限がありません。");
-        }
+        SiteUser user = this.userService.getUserByUsername(principal.getName());
         this.userService.updateNickname(user, newNickname);
-
-        return String.format("redirect:/mypage");
+        model.addAttribute("user",user);
+        return "myPage";
     }
 
 
