@@ -27,9 +27,6 @@ public class IngredientController {
     @ResponseBody
     public List<IngredientCategory> getSubList(@RequestParam Integer parentId) {
         List<IngredientCategory> icList = this.ingredientCategoryService.getSubList(parentId, 1);
-        for(IngredientCategory vo : icList) {
-            System.out.println(vo.getName());
-        }
         return icList;
     }
 
@@ -39,9 +36,6 @@ public class IngredientController {
     public List<Ingredient> getIngList(@RequestParam Integer categoryId) {
         IngredientCategory ingredientCategory = this.ingredientCategoryService.getIngredientCategory(categoryId);
         List<Ingredient> iList = this.ingredientService.getSameCategoryIngredient(ingredientCategory);
-        for(Ingredient vo : iList) {
-            System.out.println(vo.getName());
-        }
         return iList;
     }
 
