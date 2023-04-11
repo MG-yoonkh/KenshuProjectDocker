@@ -11,9 +11,12 @@
           th:name="${_csrf.parameterName}"
           th:value="${_csrf.token}"
       />
-      <p>新しいニックネームを入力してくだたい</p>
-      <input type="text" class="form-control" name="email" placeholder="現在E-Mail" />
-      <input type="text" class="form-control" name="newEmail" placeholder="新しいE-Mail" />
+      <p>現在E-Mail :<span th:text="${user.email}"></span></p>
+      <p>新しいE-Mailを入力してくだたい</p>
+
+      <input type="email" class="form-control" id="newEmail" name="newEmail" placeholder="新しいE-Mail" />
+      <button type="button" id="checkEmailBtn">중복확인</button>
+      <div id="emailCheckResult" class="alert"></div>
       <div class="btn_area">
         <button type="submit" class="btn_submit">
           <span>E-Mailを変更する</span>
@@ -23,6 +26,27 @@
     </form>
   </div>
 </div>
-<script type="text/javascript"></script>
 <script type="text/javascript" src="js/login.js"></script>
+<script layout:fragment="script" type='text/javascript'>
+$(document).ready(function() {
+    $("#checkEmailBtn").click(function() {
+        var newEmail = $("#newEmail").val();
+        $.ajax({
+            type: "GET",
+            url: "/check-email",
+            data: { newEmail: newEmail },
+            success: function(result) {
+                if (result) {
+                    $("#emailCheckResult").text("사용 가능한 이메일입니다.");
+                } else {
+                    $("#emailCheckResult").text("이미 등록된 이메일입니다.");
+                }
+            },
+            error: function() {
+                alert("이메일 중복확인에 실패하였습니다.");
+            }
+        });
+    });
+});
+</script>
 </html>

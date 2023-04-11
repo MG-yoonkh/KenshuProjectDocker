@@ -3,6 +3,7 @@ package mg.recipe.user;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
 import java.util.Map;
+import java.util.Optional;
+import java.util.regex.Matcher;
 
 @Controller
 @RequiredArgsConstructor
@@ -129,7 +132,30 @@ public class UserController {
 
 
     @GetMapping("/mypage/reemail")
-    public String modifyEmailForm(){
+    public String updateEmailForm(Model model,
+                                  Principal principal){
+        SiteUser user = this.userService.getUserByUsername(principal.getName());
+        model.addAttribute("user",user);
         return "reEmail";
     }
+
+    @PostMapping("/mypage/reemail")
+    public String updateEmail(@RequestParam("newEmail") String newEmail,
+                              Principal principal){
+        String username = principal.getName();
+        if(!EmailValidator.isValidEmail(newEmail)){
+            throw new InvalidEmailFormatException("正しいe-mail形式ではありません。");
+        }
+        userService.updateEmail(username, newEmail);
+        return "redirect:/mypage";
+    }
+
+
+    @GetMapping("/check-email")
+    @ResponseBody
+    public boolean checkEmail(@RequestParam("newEmail") String email){
+        Optional<SiteUser> optionalSiteUser = userService.getUserByEmail(email);
+        return !optionalSiteUser.isPresent();
+    }
+
 }

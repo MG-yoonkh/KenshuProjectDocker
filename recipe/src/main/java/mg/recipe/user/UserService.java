@@ -54,9 +54,17 @@ public class UserService {
         }
     }
 
+    public Optional<SiteUser> getUserByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
 
-    public void updateEmail(SiteUser user,String newEmail){
-        user.setUsername(newEmail);
-        this.userRepository.save(user);
+    public void updateEmail(String username, String newEmail){
+        SiteUser siteUser = getUserByUsername(username);
+        Optional<SiteUser> optionalSiteUser = getUserByEmail(newEmail);
+        if(optionalSiteUser.isPresent() && !optionalSiteUser.get().getUsername().equals(siteUser.getUsername())){
+            throw new EmailAlreadyExistsException("既に登録されたE-Mailです。");
+        }
+        siteUser.setEmail(newEmail);
+        this.userRepository.save(siteUser);
     }
 }
