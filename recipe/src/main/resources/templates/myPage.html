@@ -58,6 +58,7 @@
               <div class="row">
                 <div class="col-md-12 p-3" th:text="${user.username + '様が投稿したレシピ' }"></div>
               </div>
+              <div class="recipe_list">
               <div class="row p-2">
                 <div th:each="recipe : ${recipes}" class="col-sm-4 h-100" >
                   <div class="card border-0 a_none">
@@ -79,6 +80,7 @@
                   </div>
                 </div>
               </div>
+              </div>
               <div class="row p-2 text-center">
                 <div class="col-md-12">
                   <nav aria-label="Page navigation">
@@ -94,7 +96,7 @@
             </div>
             <!-- お気に入りリスト出力 -->
             <div class="row p-3" id="item-2">
-              <h2 class="p-3 text-center">投稿履歴</h2>
+              <h2 class="p-3 text-center">いいねしたレシピ</h2>
               <div class="row">
                 <div class="col-md-12 p-3" th:text="${user.username + '様がいいねしたレシピ' }"></div>
               </div>
