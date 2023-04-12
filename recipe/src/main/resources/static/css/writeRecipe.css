@@ -177,6 +177,10 @@
   margin: 0px 0px 0px 0px;
 }
 
+.el > .table-ing-name {
+  margin-left: 5px;
+}
+
 .table-ing-qty {
   text-align: right;
 }

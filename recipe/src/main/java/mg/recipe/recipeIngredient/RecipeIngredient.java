@@ -18,10 +18,7 @@ public class RecipeIngredient {
     @Column(name = "recipe_ingredient_id")
     private Integer id;
 
-    private Double quantity;
-
-    @Column(length = 50)
-    private String notes;
+    private String quantity;
 
     @OneToOne
     @JoinColumn(name = "measurment_unit_id")

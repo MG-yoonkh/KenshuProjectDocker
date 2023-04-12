@@ -6,6 +6,7 @@ import mg.recipe.ingredientCategory.IngredientCategoryRepository;
 import mg.recipe.ingredientCategory.IngredientCategoryService;
 import mg.recipe.measurementUnit.MeasurementUnit;
 import mg.recipe.measurementUnit.MeasurementUnitRepository;
+import mg.recipe.measurementUnit.MeasurementUnitService;
 import mg.recipe.recipe.Recipe;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,12 +23,28 @@ public class IngredientController {
 
     private final IngredientService ingredientService;
 
+    private final MeasurementUnitService measurementUnitService;
+
+    @GetMapping("/main")
+    @ResponseBody
+    public List<IngredientCategory> getMainList() {
+        List<IngredientCategory> mainList = this.ingredientCategoryService.getMainList(0);
+        return mainList;
+    }
+
+    @GetMapping("/unit")
+    @ResponseBody
+    public List<MeasurementUnit> getList() {
+        List<MeasurementUnit> unitList = this.measurementUnitService.getList();
+        return unitList;
+    }
+
     // 詳細カテゴリリスト(by parentId from IngredientCategory)
     @PostMapping("/sub")
     @ResponseBody
     public List<IngredientCategory> getSubList(@RequestParam Integer parentId) {
-        List<IngredientCategory> icList = this.ingredientCategoryService.getSubList(parentId, 1);
-        return icList;
+        List<IngredientCategory> subList = this.ingredientCategoryService.getSubList(parentId, 1);
+        return subList;
     }
 
     // 材料リスト (by ingredientCategoryId from Ingredient)

@@ -121,18 +121,18 @@ public class RecipeController {
     @GetMapping("/recipe/write")
     public String createRecipe(Model model, RecipeForm recipeForm){
 
-        List<IngredientCategory> categories = this.ingredientCategoryService.findAll();
-        if (!categories.isEmpty()) {
-            List<IngredientCategory> mainCategories = this.ingredientCategoryService.getMainList(0);
-            List<IngredientCategory> subCategories = this.ingredientCategoryService.getMainList(1);
-            List<Ingredient> ingredients = this.ingredientService.getList();
-            List<MeasurementUnit> units = this.measurementUnitService.getList();
-            System.out.println("?: " + subCategories.get(0).getParent().getName().toString());
-            model.addAttribute("mainCategories", mainCategories);
-            model.addAttribute("subCategories", subCategories);
-            model.addAttribute("ingredients", ingredients);
-            model.addAttribute("units", units);
-        }
+        // List<IngredientCategory> categories = this.ingredientCategoryService.findAll();
+        // if (!categories.isEmpty()) {
+        //     List<IngredientCategory> mainCategories = this.ingredientCategoryService.getMainList(0);
+        //     List<IngredientCategory> subCategories = this.ingredientCategoryService.getMainList(1);
+        //     List<Ingredient> ingredients = this.ingredientService.getList();
+        //     List<MeasurementUnit> units = this.measurementUnitService.getList();
+        //     System.out.println("?: " + subCategories.get(0).getParent().getName().toString());
+        //     model.addAttribute("mainCategories", mainCategories);
+        //     model.addAttribute("subCategories", subCategories);
+        //     model.addAttribute("ingredients", ingredients);
+        //     model.addAttribute("units", units);
+        // }
         return "writeRecipe";
     }
 
