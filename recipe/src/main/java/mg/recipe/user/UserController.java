@@ -76,22 +76,26 @@ public class UserController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/mypage")
-    public String myPage(@RequestParam(defaultValue = "0") int page,
-                         @RequestParam(defaultValue = "3") int size,
+    public String myPage(@RequestParam(defaultValue = "0") int recipePage,
+                         @RequestParam(defaultValue = "3") int recipeSize,
+                         @RequestParam(defaultValue = "0") int likedPage,
+                         @RequestParam(defaultValue = "3") int likedSize,
                          Model model,
                          Principal principal){
 
         SiteUser user = this.userService.getUserByUsername(principal.getName());
 
-        Pageable pageable = PageRequest.of(page,size, Sort.by("createDate").descending());
-        Page<Recipe> recipePage = recipeService.findRecipesByAuthor(user,pageable);
-        Page<Recipe> likedRecipesPage = recipeService.findLikedRecipesByUserId(user.getId(), PageRequest.of(page, size));
+        Pageable recipePageable = PageRequest.of(recipePage, recipeSize, Sort.by("createDate").descending());
+        Page<Recipe> recipePageResult = recipeService.findRecipesByAuthor(user, recipePageable);
+        Pageable likedPageable = PageRequest.of(likedPage, likedSize, Sort.by("createDate").descending());
+        Page<Recipe> likedRecipesPage = recipeService.findLikedRecipesByUserId(user.getId(), likedPageable);
 
-        model.addAttribute("user",user);
-        model.addAttribute("recipes",recipePage.getContent());
-        model.addAttribute("currentPage",page);
-        model.addAttribute("totalPage",recipePage.getTotalPages());
+        model.addAttribute("user", user);
+        model.addAttribute("recipes", recipePageResult.getContent());
+        model.addAttribute("recipePage", recipePage);
+        model.addAttribute("recipeTotalPage", recipePageResult.getTotalPages());
         model.addAttribute("likedRecipes", likedRecipesPage.getContent());
+        model.addAttribute("likedPage", likedPage);
         model.addAttribute("likedTotalPage", likedRecipesPage.getTotalPages());
         return "myPage";
     }
