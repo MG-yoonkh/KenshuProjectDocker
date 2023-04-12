@@ -5,7 +5,12 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
+import mg.recipe.recipe.Recipe;
+import mg.recipe.recipe.RecipeService;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -28,6 +33,7 @@ import java.util.regex.Matcher;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+    private final RecipeService recipeService;
 
     @GetMapping("/signin")
     public String signin(UserCreateForm userCreateForm){
@@ -69,43 +75,24 @@ public class UserController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/mypage")
-    public String myPage(Model model, Principal principal){
+    public String myPage(@RequestParam(defaultValue = "0") int page,
+                         @RequestParam(defaultValue = "10") int size,
+                         Model model,
+                         Principal principal){
+
         SiteUser user = this.userService.getUserByUsername(principal.getName());
+        if (user == null) {
+            // 적절한 처리 (예: 오류 페이지로 리다이렉트)
+        }
+        Pageable pageable = PageRequest.of(page,size);
+        Page<Recipe> recipePage = recipeService.findRecipesByAuthor(user,pageable);
+
         model.addAttribute("user",user);
+        model.addAttribute("recipes",recipePage.getContent());
+        model.addAttribute("currentPage",page);
+        model.addAttribute("totalPage",recipePage.getTotalPages());
         return "myPage";
     }
-
-//    @PreAuthorize("isAuthenticated()")
-//    @GetMapping("/mypage/renickname")
-//    public String updateNicknameForm(Model model,
-//                                     Principal principal){
-//        SiteUser user = this.userService.getUserByUsername(principal.getName());
-//        model.addAttribute("user",user);
-//        return "reNickname";
-//    }
-//
-//    @PreAuthorize("isAuthenticated()")
-//    @PostMapping("/mypage/renickname")
-//    public String updateNickname(@RequestParam("newNickname") String newNickname,
-//                                 Principal principal,
-//                                 Model model,
-//                                 HttpSession session
-//                                 ){
-//        SiteUser user = this.userService.getUserByUsername(principal.getName());
-//        this.userService.updateNickname(user, newNickname);
-//
-//        // 닉네임 변경 후 인증 정보 갱신
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//        SiteUser newUserDetails = new SiteUser();
-//        Authentication newAuth = new UsernamePasswordAuthenticationToken(newUserDetails, auth.getCredentials(), auth.getAuthorities());
-//        SecurityContextHolder.getContext().setAuthentication(newAuth);
-//
-//        user.setUsername(newNickname);
-//        session.setAttribute("user",user);
-//        model.addAttribute("user",user);
-//        return "myPage";
-//    }
-
 
 
     @GetMapping("/mypage/repassword")

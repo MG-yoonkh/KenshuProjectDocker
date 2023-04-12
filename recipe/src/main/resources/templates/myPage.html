@@ -58,7 +58,7 @@
                 <div class="col-md-12 p-3" th:text="${user.username + '様が投稿したレシピ' }"></div>
               </div>
               <div class="row text-center">
-                <div class="col-md-3" th:each="recipe : ${recipeList}">
+                <div class="col-md-3" th:each="recipe : ${recipes}">
                   <div class="card" style="width: 13rem">
                     <img
                       src="assets/img/background.jpg"
@@ -74,15 +74,7 @@
               </div>
               <div class="row p-2">
                 <div class="col-md-12">
-                  <div>
-                    <ul>
-                      <li th:each="pageNumber : ${#numbers.sequence(0, recipeList.totalPages - 1)}">
-                        <a th:href="@{/mypage?page=${pageNumber}}"
-                           th:text="${pageNumber + 1}"
-                           th:class="${pageNumber == recipeList.number ? 'active' : ''}"></a>
-                      </li>
-                    </ul>
-                  </div>
+
                 </div>
               </div>
             </div>
