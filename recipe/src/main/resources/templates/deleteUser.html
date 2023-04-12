@@ -6,7 +6,7 @@
   <header th:replace="~{header :: headerFragment}"></header>
   <div class="login_wrapper" style="width: 400px">
     <h1><i class="fa-solid fa-user"></i>会員退会</h1>
-    <form th:action="@{/delete}" method="post">
+    <form th:action="@{/delete}" method="post" autocomplete="off">
       <p>登録情報の入力してくだたい。</p>
       <div class="form-group">
         <input type="text" class="form-control" name="username" placeholder="IDを入力" autocomplete="off"/>
