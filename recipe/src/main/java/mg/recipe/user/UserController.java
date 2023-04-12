@@ -81,16 +81,17 @@ public class UserController {
                          Principal principal){
 
         SiteUser user = this.userService.getUserByUsername(principal.getName());
-        if (user == null) {
-            // 적절한 처리 (예: 오류 페이지로 리다이렉트)
-        }
+
         Pageable pageable = PageRequest.of(page,size);
         Page<Recipe> recipePage = recipeService.findRecipesByAuthor(user,pageable);
+        Page<Recipe> likedRecipesPage = recipeService.findLikedRecipesByUserId(user.getId(), PageRequest.of(page, size));
 
         model.addAttribute("user",user);
         model.addAttribute("recipes",recipePage.getContent());
         model.addAttribute("currentPage",page);
         model.addAttribute("totalPage",recipePage.getTotalPages());
+        model.addAttribute("likedRecipes", likedRecipesPage.getContent());
+        model.addAttribute("likedTotalPage", likedRecipesPage.getTotalPages());
         return "myPage";
     }
 

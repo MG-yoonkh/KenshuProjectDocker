@@ -18,4 +18,7 @@ public interface RecipeRepository extends JpaRepository<Recipe, Integer> {
     Page<Recipe> findAll(Specification<Recipe> spec, Pageable pageable);
 
     Page<Recipe> findByAuthor(SiteUser author, Pageable pageable);
+
+    @Query("SELECT r FROM Recipe r JOIN r.voter v WHERE v.id = :userId")
+    Page<Recipe> findLikedRecipesByUserId(@Param("userId") Integer userId, Pageable pageable);
 }

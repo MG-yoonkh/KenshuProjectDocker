@@ -54,6 +54,12 @@ public class RecipeService {
         return recipeRepository.findByAuthor(author, pageable);
     }
 
+    public Page<Recipe> findLikedRecipesByUserId(Integer userId, Pageable pageable) {
+        return recipeRepository.findLikedRecipesByUserId(userId, pageable);
+    }
+
+
+
     public Recipe getRecipe(Integer id){
         Optional<Recipe> recipe = this.recipeRepository.findById(id);
         if(recipe.isPresent()){
