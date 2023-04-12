@@ -394,31 +394,96 @@
         }
       });
 
-      // 3. データ: savedList (Object)
+      if (selectedItems.length > 0) {
 
-      for (let i = 0; i < localStorage.length; i++) {
-        // key 찾기
-        const key = localStorage.key(i);
+        // 3. データ: savedList (Object)
+        for (let i = 0; i < selectedItems.length; i++) {
 
-        // value 찾기
-        const value = localStorage.getItem(key);
+          // selectedItems リセット
+          $("#main-category-dropdown").empty();
+          $("#sub-category-dropdown").empty();
+          $("#ingredient-dropdown").empty();
+          $("#unit-category-dropdown").empty();
 
-        // 결과 출력
-        console.log(key + " : " + value + "<br />");
+          $("#main-category-dropdown").append($("<option>").text("選択してください").attr("value", ""));
+          $("#sub-category-dropdown").append($("<option>").text("選択してください").attr("value", ""));
+          $("#ingredient-dropdown").append($("<option>").text("選択してください").attr("value", ""));
+          $("#unit-dropdown").append($("<option>").text("選択してください").attr("value", ""));
+
+          $(function () {
+            $("#unitDirect").hide(); // Input Hidden
+            $("#qty-dropdown").change(function () {
+              if ($("#qty-dropdown").val() == "direct") {
+                $("#unitDirect").show(); // Input Display
+              } else {
+                $("#unitDirect").hide(); // Input Hidden
+              }
+            });
+            $("#qty-dropdown option:first").prop("selected", true);
+          });
+
+          selectedItems = [];
+          //localStorage.clear();
+          const key = localStorage.key(i);
+          const value = localStorage.getItem(key);
+          console.log('localStorage length: ' + localStorage.length);
+          console.log('selectedItems.length: ' + selectedItems.length);
+          console.log('savedList.length: ' + savedList.length);
+          console.log('localStorage: ' + key + " : " + value + "<br />");
+          paintText(localStorage.getItem(savedList));
+
+          // savedList 出力
+          let tableBody = document.querySelector("#selected-items");
+          tableBody.innerHTML = "";
+
+
+
+        }
       }
 
-      
 
-      if (savedList.length > 0) {
-        console.log('savedList가 이미 있음')
-        console.log(savedList.length);
-      } else {
-        console.log('savedList가 없음')
-      }
 
-      for (let i = 0; i < localStorage.length; i++) {
-        console.log('String savedList[' + i + ']: ' + JSON.stringify(savedList[i]));
-      }
+
+      // for (let i = 0; i < localStorage.length; i++) {
+
+      //   // selectedItems リセット
+      //   $("#main-category-dropdown").empty();
+      //   $("#sub-category-dropdown").empty();
+      //   $("#ingredient-dropdown").empty();
+      //   $("#unit-category-dropdown").empty();
+
+      //   $("#main-category-dropdown").append($("<option>").text("選択してください").attr("value", ""));
+      //   $("#sub-category-dropdown").append($("<option>").text("選択してください").attr("value", ""));
+      //   $("#ingredient-dropdown").append($("<option>").text("選択してください").attr("value", ""));
+      //   $("#unit-dropdown").append($("<option>").text("選択してください").attr("value", ""));
+
+      //   $(function () {
+      //     $("#unitDirect").hide(); // Input Hidden
+      //     $("#qty-dropdown").change(function () {
+      //       if ($("#qty-dropdown").val() == "direct") {
+      //         $("#unitDirect").show(); // Input Display
+      //       } else {
+      //         $("#unitDirect").hide(); // Input Hidden
+      //       }
+      //     });
+      //     $("#qty-dropdown option:first").prop("selected", true);
+      //   });
+
+      //   localStorage.clear();
+      //   const key = localStorage.key(i);
+      //   const value = localStorage.getItem(key);
+      //   console.log('localStorage length: ' + localStorage.length);
+      //   console.log(key + " : " + value + "<br />");
+
+      //   // savedList 出力
+      //   let tableBody = document.querySelector("#selected-items");
+      //   tableBody.innerHTML = "";
+
+
+
+      // }
+
+
 
     });
 
@@ -585,10 +650,10 @@
       const draggableElements = [...container.querySelectorAll('.draggable:not(.dragging)')]
 
       return draggableElements.reduce((closest, child) => {
-        const box = child.getBoundingClientRect() //해당 엘리먼트에 top값, height값 담겨져 있는 메소드를 호출해 box변수에 할당
-        const offset = y - box.top - box.height / 2 //수직 좌표 - top값 - height값 / 2의 연산을 통해서 offset변수에 할당
-        if (offset < 0 && offset > closest.offset) { // (예외 처리) 0 이하 와, 음의 무한대 사이에 조건
-          return { offset: offset, element: child } // Element를 리턴
+        const box = child.getBoundingClientRect()
+        const offset = y - box.top - box.height / 2
+        if (offset < 0 && offset > closest.offset) {
+          return { offset: offset, element: child }
         } else {
           return closest
         }
@@ -794,6 +859,29 @@
       unitValue: unitValue
     });
 
+    $("#main-category-dropdown option:first").prop("selected", true);
+    //$("#main-category-dropdown").empty();
+    $("#sub-category-dropdown").empty();
+    $("#ingredient-dropdown").empty();
+    $("#unit-dropdown option:first").prop("selected", true);
+
+    //$("#main-category-dropdown").append($("<option>").text("選択してください").attr("value", ""));
+    $("#sub-category-dropdown").append($("<option>").text("選択してください").attr("value", ""));
+    $("#ingredient-dropdown").append($("<option>").text("選択してください").attr("value", ""));
+    $("#unit-dropdown").append($("<option>").text("選択してください").attr("value", ""));
+
+    $(function () {
+      $("#unitDirect").hide(); // Input Hidden
+      $("#qty-dropdown").change(function () {
+        if ($("#qty-dropdown").val() == "direct") {
+          $("#unitDirect").show(); // Input Display
+        } else {
+          $("#unitDirect").hide(); // Input Hidden
+        }
+      });
+      $("#qty-dropdown option:first").prop("selected", true);
+    });
+
     // 出力
     let tableBody = document.querySelector("#selected-items");
     tableBody.innerHTML = "";
@@ -838,19 +926,28 @@
       tableBody.appendChild(row);
     }
 
+
+
   });
 
+  // Exit Button
+  selectedItems
 
   // データ保存
   const saveButton = document.getElementById("save-button");
   const tableBody = document.getElementById("selected-items");
+  console.log('tableBody.rows.length: ' + tableBody.rows.length);
 
   saveButton.addEventListener("click", () => {
 
+
     // データがあれば
     if (tableBody.rows.length > 0) {
+      console.log('tableBody.rows.length > 0');
       savedList(); // 保存
+      localStorage.setItem("savedList", JSON.stringify(savedList));
     } else {
+      console.log('tableBody.rows.length < 0');
       console.log('保存するデータがありません');
       // TODO: text append 保存する材料がありません
     }
@@ -899,8 +996,6 @@
     for (let i = 0; i < savedList.length; i++) {
       console.log('String savedList[' + i + ']: ' + JSON.stringify(savedList[i]));
     }
-
-    localStorage.setItem("savedList", JSON.stringify(savedList));
 
   }
 </script>
