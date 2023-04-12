@@ -146,5 +146,27 @@ public class UserController {
         Optional<SiteUser> optionalSiteUser = userService.getUserByEmail(email);
         return !optionalSiteUser.isPresent();
     }
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/delete_form")
+    public String deleteUserForm(){
+        return "deleteUser";
+    }
+
+
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/delete")
+    public String deleteUser(@RequestParam String username,
+                             @RequestParam String password,
+                             Principal principal,
+                             Model model){
+        SiteUser user = this.userService.getUserByUsername(principal.getName());
+        if(user == null || !principal.getName().equals(username) || !userService.checkCredentials(user,password)){
+            model.addAttribute("errorMessage", "IDとパスワードを確認してください。");
+            return "deleteUser";
+        }
+        userService.deleteUser(user);
+        return "redirect:/logout";
+    }
+
 
 }

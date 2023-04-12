@@ -14,7 +14,7 @@
       <p>現在E-Mail :<span th:text="${user.email}"></span></p>
       <p>新しいE-Mailを入力してくだたい</p>
 
-      <input type="email" class="form-control" id="newEmail" name="newEmail" placeholder="新しいE-Mail" />
+      <input type="email" class="form-control" id="newEmail" name="newEmail" placeholder="新しいE-Mail" autocomplete="off"/>
       <button type="button" id="checkEmailBtn" >チェック</button>
       <div id="emailCheckResult" class="alert"></div>
       <div class="btn_area">

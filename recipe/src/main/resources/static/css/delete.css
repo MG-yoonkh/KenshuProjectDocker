@@ -1,0 +1,31 @@
+.custom-alert {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.custom-alert-content {
+  background-color: #f1f1f1;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 40%;
+}
+
+.custom-alert-content p {
+  margin-bottom: 1rem;
+}
+
+.custom-alert-content button {
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+#cancelButton {
+  margin-left: 0.5rem;
+}

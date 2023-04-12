@@ -14,7 +14,7 @@
           <h3 class="join_title">
             <label for="username">ID</label>
           </h3>
-          <input type="text" class="form-control" id="username" th:field="*{username}" placeholder="IDを入力してください" />
+          <input type="text" class="form-control" id="username" th:field="*{username}" placeholder="IDを入力してください" autocomplete="off"/>
           <button type="button" id="check-duplicate">チェック</button>
         </div>
         <div class="error">
@@ -27,7 +27,7 @@
           <h3 class="join_title">
             <label for="password1">パスワード</label>
           </h3>
-        <input type="password" class="form-control" id="password1" th:field="*{password1}" placeholder="パスワードを入力してください" />
+        <input type="password" class="form-control" id="password1" th:field="*{password1}" placeholder="パスワードを入力してください" autocomplete="off"/>
         </div>
         <div class="error">
           <!-- "assertive" -->
@@ -39,7 +39,7 @@
           <h3 class="join_title">
             <label for="password2">パスワード再入力</label>
           </h3>
-        <input type="password" class="form-control" id="password2" th:field="*{password2}" placeholder="パスワードを入力してください" />
+        <input type="password" class="form-control" id="password2" th:field="*{password2}" placeholder="パスワードを入力してください" autocomplete="off"/>
         </div>
         <div class="error">
           <!-- "assertive" -->
@@ -51,7 +51,7 @@
           <h3 class="join_title">
             <label for="email">メールアドレス</label>
           </h3>
-          <input type="email" class="form-control" id="email" th:field="*{email}" placeholder="メールアドレスを入力してください" />
+          <input type="email" class="form-control" id="email" th:field="*{email}" placeholder="メールアドレスを入力してください" autocomplete="off"/>
         </div>
         <div class="error">
           <!-- "assertive" -->
@@ -63,7 +63,7 @@
           <h3 class="join_title">
             <label for="phone">電話番号</label>
           </h3>
-          <input type="tel" class="form-control" id="phone" placeholder="電話番号を入力してください" />
+          <input type="tel" class="form-control" id="phone" placeholder="電話番号を入力してください" autocomplete="off"/>
         </div>
         <div class="error">
           <!-- "assertive" -->
