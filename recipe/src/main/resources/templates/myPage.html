@@ -52,13 +52,19 @@
                 </div>
               </div>
             </div>
+            <div class="row justify-content-center p-5">
+              <div class="col-md-7">
+                <hr />
+              </div>
+            </div>
             <!-- 投稿履歴リスト出力 -->
             <div class="row p-3" id="item-2">
-              <h2 class="p-3 text-center">投稿履歴</h2>
-              <div class="row">
-                <div class="col-md-12 p-3" th:text="${user.username + '様が投稿したレシピ' }"></div>
-              </div>
+              <h2 class="p-3 text-center" th:text="${user.username + '様が投稿したレシピ' }"></h2>
+              <div class="recipe_list">
               <div class="row p-2">
+                <div th:if="${recipes.empty}" class="col-md-12 text-center">
+                  <h5>作成したレシピがありません。</h5>
+                </div>
                 <div th:each="recipe : ${recipes}" class="col-sm-4 h-100" >
                   <div class="card border-0 a_none">
                     <a th:href="@{|/recipe/detail/${recipe.id}|}" class="btn btn-light">
@@ -79,7 +85,8 @@
                   </div>
                 </div>
               </div>
-              <div class="row p-2 text-center">
+              </div>
+              <div class="row p-2 text-center" th:if="${not recipes.empty}">
                 <div class="col-md-12">
                   <nav aria-label="Page navigation">
                     <ul class="pagination justify-content-center">
@@ -92,13 +99,18 @@
                 </div>
               </div>
             </div>
+            <div class="row justify-content-center p-5">
+              <div class="col-md-7">
+                <hr />
+              </div>
+            </div>
             <!-- お気に入りリスト出力 -->
             <div class="row p-3" id="item-2">
-              <h2 class="p-3 text-center">投稿履歴</h2>
-              <div class="row">
-                <div class="col-md-12 p-3" th:text="${user.username + '様がいいねしたレシピ' }"></div>
-              </div>
+              <h2 class="p-3 text-center" th:text="${user.username + '様がいいねしたレシピ' }"></h2>
               <div class="row p-2">
+                <div th:if="${likedRecipes.empty}" class="col-md-12 text-center">
+                  <h5>いいねしたレシピがありません。</h5>
+                </div>
                 <div th:each="likedRecipe : ${likedRecipes}" class="col-sm-4 h-100" >
                   <div class="card border-0 a_none">
                     <a th:href="@{|/recipe/detail/${likedRecipe.id}|}" class="btn btn-light">
@@ -119,10 +131,7 @@
                   </div>
                 </div>
               </div>
-
-
-
-              <div class="row p-2 justify-content-center text-center">
+              <div class="row p-2 justify-content-center text-center" th:if="${not likedRecipes.empty}">
                 <div class="col-md-12">
                   <nav aria-label="Page navigation">
                     <ul class="pagination justify-content-center">
@@ -135,6 +144,11 @@
                 </div>
               </div>
             </div>
+            <div class="row justify-content-center p-5">
+              <div class="col-md-7">
+                <hr />
+              </div>
+            </div>
 
 
 
@@ -144,8 +158,8 @@
             <!-- 会員退会 -->
             <div class="row" id="item-4">
               <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                <a class="btn btn-outline-secondary" href="withdrawal"
-                  >会員退会(未完成)</a
+                <a class="btn btn-outline-secondary" th:href="@{/delete_form}"
+                  >会員退会</a
                 >
               </div>
             </div>

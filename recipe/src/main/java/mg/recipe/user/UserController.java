@@ -11,6 +11,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -76,13 +77,13 @@ public class UserController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/mypage")
     public String myPage(@RequestParam(defaultValue = "0") int page,
-                         @RequestParam(defaultValue = "10") int size,
+                         @RequestParam(defaultValue = "3") int size,
                          Model model,
                          Principal principal){
 
         SiteUser user = this.userService.getUserByUsername(principal.getName());
 
-        Pageable pageable = PageRequest.of(page,size);
+        Pageable pageable = PageRequest.of(page,size, Sort.by("createDate").descending());
         Page<Recipe> recipePage = recipeService.findRecipesByAuthor(user,pageable);
         Page<Recipe> likedRecipesPage = recipeService.findLikedRecipesByUserId(user.getId(), PageRequest.of(page, size));
 
@@ -145,5 +146,27 @@ public class UserController {
         Optional<SiteUser> optionalSiteUser = userService.getUserByEmail(email);
         return !optionalSiteUser.isPresent();
     }
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/delete_form")
+    public String deleteUserForm(){
+        return "deleteUser";
+    }
+
+
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/delete")
+    public String deleteUser(@RequestParam String username,
+                             @RequestParam String password,
+                             Principal principal,
+                             Model model){
+        SiteUser user = this.userService.getUserByUsername(principal.getName());
+        if(user == null || !principal.getName().equals(username) || !userService.checkCredentials(user,password)){
+            model.addAttribute("errorMessage", "IDとパスワードを確認してください。");
+            return "deleteUser";
+        }
+        userService.deleteUser(user);
+        return "redirect:/logout";
+    }
+
 
 }

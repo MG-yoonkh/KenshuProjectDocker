@@ -67,4 +67,11 @@ public class UserService {
         siteUser.setEmail(newEmail);
         this.userRepository.save(siteUser);
     }
+
+    public void deleteUser(SiteUser user){
+        userRepository.delete(user);
+    }
+    public boolean checkCredentials(SiteUser user, String rawPassword) {
+        return passwordEncoder.matches(rawPassword, user.getPassword());
+    }
 }

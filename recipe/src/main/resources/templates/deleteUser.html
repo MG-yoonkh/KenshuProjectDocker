@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}">
+<div layout:fragment="content">
+  <link rel="stylesheet" type="text/css" th:href="@{/css/login.css}">
+  <link rel="stylesheet" type="text/css" th:href="@{/css/delete.css}">
+  <header th:replace="~{header :: headerFragment}"></header>
+  <div class="login_wrapper" style="width: 400px">
+    <h1><i class="fa-solid fa-user"></i>会員退会</h1>
+    <form th:action="@{/delete}" method="post" autocomplete="off">
+      <p>登録情報の入力してくだたい。</p>
+      <div class="form-group">
+        <input type="text" class="form-control" name="username" placeholder="IDを入力" autocomplete="off"/>
+        <input type="password" class="form-control" name="password" placeholder="パスワード" autocomplete="off"/>
+        <div id="customAlert" class="custom-alert">
+          <div class="custom-alert-content text-center">
+            <p>本当に削除しますか？削除後、戻すことが出来ません。</p>
+            <button id="confirmButton" type="button">削除</button>
+            <button id="cancelButton" type="button">取消</button>
+          </div>
+        </div>
+        <button type="button" class="btn_submit btn-danger" onclick="openAlert()">退会を完了する</button>
+      </div>
+
+
+      <a th:href="@{/login}">ログインページに戻る</a>
+    </form>
+  </div>
+</div>
+<script type="text/javascript" src="js/delete.js"></script>
+<script layout:fragment="script" type="text/javascript">
+  function openAlert() {
+  $('#customAlert').modal('show');
+  }
+  function openAlert() {
+  document.getElementById('customAlert').style.display = 'block';
+}
+
+function closeAlert() {
+  document.getElementById('customAlert').style.display = 'none';
+}
+
+document.getElementById('confirmButton').addEventListener('click', function() {
+  document.querySelector('form').submit();
+  closeAlert();
+});
+
+document.getElementById('cancelButton').addEventListener('click', function() {
+  closeAlert();
+});
+</script>
+
+</html>
