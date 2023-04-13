@@ -109,25 +109,27 @@
       <div class="row" id="">
         <!-- カテゴリー -->
         <div class="col-md-2">
-          <h3 class="incomplete" >カテゴリ</h3>
-          <ul class="list-group">
-            <li class="list-group-item" id="list_korean">
-              <a href="index" class="block_none">韓国料理<img src="assets/img/thumb_peppers.png" title=""
-                                                              class="thumb_nail" /></a>
-            </li>
-            <li class="list-group-item" id="list_japanese">
-              <a href="index" class="block_none">日本料理<img src="assets/img/thumb_sushi.png" title=""
-                                                              class="thumb_nail" /></a>
-            </li>
-            <li class="list-group-item" id="list_chinese">
-              <a href="index" class="block_none">中華料理<img src="assets/img/thumb_takeaway.png" title=""
-                                                              class="thumb_nail" /></a>
-            </li>
-            <li class="list-group-item" id="list_western">
-              <a href="index" class="block_none">西洋料理<img src="assets/img/thumb_quesadilla.png" title=""
-                                                              class="thumb_nail" /></a>
-            </li>
-          </ul>
+          <h3>カテゴリ</h3>
+          <div class="form-group">
+            <ul class="list-group">
+              <li class="list-group-item" id="list_korean">
+                <a th:href="@{/index(category='韓国料理')}"  class="block_none">韓国料理<img src="assets/img/thumb_peppers.png" title=""
+                                                                class="thumb_nail" /></a>
+              </li>
+              <li class="list-group-item" id="list_japanese">
+                <a th:href="@{/index(category='日本料理')}" class="block_none">日本料理<img src="assets/img/thumb_sushi.png" title=""
+                                                                class="thumb_nail" /></a>
+              </li>
+              <li class="list-group-item" id="list_chinese">
+                <a th:href="@{/index(category='中華料理')}" class="block_none">中華料理<img src="assets/img/thumb_takeaway.png" title=""
+                                                                class="thumb_nail" /></a>
+              </li>
+              <li class="list-group-item" id="list_western">
+                <a th:href="@{/index(category='西洋料理')}" class="block_none">西洋料理<img src="assets/img/thumb_quesadilla.png" title=""
+                                                                class="thumb_nail" /></a>
+              </li>
+            </ul>
+          </div>
         </div>
         <!-- end カテゴリー -->
         <!-- レシピリスト -->
