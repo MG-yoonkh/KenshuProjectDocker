@@ -33,9 +33,7 @@ public class RecipeService {
     public Page<Recipe> getList(int page, String kw, String category, String cookTime, String budget, String orderBy){
         List<Sort.Order> sorts = new ArrayList<>();
 
-        if (orderBy.equals("date")) {
-            sorts.add(Sort.Order.desc("createDate"));
-        } else if (orderBy.equals("popular")) {
+        if (orderBy.equals("popular")) {
             sorts.add(Sort.Order.desc("voterCount"));
         } else {
             sorts.add(Sort.Order.desc("createDate"));
@@ -44,9 +42,7 @@ public class RecipeService {
         Pageable pageable = PageRequest.of(page, 9, Sort.by(sorts));
 
         Specification<Recipe> spec = Specification.where(search(kw,category, cookTime, budget));
-        if (spec == null) {
-            return this.recipeRepository.findAll(pageable);
-        }
+
         return this.recipeRepository.findAll(spec, pageable);
     }
 
