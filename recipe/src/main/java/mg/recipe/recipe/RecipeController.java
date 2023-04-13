@@ -1,5 +1,8 @@
 package mg.recipe.recipe;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.CollectionType;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import mg.recipe.ingredient.Ingredient;
@@ -9,9 +12,13 @@ import mg.recipe.ingredientCategory.IngredientCategoryService;
 import mg.recipe.instruction.InstructionService;
 import mg.recipe.measurementUnit.MeasurementUnit;
 import mg.recipe.measurementUnit.MeasurementUnitService;
+import mg.recipe.recipeIngredient.RecipeIngredient;
+import mg.recipe.recipeIngredient.RecipeIngredientJson;
+import mg.recipe.recipeIngredient.RecipeIngredientService;
 import mg.recipe.user.SiteUser;
 import mg.recipe.user.UserService;
 import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -27,6 +34,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -36,11 +44,12 @@ public class RecipeController {
     private final InstructionService instructionService;
     private final UserService userService;
 
-    private final IngredientCategoryService ingredientCategoryService;
-
     private final IngredientService ingredientService;
 
     private final MeasurementUnitService measurementUnitService;
+
+    private final RecipeIngredientService recipeIngredientService;
+
     @GetMapping("/")
     public String root() {
         return "redirect:/index";
@@ -120,15 +129,21 @@ public class RecipeController {
 
         System.out.println(sendListStr);
 
-        // // Create an ObjectMapper instance
-        // ObjectMapper objectMapper = new ObjectMapper();
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<RecipeIngredientJson> jsonList = objectMapper.readValue(sendListStr, new TypeReference<List<RecipeIngredientJson>>() {});
 
-        // // Define the type of the collection you want to deserialize
-        // CollectionType listType = objectMapper.getTypeFactory().constructCollectionType(List.class,
-        //         RecipeIngredient.class);
+        List<RecipeIngredient> rList = new ArrayList<>();
+        for (RecipeIngredientJson json : jsonList) {
+            RecipeIngredient recipeIngredient = new RecipeIngredient();
+            recipeIngredient.setQuantity(json.getQty());
+            recipeIngredient.setMeasurementUnit(measurementUnitService.getUnit(json.getUnitId()));
+            recipeIngredient.setIngredient(ingredientService.getIng(json.getIngredientId()));
+            rList.add(recipeIngredient);
+        }
 
-        // // Parse the sendListStr into a list of RecipeIngredient objects
-        // List<RecipeIngredient> recipeIngredients = objectMapper.readValue(sendListStr, listType);
+        // 材料を登録
+        this.recipeIngredientService.create(recipe, rList);
+
 
         return "redirect:/index";
     }
