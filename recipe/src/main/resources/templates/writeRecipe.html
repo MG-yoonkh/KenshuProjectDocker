@@ -430,15 +430,62 @@
           console.log('selectedItems.length: ' + selectedItems.length);
           console.log('savedList.length: ' + savedList.length);
           console.log('localStorage: ' + key + " : " + value + "<br />");
-          paintText(localStorage.getItem(savedList));
+          //paintText(localStorage.getItem(savedList));
 
           // savedList 出力
           let tableBody = document.querySelector("#selected-items");
           tableBody.innerHTML = "";
 
+          // 確認
+          for (let i = 0; i < savedList.length; i++) {
+            console.log('check savedList[' + i + ']: ' + JSON.stringify(savedList[i]));
+          }
 
+
+          for (let i = 0; i < savedList.length; i++) {
+            let row = document.createElement("tr");
+            row.className = "draggable";
+            row.draggable = true;
+
+            let cell0 = document.createElement("div");
+            cell0.className = "el";
+
+            let cell1 = document.createElement("td");
+            cell1.className = "table-ing-name"; //class 속성 추가
+            cell1.textContent = savedList[i].ingredient + ' (' + savedList[i].subCategory + ', ' + savedList[i].mainCategory + ')';
+            cell1.value = savedList[i].ingredientValue;
+
+            let cell2 = document.createElement("td");
+            cell2.className = "table-ing-qty";
+            cell2.textContent = savedList[i].qty;
+            cell2.value = savedList[i].qtyValue;
+
+            let cell3 = document.createElement("td");
+            cell3.className = "table-ing-unit";
+            cell3.textContent = savedList[i].unit;
+            cell3.value = savedList[i].unitValue;
+
+            let cell4 = document.createElement("td");
+            cell4.className = "table-ing-unit";
+            cell4.innerHTML = "<button class='btn-close'></button>";
+
+            cell0.appendChild(cell1);
+            cell0.appendChild(cell2);
+            cell0.appendChild(cell3);
+            cell0.appendChild(cell4);
+
+            row.appendChild(cell0);
+            row.appendChild(cell1);
+            row.appendChild(cell2);
+            row.appendChild(cell3);
+            row.appendChild(cell4);
+
+            tableBody.appendChild(row);
+          }
 
         }
+
+
       }
 
 
@@ -623,6 +670,213 @@
 
     });
   });
+
+  // Dynamic Table 材料
+  let selectedItems = [];
+
+  document.querySelector("#add-button").addEventListener("click", function () {
+    // 出力用
+    let mainCategory = document.querySelector("#main-category-dropdown option:checked").textContent;
+    let subCategory = document.querySelector("#sub-category-dropdown option:checked").textContent;
+    let ingredient = document.querySelector("#ingredient-dropdown option:checked").textContent;
+    let qty = document.querySelector("#qty-dropdown option:checked").textContent;
+    let unit = document.querySelector("#unit-dropdown option:checked").textContent;
+
+    // データ送信用
+    let ingredientValue = document.querySelector("#ingredient-dropdown").value; // ingredient.id
+    let qtyValue = document.querySelector("#qty-dropdown").value; // quantity
+    let unitValue = document.querySelector("#unit-dropdown").value; // unit.id
+
+    // Object: selectedItemsに保存
+    selectedItems.push({
+      mainCategory: mainCategory,
+      subCategory: subCategory,
+      ingredient: ingredient,
+      qty: qty,
+      unit: unit,
+      ingredientValue: ingredientValue,
+      qtyValue: qty,
+      unitValue: unitValue
+    });
+
+    $("#main-category-dropdown option:first").prop("selected", true);
+    //$("#main-category-dropdown").empty();
+    $("#sub-category-dropdown").empty();
+    $("#ingredient-dropdown").empty();
+    $("#unit-dropdown option:first").prop("selected", true);
+
+    //$("#main-category-dropdown").append($("<option>").text("選択してください").attr("value", ""));
+    $("#sub-category-dropdown").append($("<option>").text("選択してください").attr("value", ""));
+    $("#ingredient-dropdown").append($("<option>").text("選択してください").attr("value", ""));
+    $("#unit-dropdown").append($("<option>").text("選択してください").attr("value", ""));
+
+    $(function () {
+      $("#unitDirect").hide(); // Input Hidden
+      $("#qty-dropdown").change(function () {
+        if ($("#qty-dropdown").val() == "direct") {
+          $("#unitDirect").show(); // Input Display
+        } else {
+          $("#unitDirect").hide(); // Input Hidden
+        }
+      });
+      $("#qty-dropdown option:first").prop("selected", true);
+    });
+
+    // 出力
+    let tableBody = document.querySelector("#selected-items");
+    tableBody.innerHTML = "";
+    for (let i = 0; i < selectedItems.length; i++) {
+      let row = document.createElement("tr");
+      row.className = "draggable";
+      row.draggable = true;
+
+      let cell0 = document.createElement("div");
+      cell0.className = "el";
+
+      let cell1 = document.createElement("td");
+      cell1.className = "table-ing-name"; //class 속성 추가
+      cell1.textContent = selectedItems[i].ingredient + ' (' + selectedItems[i].subCategory + ', ' + selectedItems[i].mainCategory + ')';
+      cell1.value = selectedItems[i].ingredientValue;
+
+      let cell2 = document.createElement("td");
+      cell2.className = "table-ing-qty";
+      cell2.textContent = selectedItems[i].qty;
+      cell2.value = selectedItems[i].qtyValue;
+
+      let cell3 = document.createElement("td");
+      cell3.className = "table-ing-unit";
+      cell3.textContent = selectedItems[i].unit;
+      cell3.value = selectedItems[i].unitValue;
+
+      let cell4 = document.createElement("td");
+      cell4.className = "table-ing-unit";
+      cell4.innerHTML = "<button class='btn-close'></button>";
+
+      cell0.appendChild(cell1);
+      cell0.appendChild(cell2);
+      cell0.appendChild(cell3);
+      cell0.appendChild(cell4);
+
+      row.appendChild(cell0);
+      row.appendChild(cell1);
+      row.appendChild(cell2);
+      row.appendChild(cell3);
+      row.appendChild(cell4);
+
+      tableBody.appendChild(row);
+    }
+
+
+
+  });
+
+  // Exit Button
+  selectedItems
+
+  // データ保存
+  const saveButton = document.getElementById("save-button");
+  const tableBody = document.getElementById("selected-items");
+  console.log('tableBody.rows.length: ' + tableBody.rows.length);
+
+  saveButton.addEventListener("click", () => {
+
+
+    // データがあれば
+    if (tableBody.rows.length > 0) {
+      console.log('データがあります');
+      savedList(); // 保存
+      localStorage.setItem("savedList", JSON.stringify(savedList));
+      console.log('2. saveList.length: ' + savedList.length);
+    } else {
+      console.log('tableBody.rows.length < 0');
+      console.log('保存するデータがありません');
+      // TODO: text append 保存する材料がありません
+    }
+
+  });
+
+  function savedList() {
+
+    savedList = [];
+    console.log('1. saveList.length: ' + savedList.length);
+
+    for (let i = 0; i < tableBody.rows.length; i++) {
+
+      // TableBodyのi番目のcells
+      const cells = tableBody.rows[i].cells;
+
+      // RecipeIngredientに必要なデータ
+      let ingredientValue; // ingredient.id
+      let qtyValue; // quantity
+      let unitValue; // unit.id
+
+      // 各cellsのj番目の要素
+      for (let j = 0; j < cells.length; j++) {
+        switch (j) {
+          case 0:
+            ingredient = cells[j].textContent;
+            ingredientValue = cells[j].value;
+            break;
+          case 1:
+            qty = cells[j].textContent;
+            qtyValue = cells[j].value;
+            break;
+          case 2:
+            unit = cells[j].textContent;
+            unitValue = cells[j].value;
+            break;
+        }
+      }
+
+      // Object: savedListに保存
+      savedList.push({
+        ingredientId: ingredientValue,
+        qty: qtyValue,
+        unitId: unitValue
+      });
+
+    }
+
+    // 確認
+    for (let i = 0; i < savedList.length; i++) {
+      console.log('String savedList[' + i + ']: ' + JSON.stringify(savedList[i]));
+    }
+
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   /**
       * [x] 엘리먼트의 .draggable, .container의 배열로 선택자를 지정합니다.
@@ -831,173 +1085,6 @@
     return node;
   }
 
-  // Dynamic Table 材料
-  let selectedItems = [];
-
-  document.querySelector("#add-button").addEventListener("click", function () {
-    // 出力用
-    let mainCategory = document.querySelector("#main-category-dropdown option:checked").textContent;
-    let subCategory = document.querySelector("#sub-category-dropdown option:checked").textContent;
-    let ingredient = document.querySelector("#ingredient-dropdown option:checked").textContent;
-    let qty = document.querySelector("#qty-dropdown option:checked").textContent;
-    let unit = document.querySelector("#unit-dropdown option:checked").textContent;
-
-    // データ送信用
-    let ingredientValue = document.querySelector("#ingredient-dropdown").value; // ingredient.id
-    let qtyValue = document.querySelector("#qty-dropdown").value; // quantity
-    let unitValue = document.querySelector("#unit-dropdown").value; // unit.id
-
-    // Object: selectedItemsに保存
-    selectedItems.push({
-      mainCategory: mainCategory,
-      subCategory: subCategory,
-      ingredient: ingredient,
-      qty: qty,
-      unit: unit,
-      ingredientValue: ingredientValue,
-      qtyValue: qty,
-      unitValue: unitValue
-    });
-
-    $("#main-category-dropdown option:first").prop("selected", true);
-    //$("#main-category-dropdown").empty();
-    $("#sub-category-dropdown").empty();
-    $("#ingredient-dropdown").empty();
-    $("#unit-dropdown option:first").prop("selected", true);
-
-    //$("#main-category-dropdown").append($("<option>").text("選択してください").attr("value", ""));
-    $("#sub-category-dropdown").append($("<option>").text("選択してください").attr("value", ""));
-    $("#ingredient-dropdown").append($("<option>").text("選択してください").attr("value", ""));
-    $("#unit-dropdown").append($("<option>").text("選択してください").attr("value", ""));
-
-    $(function () {
-      $("#unitDirect").hide(); // Input Hidden
-      $("#qty-dropdown").change(function () {
-        if ($("#qty-dropdown").val() == "direct") {
-          $("#unitDirect").show(); // Input Display
-        } else {
-          $("#unitDirect").hide(); // Input Hidden
-        }
-      });
-      $("#qty-dropdown option:first").prop("selected", true);
-    });
-
-    // 出力
-    let tableBody = document.querySelector("#selected-items");
-    tableBody.innerHTML = "";
-    for (let i = 0; i < selectedItems.length; i++) {
-      let row = document.createElement("tr");
-      row.className = "draggable";
-      row.draggable = true;
-
-      let cell0 = document.createElement("div");
-      cell0.className = "el";
-
-      let cell1 = document.createElement("td");
-      cell1.className = "table-ing-name"; //class 속성 추가
-      cell1.textContent = selectedItems[i].ingredient + ' (' + selectedItems[i].subCategory + ', ' + selectedItems[i].mainCategory + ')';
-      cell1.value = selectedItems[i].ingredientValue;
-
-      let cell2 = document.createElement("td");
-      cell2.className = "table-ing-qty";
-      cell2.textContent = selectedItems[i].qty;
-      cell2.value = selectedItems[i].qtyValue;
-
-      let cell3 = document.createElement("td");
-      cell3.className = "table-ing-unit";
-      cell3.textContent = selectedItems[i].unit;
-      cell3.value = selectedItems[i].unitValue;
-
-      let cell4 = document.createElement("td");
-      cell4.className = "table-ing-unit";
-      cell4.innerHTML = "<button class='btn-close'></button>";
-
-      cell0.appendChild(cell1);
-      cell0.appendChild(cell2);
-      cell0.appendChild(cell3);
-      cell0.appendChild(cell4);
-
-      row.appendChild(cell0);
-      row.appendChild(cell1);
-      row.appendChild(cell2);
-      row.appendChild(cell3);
-      row.appendChild(cell4);
-
-      tableBody.appendChild(row);
-    }
-
-
-
-  });
-
-  // Exit Button
-  selectedItems
-
-  // データ保存
-  const saveButton = document.getElementById("save-button");
-  const tableBody = document.getElementById("selected-items");
-  console.log('tableBody.rows.length: ' + tableBody.rows.length);
-
-  saveButton.addEventListener("click", () => {
-
-
-    // データがあれば
-    if (tableBody.rows.length > 0) {
-      console.log('tableBody.rows.length > 0');
-      savedList(); // 保存
-      localStorage.setItem("savedList", JSON.stringify(savedList));
-    } else {
-      console.log('tableBody.rows.length < 0');
-      console.log('保存するデータがありません');
-      // TODO: text append 保存する材料がありません
-    }
-
-  });
-
-  function savedList() {
-
-    let savedList = [];
-
-    for (let i = 0; i < tableBody.rows.length; i++) {
-
-      // TableBodyのi番目のcells
-      const cells = tableBody.rows[i].cells;
-
-      // RecipeIngredientに必要なデータ
-      let ingredientValue; // ingredient.id
-      let qtyValue; // quantity
-      let unitValue; // unit.id
-
-      // 各cellsのj番目の要素
-      for (let j = 0; j < cells.length; j++) {
-        switch (j) {
-          case 0:
-            ingredientValue = cells[j].value;
-            break;
-          case 1:
-            qtyValue = cells[j].value;
-            break;
-          case 2:
-            unitValue = cells[j].value;
-            break;
-        }
-      }
-
-      // Object: savedListに保存
-      savedList.push({
-        ingredientId: ingredientValue,
-        qty: qtyValue,
-        unitId: unitValue
-      });
-
-    }
-
-    // 確認
-    for (let i = 0; i < savedList.length; i++) {
-      console.log('String savedList[' + i + ']: ' + JSON.stringify(savedList[i]));
-    }
-
-  }
 </script>
 
 </html>
