@@ -1,5 +1,6 @@
-package mg.recipe.user;
+package mg.recipe.admin;
 
+import mg.recipe.admin.SiteVisit;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

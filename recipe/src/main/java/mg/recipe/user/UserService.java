@@ -2,6 +2,7 @@ package mg.recipe.user;
 
 import lombok.RequiredArgsConstructor;
 import mg.recipe.DataNotFoundException;
+import mg.recipe.admin.SiteVisitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

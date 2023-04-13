@@ -1,4 +1,4 @@
-package mg.recipe.user;
+package mg.recipe.admin;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
