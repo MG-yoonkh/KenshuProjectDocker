@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test</title>
+</head>
+<body>
+<input type="text" id="username" />
+<button id="check-duplicate">중복 확인</button>
+<span id="nickname_msg"></span>
+
+<script>
+    async function checkDuplicate() {
+  const username = document.getElementById("username").value;
+  if (username) {
+    try {
+      const response = await fetch("/signin/check-duplicate?username=" + encodeURIComponent(username));
+      if (response.ok) {
+        const data = await response.json();
+        if (data.isDuplicate) {
+          document.getElementById("nickname_msg").textContent = "ID가 중복됩니다.";
+        } else {
+          document.getElementById("nickname_msg").textContent = "사용 가능한 ID입니다.";
+        }
+      } else {
+        document.getElementById("nickname_msg").textContent = "서버에서 에러가 발생했습니다.";
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      document.getElementById("nickname_msg").textContent = "오류가 발생했습니다.";
+    }
+  } else {
+    document.getElementById("nickname_msg").textContent = "ID를 입력하세요.";
+  }
+}
+  </script>
+</body>
+</html>
+

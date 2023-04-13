@@ -99,26 +99,40 @@
 var header = $("meta[name='_csrf_header']").attr('content');
 var token = $("meta[name='_csrf']").attr('content');
 
-$(document).ready(function() {
-$('#check-duplicate').click(function() {
-var username = $('#username').val();
-
-$.ajax({
-url: '/api/check-duplicate',
-type: 'POST',
-contentType: 'application/json',
-data: JSON.stringify({username: username}),
-beforeSend: function(xhr){
-        xhr.setRequestHeader(header, token);
-},
-success: function(data) {
-alert("既に利用中のIDです。");
-},
-error: function(xhr, status, error) {
-alert("使用可能なIDです。");
+function isValidUsername(username) {
+    // 数字、大文字、小文字 4~10桁
+    var regex = /^[a-zA-Z0-9]{4,10}$/;
+    return regex.test(username);
 }
-});
-});
+
+$(document).ready(function() {
+    $('#check-duplicate').click(async function() {
+        var username = $('#username').val();
+        if (username) {
+            if (!isValidUsername(username)) {
+                alert("IDは数字、英語大文字、小文字の4~10桁で入力してください。");
+                return;
+            }
+            try {
+                const response = await fetch(`/signin/check-duplicate?username=${encodeURIComponent(username)}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.isDuplicate) {
+                        alert("既に登録されたIDです。");
+                    } else {
+                        alert("使用可能なIDです。");
+                    }
+                } else {
+                    alert("サーバーエラーが発生しました。");
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                alert("エラーが発生しました。");
+            }
+        } else {
+            alert("IDを入力してください。");
+        }
+    });
 });
 </script>
 </html>

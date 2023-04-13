@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -64,6 +65,13 @@ public class UserController {
         }
         return "redirect:/login";
 
+    }
+    @GetMapping("/signin/check-duplicate")
+    public ResponseEntity<Map<String, Boolean>> checkDuplicate(@RequestParam("username") String username) {
+        boolean isDuplicate = userService.existsByUsername(username);
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("isDuplicate", isDuplicate);
+        return ResponseEntity.ok(response);
     }
 
 

@@ -32,6 +32,9 @@ public class UserService {
         this.userRepository.save(user);
         return user;
     }
+    public boolean existsByUsername(String username) {
+        return userRepository.existsByUsername(username);
+    }
 
     public SiteUser getUserById(Integer id){
         Optional<SiteUser> siteUser = this.userRepository.findById(id);

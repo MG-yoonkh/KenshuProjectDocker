@@ -11,6 +11,7 @@ import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<SiteUser, Integer> {
     Optional<SiteUser> findByUsername(String username);
+    boolean existsByUsername(String username);
     Optional<SiteUser> findByEmail(String email);
 
     @Query("SELECT EXTRACT(YEAR FROM su.createDate) as year, EXTRACT(MONTH FROM su.createDate) as month, COUNT(su) as count " +
