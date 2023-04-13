@@ -61,7 +61,8 @@
                   id="recipe_image"
                 />
                 <a href="javascript:void(0);" class="recommend btn btn-sm btn-outline-secondary"
-                   th:data-uri="@{|/recipe/vote/${recipe.id}|}">
+                   th:data-uri="@{|/recipe/vote/${recipe.id}|}"
+                   th:data-voted="${userHasVoted != null ? userHasVoted : false}">
                   いいね
                   <span class="badge rounded-pill bg-success" th:text="${#lists.size(recipe.voter)}"></span>
                 </a>
@@ -241,7 +242,10 @@
     const recommend_elements = document.getElementsByClassName("recommend");
     Array.from(recommend_elements).forEach(function (element) {
       element.addEventListener("click", function () {
-        if (confirm("いいねしますか？")) {
+        const userHasVoted = this.dataset.voted === 'true';
+        const message = userHasVoted ? "いいねを取消しますか？" : "いいねしますか？";
+
+        if (confirm(message)) {
           location.href = this.dataset.uri;
         }
       });
