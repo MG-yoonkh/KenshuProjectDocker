@@ -41,6 +41,7 @@ public class RecipeController {
     private final IngredientService ingredientService;
 
     private final MeasurementUnitService measurementUnitService;
+
     @GetMapping("/")
     public String root() {
         return "redirect:/index";
@@ -49,11 +50,11 @@ public class RecipeController {
     // メイン、検索結果ページ
     @GetMapping("/index")
     public String index(Model model, @RequestParam(value = "page", defaultValue = "0") int page,
-                        @RequestParam(value="kw", defaultValue = "") String kw,
-                        @RequestParam(value="category", defaultValue = "") String category,
-                        @RequestParam(value="cookTime", defaultValue = "") String cookTime,
-                        @RequestParam(value="budget", defaultValue = "") String budget,
-                        @RequestParam(value="orderBy", defaultValue = "date") String orderBy) {
+            @RequestParam(value = "kw", defaultValue = "") String kw,
+            @RequestParam(value = "category", defaultValue = "") String category,
+            @RequestParam(value = "cookTime", defaultValue = "") String cookTime,
+            @RequestParam(value = "budget", defaultValue = "") String budget,
+            @RequestParam(value = "orderBy", defaultValue = "date") String orderBy) {
 
         Page<Recipe> paging = this.recipeService.getList(page, kw, category, cookTime, budget, orderBy);
 
@@ -68,9 +69,9 @@ public class RecipeController {
 
     // レシピ詳細
     @GetMapping("/recipe/detail/{id}")
-    public String detail(Model model, @PathVariable("id") Integer id){
+    public String detail(Model model, @PathVariable("id") Integer id) {
         Recipe recipe = this.recipeService.getRecipe(id);
-        model.addAttribute("recipe",recipe);
+        model.addAttribute("recipe", recipe);
         return "recipeDetail";
     }
 
@@ -78,11 +79,12 @@ public class RecipeController {
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/recipe/write")
     public String createRecipe(@Valid RecipeForm recipeForm,
-                               @RequestParam("thumbFile") MultipartFile file,
-                               BindingResult bindingResult,
-                               Principal principal)throws IOException {
+            @RequestParam("thumbFile") MultipartFile file,
+            @RequestParam("sendList") String sendListStr,
+            BindingResult bindingResult,
+            Principal principal) throws IOException {
 
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             return "writeRecipe";
         }
         // イメージ登録
@@ -93,49 +95,46 @@ public class RecipeController {
             // ファイルセーブする場所の生成
             Files.createDirectories(fileStorageLocation);
 
-            //ファイルセーブ
+            // ファイルセーブ
             Path targetLocation = fileStorageLocation.resolve(fileName);
             file.transferTo(targetLocation.toFile());
 
             // Recipe オブジェクトに経路を格納
             recipeForm.setThumbnail(targetLocation.toString());
-        }catch (IOException e) {
+        } catch (IOException e) {
             throw new RuntimeException("Could not store file " + fileName + ". Please try again!", e);
         }
 
         // レシピ登録
         SiteUser siteUser = this.userService.getUserByUsername(principal.getName());
-        Recipe recipe = this.recipeService.create(recipeForm,siteUser);
+        Recipe recipe = this.recipeService.create(recipeForm, siteUser);
 
         // 材料を登録
-//        this.ingredientService.create(recipe, recipeForm.getIngredient());
+        // this.ingredientService.create(recipe, recipeForm.getIngredient());
         // 調理方法を登録
-//        this.instructionService.create(recipe, recipeForm.getInstruction());
+        // this.instructionService.create(recipe, recipeForm.getInstruction());
+
+        System.out.println(sendListStr);
+
+        // // Create an ObjectMapper instance
+        // ObjectMapper objectMapper = new ObjectMapper();
+
+        // // Define the type of the collection you want to deserialize
+        // CollectionType listType = objectMapper.getTypeFactory().constructCollectionType(List.class,
+        //         RecipeIngredient.class);
+
+        // // Parse the sendListStr into a list of RecipeIngredient objects
+        // List<RecipeIngredient> recipeIngredients = objectMapper.readValue(sendListStr, listType);
 
         return "redirect:/index";
     }
 
-
     // レシピ登録画面
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/recipe/write")
-    public String createRecipe(Model model, RecipeForm recipeForm){
-
-        // List<IngredientCategory> categories = this.ingredientCategoryService.findAll();
-        // if (!categories.isEmpty()) {
-        //     List<IngredientCategory> mainCategories = this.ingredientCategoryService.getMainList(0);
-        //     List<IngredientCategory> subCategories = this.ingredientCategoryService.getMainList(1);
-        //     List<Ingredient> ingredients = this.ingredientService.getList();
-        //     List<MeasurementUnit> units = this.measurementUnitService.getList();
-        //     System.out.println("?: " + subCategories.get(0).getParent().getName().toString());
-        //     model.addAttribute("mainCategories", mainCategories);
-        //     model.addAttribute("subCategories", subCategories);
-        //     model.addAttribute("ingredients", ingredients);
-        //     model.addAttribute("units", units);
-        // }
+    public String createRecipe(Model model, RecipeForm recipeForm) {
         return "writeRecipe";
     }
-
 
     @GetMapping("/adminPage")
     public String adminPage() {
@@ -145,26 +144,27 @@ public class RecipeController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/recipe/modify/{id}")
     public String recipeModify(RecipeForm recipeForm, @PathVariable("id") Integer id,
-                               Principal principal){
+            Principal principal) {
         Recipe recipe = this.recipeService.getRecipe(id);
-        if(!recipe.getAuthor().getUsername().equals(principal.getName())){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"修正権限がありません。");
+        if (!recipe.getAuthor().getUsername().equals(principal.getName())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "修正権限がありません。");
         }
         recipeForm.setRecipeName(recipe.getRecipeName());
         return "writeRecipe";
     }
+
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/recipe/modify/{id}")
     public String recipeModify(@Valid RecipeForm recipeForm,
-                               BindingResult bindingResult,
-                               Principal principal,
-                               @PathVariable Integer id){
-        if(bindingResult.hasErrors()){
+            BindingResult bindingResult,
+            Principal principal,
+            @PathVariable Integer id) {
+        if (bindingResult.hasErrors()) {
             return "writeRecipe";
         }
         Recipe recipe = this.recipeService.getRecipe(id);
-        if(!recipe.getAuthor().getUsername().equals(principal.getName())){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"修正権限がありません。");
+        if (!recipe.getAuthor().getUsername().equals(principal.getName())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "修正権限がありません。");
         }
         this.recipeService.modify(recipe, recipeForm.getRecipeName());
         return String.format("redirect:/recipe/detail/%s", id);
@@ -174,8 +174,8 @@ public class RecipeController {
     @GetMapping("/recipe/delete/{id}")
     public String recipeDelete(Principal principal, @PathVariable("id") Integer id) {
         Recipe recipe = this.recipeService.getRecipe(id);
-        if(!recipe.getAuthor().getUsername().equals(principal.getName())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"削除権限がありません。");
+        if (!recipe.getAuthor().getUsername().equals(principal.getName())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "削除権限がありません。");
         }
         this.recipeService.delete(recipe);
         return "redirect:/";
@@ -183,11 +183,11 @@ public class RecipeController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/recipe/vote/{id}")
-    public String recipeVote(Principal principal, @PathVariable("id") Integer id){
+    public String recipeVote(Principal principal, @PathVariable("id") Integer id) {
         Recipe recipe = this.recipeService.getRecipe(id);
         SiteUser siteUser = this.userService.getUserByUsername(principal.getName());
-        this.recipeService.vote(recipe,siteUser);
-        return String.format("redirect:/recipe/detail/%s",id);
+        this.recipeService.vote(recipe, siteUser);
+        return String.format("redirect:/recipe/detail/%s", id);
     }
 
 }

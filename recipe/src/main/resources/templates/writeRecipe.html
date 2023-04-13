@@ -7,7 +7,7 @@
       <div class="row">
         <div class="col-md-2"></div>
         <div class="col-md-auto">
-          <form th:object="${recipeForm}" method="post" enctype="multipart/form-data" novalidate>
+          <form th:object="${recipeForm}" method="post" id='writeForm' enctype="multipart/form-data" novalidate>
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
             <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
               <div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
@@ -308,6 +308,7 @@
                 </button>
               </div>
               <div class="row p-5"></div>
+              <input type="hidden" id="send-list-input" name="sendList">
           </form>
         </div>
         <div class="col-md-2"></div>
@@ -394,6 +395,8 @@
         }
       });
 
+      //localStorage.clear();
+
       if (selectedItems.length > 0) {
 
         // 3. データ: savedList (Object)
@@ -426,21 +429,19 @@
           //localStorage.clear();
           const key = localStorage.key(i);
           const value = localStorage.getItem(key);
+
+          console.log('-----------------');
           console.log('localStorage length: ' + localStorage.length);
           console.log('selectedItems.length: ' + selectedItems.length);
           console.log('savedList.length: ' + savedList.length);
-          console.log('localStorage: ' + key + " : " + value + "<br />");
+          // console.log('localStorage data: ' + key + " : " + value);
+          console.log('-----------------');
+
           //paintText(localStorage.getItem(savedList));
 
           // savedList 出力
           let tableBody = document.querySelector("#selected-items");
           tableBody.innerHTML = "";
-
-          // 確認
-          for (let i = 0; i < savedList.length; i++) {
-            console.log('check savedList[' + i + ']: ' + JSON.stringify(savedList[i]));
-          }
-
 
           for (let i = 0; i < savedList.length; i++) {
             let row = document.createElement("tr");
@@ -452,7 +453,7 @@
 
             let cell1 = document.createElement("td");
             cell1.className = "table-ing-name"; //class 속성 추가
-            cell1.textContent = savedList[i].ingredient + ' (' + savedList[i].subCategory + ', ' + savedList[i].mainCategory + ')';
+            cell1.textContent = savedList[i].ingredient;
             cell1.value = savedList[i].ingredientValue;
 
             let cell2 = document.createElement("td");
@@ -467,7 +468,13 @@
 
             let cell4 = document.createElement("td");
             cell4.className = "table-ing-unit";
-            cell4.innerHTML = "<button class='btn-close'></button>";
+            let button = document.createElement("button");
+            button.type = "button";
+            button.className = "btn-close";
+            button.id = "deleteBtn";
+            button.dataset.tableIngName = cell1.value;
+            cell4.appendChild(button);
+
 
             cell0.appendChild(cell1);
             cell0.appendChild(cell2);
@@ -481,54 +488,25 @@
             row.appendChild(cell4);
 
             tableBody.appendChild(row);
+
+
+
+
           }
 
         }
 
+        // document.addEventListener("DOMContentLoaded", function () {
+        //   tableBody.addEventListener("click", (event) => {
+        //     const target = event.target;
+        //     const id = event.target.dataset.tableIngName;
+        //     console.log('id 1: ' + id);
+
+        //   });
+        // });
 
       }
 
-
-
-
-      // for (let i = 0; i < localStorage.length; i++) {
-
-      //   // selectedItems リセット
-      //   $("#main-category-dropdown").empty();
-      //   $("#sub-category-dropdown").empty();
-      //   $("#ingredient-dropdown").empty();
-      //   $("#unit-category-dropdown").empty();
-
-      //   $("#main-category-dropdown").append($("<option>").text("選択してください").attr("value", ""));
-      //   $("#sub-category-dropdown").append($("<option>").text("選択してください").attr("value", ""));
-      //   $("#ingredient-dropdown").append($("<option>").text("選択してください").attr("value", ""));
-      //   $("#unit-dropdown").append($("<option>").text("選択してください").attr("value", ""));
-
-      //   $(function () {
-      //     $("#unitDirect").hide(); // Input Hidden
-      //     $("#qty-dropdown").change(function () {
-      //       if ($("#qty-dropdown").val() == "direct") {
-      //         $("#unitDirect").show(); // Input Display
-      //       } else {
-      //         $("#unitDirect").hide(); // Input Hidden
-      //       }
-      //     });
-      //     $("#qty-dropdown option:first").prop("selected", true);
-      //   });
-
-      //   localStorage.clear();
-      //   const key = localStorage.key(i);
-      //   const value = localStorage.getItem(key);
-      //   console.log('localStorage length: ' + localStorage.length);
-      //   console.log(key + " : " + value + "<br />");
-
-      //   // savedList 出力
-      //   let tableBody = document.querySelector("#selected-items");
-      //   tableBody.innerHTML = "";
-
-
-
-      // }
 
 
 
@@ -673,6 +651,9 @@
 
   // Dynamic Table 材料
   let selectedItems = [];
+  let savedList = [];
+  let saveLength;
+
 
   document.querySelector("#add-button").addEventListener("click", function () {
     // 出力用
@@ -725,6 +706,62 @@
     // 出力
     let tableBody = document.querySelector("#selected-items");
     tableBody.innerHTML = "";
+
+    // if savedList is already exist
+    if (savedList.length > 0) {
+
+      saveLength = savedList.length;
+      console.log('saveLength: ' + saveLength);
+
+      for (let i = 0; i < savedList.length; i++) {
+        let row = document.createElement("tr");
+        row.className = "draggable";
+        row.draggable = true;
+
+        let cell0 = document.createElement("div");
+        cell0.className = "el";
+
+        let cell1 = document.createElement("td");
+        cell1.className = "table-ing-name"; //class 속성 추가
+        cell1.textContent = savedList[i].ingredient;
+        cell1.value = savedList[i].ingredientValue;
+
+        let cell2 = document.createElement("td");
+        cell2.className = "table-ing-qty";
+        cell2.textContent = savedList[i].qty;
+        cell2.value = savedList[i].qtyValue;
+
+        let cell3 = document.createElement("td");
+        cell3.className = "table-ing-unit";
+        cell3.textContent = savedList[i].unit;
+        cell3.value = savedList[i].unitValue;
+
+        let cell4 = document.createElement("td");
+        cell4.className = "table-ing-unit";
+        let button = document.createElement("button");
+        button.type = "button";
+        button.className = "btn-close";
+        button.id = "deleteBtn";
+        button.dataset.tableIngName = cell1.value;
+        cell4.appendChild(button);
+
+        cell0.appendChild(cell1);
+        cell0.appendChild(cell2);
+        cell0.appendChild(cell3);
+        cell0.appendChild(cell4);
+
+        row.appendChild(cell0);
+        row.appendChild(cell1);
+        row.appendChild(cell2);
+        row.appendChild(cell3);
+        row.appendChild(cell4);
+
+        tableBody.appendChild(row);
+      }
+    }
+
+
+
     for (let i = 0; i < selectedItems.length; i++) {
       let row = document.createElement("tr");
       row.className = "draggable";
@@ -750,7 +787,12 @@
 
       let cell4 = document.createElement("td");
       cell4.className = "table-ing-unit";
-      cell4.innerHTML = "<button class='btn-close'></button>";
+      let button = document.createElement("button");
+      button.type = "button";
+      button.className = "btn-close";
+      button.id = "deleteBtn";
+      button.dataset.tableIngName = cell1.value;
+      cell4.appendChild(button);
 
       cell0.appendChild(cell1);
       cell0.appendChild(cell2);
@@ -781,69 +823,147 @@
   saveButton.addEventListener("click", () => {
 
 
+
     // データがあれば
     if (tableBody.rows.length > 0) {
-      console.log('データがあります');
-      savedList(); // 保存
-      localStorage.setItem("savedList", JSON.stringify(savedList));
-      console.log('2. saveList.length: ' + savedList.length);
+      savedIngList(); // 保存
+      //localStorage.setItem("savedList", JSON.stringify(savedList));
     } else {
-      console.log('tableBody.rows.length < 0');
       console.log('保存するデータがありません');
       // TODO: text append 保存する材料がありません
     }
 
   });
 
-  function savedList() {
+  function savedIngList() {
 
-    savedList = [];
-    console.log('1. saveList.length: ' + savedList.length);
+    console.log('selectedItems: ' + selectedItems.length);
 
-    for (let i = 0; i < tableBody.rows.length; i++) {
 
-      // TableBodyのi番目のcells
-      const cells = tableBody.rows[i].cells;
 
-      // RecipeIngredientに必要なデータ
-      let ingredientValue; // ingredient.id
-      let qtyValue; // quantity
-      let unitValue; // unit.id
+    if (saveLength > 0) {
 
-      // 各cellsのj番目の要素
-      for (let j = 0; j < cells.length; j++) {
-        switch (j) {
-          case 0:
-            ingredient = cells[j].textContent;
-            ingredientValue = cells[j].value;
-            break;
-          case 1:
-            qty = cells[j].textContent;
-            qtyValue = cells[j].value;
-            break;
-          case 2:
-            unit = cells[j].textContent;
-            unitValue = cells[j].value;
-            break;
+      for (let i = saveLength; i < tableBody.rows.length; i++) {
+
+        // TableBodyのi番目のcells
+        const cells = tableBody.rows[i].cells;
+
+        // RecipeIngredientに必要なデータ
+        let ingredient;
+        let qty;
+        let unit;
+        let ingredientValue; // ingredient.id
+        let qtyValue; // quantity
+        let unitValue; // unit.id
+
+        // 各cellsのj番目の要素
+        for (let j = 0; j < cells.length; j++) {
+          switch (j) {
+            case 0:
+              ingredient = cells[j].textContent;
+              ingredientValue = cells[j].value;
+              break;
+            case 1:
+              qty = cells[j].textContent;
+              qtyValue = cells[j].value;
+              break;
+            case 2:
+              unit = cells[j].textContent;
+              unitValue = cells[j].value;
+              break;
+          }
         }
+
+        // Object: savedListに保存
+        savedList.push({
+          ingredient: ingredient,
+          unit: unit,
+          qty: qty,
+          ingredientId: ingredientValue,
+          qtyValue: qtyValue,
+          unitId: unitValue
+        });
+
       }
+    } else {
+      for (let i = 0; i < tableBody.rows.length; i++) {
 
-      // Object: savedListに保存
-      savedList.push({
-        ingredientId: ingredientValue,
-        qty: qtyValue,
-        unitId: unitValue
-      });
+        // TableBodyのi番目のcells
+        const cells = tableBody.rows[i].cells;
 
+        // RecipeIngredientに必要なデータ
+        let ingredient;
+        let qty;
+        let unit;
+        let ingredientValue; // ingredient.id
+        let qtyValue; // quantity
+        let unitValue; // unit.id
+
+        // 各cellsのj番目の要素
+        for (let j = 0; j < cells.length; j++) {
+          switch (j) {
+            case 0:
+              ingredient = cells[j].textContent;
+              ingredientValue = cells[j].value;
+              break;
+            case 1:
+              qty = cells[j].textContent;
+              qtyValue = cells[j].value;
+              break;
+            case 2:
+              unit = cells[j].textContent;
+              unitValue = cells[j].value;
+              break;
+          }
+        }
+
+        // Object: savedListに保存
+        savedList.push({
+          ingredient: ingredient,
+          unit: unit,
+          qty: qty,
+          ingredientId: ingredientValue,
+          qtyValue: qtyValue,
+          unitId: unitValue
+        });
+
+      }
     }
 
     // 確認
-    for (let i = 0; i < savedList.length; i++) {
-      console.log('String savedList[' + i + ']: ' + JSON.stringify(savedList[i]));
-    }
+    // for (let i = 0; i < savedList.length; i++) {
+    //   console.log('String savedList[' + i + ']: ' + JSON.stringify(savedList[i]));
+    // }
 
   }
 
+  // 削除
+  document.addEventListener("DOMContentLoaded", function () {
+    tableBody.addEventListener("click", (event) => {
+      const target = event.target;
+      const id = event.target.dataset.tableIngName;
+      console.log('id 1: ' + id);
+      console.log('selectedItems.indexOf(id) ' + selectedItems.indexOf(id));
+      savedList.splice(savedList.indexOf(id), 1);
+
+    });
+  });
+
+
+
+
+
+
+
+  document.getElementById('writeForm').addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    console.log('form제출전');
+    console.log('savedList.length ' + savedList.length);
+    $('#send-list-input').val(JSON.stringify(savedList));
+
+    // Submit the form
+    this.submit();
+  })
 
 
 
@@ -873,58 +993,53 @@
 
 
 
+    /**
+        * [x] 엘리먼트의 .draggable, .container의 배열로 선택자를 지정합니다.
+        * [x] draggables를 전체를 루프하면서 dragstart, dragend를 이벤트를 발생시킵니다.
+        * [x] dragstart, dragend 이벤트를 발생할때 .dragging라는 클래스를 토글시킨다.
+        * [x] dragover 이벤트가 발생하는 동안 마우스 드래그하고 마지막 위치해놓은 Element를 리턴하는 함수를 만듭니다.
+        */
 
+    (() => {
+      const $ = (select) => document.querySelectorAll(select);
+      const draggables = $('.draggable');
+      const containers = $('.container');
 
+      draggables.forEach(el => {
+        el.addEventListener('dragstart', () => {
+          el.classList.add('dragging');
+        });
 
-
-
-  /**
-      * [x] 엘리먼트의 .draggable, .container의 배열로 선택자를 지정합니다.
-      * [x] draggables를 전체를 루프하면서 dragstart, dragend를 이벤트를 발생시킵니다.
-      * [x] dragstart, dragend 이벤트를 발생할때 .dragging라는 클래스를 토글시킨다.
-      * [x] dragover 이벤트가 발생하는 동안 마우스 드래그하고 마지막 위치해놓은 Element를 리턴하는 함수를 만듭니다.
-      */
-
-  (() => {
-    const $ = (select) => document.querySelectorAll(select);
-    const draggables = $('.draggable');
-    const containers = $('.container');
-
-    draggables.forEach(el => {
-      el.addEventListener('dragstart', () => {
-        el.classList.add('dragging');
+        el.addEventListener('dragend', () => {
+          el.classList.remove('dragging')
+        });
       });
 
-      el.addEventListener('dragend', () => {
-        el.classList.remove('dragging')
+      function getDragAfterElement(container, y) {
+        const draggableElements = [...container.querySelectorAll('.draggable:not(.dragging)')]
+
+        return draggableElements.reduce((closest, child) => {
+          const box = child.getBoundingClientRect()
+          const offset = y - box.top - box.height / 2
+          if (offset < 0 && offset > closest.offset) {
+            return { offset: offset, element: child }
+          } else {
+            return closest
+          }
+        }, { offset: Number.NEGATIVE_INFINITY }).element
+      };
+
+      containers.forEach(container => {
+        container.addEventListener('dragover', e => {
+          e.preventDefault()
+          const afterElement = getDragAfterElement(container, e.clientY);
+          const draggable = document.querySelector('.dragging')
+          // container.appendChild(draggable)
+          container.insertBefore(draggable, afterElement);
+
+        })
       });
-    });
-
-    function getDragAfterElement(container, y) {
-      const draggableElements = [...container.querySelectorAll('.draggable:not(.dragging)')]
-
-      return draggableElements.reduce((closest, child) => {
-        const box = child.getBoundingClientRect()
-        const offset = y - box.top - box.height / 2
-        if (offset < 0 && offset > closest.offset) {
-          return { offset: offset, element: child }
-        } else {
-          return closest
-        }
-      }, { offset: Number.NEGATIVE_INFINITY }).element
-    };
-
-    containers.forEach(container => {
-      container.addEventListener('dragover', e => {
-        e.preventDefault()
-        const afterElement = getDragAfterElement(container, e.clientY);
-        const draggable = document.querySelector('.dragging')
-        // container.appendChild(draggable)
-        container.insertBefore(draggable, afterElement);
-
-      })
-    });
-  })();
+    })();
 
 
   var input = document.getElementById("input");
