@@ -186,7 +186,7 @@ public class RecipeController {
     public String recipeVote(Principal principal, @PathVariable("id") Integer id){
         Recipe recipe = this.recipeService.getRecipe(id);
         SiteUser siteUser = this.userService.getUserByUsername(principal.getName());
-        this.recipeService.vote(recipe,siteUser);
+        this.recipeService.handleVote(recipe,siteUser);
         return String.format("redirect:/recipe/detail/%s",id);
     }
 
