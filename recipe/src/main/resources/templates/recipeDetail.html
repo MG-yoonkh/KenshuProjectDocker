@@ -6,51 +6,36 @@
     <main>
       <div class="container-fluid text-center">
         <div class="row">
-          <!-- カテゴリー -->
-          <div class="col-md-2">
-            <h3 class="incomplete" >カテゴリ</h3>
+
+          <div class="col-sm-2">
+            <div class="row p-5"></div>
+            <!-- カテゴリー -->
+            <h3>カテゴリ</h3>
             <ul class="list-group incomplete">
               <li class="list-group-item" id="list_korean">
-                <a href="index" class="block_none">韓国料理<img th:href="@{/assets/img/thumb_peppers.png}" title=""
-                                                                class="thumb_nail" /></a>
+                <a th:href="@{/index(category='韓国料理')}" class="block_none">韓国料理<img src="assets/img/thumb_peppers.png" title=""
+                                                                                            class="thumb_nail" /></a>
               </li>
               <li class="list-group-item" id="list_japanese">
-                <a href="index" class="block_none">日本料理<img th:href="@{/assets/img/thumb_sushi.png}" title=""
-                                                                class="thumb_nail" /></a>
+                <a th:href="@{/index(category='日本料理')}" class="block_none">日本料理<img th:href="@{/assets/img/thumb_sushi.png}" title=""
+                                                                                            class="thumb_nail" /></a>
               </li>
               <li class="list-group-item" id="list_chinese">
-                <a href="index" class="block_none">中華料理<img th:href="@{/assets/img/thumb_takeaway.png}" title=""
-                                                                class="thumb_nail" /></a>
+                <a th:href="@{/index(category='中華料理')}" class="block_none">中華料理<img th:href="@{/assets/img/thumb_takeaway.png}" title=""
+                                                                                            class="thumb_nail" /></a>
               </li>
               <li class="list-group-item" id="list_western">
-                <a href="index" class="block_none">西洋料理<img th:href="@{/assets/img/thumb_quesadilla.png}" title=""
-                                                                class="thumb_nail" /></a>
+                <a th:href="@{/index(category='西洋料理')}" class="block_none">西洋料理<img th:href="@{/assets/img/thumb_quesadilla.png}" title=""
+                                                                                            class="thumb_nail" /></a>
               </li>
             </ul>
+            <!-- end カテゴリー -->
           </div>
-          <!-- end カテゴリー -->
 
-          <div class="col-md-8">
+
+          <div class="col-md-10">
 
             <div class="row justify-content-center">
-              <div class="my-3">
-
-                <a
-                  th:href="@{|/recipe/modify/${recipe.id}|}"
-                  class="btn btn-sm btn-outline-secondary"
-                  sec:authorize="isAuthenticated()"
-                  th:if="${recipe.author != null and #authentication.getPrincipal().getUsername() == recipe.author.username}"
-                  th:text="修正"
-                ></a>
-                <a
-                  href="javascript:void(0);"
-                  th:data-uri="@{|/recipe/delete/${recipe.id}|}"
-                  class="delete btn btn-sm btn-outline-secondary"
-                  sec:authorize="isAuthenticated()"
-                  th:if="${recipe.author != null and #authentication.getPrincipal().getUsername() == recipe.author.username}"
-                  th:text="削除"
-                ></a>
-              </div>
               <div class="text-center" id="recipe_title">
                 <h1 th:text="${recipe.recipeName}" class="p-2 font-face"></h1>
               </div>
@@ -60,12 +45,29 @@
                   alt="Recipe Image"
                   id="recipe_image"
                 />
-                <a href="javascript:void(0);" class="recommend btn btn-sm btn-outline-secondary"
-                   th:data-uri="@{|/recipe/vote/${recipe.id}|}"
-                   th:data-voted="${userHasVoted != null ? userHasVoted : false}">
-                  いいね
-                  <span class="badge rounded-pill bg-success" th:text="${#lists.size(recipe.voter)}"></span>
-                </a>
+                <div class="p-3 g-3">
+                  <a
+                    th:href="@{|/recipe/modify/${recipe.id}|}"
+                    class="btn btn-sm btn-outline-secondary"
+                    sec:authorize="isAuthenticated()"
+                    th:if="${recipe.author != null and #authentication.getPrincipal().getUsername() == recipe.author.username}"
+                    th:text="修正"
+                  ></a>
+                  <a
+                    href="javascript:void(0);"
+                    th:data-uri="@{|/recipe/delete/${recipe.id}|}"
+                    class="delete btn btn-sm btn-outline-secondary"
+                    sec:authorize="isAuthenticated()"
+                    th:if="${recipe.author != null and #authentication.getPrincipal().getUsername() == recipe.author.username}"
+                    th:text="削除"
+                  ></a>
+                  <a href="javascript:void(0);" class="recommend btn btn-sm btn-outline-secondary"
+                     th:data-uri="@{|/recipe/vote/${recipe.id}|}"
+                     th:data-voted="${userHasVoted != null ? userHasVoted : false}">
+                    いいね
+                    <span class="badge rounded-pill bg-success" th:text="${#lists.size(recipe.voter)}"></span>
+                  </a>
+                </div>
               </div>
             </div>
 
@@ -75,6 +77,12 @@
               </div>
             </div>
             <div class="row justify-content-center">
+              <div class="col-md-2">
+                <label for="" class="p-2">
+                  <h3>カテゴリー</h3>
+                </label>
+                <h5 th:text="@{|${recipe.category}|}">西洋料理</h5>
+              </div>
               <div class="col-md-2">
                 <label for="" class="p-2">
                   <h3>調理時間</h3>
@@ -87,12 +95,7 @@
                 </label>
                 <h5>100円以内</h5>
               </div>
-              <div class="col-md-2">
-                <label for="" class="p-2">
-                  <h3>カテゴリー</h3>
-                </label>
-                <h5 th:text="@{|${recipe.category}|}">西洋料理</h5>
-              </div>
+
             </div>
             <div class="row justify-content-center p-5">
               <div class="col-md-7">

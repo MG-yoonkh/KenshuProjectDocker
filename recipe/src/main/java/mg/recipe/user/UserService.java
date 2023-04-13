@@ -21,6 +21,7 @@ public class UserService {
         SiteUser user = new SiteUser();
         user.setUsername(username);
         user.setEmail(email);
+        user.setRole(UserRole.USER);
         user.setPassword(passwordEncoder.encode(password));
         this.userRepository.save(user);
         return user;
@@ -73,5 +74,14 @@ public class UserService {
     }
     public boolean checkCredentials(SiteUser user, String rawPassword) {
         return passwordEncoder.matches(rawPassword, user.getPassword());
+    }
+
+
+
+    public void grantAdminRole(Integer userId) {
+        SiteUser user = userRepository.findById(userId).orElseThrow(
+                () -> new IllegalArgumentException("User not found with ID: " + userId));
+        user.setRole(UserRole.ADMIN);
+        userRepository.save(user);
     }
 }
