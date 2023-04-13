@@ -41,7 +41,6 @@ public class RecipeController {
     private final IngredientService ingredientService;
 
     private final MeasurementUnitService measurementUnitService;
-
     @GetMapping("/")
     public String root() {
         return "redirect:/index";
@@ -69,9 +68,14 @@ public class RecipeController {
 
     // レシピ詳細
     @GetMapping("/recipe/detail/{id}")
-    public String detail(Model model, @PathVariable("id") Integer id) {
+    public String detail(Model model, @PathVariable("id") Integer id, Principal principal){
         Recipe recipe = this.recipeService.getRecipe(id);
-        model.addAttribute("recipe", recipe);
+        if(principal != null){
+            SiteUser siteUser = this.userService.getUserByUsername(principal.getName());
+            boolean userHasVoted = recipe.hasUserVoted(siteUser);
+            model.addAttribute("userHasVoted", userHasVoted);
+        }
+        model.addAttribute("recipe",recipe);
         return "recipeDetail";
     }
 
@@ -128,6 +132,7 @@ public class RecipeController {
 
         return "redirect:/index";
     }
+
 
     // レシピ登録画面
     @PreAuthorize("isAuthenticated()")
@@ -186,8 +191,8 @@ public class RecipeController {
     public String recipeVote(Principal principal, @PathVariable("id") Integer id) {
         Recipe recipe = this.recipeService.getRecipe(id);
         SiteUser siteUser = this.userService.getUserByUsername(principal.getName());
-        this.recipeService.vote(recipe, siteUser);
-        return String.format("redirect:/recipe/detail/%s", id);
+        this.recipeService.handleVote(recipe,siteUser);
+        return String.format("redirect:/recipe/detail/%s",id);
     }
 
 }

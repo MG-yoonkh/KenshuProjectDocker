@@ -45,9 +45,23 @@ public class Recipe {
     @ManyToOne
     private SiteUser author;
 
+
+
     // レシピをお気に入りしたユーザー
     @ManyToMany(fetch = FetchType.LAZY)
     Set<SiteUser> voter;
+
+    public boolean hasUserVoted(SiteUser siteUser) {
+        return this.voter.contains(siteUser);
+    }
+    public void addVoter(SiteUser siteUser) {
+        this.voter.add(siteUser);
+        this.voterCount = this.voter.size();
+    }
+    public void removeVoter(SiteUser siteUser) {
+        this.voter.remove(siteUser);
+        this.voterCount = this.voter.size();
+    }
 
     private Integer voterCount;
     public Set<SiteUser> getVoter() {
@@ -57,6 +71,8 @@ public class Recipe {
     public void setVoterCount(Set<SiteUser> voter){
         this.voterCount = voter.size();
     }
+
+
 
     // レシピ＆材料
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)

@@ -87,9 +87,15 @@ public class RecipeService {
         this.recipeRepository.delete(recipe);
     }
 
-    public void vote(Recipe recipe, SiteUser siteUser){
-        recipe.getVoter().add(siteUser);
-        this.recipeRepository.save(recipe);
+
+    public void handleVote(Recipe recipe, SiteUser siteUser) {
+        if (recipe.hasUserVoted(siteUser)) {
+            recipe.removeVoter(siteUser);
+        } else {
+            recipe.addVoter(siteUser);
+        }
+
+        recipeRepository.save(recipe);
     }
 
 

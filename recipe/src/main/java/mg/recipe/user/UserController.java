@@ -172,5 +172,17 @@ public class UserController {
         return "redirect:/logout";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping
+    public String grantAdminRole(){
+        return "adminPage";
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/admin/{userId}")
+    public String grantAdminRole(@PathVariable("userId") Integer userId){
+        userService.grantAdminRole(userId);
+        return "redirect:/admin";
+    }
 
 }
