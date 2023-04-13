@@ -6,7 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.YearMonth;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -16,6 +20,8 @@ public class UserService {
     private final UserRepository userRepository;
     @Autowired
     private final PasswordEncoder passwordEncoder;
+    @Autowired
+    private final SiteVisitRepository siteVisitRepository;
 
     public SiteUser create(String username, String email, String password){
         SiteUser user = new SiteUser();
@@ -83,5 +89,22 @@ public class UserService {
                 () -> new IllegalArgumentException("User not found with ID: " + userId));
         user.setRole(UserRole.ADMIN);
         userRepository.save(user);
+    }
+
+    public Map<YearMonth, Long> getMonthlyRegistrations(YearMonth startMonth, YearMonth endMonth) {
+        List<Object[]> results = userRepository.countMonthlyRegistrations(startMonth, endMonth);
+        return results.stream()
+                .collect(Collectors.toMap(
+                        row -> YearMonth.of(((Number) row[0]).intValue(), ((Number) row[1]).intValue()),
+                        row -> ((Number) row[2]).longValue()
+                ));
+    }
+    public Map<YearMonth, Long> getMonthlyVisitors(YearMonth startMonth, YearMonth endMonth) {
+        List<Object[]> results = siteVisitRepository.countMonthlyVisitors(startMonth, endMonth);
+        return results.stream()
+                .collect(Collectors.toMap(
+                        row -> YearMonth.of(((Number) row[0]).intValue(), ((Number) row[1]).intValue()),
+                        row -> ((Number) row[2]).longValue()
+                ));
     }
 }

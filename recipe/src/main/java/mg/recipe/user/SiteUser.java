@@ -5,6 +5,8 @@ import jakarta.validation.constraints.Email;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @Entity
@@ -25,5 +27,8 @@ public class SiteUser {
 
     @Enumerated(EnumType.STRING)
     private UserRole role;
+
+    private LocalDateTime createDate;
+    private LocalDateTime modifyDate;
 
 }
