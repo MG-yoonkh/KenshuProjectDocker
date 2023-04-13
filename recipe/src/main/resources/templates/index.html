@@ -61,7 +61,7 @@
               <!-- ソート順 (人気・日付) -->
               <div class="col-md-3 category_box">
                 <div class="form-group">
-                  <select class="form-select" id="search_orderBy" aria-label="orderBy">
+                  <select class="form-select" id="search_orderBy" th:value="${orderBy}" aria-label="orderBy">
                     <option value="" selected>ソート順</option>
                     <option value="popular">人気順</option>
                     <option value="date">日付順</option>

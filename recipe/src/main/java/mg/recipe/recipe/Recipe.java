@@ -50,7 +50,10 @@ public class Recipe {
     Set<SiteUser> voter;
 
     private Integer voterCount;
-
+    public Set<SiteUser> getVoter() {
+        this.voterCount = this.voter.size();
+        return this.voter;
+    }
     public void setVoterCount(Set<SiteUser> voter){
         this.voterCount = voter.size();
     }
