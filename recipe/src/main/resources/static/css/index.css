@@ -14,7 +14,7 @@
 
 .recipe_link {
   background-color: #FAEBD7;
-  border-color: #FAEBD7;;
+  border-color: #FAEBD7;
 }
 
 .img-bg {
@@ -85,6 +85,25 @@
     text-decoration: none;
 }
 
+#list_korean {
+  background-color: #FAEBD7;
+  border-color: #7a36539c;
+}
+
+#list_japanese {
+  background-color: #FAEBD7;
+  border-color: #7a36539c;
+}
+
+#list_chinese {
+  background-color: #FAEBD7;
+  border-color: #7a36539c;
+}
+
+#list_western {
+  background-color: #FAEBD7;
+  border-color: #7a36539c;
+}
 
 #list_korean:hover {
   background-color: #7a36539c;
