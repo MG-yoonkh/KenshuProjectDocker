@@ -1,5 +1,7 @@
 package mg.recipe.recipe;
 
+import java.util.ArrayList;
+
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -18,7 +20,9 @@ public class RecipeForm {
     private String cookTime;
     private String budget;
 
-    private String instruction;
+    private String[] instruction;
+
+    //private ArrayList<String> instruction;
 
     private String thumbnail;
 

@@ -231,39 +231,80 @@
                   <hr />
                 </div>
               </div>
-              <!-- 作り方登録 -->
+              <!-- 作り方登録 : subFile -->
               <div class="row justify-content-center text-center">
                 <div class="col-md-6">
                   <label class="" for="">
                     <h1>作り方</h1>
                   </label>
+                  <!-- 1番目 -->
                   <div class="row justify-content-center">
                     <label for="" class="p-2 text-start">1番目</label>
                     <div class="col-md-8 p-2">
-                      <textarea class="form-control" name="instruction" id="instructions" rows="5"
+                      <textarea class="form-control" name="description" id="instructions" rows="5"
                         placeholder="作り方を入力"></textarea>
                     </div>
                     <div class="col-md-4">
-                      <label for="">イメージ登録</label>
-                      <input type="image" class="form-control" src="" />
-                      <input type="file" class="form-control" />
+                      <label class="label" id="label" for="input">
+                        <!-- Drag N Drop Icon -->
+                        <div class="inner" id="inner">
+                          <img th:src="@{/assets/icon/dragndrop.png}" class="dragicon" alt="">
+                          <!-- イメージ preview-->
+                          <div class="preview" id="preview"></div>
+                        </div>
+                      </label>
+                      <!-- イメージファイル thumbFile-->
+                      <input id="input" class="input" accept="image/*" type="file" name="imgUrl"
+                        required="true" multiple="true" hidden="true">
                     </div>
                   </div>
+                  <!-- 2番目 -->
                   <div class="row justify-content-center">
-                    <label for="" class="p-2 text-start">2番目</label>
+                    <label for="" class="p-2 text-start">1番目</label>
                     <div class="col-md-8 p-2">
-                      <textarea class="form-control" id="instructions" rows="5" placeholder="作り方を入力"></textarea>
+                      <textarea class="form-control" name="description" id="instructions" rows="5"
+                        placeholder="作り方を入力"></textarea>
                     </div>
                     <div class="col-md-4">
-                      <label for="">イメージ</label>
-                      <input type="image" class="form-control" src="" />
-                      <input type="file" class="form-control" />
+                      <label class="label" id="label" for="input">
+                        <!-- Drag N Drop Icon -->
+                        <div class="inner" id="inner">
+                          <img th:src="@{/assets/icon/dragndrop.png}" class="dragicon" alt="">
+                          <!-- イメージ preview-->
+                          <div class="preview" id="preview"></div>
+                        </div>
+                      </label>
+                      <!-- イメージファイル thumbFile-->
+                      <input id="input" class="input" accept="image/*" type="file" name="imgUrl"
+                        required="true" multiple="true" hidden="true">
                     </div>
                   </div>
+                  <!-- 3番目 -->
+                  <div class="row justify-content-center">
+                    <label for="" class="p-2 text-start">1番目</label>
+                    <div class="col-md-8 p-2">
+                      <textarea class="form-control" name="description" id="instructions" rows="5"
+                        placeholder="作り方を入力"></textarea>
+                    </div>
+                    <div class="col-md-4">
+                      <label class="label" id="label" for="input">
+                        <!-- Drag N Drop Icon -->
+                        <div class="inner" id="inner">
+                          <img th:src="@{/assets/icon/dragndrop.png}" class="dragicon" alt="">
+                          <!-- イメージ preview-->
+                          <div class="preview" id="preview"></div>
+                        </div>
+                      </label>
+                      <!-- イメージファイル thumbFile-->
+                      <input id="input" class="input" accept="image/*" type="file" name="imgUrl"
+                        required="true" multiple="true" hidden="true">
+                    </div>
+                  </div>
+                  <!-- 追加 Button -->
                   <div class="row text-start">
                     <div class="col-md-3 text-start">
                       <button type="button" class="btn btn-secondary">
-                        調理法追加
+                        追加
                       </button>
                     </div>
                   </div>
@@ -965,7 +1006,7 @@
 
 
 
-  
+
 </script>
 
 </html>

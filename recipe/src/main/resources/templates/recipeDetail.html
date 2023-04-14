@@ -40,7 +40,7 @@
               <h1 th:text="${recipe.recipeName}" class="p-2 font-face"></h1>
             </div>
             <div class="col-md-6">
-              <img th:src="@{__${recipe.thumbnail.substring(16)}__}" class="img-fluid" alt="Recipe Image"
+              <img th:src="@{|\uploaded\${recipe.thumbnail}|}" class="img-fluid" alt="Recipe Image"
                 id="recipe_image" />
               <div class="p-3 g-3">
                 <a th:href="@{|/recipe/modify/${recipe.id}|}" class="btn btn-sm btn-outline-secondary"

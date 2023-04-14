@@ -74,6 +74,7 @@ public class RecipeService {
         r1.setCategory(recipeForm.getCategory());
         r1.setCookTime(recipeForm.getCookTime());
         r1.setBudget(recipeForm.getBudget());
+        //r1.setInstructionList(null);
         return this.recipeRepository.save(r1);
     }
 

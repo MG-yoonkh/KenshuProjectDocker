@@ -9,6 +9,7 @@ import mg.recipe.ingredient.Ingredient;
 import mg.recipe.ingredient.IngredientService;
 import mg.recipe.ingredientCategory.IngredientCategory;
 import mg.recipe.ingredientCategory.IngredientCategoryService;
+import mg.recipe.instruction.Instruction;
 import mg.recipe.instruction.InstructionService;
 import mg.recipe.measurementUnit.MeasurementUnit;
 import mg.recipe.measurementUnit.MeasurementUnitService;
@@ -27,6 +28,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
@@ -36,6 +38,7 @@ import java.nio.file.Paths;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Controller
@@ -77,24 +80,25 @@ public class RecipeController {
 
     // レシピ詳細
     @GetMapping("/recipe/detail/{id}")
-    public String detail(Model model, @PathVariable("id") Integer id, Principal principal){
-        
+    public String detail(Model model, @PathVariable("id") Integer id, Principal principal) {
+
         Recipe recipe = this.recipeService.getRecipe(id);
-        if(principal != null){
+        if (principal != null) {
             SiteUser siteUser = this.userService.getUserByUsername(principal.getName());
             boolean userHasVoted = recipe.hasUserVoted(siteUser);
             model.addAttribute("userHasVoted", userHasVoted);
         }
 
-        // 
+        // レシピ材料のリスト
         List<RecipeIngredient> riList = this.recipeIngredientService.getAllIngredient(recipe);
-        if(riList != null) {
+        if (riList != null) {
             for (int i = 0; i < riList.size(); i++) {
                 System.out.println(riList.get(i));
             }
         }
-        model.addAttribute("recipe",recipe);
-        model.addAttribute("riList",riList);
+
+        model.addAttribute("recipe", recipe);
+        model.addAttribute("riList", riList);
         return "recipeDetail";
     }
 
@@ -104,26 +108,34 @@ public class RecipeController {
     public String createRecipe(@Valid RecipeForm recipeForm,
             @RequestParam("thumbFile") MultipartFile file,
             @RequestParam("sendList") String sendListStr,
+            @RequestParam("description") String[] descriptionList,
+            @RequestParam(value = "imgUrl") List<MultipartFile> files,
             BindingResult bindingResult,
             Principal principal) throws IOException {
 
         if (bindingResult.hasErrors()) {
             return "writeRecipe";
         }
+
         // イメージ登録
-        Path fileStorageLocation = Paths.get("upload").toAbsolutePath().normalize();
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        Path fileStorageLocation = Paths.get("C:", "KenshuProject", "recipe", "src", "main", "resources", "static", "uploaded")
+        .toAbsolutePath();
+        String fileName = StringUtils.cleanPath(file.getOriginalFilename());   
+        
+        // UUIDでランダムなファイル名を付与
+        UUID uuid = UUID.randomUUID();
+        String newFileName = uuid.toString() + "_" + fileName;
 
         try {
             // ファイルセーブする場所の生成
             Files.createDirectories(fileStorageLocation);
 
             // ファイルセーブ
-            Path targetLocation = fileStorageLocation.resolve(fileName);
+            Path targetLocation = fileStorageLocation.resolve(newFileName);
             file.transferTo(targetLocation.toFile());
 
             // Recipe オブジェクトに経路を格納
-            recipeForm.setThumbnail(targetLocation.toString());
+            recipeForm.setThumbnail(newFileName);
         } catch (IOException e) {
             throw new RuntimeException("Could not store file " + fileName + ". Please try again!", e);
         }
@@ -132,16 +144,13 @@ public class RecipeController {
         SiteUser siteUser = this.userService.getUserByUsername(principal.getName());
         Recipe recipe = this.recipeService.create(recipeForm, siteUser);
 
-        // 材料を登録
-        // this.ingredientService.create(recipe, recipeForm.getIngredient());
-        // 調理方法を登録
-        // this.instructionService.create(recipe, recipeForm.getInstruction());
-
-        System.out.println(sendListStr);
-
+        // Json -> Java
         ObjectMapper objectMapper = new ObjectMapper();
-        List<RecipeIngredientJson> jsonList = objectMapper.readValue(sendListStr, new TypeReference<List<RecipeIngredientJson>>() {});
+        List<RecipeIngredientJson> jsonList = objectMapper.readValue(sendListStr,
+                new TypeReference<List<RecipeIngredientJson>>() {
+                });
 
+        // 材料を登録
         List<RecipeIngredient> rList = new ArrayList<>();
         for (RecipeIngredientJson json : jsonList) {
             RecipeIngredient recipeIngredient = new RecipeIngredient();
@@ -150,14 +159,49 @@ public class RecipeController {
             recipeIngredient.setIngredient(ingredientService.getIng(json.getIngredientId()));
             rList.add(recipeIngredient);
         }
-
-        // 材料を登録
         this.recipeIngredientService.create(recipe, rList);
 
+        // イメージ登録
+        // List<String> imgUrlList = new ArrayList<>();
+        // System.out.println("1 name: " + files.get(0).getOriginalFilename() + "!");
+        // System.out.println("2 name: " + files.get(1).getOriginalFilename() + "!");
+        // System.out.println("3 name: " + files.get(2).getOriginalFilename() + "!");
+        // for (int i = 0; i < files.size(); i++) {
+        // String fileName2 = StringUtils.cleanPath(files.get(i).getOriginalFilename());
 
-        return "redirect:/index";
+        // try {
+        // // ファイルセーブする場所の生成
+        // Files.createDirectories(fileStorageLocation);
+
+        // // ファイルセーブ
+        // Path targetLocation2 = fileStorageLocation.resolve(fileName2);
+        // files.get(i).transferTo(targetLocation2.toFile());
+
+        // // Recipe オブジェクトに経路を格納
+        // imgUrlList.add(targetLocation2.toString());
+        // System.out.println("imgUrl: " + imgUrlList.get(i).toString());
+
+        // } catch (IOException e) {
+        // throw new RuntimeException("Could not store file " + fileName2 + ". Please
+        // try again!", e);
+        // }
+        // }
+
+        // レシピ調理方法
+        // List<Instruction> ist = new ArrayList<>();
+        // for (int i = 0; i < descriptionList.length; i++) {
+        // Instruction instruction = new Instruction();
+        // instruction.setDescription(descriptionList[i]);
+        // instruction.setImgUrl(imgUrlList.get(i));
+        // instruction.setRecipe(recipe);
+        // ist.add(instruction);
+        // }
+        // this.instructionService.create(ist);
+
+        
+
+        return String.format("redirect:/recipe/detail/%d", recipe.getId());
     }
-
 
     // レシピ登録画面
     @PreAuthorize("isAuthenticated()")
@@ -216,8 +260,8 @@ public class RecipeController {
     public String recipeVote(Principal principal, @PathVariable("id") Integer id) {
         Recipe recipe = this.recipeService.getRecipe(id);
         SiteUser siteUser = this.userService.getUserByUsername(principal.getName());
-        this.recipeService.handleVote(recipe,siteUser);
-        return String.format("redirect:/recipe/detail/%s",id);
+        this.recipeService.handleVote(recipe, siteUser);
+        return String.format("redirect:/recipe/detail/%s", id);
     }
 
 }
