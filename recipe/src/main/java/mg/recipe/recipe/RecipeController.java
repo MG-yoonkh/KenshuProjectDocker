@@ -78,13 +78,23 @@ public class RecipeController {
     // レシピ詳細
     @GetMapping("/recipe/detail/{id}")
     public String detail(Model model, @PathVariable("id") Integer id, Principal principal){
+        
         Recipe recipe = this.recipeService.getRecipe(id);
         if(principal != null){
             SiteUser siteUser = this.userService.getUserByUsername(principal.getName());
             boolean userHasVoted = recipe.hasUserVoted(siteUser);
             model.addAttribute("userHasVoted", userHasVoted);
         }
+
+        // 
+        List<RecipeIngredient> riList = this.recipeIngredientService.getAllIngredient(recipe);
+        if(riList != null) {
+            for (int i = 0; i < riList.size(); i++) {
+                System.out.println(riList.get(i));
+            }
+        }
         model.addAttribute("recipe",recipe);
+        model.addAttribute("riList",riList);
         return "recipeDetail";
     }
 

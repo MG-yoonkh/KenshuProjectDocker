@@ -929,12 +929,6 @@
 
       }
     }
-
-    // 確認
-    // for (let i = 0; i < savedList.length; i++) {
-    //   console.log('String savedList[' + i + ']: ' + JSON.stringify(savedList[i]));
-    // }
-
   }
 
   // 削除
@@ -950,18 +944,11 @@
   });
 
 
-
-
-
-
-
+  // writeFormSubmitの前
   document.getElementById('writeForm').addEventListener('submit', function (evt) {
     evt.preventDefault();
-    console.log('form제출전');
-    console.log('savedList.length ' + savedList.length);
+    // savedListをJSON.stringにして、input hiddenに入れる
     $('#send-list-input').val(JSON.stringify(savedList));
-
-    // Submit the form
     this.submit();
   })
 
@@ -978,228 +965,7 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /**
-        * [x] 엘리먼트의 .draggable, .container의 배열로 선택자를 지정합니다.
-        * [x] draggables를 전체를 루프하면서 dragstart, dragend를 이벤트를 발생시킵니다.
-        * [x] dragstart, dragend 이벤트를 발생할때 .dragging라는 클래스를 토글시킨다.
-        * [x] dragover 이벤트가 발생하는 동안 마우스 드래그하고 마지막 위치해놓은 Element를 리턴하는 함수를 만듭니다.
-        */
-
-    (() => {
-      const $ = (select) => document.querySelectorAll(select);
-      const draggables = $('.draggable');
-      const containers = $('.container');
-
-      draggables.forEach(el => {
-        el.addEventListener('dragstart', () => {
-          el.classList.add('dragging');
-        });
-
-        el.addEventListener('dragend', () => {
-          el.classList.remove('dragging')
-        });
-      });
-
-      function getDragAfterElement(container, y) {
-        const draggableElements = [...container.querySelectorAll('.draggable:not(.dragging)')]
-
-        return draggableElements.reduce((closest, child) => {
-          const box = child.getBoundingClientRect()
-          const offset = y - box.top - box.height / 2
-          if (offset < 0 && offset > closest.offset) {
-            return { offset: offset, element: child }
-          } else {
-            return closest
-          }
-        }, { offset: Number.NEGATIVE_INFINITY }).element
-      };
-
-      containers.forEach(container => {
-        container.addEventListener('dragover', e => {
-          e.preventDefault()
-          const afterElement = getDragAfterElement(container, e.clientY);
-          const draggable = document.querySelector('.dragging')
-          // container.appendChild(draggable)
-          container.insertBefore(draggable, afterElement);
-
-        })
-      });
-    })();
-
-
-  var input = document.getElementById("input");
-  var initLabel = document.getElementById("label");
-
-
-  // ファイルが選択されたら、handleUpdate関数を呼び出す
-  input.addEventListener("change", (event) => {
-    const files = changeEvent(event);
-    handleUpdate(files);
-  });
-
-  // ラベルにマウスオーバーしたら、ラベルにクラスを追加する
-  initLabel.addEventListener("mouseover", (event) => {
-    event.preventDefault();
-    const label = document.getElementById("label");
-    label?.classList.add("label--hover");
-  });
-
-  // ラベルからマウスが離れたら、ラベルからクラスを削除する
-  initLabel.addEventListener("mouseout", (event) => {
-    event.preventDefault();
-    const label = document.getElementById("label");
-    label?.classList.remove("label--hover");
-  });
-
-  // ドラッグエンター時、ドラッグリーブ時に背景色を変更する
-  document.addEventListener("dragenter", (event) => {
-    event.preventDefault();
-    console.log("dragenter");
-    if (event.target.className === "inner") {
-      event.target.style.background = "#616161";
-    }
-  });
-
-  document.addEventListener("dragover", (event) => {
-    console.log("dragover");
-    event.preventDefault();
-  });
-
-  document.addEventListener("dragleave", (event) => {
-    event.preventDefault();
-    console.log("dragleave");
-    if (event.target.className === "inner") {
-      event.target.style.background = "#3a3a3a";
-    }
-  });
-
-  // ドロップ時、ファイルを取得して、handleUpdate関数を呼び出す
-  document.addEventListener("drop", (event) => {
-    event.preventDefault();
-    console.log("drop");
-    if (event.target.className === "inner") {
-      const files = event.dataTransfer?.files;
-      event.target.style.background = "#3a3a3a";
-      handleUpdate([...files]);
-    }
-  });
-
-  // input要素のchangeイベントで、選択されたファイルを配列で返す関数
-  function changeEvent(event) {
-    const { target } = event;
-    return [...target.files];
-  };
-
-  function handleUpdate(fileList) {
-    // 画像プレビューを表示する要素を取得
-    const preview = document.getElementById("preview");
-    // 既に表示されている画像を取得
-    const existingImg = document.querySelector(".embed-img");
-    // 既に画像がある場合は、プレビューから削除
-    if (existingImg) {
-      preview.removeChild(existingImg.closest(".container-img"));
-    }
-    // FileReaderオブジェクトを作成し、ファイルの読み込みを開始
-    const reader = new FileReader();
-    reader.addEventListener("load", (event) => {
-      // 読み込んだファイルの内容をimg要素に設定
-      const img = el("div", {
-        className: "embed-img",
-        src: event.target?.result,
-      });
-      // img要素を包むコンテナー要素を作成し、プレビューに追加
-      const imgContainer = el("td", { className: "container-img" }, img);
-      preview.append(imgContainer);
-    });
-    // ファイルを読み込み
-    reader.readAsDataURL(fileList[0]);
-  }
-
-  const inputElement = document.getElementById("input");
-  const labelElement = document.getElementById("label");
-  const previewElement = document.getElementById("preview");
-
-  // プレビュー画像を更新する関数
-  function updatePreviewImage(previewImageSrc) {
-    // dragicon要素を削除
-    const dragIconElement = labelElement.querySelector(".dragicon");
-    if (dragIconElement) {
-      dragIconElement.remove();
-    }
-    // 既にプレビュー画像がある場合は、削除
-    if (previewElement) {
-      previewElement.removeChild();
-    }
-    // プレビュー画像を表示するimg要素を作成し、プレビューに追加
-    const previewImageElement = document.createElement("img");
-    previewImageElement.src = previewImageSrc;
-    previewImageElement.classList.add("preview-image");
-    previewElement.appendChild(previewImageElement);
-  }
-
-  // ファイル選択時にプレビュー画像を更新する処理を追加
-  inputElement.addEventListener("change", (event) => {
-    const files = event.target.files;
-    if (files && files.length > 0) {
-      const file = files[0];
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const imageSrc = e.target.result;
-        updatePreviewImage(imageSrc);
-      };
-      reader.readAsDataURL(file);
-    }
-  });
-
-  // DOM要素を作成する関数
-  function el(nodeName, attributes, ...children) {
-    const node =
-      nodeName === "fragment"
-        ? document.createDocumentFragment()
-        : document.createElement(nodeName);
-
-    Object.entries(attributes).forEach(([key, value]) => {
-      if (key === "events") {
-        Object.entries(value).forEach(([type, listener]) => {
-          node.addEventListener(type, listener);
-        });
-      } else if (key in node) {
-        try {
-          node[key] = value;
-        } catch (err) {
-          node.setAttribute(key, value);
-        }
-      } else {
-        node.setAttribute(key, value);
-      }
-    });
-
-    children.forEach((childNode) => {
-      if (typeof childNode === "string") {
-        node.appendChild(document.createTextNode(childNode));
-      } else {
-        node.appendChild(childNode);
-      }
-    });
-
-    return node;
-  }
-
+  
 </script>
 
 </html>

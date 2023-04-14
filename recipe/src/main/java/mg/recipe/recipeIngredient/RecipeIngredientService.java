@@ -24,4 +24,13 @@ public class RecipeIngredientService {
             this.recipeIngredientRepository.save(ri);
         }
     }
+
+    public List<RecipeIngredient> getAllIngredient(Recipe ri) {
+        List<RecipeIngredient> irList = this.recipeIngredientRepository.findAllByRecipe(ri);
+        if(irList.isEmpty()) {
+            return null;
+        } else {
+            return irList;
+        }
+    }
 }
