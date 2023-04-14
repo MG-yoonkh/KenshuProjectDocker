@@ -14,35 +14,38 @@
                     </nav>
                 </div>
                 <div class="col-md-10">
-                    <div class="row p-5"></div>
                     <div class="container-fluid">
+                        <div class="row p-5"></div>
                         <div class="row justify-content-center text-center">
                             <!-- レシピ数 -->
-                            <div class="col-md-auto">
+                            <div class="col-md-6">
                                 <h1>レシピ総計&nbsp;</h1>
+                                <div class="row p-5"></div>
                                 <h3><span th:text="${totalRecipeCount + '個'}"></span></h3>
                             </div>
                             <!-- レシピ修正、削除 -->
-                            <div class="col-md-auto">
-                                <h1>レシピ情報修正、削除</h1>
-                                <table>
-                                    <tr>
-                                        <th><h4>id</h4></th>
-                                        <th><h4>レシピ前</h4></th>
-                                        <th><h4>削除</h4></th>
-                                    </tr>
-                                    <div th:each="recipe : ${recipes}">
+                            <div class="col-md-6">
+                                <div class="row justify-content-center">
+                                    <h1>レシピ情報修正、削除</h1>
+                                    <table>
                                         <tr>
-                                            <h5><td th:text="${recipe.id}"></td></h5>
-                                            <h5><td th:text="${recipe.recipeName}"></td></h5>
-                                            <td>
-                                                <form th:action="@{'/admin/recipe/' + ${recipe.id}}" method="post">
-                                                    <button type="submit">削除</button>
-                                                </form>
-                                            </td>
+                                            <th><h4>id</h4></th>
+                                            <th><h4>レシピ前</h4></th>
+                                            <th><h4>削除</h4></th>
                                         </tr>
-                                    </div>
-                                </table>
+                                        <div th:each="recipe : ${recipes}">
+                                            <tr>
+                                                <h5><td th:text="${recipe.id}"></td></h5>
+                                                <h5><td th:text="${recipe.recipeName}"></td></h5>
+                                                <td>
+                                                    <form th:action="@{'/admin/recipe/' + ${recipe.id}}" method="post">
+                                                        <button type="submit">削除</button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        </div>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
