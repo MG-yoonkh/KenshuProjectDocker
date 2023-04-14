@@ -7,7 +7,7 @@
     <main>
       <!-- サイト情報 -->
       <div class="container">
-        <div class="row">
+        <div class="row text-center justify-content-center">
           <div class="col-md-2">
             <div class="row p-5"></div>
             <nav class="nav nav-pills flex-column position-fixed">
@@ -16,74 +16,37 @@
               <a class="nav-link" th:href="@{/admin/recipe}">レシピ管理</a>
             </nav>
           </div>
-          <div class="container">
-            <div class="row p-3 text-center justify-content-center" id="item-1">
-              <div
-                data-bs-spy="scroll"
-                data-bs-target="navbar-myPage"
-                data-bs-offset="0"
-                tabindex="0"
-              >
-                <div class="container-fluid">
-                  <div class="row text-center justify-content-center">
-                    <div class="col-md-12">
-                      <h1>サイト管理</h1>
-                    </div>
+          <div class="col-md-10">
+            <div class="row p-5"></div>
+            <!-- 日別会員登録、接続者 -->
+            <h1>会員登録、接続者グラフ</h1>
+            <div class="row p-2"></div>
+            <div class="row text-center justify-content-center">
+              <div class="col-md-6">
+                <div class="card">
+                  <div class="card-body">
+                    <canvas id="registrationsChart"></canvas>
                   </div>
                 </div>
-                <div class="container-fluid">
-                  <div class="row justify-content-center p-5">
-                    <div class="col-md-7">
-                      <hr />
-                    </div>
-                  </div>
-                </div>
-                <div class="container-fluid">
-                  <!-- 日別会員登録、接続者 -->
-                  <div class="row text-center justify-content-center">
-                    <div class="col-md-12">
-                      <h3>会員登録、接続者グラフ</h3>
-                    </div>
-                  </div>
-                </div>
-                <div class="container-fluid">
-                  <div class="row text-center justify-content-center">
-                    <div class="col-md-4">
-                      <div class="card">
-                        <div class="card-body">
-                          <canvas id="registrationsChart"></canvas>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="card">
-                        <div class="card-body">
-                          <canvas id="visitorsChart"></canvas>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="container-fluid">
-                  <div class="row justify-content-center p-5">
-                    <div class="col-md-7">
-                      <hr />
-                    </div>
+              </div>
+              <div class="col-md-6">
+                <div class="card">
+                  <div class="card-body">
+                    <canvas id="visitorsChart"></canvas>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+          <div class="row p-5"></div>
+          <div class="row p-5"></div>
         </div>
       </div>
     </main>
-
     <footer class="bg-light mt-3 p-3 text-center">
       <p>Recipe Management Site &copy; 2023</p>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- チャートスクリプト -->
-
   </div>
 <script layout:fragment="script" type="text/javascript">
   async function fetchData() {
@@ -95,11 +58,11 @@
       const monthlyRegisteredUsers = data.monthlyRegisteredUsers.map(item => ({ month: item[0], count: item[1] }));
       const monthlySiteVisits = data.monthlySiteVisits.map(item => ({ month: item[0], count: item[1] }));
 
-      // 회원가입 차트 생성
-      createChart("registrationsChart", "월별 회원가입자 수", monthlyRegisteredUsers);
+      // 会員登録チャート
+      createChart("registrationsChart", "月別会員登録者数", monthlyRegisteredUsers);
 
-      // 방문자 차트 생성
-      createChart("visitorsChart", "월별 방문자 수", monthlySiteVisits);
+      // 接続者チャート
+      createChart("visitorsChart", "月別接続者数", monthlySiteVisits);
 
     } else {
       console.error("Error fetching dashboard data:", response.status);

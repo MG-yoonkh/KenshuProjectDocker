@@ -29,11 +29,11 @@ public class AdminController {
     private final SiteVisitRepository siteVisitRepository;
 
     @GetMapping("/admin")
-    public String 管理者(){
+    public String 管理者ページ(){
         return "adminPage";
     }
     @GetMapping("/admin/dashboard")
-    public ResponseEntity<Map<String, Object>> サイト管理() {
+    public ResponseEntity<Map<String, Object>> グラフ() {
         Map<String, Object> data = new HashMap<>();
 
         YearMonth endMonth = YearMonth.now();

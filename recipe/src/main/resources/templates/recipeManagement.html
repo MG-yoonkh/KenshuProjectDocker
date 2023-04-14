@@ -4,7 +4,7 @@
     <main>
         <!-- サイト情報 -->
         <div class="container">
-            <div class="row">
+            <div class="row text-center justify-content-center">
                 <div class="col-md-2">
                     <div class="row p-5"></div>
                     <nav class="nav nav-pills flex-column position-fixed">
@@ -13,52 +13,26 @@
                         <a class="nav-link" th:href="@{/admin/recipe}">レシピ管理</a>
                     </nav>
                 </div>
-                <div class="container">
-                    <div class="row p-3 text-center justify-content-center" id="item-1">
-                        <div
-                                data-bs-spy="scroll"
-                                data-bs-target="navbar-myPage"
-                                data-bs-offset="0"
-                                tabindex="0"
-                        >
+                <div class="col-md-10">
+                    <div class="row p-5"></div>
+                    <div class="container-fluid">
+                        <div class="row justify-content-center text-center">
+                            <!-- レシピ数 -->
+                            <div class="col-md-auto">
+                                <h1>レシピ総計&nbsp;</h1>
+                                <h3><span th:text="${totalRecipeCount + '個'}"></span></h3>
+                            </div>
+                            <!-- レシピ修正、削除 -->
+                            <div class="col-md-auto">
+                                <h1>レシピ情報修正、削除</h1>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <!-- レシピ情報 -->
-                <div class="container-fluid" id="item-3">
-                    <div class="row justify-content-center text-center">
-                        <div class="col-md-auto">
-                            <a th:href="@{/admin/recipe}"><h1>レシピ管理</h1></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="container-fluid">
-                    <div class="row justify-content-center p-5">
-                        <div class="col-md-7">
-                            <hr />
-                        </div>
-                    </div>
-                </div>
-                <div class="container-fluid">
-                    <div class="row justify-content-center text-center">
-                        <!-- レシピ数 -->
-                        <div class="col-md-auto">
-                            <h3>レシピ総計&nbsp;</h3>
-                            <h5><span th:text="${totalRecipeCount + '個'}"></span></h5>
-                        </div>
-                        <!-- レシピ修正、削除 -->
-                        <div class="col-md-auto">
-                            <h3>レシピ情報修正、削除</h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="container-fluid">
-                    <div class="row justify-content-center p-5">
-                        <div class="col-md-7">
-                            <hr />
-                        </div>
-                    </div>
-                </div>
+                <div class="row p-5"></div>
+                <div class="row p-5"></div>
+                <div class="row p-5"></div>
+                <div class="row p-5"></div>
             </div>
         </div>
     </main>
