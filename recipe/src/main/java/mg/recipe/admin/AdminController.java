@@ -75,4 +75,9 @@ public class AdminController {
         adminService.deleteUser(userId);
         return "redirect:/admin/user";
     }
+    @PostMapping("/admin/recipe/{id}")
+    public String deleteRecipe(@PathVariable("id") Integer recipeId){
+        adminService.deleteRecipe(recipeId);
+        return "redirect:/admin/recipe";
+    }
 }
