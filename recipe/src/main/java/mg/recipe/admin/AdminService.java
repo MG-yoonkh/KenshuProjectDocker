@@ -26,4 +26,7 @@ public class AdminService {
     public void deleteUser(Integer userId) {
         userRepository.deleteById(userId);
     }
+    public void deleteRecipe(Integer recipeId){
+        recipeRepository.deleteById(recipeId);
+    }
 }
