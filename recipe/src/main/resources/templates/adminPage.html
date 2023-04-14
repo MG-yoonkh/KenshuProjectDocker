@@ -162,8 +162,8 @@
     if (response.ok) {
       const data = await response.json();
 
-      const monthlyRegisteredUsers = Array.from(data.monthlyRegisteredUsers, ([month, count]) => ({ month, count }));
-      const monthlySiteVisits = Array.from(data.monthlySiteVisits, ([month, count]) => ({ month, count }));
+      const monthlyRegisteredUsers = data.monthlyRegisteredUsers.map(item => ({ month: item[0], count: item[1] }));
+      const monthlySiteVisits = data.monthlySiteVisits.map(item => ({ month: item[0], count: item[1] }));
 
       // 회원가입 차트 생성
       createChart("registrationsChart", "월별 회원가입자 수", monthlyRegisteredUsers);
@@ -203,7 +203,7 @@ function createChart(elementId, label, data) {
   });
 }
 
-// 데이터를 가져오고 차트를 초기화합니다.
+
 fetchData();
 </script>
 </html>

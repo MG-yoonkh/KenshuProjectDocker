@@ -2,6 +2,7 @@ package mg.recipe.user;
 
 import lombok.RequiredArgsConstructor;
 import mg.recipe.DataNotFoundException;
+import mg.recipe.admin.SiteVisit;
 import mg.recipe.admin.SiteVisitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -32,6 +34,8 @@ public class UserService {
         user.setEmail(email);
         user.setRole(UserRole.USER);
         user.setPassword(passwordEncoder.encode(password));
+        user.setCreateDate(LocalDateTime.now());
+        user.setModifyDate(LocalDateTime.now());
         this.userRepository.save(user);
         return user;
     }
@@ -61,6 +65,7 @@ public class UserService {
         SiteUser siteUser = getUserByUsername(username);
         if(passwordEncoder.matches(currentPassword, siteUser.getPassword())){
             siteUser.setPassword(passwordEncoder.encode(newPassword));
+            siteUser.setModifyDate(LocalDateTime.now());
             userRepository.save(siteUser);
         }else {
             throw new InvalidPasswordException("パスワードが一致していません。");
@@ -78,6 +83,7 @@ public class UserService {
             throw new EmailAlreadyExistsException("既に登録されたE-Mailです。");
         }
         siteUser.setEmail(newEmail);
+        siteUser.setModifyDate(LocalDateTime.now());
         this.userRepository.save(siteUser);
     }
 
@@ -97,10 +103,18 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public SiteVisit createSiteVisit() {
+        SiteVisit siteVisit = new SiteVisit();
+        siteVisit.setVisitDateTime(LocalDateTime.now());
+        return siteVisitRepository.save(siteVisit);
+    }
+
     public Map<YearMonth, Long> getMonthlyRegistrations(YearMonth startMonth, YearMonth endMonth) {
         LocalDateTime startDateTime = startMonth.atDay(1).atStartOfDay();
         LocalDateTime endDateTime = endMonth.plusMonths(1).atDay(1).atStartOfDay();
         List<Object[]> results = userRepository.countMonthlyRegistrations(startDateTime, endDateTime);
+        System.out.println("getMonthlyRegistrations results: " + Arrays.deepToString(results.toArray()));
+        System.out.println("getMonthlyRegistrations() called");
         return results.stream()
                 .collect(Collectors.toMap(
                         row -> YearMonth.of(((Number) row[0]).intValue(), ((Number) row[1]).intValue()),
@@ -111,6 +125,8 @@ public class UserService {
         LocalDateTime startDateTime = startMonth.atDay(1).atStartOfDay();
         LocalDateTime endDateTime = endMonth.plusMonths(1).atDay(1).atStartOfDay();
         List<Object[]> results = siteVisitRepository.countMonthlyVisitors(startDateTime, endDateTime);
+        System.out.println("getMonthlyVisitors results: " + Arrays.deepToString(results.toArray()));
+        System.out.println("getMonthlyVisitors() called");
         return results.stream()
                 .collect(Collectors.toMap(
                         row -> YearMonth.of(((Number) row[0]).intValue(), ((Number) row[1]).intValue()),
