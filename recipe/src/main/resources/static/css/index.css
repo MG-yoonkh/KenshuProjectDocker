@@ -5,11 +5,16 @@
 
 .recipe_list .card .image-container {
   height: 200px;
-  width: 100%
+  width: 100%;
 }
 
 .recipe_list .card .image-container .thumb-size {
   height: 200px;
+}
+
+.recipe_link {
+  background-color: #FAEBD7;
+  border-color: #FAEBD7;;
 }
 
 .img-bg {
@@ -76,7 +81,7 @@
 
 .container_recipe > .row > .col-md-2 > .list-group > li.active a,
 .container_recipe > .row > .col-md-2 > .list-group > li:hover a {
-    color: white;
+    color: #FAEBD7;
     text-decoration: none;
 }
 
