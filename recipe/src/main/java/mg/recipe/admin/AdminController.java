@@ -1,10 +1,17 @@
 package mg.recipe.admin;
 
 import lombok.RequiredArgsConstructor;
+import mg.recipe.recipe.Recipe;
+import mg.recipe.recipe.RecipeService;
+import mg.recipe.user.SiteUser;
 import mg.recipe.user.UserService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.time.YearMonth;
 import java.util.HashMap;
@@ -17,10 +24,16 @@ import java.util.stream.Collectors;
 public class AdminController {
 
     private final UserService userService;
+    private final RecipeService recipeService;
+    private final AdminService adminService;
     private final SiteVisitRepository siteVisitRepository;
 
+    @GetMapping("/admin")
+    public String 管理者(){
+        return "adminPage";
+    }
     @GetMapping("/admin/dashboard")
-    public ResponseEntity<Map<String, Object>> getDashboardData() {
+    public ResponseEntity<Map<String, Object>> サイト管理() {
         Map<String, Object> data = new HashMap<>();
 
         YearMonth endMonth = YearMonth.now();
@@ -37,7 +50,24 @@ public class AdminController {
                 .map(entry -> new Object[]{entry.getKey().toString(), entry.getValue()})
                 .collect(Collectors.toList());
         data.put("monthlySiteVisits", formattedMonthlySiteVisits);
-
         return ResponseEntity.ok(data);
+    }
+
+    @GetMapping("/admin/user")
+    public String ユーザー管理(Model model, Pageable pageable){
+
+        long totalUserCount = userService.getTotalUserCount();
+        Page<SiteUser> users = adminService.getUsers(pageable);
+        model.addAttribute("totalUserCount", totalUserCount);
+        model.addAttribute("users", users.getContent());
+        return "/userManagement";
+    }
+    @GetMapping("/admin/recipe")
+    public String レシピ管理(Model model, Pageable pageable){
+        long totalRecipeCount = recipeService.getTotalRecipeCount();
+        Page<Recipe> recipes = adminService.getRecipes(pageable);
+        model.addAttribute("totalRecipeCount", totalRecipeCount);
+        model.addAttribute("recipes", recipes.getContent());
+        return "/recipeManagement";
     }
 }

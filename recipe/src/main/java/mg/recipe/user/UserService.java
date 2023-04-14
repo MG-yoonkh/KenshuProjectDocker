@@ -133,4 +133,8 @@ public class UserService {
                         row -> ((Number) row[2]).longValue()
                 ));
     }
+
+    public long getTotalUserCount() {
+        return userRepository.count();
+    }
 }
