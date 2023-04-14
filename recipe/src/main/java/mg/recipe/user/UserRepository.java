@@ -2,6 +2,7 @@ package mg.recipe.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,5 +20,5 @@ public interface UserRepository extends JpaRepository<SiteUser, Integer> {
             "WHERE su.createDate >= :startMonth AND su.createDate < :endMonth " +
             "GROUP BY year, month " +
             "ORDER BY year, month")
-    List<Object[]> countMonthlyRegistrations(YearMonth startMonth, YearMonth endMonth);
+    List<Object[]> countMonthlyRegistrations(@Param("startMonth") LocalDateTime startMonth, @Param("endMonth") LocalDateTime endMonth);
 }

@@ -48,10 +48,17 @@
                 </div>
                 <div class="container-fluid">
                   <div class="row text-center justify-content-center">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                       <div class="card">
                         <div class="card-body">
-                          <canvas class="myChart"></canvas>
+                          <canvas id="registrationsChart"></canvas>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="card">
+                        <div class="card-body">
+                          <canvas id="visitorsChart"></canvas>
                         </div>
                       </div>
                     </div>
@@ -148,7 +155,6 @@
     <!-- チャートスクリプト -->
 
   </div>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script layout:fragment="script" type="text/javascript">
   async function fetchData() {
   try {
@@ -156,8 +162,8 @@
     if (response.ok) {
       const data = await response.json();
 
-      const monthlyRegisteredUsers = data.monthlyRegisteredUsers.map(([month, count]) => ({ month, count }));
-      const monthlySiteVisits = data.monthlySiteVisits.map(([month, count]) => ({ month, count }));
+      const monthlyRegisteredUsers = Array.from(data.monthlyRegisteredUsers, ([month, count]) => ({ month, count }));
+      const monthlySiteVisits = Array.from(data.monthlySiteVisits, ([month, count]) => ({ month, count }));
 
       // 회원가입 차트 생성
       createChart("registrationsChart", "월별 회원가입자 수", monthlyRegisteredUsers);

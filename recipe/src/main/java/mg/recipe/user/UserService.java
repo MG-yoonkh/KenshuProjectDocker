@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.util.List;
 import java.util.Map;
@@ -96,7 +98,9 @@ public class UserService {
     }
 
     public Map<YearMonth, Long> getMonthlyRegistrations(YearMonth startMonth, YearMonth endMonth) {
-        List<Object[]> results = userRepository.countMonthlyRegistrations(startMonth, endMonth);
+        LocalDateTime startDateTime = startMonth.atDay(1).atStartOfDay();
+        LocalDateTime endDateTime = endMonth.plusMonths(1).atDay(1).atStartOfDay();
+        List<Object[]> results = userRepository.countMonthlyRegistrations(startDateTime, endDateTime);
         return results.stream()
                 .collect(Collectors.toMap(
                         row -> YearMonth.of(((Number) row[0]).intValue(), ((Number) row[1]).intValue()),
@@ -104,7 +108,9 @@ public class UserService {
                 ));
     }
     public Map<YearMonth, Long> getMonthlyVisitors(YearMonth startMonth, YearMonth endMonth) {
-        List<Object[]> results = siteVisitRepository.countMonthlyVisitors(startMonth, endMonth);
+        LocalDateTime startDateTime = startMonth.atDay(1).atStartOfDay();
+        LocalDateTime endDateTime = endMonth.plusMonths(1).atDay(1).atStartOfDay();
+        List<Object[]> results = siteVisitRepository.countMonthlyVisitors(startDateTime, endDateTime);
         return results.stream()
                 .collect(Collectors.toMap(
                         row -> YearMonth.of(((Number) row[0]).intValue(), ((Number) row[1]).intValue()),

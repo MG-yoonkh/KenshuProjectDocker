@@ -10,6 +10,7 @@ import java.time.YearMonth;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -26,10 +27,16 @@ public class AdminController {
         YearMonth startMonth = endMonth.minusMonths(11);
 
         Map<YearMonth, Long> monthlyRegisteredUsers = userService.getMonthlyRegistrations(startMonth, endMonth);
-        data.put("monthlyRegisteredUsers", monthlyRegisteredUsers);
+        List<Object[]> formattedMonthlyRegisteredUsers = monthlyRegisteredUsers.entrySet().stream()
+                .map(entry -> new Object[]{entry.getKey().toString(), entry.getValue()})
+                .collect(Collectors.toList());
+        data.put("monthlyRegisteredUsers", formattedMonthlyRegisteredUsers);
 
         Map<YearMonth, Long> monthlySiteVisits = userService.getMonthlyVisitors(startMonth,endMonth);
-        data.put("monthlySiteVisits", monthlySiteVisits);
+        List<Object[]> formattedMonthlySiteVisits = monthlySiteVisits.entrySet().stream()
+                .map(entry -> new Object[]{entry.getKey().toString(), entry.getValue()})
+                .collect(Collectors.toList());
+        data.put("monthlySiteVisits", formattedMonthlySiteVisits);
 
         return ResponseEntity.ok(data);
     }
