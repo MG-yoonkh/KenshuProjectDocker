@@ -14,19 +14,19 @@
           <ul class="list-group incomplete">
             <li class="list-group-item" id="list_korean">
               <a th:href="@{/index(category='韓国料理')}" class="block_none">韓国料理<img src="assets/img/thumb_peppers.png"
-                  title="" class="thumb_nail" /></a>
+                  title="" class="thumb_nail" th:onerror="setDefaultImage(this)"/></a>
             </li>
             <li class="list-group-item" id="list_japanese">
               <a th:href="@{/index(category='日本料理')}" class="block_none">日本料理<img
-                  th:href="@{/assets/img/thumb_sushi.png}" title="" class="thumb_nail" /></a>
+                  th:href="@{/assets/img/thumb_sushi.png}" title="" class="thumb_nail" th:onerror="setDefaultImage(this)"/></a>
             </li>
             <li class="list-group-item" id="list_chinese">
               <a th:href="@{/index(category='中華料理')}" class="block_none">中華料理<img
-                  th:href="@{/assets/img/thumb_takeaway.png}" title="" class="thumb_nail" /></a>
+                  th:href="@{/assets/img/thumb_takeaway.png}" title="" class="thumb_nail" th:onerror="setDefaultImage(this)"/></a>
             </li>
             <li class="list-group-item" id="list_western">
               <a th:href="@{/index(category='西洋料理')}" class="block_none">西洋料理<img
-                  th:href="@{/assets/img/thumb_quesadilla.png}" title="" class="thumb_nail" /></a>
+                  th:href="@{/assets/img/thumb_quesadilla.png}" title="" class="thumb_nail" th:onerror="setDefaultImage(this)" /></a>
             </li>
           </ul>
           <!-- end カテゴリー -->
@@ -41,7 +41,7 @@
             </div>
             <div class="col-md-6">
               <img th:src="@{|\uploaded\${recipe.thumbnail}|}" class="img-fluid" alt="Recipe Image"
-                id="recipe_image" />
+                id="recipe_image" th:onerror="setDefaultImage(this)"/>
               <div class="p-3 g-3">
                 <a th:href="@{|/recipe/modify/${recipe.id}|}" class="btn btn-sm btn-outline-secondary"
                   sec:authorize="isAuthenticated()"
@@ -212,6 +212,12 @@
       }
     });
   });
+
+
+
+  function setDefaultImage(img) {
+        img.src = '/assets/img/default.png';
+    }
 </script>
 
 </html>
