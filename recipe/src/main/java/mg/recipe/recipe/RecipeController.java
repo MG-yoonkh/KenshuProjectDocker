@@ -75,6 +75,7 @@ public class RecipeController {
         model.addAttribute("cookTime", cookTime);
         model.addAttribute("budget", budget);
         model.addAttribute("orderBy", orderBy);
+        userService.createSiteVisit();
         return "index";
     }
 

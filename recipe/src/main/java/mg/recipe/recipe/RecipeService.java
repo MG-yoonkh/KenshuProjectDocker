@@ -46,6 +46,10 @@ public class RecipeService {
         return this.recipeRepository.findAll(spec, pageable);
     }
 
+    public long getTotalRecipeCount(){
+        return recipeRepository.count();
+    }
+
     public Page<Recipe> findRecipesByAuthor(SiteUser author, Pageable pageable) {
         return recipeRepository.findByAuthor(author, pageable);
     }
