@@ -17,9 +17,8 @@
                 </button>
               </div>
             </div>
-            <div class="row justify-content-center">
+            <div class="row justify-content-center mt-3">
               <!-- カテゴリー -->
-              <h4>カテゴリ未完成</h4>
               <div class="col-md-3 category_box">
                 <div class="form-group">
                   <select class="form-select" id="search_category" th:value="${category}" aria-label="category">
@@ -113,7 +112,7 @@
           <div class="form-group">
             <ul class="list-group">
               <li class="list-group-item" id="list_korean">
-                <a th:href="@{/index(category='韓国料理')}"  class="block_none">韓国料理<img src="assets/img/thumb_peppers.png" title=""
+                <a th:href="@{/index(category='韓国料理')}" class="block_none">韓国料理<img src="assets/img/thumb_peppers.png" title=""
                                                                 class="thumb_nail" /></a>
               </li>
               <li class="list-group-item" id="list_japanese">

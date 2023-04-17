@@ -12,6 +12,7 @@ import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<SiteUser, Integer> {
     Optional<SiteUser> findByUsername(String username);
+    Optional<SiteUser> findByUsernameAndEmail(String username, String email);
     boolean existsByUsername(String username);
     Optional<SiteUser> findByEmail(String email);
 
@@ -21,4 +22,5 @@ public interface UserRepository extends JpaRepository<SiteUser, Integer> {
             "GROUP BY year, month " +
             "ORDER BY year, month")
     List<Object[]> countMonthlyRegistrations(@Param("startMonth") LocalDateTime startMonth, @Param("endMonth") LocalDateTime endMonth);
+
 }
