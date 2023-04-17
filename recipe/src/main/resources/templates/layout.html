@@ -22,6 +22,7 @@
   <script type="text/javascript" th:src="@{/js/bootstrap/fontawesome.js}"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script type="text/javascript" th:src="@{/js/datalist-polyfill.min.js}"></script>
+  <script type="text/javascript" th:src="@{/js/headerScript.js}"></script>
 
   <!-- favicon -->
   <link rel="icon" type="image/x-icon" th:href="@{/assets/icon/logo_favicon.ico}" />
@@ -40,10 +41,6 @@
 <th:block layout:fragment="content"></th:block>
 <!-- 기본 템플릿 안에 삽입될 내용 End -->
 
-<th:block layout:fragment="script">
-</th:block>
-
-
-
+<th:block layout:fragment="script"></th:block>
 </body>
 </html>
