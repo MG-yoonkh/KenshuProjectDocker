@@ -10,8 +10,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserCreateForm {
-    @Size(min = 3, max = 25)
+    @Size(min = 3, max = 10)
     @NotEmpty(message = "ニックネームは必須です。")
+    @Pattern(regexp = "^[a-zA-Z0-9]{3,10}$", message = "IDは3桁以上、10桁以下の英語大文字、小文字、数字で作成してください。")
     private String username;
 
     @NotEmpty(message = "パスワードは必須です。")

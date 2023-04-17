@@ -65,7 +65,8 @@ public class RecipeController {
             @RequestParam(value = "category", defaultValue = "") String category,
             @RequestParam(value = "cookTime", defaultValue = "") String cookTime,
             @RequestParam(value = "budget", defaultValue = "") String budget,
-            @RequestParam(value = "orderBy", defaultValue = "date") String orderBy) {
+            @RequestParam(value = "orderBy", defaultValue = "date") String orderBy,
+                        @ModelAttribute("message") String message) {
 
         Page<Recipe> paging = this.recipeService.getList(page, kw, category, cookTime, budget, orderBy);
 
@@ -75,6 +76,7 @@ public class RecipeController {
         model.addAttribute("cookTime", cookTime);
         model.addAttribute("budget", budget);
         model.addAttribute("orderBy", orderBy);
+        model.addAttribute("message", message);
         userService.createSiteVisit();
         return "index";
     }

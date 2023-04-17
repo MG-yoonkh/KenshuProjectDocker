@@ -1,12 +1,14 @@
 package mg.recipe.user;
 
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
 import mg.recipe.recipe.Recipe;
 import mg.recipe.recipe.RecipeService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,18 +20,24 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Matcher;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -191,6 +199,35 @@ public class UserController {
     public String grantAdminRole(@PathVariable("userId") Integer userId){
         userService.grantAdminRole(userId);
         return "redirect:/admin";
+    }
+
+
+    @GetMapping("/newpassword")
+    public String newPasswordForm(){
+        return "/newpassword";
+    }
+
+    @PostMapping("/newpassword")
+    public String パスワード再設定(@Valid PasswordResetRequest passwordResetRequest,
+                              BindingResult bindingResult,
+                              RedirectAttributes redirectAttributes){
+        if (bindingResult.hasErrors()) {
+            List<ObjectError> errors = bindingResult.getAllErrors();
+            String errorMessage = errors.get(0).getDefaultMessage();
+            redirectAttributes.addFlashAttribute("message", errorMessage);
+            return "redirect:/newpassword";
+        }
+        try {
+            userService.resetPassword(passwordResetRequest.getUsername(), passwordResetRequest.getEmail(), passwordResetRequest.getPassword());
+            redirectAttributes.addFlashAttribute("message", "パスワードが再設定されました。");
+        } catch (InvalidUsernameException e) {
+            redirectAttributes.addFlashAttribute("message", e.getMessage());
+            return "redirect:/newpassword";
+        } catch (IllegalArgumentException e) {
+            redirectAttributes.addFlashAttribute("message", e.getMessage());
+            return "redirect:/newpassword";
+        }
+        return "redirect:/login";
     }
 
 }

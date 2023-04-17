@@ -74,6 +74,7 @@ public class RecipeService {
         r1.setRecipeName(recipeForm.getRecipeName());
         r1.setThumbnail(recipeForm.getThumbnail());
         r1.setCreateDate(LocalDateTime.now());
+        r1.setModifyDate(LocalDateTime.now());
         r1.setAuthor(user);
         r1.setCategory(recipeForm.getCategory());
         r1.setCookTime(recipeForm.getCookTime());

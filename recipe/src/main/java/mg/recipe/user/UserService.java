@@ -1,10 +1,12 @@
 package mg.recipe.user;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import mg.recipe.DataNotFoundException;
 import mg.recipe.admin.SiteVisit;
 import mg.recipe.admin.SiteVisitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -60,6 +62,19 @@ public class UserService {
             throw new DataNotFoundException("ユーザー情報が見つかりません。");
         }
     }
+    public void resetPassword(String username, String email, String newPassword) {
+
+        Optional<SiteUser> userOptional = userRepository.findByUsernameAndEmail(username, email);
+        if(userOptional.isEmpty()){
+            throw new InvalidUsernameException("IDが存在しません。");
+        }
+        SiteUser user = userOptional.get();
+
+        String encodePassword = passwordEncoder.encode(newPassword);
+        user.setPassword(encodePassword);
+        userRepository.save(user);
+    }
+
 
     public void updatePassword(String username, String currentPassword, String newPassword){
         SiteUser siteUser = getUserByUsername(username);
