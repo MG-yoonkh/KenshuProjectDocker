@@ -177,7 +177,7 @@
                               <option value="10">10</option>
                               <option value="100">100</option>
                             </select>
-                            <input type="text" id="unitDirect" name="unitDirect" />
+                            <input type="text" id="qtyDirect" name="qtyDirect" />
                           </div>
                           <!-- 単位リスト -->
                           <div class="mb-3">
@@ -217,6 +217,14 @@
                   </div><!-- Modal Content End -->
                 </div><!-- Modal Dialog End -->
               </div><!-- Modal End -->
+              <table class="table-ing container">
+                <thead>
+                </thead>
+                <tbody id="selected-items">
+                </tbody>
+              </table>
+
+
               <div class="col-md-6 text-center">
                 <!-- Modal Button -->
                 <div class="modal-div">
@@ -232,7 +240,7 @@
                 </div>
               </div>
               <!-- 作り方登録 : subFile -->
-              <div class="row justify-content-center text-center" th:object="${instructionForm}" >
+              <div class="row justify-content-center text-center" th:object="${instructionForm}">
                 <div class="col-md-6">
                   <label class="" for="">
                     <h1>作り方</h1>
@@ -256,7 +264,7 @@
                       <!-- イメージファイル thumbFile-->
                       <!-- <input id="input" class="input" accept="image/*" type="file" name="imgUrl1" required="true"
                         multiple="true" hidden="true"> -->
-                        <input type="file" name="imgUrl" id="">
+                      <input type="file" name="imgUrl" id="">
                     </div>
                   </div>
                   <!-- 2番目 -->
@@ -278,7 +286,7 @@
                       <!-- イメージファイル thumbFile-->
                       <!-- <input id="input" class="input" accept="image/*" type="file" name="imgUrl2" required="true"
                         multiple="true" hidden="true"> -->
-                        <input type="file" name="imgUrl" id="">
+                      <input type="file" name="imgUrl" id="">
                     </div>
                   </div>
                   <!-- 3番目 -->
@@ -300,7 +308,7 @@
                       <!-- イメージファイル File-->
                       <!-- <input accept="image/*" type="file" name="imgUrl3" required="true"
                         multiple="true" hidden="true"> -->
-                        <input type="file" name="imgUrl" id="">
+                      <input type="file" name="imgUrl" id="">
                     </div>
                   </div>
                   <!-- 追加 Button -->
@@ -373,12 +381,12 @@
 
   // 直接入力
   $(function () {
-    $("#unitDirect").hide(); // Input Hidden
-    $("#unit-dropdown").change(function () {
-      if ($("#unit-dropdown").val() == "direct") { // 入力をセレクトすると、
-        $("#unitDirect").show(); // Input Display
+    $("#qtyDirect").hide(); // Input Hidden
+    $("#qty-dropdown").change(function () {
+      if ($("#qty-dropdown").val() == "direct") { // 入力をセレクトすると、
+        $("#qtyDirect").show(); // Input Display
       } else {
-        $("#unitDirect").hide(); // Input Hidden
+        $("#qtyDirect").hide(); // Input Hidden
       }
     })
   });
@@ -458,12 +466,12 @@
           $("#unit-dropdown").append($("<option>").text("選択してください").attr("value", ""));
 
           $(function () {
-            $("#unitDirect").hide(); // Input Hidden
+            $("#qtyDirect").hide(); // Input Hidden
             $("#qty-dropdown").change(function () {
               if ($("#qty-dropdown").val() == "direct") {
-                $("#unitDirect").show(); // Input Display
+                $("#qtyDirect").show(); // Input Display
               } else {
-                $("#unitDirect").hide(); // Input Hidden
+                $("#qtyDirect").hide(); // Input Hidden
               }
             });
             $("#qty-dropdown option:first").prop("selected", true);
@@ -580,12 +588,12 @@
           $("#ingredient-dropdown").append(option);
 
           $(function () {
-            $("#unitDirect").hide(); // Input Hidden
+            $("#qtyDirect").hide(); // Input Hidden
             $("#qty-dropdown").change(function () {
               if ($("#qty-dropdown").val() == "direct") {
-                $("#unitDirect").show(); // Input Display
+                $("#qtyDirect").show(); // Input Display
               } else {
-                $("#unitDirect").hide(); // Input Hidden
+                $("#qtyDirect").hide(); // Input Hidden
               }
             });
             $("#qty-dropdown option:first").prop("selected", true);
@@ -640,12 +648,12 @@
 
           // 詳細カテゴリーを選えらび直すと → 以下のリストリセット
           $(function () {
-            $("#unitDirect").hide(); // Input Hidden
+            $("#qtyDirect").hide(); // Input Hidden
             $("#qty-dropdown").change(function () {
               if ($("#qty-dropdown").val() == "direct") {
-                $("#unitDirect").show(); // Input Display
+                $("#qtyDirect").show(); // Input Display
               } else {
-                $("#unitDirect").hide(); // Input Hidden
+                $("#qtyDirect").hide(); // Input Hidden
               }
             });
             $("#qty-dropdown option:first").prop("selected", true);
@@ -677,12 +685,12 @@
   $(document).ready(function () {
     $("#ingredient-dropdown").change(function () {
       $(function () {
-        $("#unitDirect").hide(); // Input Hidden
+        $("#qtyDirect").hide(); // Input Hidden
         $("#qty-dropdown").change(function () {
           if ($("#qty-dropdown").val() == "direct") {
-            $("#unitDirect").show(); // Input Display
+            $("#qtyDirect").show(); // Input Display
           } else {
-            $("#unitDirect").hide(); // Input Hidden
+            $("#qtyDirect").hide(); // Input Hidden
           }
         });
         $("#qty-dropdown option:first").prop("selected", true);
@@ -704,7 +712,12 @@
     let mainCategory = document.querySelector("#main-category-dropdown option:checked").textContent;
     let subCategory = document.querySelector("#sub-category-dropdown option:checked").textContent;
     let ingredient = document.querySelector("#ingredient-dropdown option:checked").textContent;
-    let qty = document.querySelector("#qty-dropdown option:checked").textContent;
+    let qty;
+    if (document.querySelector("#qty-dropdown").value === "direct") {
+      qty = document.querySelector("#qtyDirect").value;
+    } else {
+      qty = document.querySelector("#qty-dropdown option:checked").textContent;
+    }
     let unit = document.querySelector("#unit-dropdown option:checked").textContent;
 
     // データ送信用
@@ -736,12 +749,12 @@
     $("#unit-dropdown").append($("<option>").text("選択してください").attr("value", ""));
 
     $(function () {
-      $("#unitDirect").hide(); // Input Hidden
+      $("#qtyDirect").hide(); // Input Hidden
       $("#qty-dropdown").change(function () {
         if ($("#qty-dropdown").val() == "direct") {
-          $("#unitDirect").show(); // Input Display
+          $("#qtyDirect").show(); // Input Display
         } else {
-          $("#unitDirect").hide(); // Input Hidden
+          $("#qtyDirect").hide(); // Input Hidden
         }
       });
       $("#qty-dropdown option:first").prop("selected", true);
@@ -996,14 +1009,7 @@
     this.submit();
   })
 
-
-
-
-
-
-
-
-
+  // defaultイメージ設定
   function setDefaultImage(img) {
     img.src = '/assets/img/default.png';
   }
@@ -1032,36 +1038,64 @@
     label?.classList.remove("label--hover");
   });
 
-  document.addEventListener("dragenter", (event) => {
+  initLabel.addEventListener("dragenter", (event) => {
     event.preventDefault();
     console.log("dragenter");
-    if (event.target.className === "inner") {
-      event.target.style.background = "#616161";
-    }
+    const label = document.getElementById("label");
+    label?.classList.add("label--hover");
   });
 
-  document.addEventListener("dragover", (event) => {
+  initLabel.addEventListener("dragover", (event) => {
     console.log("dragover");
     event.preventDefault();
   });
 
-  document.addEventListener("dragleave", (event) => {
+  initLabel.addEventListener("dragleave", (event) => {
     event.preventDefault();
     console.log("dragleave");
-    if (event.target.className === "inner") {
-      event.target.style.background = "#3a3a3a";
-    }
+    const label = document.getElementById("label");
+    label?.classList.remove("label--hover");
   });
 
-  document.addEventListener("drop", (event) => {
+  initLabel.addEventListener("drop", (event) => {
     event.preventDefault();
     console.log("drop");
-    if (event.target.className === "inner") {
-      const files = event.dataTransfer?.files;
-      event.target.style.background = "#3a3a3a";
-      handleUpdate([...files]);
-    }
+    const label = document.getElementById("label");
+    label?.classList.remove("label--hover");
+    const files = event.dataTransfer?.files;
+    handleUpdate([...files]);
   });
+
+  // document.addEventListener("dragenter", (event) => {
+  //   event.preventDefault();
+  //   console.log("dragenter");
+  //   if (event.target.className === "inner") {
+  //     event.target.style.background = "#616161";
+  //   }
+  // });
+
+  // document.addEventListener("dragover", (event) => {
+  //   console.log("dragover");
+  //   event.preventDefault();
+  // });
+
+  // document.addEventListener("dragleave", (event) => {
+  //   event.preventDefault();
+  //   console.log("dragleave");
+  //   if (event.target.className === "inner") {
+  //     event.target.style.background = "#3a3a3a";
+  //   }
+  // });
+
+  // document.addEventListener("drop", (event) => {
+  //   event.preventDefault();
+  //   console.log("drop");
+  //   if (event.target.className === "inner") {
+  //     const files = event.dataTransfer?.files;
+  //     event.target.style.background = "#3a3a3a";
+  //     handleUpdate([...files]);
+  //   }
+  // });
 
   function changeEvent(event) {
     const { target } = event;
@@ -1116,6 +1150,63 @@
     });
 
     return node;
+  }
+
+
+
+  input.onfocus = function () {
+    browsers.style.display = 'block';
+    input.style.borderRadius = "5px 5px 0 0";
+  };
+  for (let option of browsers.options) {
+    option.onclick = function () {
+      input.value = option.value;
+      browsers.style.display = 'none';
+      input.style.borderRadius = "5px";
+    }
+  };
+
+  input.oninput = function () {
+    currentFocus = -1;
+    var text = input.value.toUpperCase();
+    for (let option of browsers.options) {
+      if (option.value.toUpperCase().indexOf(text) > -1) {
+        option.style.display = "block";
+      } else {
+        option.style.display = "none";
+      }
+    };
+  }
+  var currentFocus = -1;
+  input.onkeydown = function (e) {
+    if (e.keyCode == 40) {
+      currentFocus++
+      addActive(browsers.options);
+    }
+    else if (e.keyCode == 38) {
+      currentFocus--
+      addActive(browsers.options);
+    }
+    else if (e.keyCode == 13) {
+      e.preventDefault();
+      if (currentFocus > -1) {
+        /*and simulate a click on the "active" item:*/
+        if (browsers.options) browsers.options[currentFocus].click();
+      }
+    }
+  }
+
+  function addActive(x) {
+    if (!x) return false;
+    removeActive(x);
+    if (currentFocus >= x.length) currentFocus = 0;
+    if (currentFocus < 0) currentFocus = (x.length - 1);
+    x[currentFocus].classList.add("active");
+  }
+  function removeActive(x) {
+    for (var i = 0; i < x.length; i++) {
+      x[i].classList.remove("active");
+    }
   }
 
 </script>
