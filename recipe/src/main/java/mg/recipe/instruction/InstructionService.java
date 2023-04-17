@@ -13,7 +13,7 @@ public class InstructionService {
 
     private final InstructionRepository instructionRepository;
 
-    //public void create(String[] descriptionList, List<String> imgUrlList, Recipe recipe) {
+    // public void create(String[] descriptionList, List<String> imgUrlList, Recipe recipe) {
     //     Instruction instruction = new Instruction();
     //     for (int i = 0; i < descriptionList.length; i++) {
     //         instruction.setDescription(descriptionList[i]);
@@ -24,10 +24,21 @@ public class InstructionService {
     // }
 
     public void create(List<Instruction> ist) {
-        Instruction instruction = new Instruction();
+        
         for (int i = 0; i < ist.size(); i++) {
-            this.instructionRepository.save(instruction);
+            
+            this.instructionRepository.save(ist.get(i));
         }
     }
+
+    public List<Instruction> getAllInstruction(Recipe recipe) {
+        List<Instruction> istList = this.instructionRepository.findAllByRecipe(recipe);
+        if(istList.isEmpty()) {
+            return null;
+        } else {
+            return istList;
+        }
+    }
+   
 
 }

@@ -100,8 +100,10 @@
 
 }
 
+
 .preview {
   position:relative;
+  z-index: 1;
   bottom: 0px;
   left: 0px;
   max-width: 560px;
@@ -113,6 +115,7 @@
 
 .container-img {
   position:relative;
+  z-index: 2;
   bottom: 0px;
   left: 0px;
   max-width: 560px;

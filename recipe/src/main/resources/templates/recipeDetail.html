@@ -14,19 +14,22 @@
           <ul class="list-group incomplete">
             <li class="list-group-item" id="list_korean">
               <a th:href="@{/index(category='韓国料理')}" class="block_none">韓国料理<img src="assets/img/thumb_peppers.png"
-                  title="" class="thumb_nail" th:onerror="setDefaultImage(this)"/></a>
+                  title="" class="thumb_nail" th:onerror="setDefaultImage(this)" /></a>
             </li>
             <li class="list-group-item" id="list_japanese">
               <a th:href="@{/index(category='日本料理')}" class="block_none">日本料理<img
-                  th:href="@{/assets/img/thumb_sushi.png}" title="" class="thumb_nail" th:onerror="setDefaultImage(this)"/></a>
+                  th:href="@{/assets/img/thumb_sushi.png}" title="" class="thumb_nail"
+                  th:onerror="setDefaultImage(this)" /></a>
             </li>
             <li class="list-group-item" id="list_chinese">
               <a th:href="@{/index(category='中華料理')}" class="block_none">中華料理<img
-                  th:href="@{/assets/img/thumb_takeaway.png}" title="" class="thumb_nail" th:onerror="setDefaultImage(this)"/></a>
+                  th:href="@{/assets/img/thumb_takeaway.png}" title="" class="thumb_nail"
+                  th:onerror="setDefaultImage(this)" /></a>
             </li>
             <li class="list-group-item" id="list_western">
               <a th:href="@{/index(category='西洋料理')}" class="block_none">西洋料理<img
-                  th:href="@{/assets/img/thumb_quesadilla.png}" title="" class="thumb_nail" th:onerror="setDefaultImage(this)" /></a>
+                  th:href="@{/assets/img/thumb_quesadilla.png}" title="" class="thumb_nail"
+                  th:onerror="setDefaultImage(this)" /></a>
             </li>
           </ul>
           <!-- end カテゴリー -->
@@ -40,8 +43,8 @@
               <h1 th:text="${recipe.recipeName}" class="p-2 font-face"></h1>
             </div>
             <div class="col-md-6">
-              <img th:src="@{|\uploaded\${recipe.thumbnail}|}" class="img-fluid" alt="Recipe Image"
-                id="recipe_image" th:onerror="setDefaultImage(this)"/>
+              <img th:src="@{|\uploaded\${recipe.thumbnail}|}" class="img-fluid" alt="Recipe Image" id="recipe_image"
+                th:onerror="setDefaultImage(this)" />
               <div class="p-3 g-3">
                 <a th:href="@{|/recipe/modify/${recipe.id}|}" class="btn btn-sm btn-outline-secondary"
                   sec:authorize="isAuthenticated()"
@@ -116,7 +119,7 @@
                   </tr>
                 </tbody>
                 <tbody th:if="${#lists.isEmpty(riList)}">
-                  <td></td> 
+                  <td></td>
                   <td>材料がありません。</td>
                   <td>数量がありません。</td>
                   <td>計量単位がありません。</td>
@@ -135,31 +138,16 @@
               <label class="" for="">
                 <h1>作り方</h1>
               </label>
-              <div class="row text-start p-2">
-                <label for="">1番目</label>
-                <div class="col-md-9 border border-secondary rounded">
-                  <pre>ジャガイモを洗う。</pre>
-                </div>
-                <div class="col-md-3">
-                  <img class="img-fluid" th:src="@{/assets/img/background.jpg}" alt="" />
-                </div>
-              </div>
-              <div class="row text-start p-2">
-                <label for="">2番目</label>
-                <div class="col-md-9 border border-secondary rounded">
-                  <pre>バターを入れる。</pre>
-                </div>
-                <div class="col-md-3">
-                  <img class="img-fluid" th:src="@{/assets/img/background.jpg}" alt="" />
-                </div>
-              </div>
-              <div class="row text-start p-2">
-                <label for="">3番目</label>
-                <div class="col-md-9 border border-secondary rounded">
-                  <pre>塩を降る。</pre>
-                </div>
-                <div class="col-md-3">
-                  <img class="img-fluid" alt="" />
+              <div th:if="${not #lists.isEmpty(istList)}">
+                <div class="row text-start p-2" th:each="ist, loop : ${istList}">
+                  <label for="">1番目</label>
+                  <div class="col-md-9 border border-secondary rounded">
+                    <pre th:text="${ist.description}">ジャガイモを洗う。</pre>
+                  </div>
+                  <div class="col-md-3">
+                    <img th:src="@{|\uploaded\${ist.imgUrl}|}" class="img-fluid" alt="Recipe Image" id="recipe_image"
+                      th:onerror="setDefaultImage(this)" />
+                  </div>
                 </div>
               </div>
             </div>
@@ -216,8 +204,8 @@
 
 
   function setDefaultImage(img) {
-        img.src = '/assets/img/default.png';
-    }
+    img.src = '/assets/img/default.png';
+  }
 </script>
 
 </html>

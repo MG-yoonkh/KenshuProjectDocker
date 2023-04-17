@@ -10,6 +10,7 @@ import mg.recipe.ingredient.IngredientService;
 import mg.recipe.ingredientCategory.IngredientCategory;
 import mg.recipe.ingredientCategory.IngredientCategoryService;
 import mg.recipe.instruction.Instruction;
+import mg.recipe.instruction.InstructionForm;
 import mg.recipe.instruction.InstructionService;
 import mg.recipe.measurementUnit.MeasurementUnit;
 import mg.recipe.measurementUnit.MeasurementUnitService;
@@ -98,8 +99,11 @@ public class RecipeController {
             }
         }
 
+        List<Instruction> istList = this.instructionService.getAllInstruction(recipe);
+
         model.addAttribute("recipe", recipe);
         model.addAttribute("riList", riList);
+        model.addAttribute("istList", istList);
         return "recipeDetail";
     }
 
@@ -119,26 +123,33 @@ public class RecipeController {
         }
 
         // イメージ登録
-        Path fileStorageLocation = Paths.get("C:", "KenshuProject", "recipe", "src", "main", "resources", "static", "uploaded")
+        Path fileStorageLocation = Paths
+        .get("C:", "KenshuProject", "recipe", "src", "main", "resources", "static", "uploaded")
         .toAbsolutePath();
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());   
         
-        // UUIDでランダムなファイル名を付与
-        UUID uuid = UUID.randomUUID();
-        String newFileName = uuid.toString() + "_" + fileName;
+        if (!file.isEmpty()) {
+            
+            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
-        try {
-            // ファイルセーブする場所の生成
-            Files.createDirectories(fileStorageLocation);
+            // UUIDでランダムなファイル名を付与
+            UUID uuid = UUID.randomUUID();
+            String newFileName = uuid.toString() + "_" + fileName;
 
-            // ファイルセーブ
-            Path targetLocation = fileStorageLocation.resolve(newFileName);
-            file.transferTo(targetLocation.toFile());
+            try {
+                // ファイルセーブする場所の生成
+                Files.createDirectories(fileStorageLocation);
 
-            // Recipe オブジェクトに経路を格納
-            recipeForm.setThumbnail(newFileName);
-        } catch (IOException e) {
-            throw new RuntimeException("Could not store file " + fileName + ". Please try again!", e);
+                // ファイルセーブ
+                Path targetLocation = fileStorageLocation.resolve(newFileName);
+                file.transferTo(targetLocation.toFile());
+
+                // Recipe オブジェクトに経路を格納
+                recipeForm.setThumbnail(newFileName);
+            } catch (IOException e) {
+                throw new RuntimeException("Could not store file " + fileName + ". Please try again!", e);
+            }
+        } else {
+            System.out.println("保存するThumbnailがありません。");
         }
 
         // レシピ登録
@@ -163,43 +174,41 @@ public class RecipeController {
         this.recipeIngredientService.create(recipe, rList);
 
         // イメージ登録
-        // List<String> imgUrlList = new ArrayList<>();
-        // System.out.println("1 name: " + files.get(0).getOriginalFilename() + "!");
-        // System.out.println("2 name: " + files.get(1).getOriginalFilename() + "!");
-        // System.out.println("3 name: " + files.get(2).getOriginalFilename() + "!");
-        // for (int i = 0; i < files.size(); i++) {
-        // String fileName2 = StringUtils.cleanPath(files.get(i).getOriginalFilename());
+        List<String> imgUrlList = new ArrayList<>();
 
-        // try {
-        // // ファイルセーブする場所の生成
-        // Files.createDirectories(fileStorageLocation);
+        for (int i = 0; i < files.size(); i++) {
 
-        // // ファイルセーブ
-        // Path targetLocation2 = fileStorageLocation.resolve(fileName2);
-        // files.get(i).transferTo(targetLocation2.toFile());
+            String originalFilename = StringUtils.cleanPath(files.get(i).getOriginalFilename());
+            UUID uuid = UUID.randomUUID();
+            String fileName2 = uuid.toString() + "_" + originalFilename;
 
-        // // Recipe オブジェクトに経路を格納
-        // imgUrlList.add(targetLocation2.toString());
-        // System.out.println("imgUrl: " + imgUrlList.get(i).toString());
+            try {
+                // ファイルセーブする場所の生成
+                Files.createDirectories(fileStorageLocation);
 
-        // } catch (IOException e) {
-        // throw new RuntimeException("Could not store file " + fileName2 + ". Please
-        // try again!", e);
-        // }
-        // }
+                // ファイルセーブ
+                Path targetLocation2 = fileStorageLocation.resolve(fileName2);
+                files.get(i).transferTo(targetLocation2.toFile());
 
-        // レシピ調理方法
-        // List<Instruction> ist = new ArrayList<>();
-        // for (int i = 0; i < descriptionList.length; i++) {
-        // Instruction instruction = new Instruction();
-        // instruction.setDescription(descriptionList[i]);
-        // instruction.setImgUrl(imgUrlList.get(i));
-        // instruction.setRecipe(recipe);
-        // ist.add(instruction);
-        // }
-        // this.instructionService.create(ist);
+                // Recipe オブジェクトに経路を格納
+                imgUrlList.add(fileName2);
 
-        
+            } catch (IOException e) {
+                throw new RuntimeException("Could not store file " + fileName2 + ". Please try again!", e);
+            }
+        }
+
+        // // レシピ調理方法
+        List<Instruction> ist = new ArrayList<>();
+        Instruction instruction = new Instruction();
+        for (int i = 0; i < imgUrlList.size(); i++) {
+            instruction = new Instruction();
+            instruction.setDescription(descriptionList[i]);
+            instruction.setImgUrl(imgUrlList.get(i).toString());
+            instruction.setRecipe(recipe);
+            ist.add(instruction);
+        }
+        this.instructionService.create(ist);
 
         return String.format("redirect:/recipe/detail/%d", recipe.getId());
     }
