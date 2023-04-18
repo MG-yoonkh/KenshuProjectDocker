@@ -333,16 +333,20 @@
                   <h1>YouTube動画</h1>
                 </label>
                 <div class="col-md-6">
-                  <iframe class="container-fluid" width="560" height="315"
-                    src="https://www.youtube.com/embed/OJN3KIGxnpk" title="YouTube video player" frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowfullscreen></iframe>
                   <div class="row p-3">
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                       <h3 class="text-center">動画リンク :</h3>
                     </div>
                     <div class="col-md-8">
-                      <input type="text" class="form-control" placeholder="URL入力" />
+                      <input type="text" id="video-url" class="form-control" th:field="*{videoUrl}" placeholder="URL入力" />
+                    </div>
+                  </div>
+                  <div class="row mt-3">
+                    <div class="col-md-12">
+                      <div id="video-preview" style="display: none;">
+                        <h3>動画プレビュー</h3>
+                        <iframe id="video-iframe" width="560" height="315" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -374,6 +378,33 @@
 </div>
 <script layout:fragment="script" type="text/javascript" th:src="@{/js/writeRecipe.js}"></script>
 <script layout:fragment="script" type='text/javascript'>
+/* 動画挿入 */
+function extractVideoIdFromUrl(url) {
+        const pattern = /(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})(?:.+)?$/;
+        const match = url.match(pattern);
+        return match ? match[1] : null;
+    }
+
+    function showVideoPreview() {
+        const videoUrlInput = document.getElementById('video-url');
+        const videoPreviewContainer = document.getElementById('video-preview');
+        const videoIframe = document.getElementById('video-iframe');
+
+        videoUrlInput.addEventListener('input', () => {
+            const videoUrl = videoUrlInput.value;
+            const videoId = extractVideoIdFromUrl(videoUrl);
+
+            if (videoId) {
+                videoPreviewContainer.style.display = 'block';
+                videoIframe.src = `https://www.youtube.com/embed/${videoId}`;
+            } else {
+                videoPreviewContainer.style.display = 'none';
+                videoIframe.src = '';
+            }
+        });
+    }
+
+    showVideoPreview();
 
   // Ajax 通信のため
   var token = $("meta[name='_csrf']").attr("content");
