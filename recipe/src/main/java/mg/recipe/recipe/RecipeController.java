@@ -66,7 +66,7 @@ public class RecipeController {
             @RequestParam(value = "cookTime", defaultValue = "") String cookTime,
             @RequestParam(value = "budget", defaultValue = "") String budget,
             @RequestParam(value = "orderBy", defaultValue = "date") String orderBy,
-                        @ModelAttribute("message") String message) {
+            @ModelAttribute("message") String message) {
 
         Page<Recipe> paging = this.recipeService.getList(page, kw, category, cookTime, budget, orderBy);
 
@@ -125,11 +125,11 @@ public class RecipeController {
 
         // イメージ登録
         Path fileStorageLocation = Paths
-        .get("C:", "KenshuProject", "recipe", "src", "main", "resources", "static", "uploaded")
-        .toAbsolutePath();
-        
+                .get("C:", "KenshuProject", "recipe", "src", "main", "resources", "static", "uploaded")
+                .toAbsolutePath();
+
         if (!file.isEmpty()) {
-            
+
             String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
             // UUIDでランダムなファイル名を付与
@@ -178,24 +178,29 @@ public class RecipeController {
         List<String> imgUrlList = new ArrayList<>();
 
         for (int i = 0; i < files.size(); i++) {
+            
+            if (files.get(i).getOriginalFilename() != null) {
 
-            String originalFilename = StringUtils.cleanPath(files.get(i).getOriginalFilename());
-            UUID uuid = UUID.randomUUID();
-            String fileName2 = uuid.toString() + "_" + originalFilename;
+                String originalFilename = StringUtils.cleanPath(files.get(i).getOriginalFilename());
+                UUID uuid = UUID.randomUUID();
+                String fileName2 = uuid.toString() + "_" + originalFilename;
 
-            try {
-                // ファイルセーブする場所の生成
-                Files.createDirectories(fileStorageLocation);
+                try {
+                    // ファイルセーブする場所の生成
+                    Files.createDirectories(fileStorageLocation);
 
-                // ファイルセーブ
-                Path targetLocation2 = fileStorageLocation.resolve(fileName2);
-                files.get(i).transferTo(targetLocation2.toFile());
+                    // ファイルセーブ
+                    Path targetLocation2 = fileStorageLocation.resolve(fileName2);
+                    files.get(i).transferTo(targetLocation2.toFile());
 
-                // Recipe オブジェクトに経路を格納
-                imgUrlList.add(fileName2);
+                    // Recipe オブジェクトに経路を格納
+                    imgUrlList.add(fileName2);
 
-            } catch (IOException e) {
-                throw new RuntimeException("Could not store file " + fileName2 + ". Please try again!", e);
+                } catch (IOException e) {
+                    throw new RuntimeException("Could not store file " + fileName2 + ". Please try again!", e);
+                }
+            } else {
+                System.out.println("name!!!: " + files.get(i).getOriginalFilename());
             }
         }
 
