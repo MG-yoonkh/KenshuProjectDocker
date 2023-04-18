@@ -26,6 +26,7 @@ public class RecipeForm {
 
     private String thumbnail;
 
+    private String videoUrl;
 
 
 

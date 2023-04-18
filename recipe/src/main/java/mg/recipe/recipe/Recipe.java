@@ -34,7 +34,6 @@ public class Recipe {
     private LocalDateTime createDate;
     private LocalDateTime modifyDate;
 
-//    private Integer calorie;
     @Column(length = 255)
     private String videoUrl;
 
