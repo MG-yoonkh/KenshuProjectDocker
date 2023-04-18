@@ -2,7 +2,15 @@
 <div layout:fragment="content">
   <link rel="stylesheet" type="text/css" th:href="@{/css/login.css}">
   <header th:replace="~{header :: headerFragment}"></header>
+
   <div class="user_form_wrapper" style="width: 400px">
+    <div class="row m-5"></div>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">&nbsp&nbsp&nbsp&nbsp<a th:href="@{/index}">ホーム</a></li>
+        <li class="breadcrumb-item active" aria-current="page">&nbsp&nbspログイン</li>
+      </ol>
+    </nav>
     <h1><i class="fa-solid fa-user"></i> ログイン</h1>
     <form name="f1" id="login_form" method="post" th:action="@{/login}">
       <div th:if="${param.error}">

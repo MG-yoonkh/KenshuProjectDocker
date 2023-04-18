@@ -5,6 +5,16 @@
   <link rel="stylesheet" type="text/css" th:href="@{/css/delete.css}">
   <header th:replace="~{header :: headerFragment}"></header>
   <div class="login_wrapper" style="width: 400px">
+    <div class="mt-5">
+      <div class="row p-3"></div>
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a th:href="@{/index}">ホーム</a></li>
+          <li class="breadcrumb-item"><a th:href="@{/mypage}">マイページ</a></li>
+          <li class="breadcrumb-item active" aria-current="page">会員脱退</li>
+        </ol>
+      </nav>
+    </div>
     <h1><i class="fa-solid fa-user"></i>会員退会</h1>
     <form th:action="@{/delete}" method="post" autocomplete="off">
       <p>登録情報の入力してくだたい。</p>
