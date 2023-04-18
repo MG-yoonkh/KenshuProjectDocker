@@ -43,7 +43,7 @@ public class IngredientController {
     @PostMapping("/sub")
     @ResponseBody
     public List<IngredientCategory> getSubList(@RequestParam Integer ingredientCategoryId) {
-        
+
         // ingredientCategoryId に対応する IngredientCategory を取得
         IngredientCategory category = this.ingredientCategoryService.getCategoryByCategoryId(ingredientCategoryId);
     
@@ -69,6 +69,7 @@ public class IngredientController {
     @PostMapping("/ing")
     @ResponseBody
     public List<Ingredient> getIngList(@RequestParam Integer categoryId) {
+        System.out.println("categoryId: " + categoryId);
         IngredientCategory ingredientCategory = this.ingredientCategoryService.getIngredientCategory(categoryId);
         List<Ingredient> iList = this.ingredientService.getSameCategoryIngredient(ingredientCategory);
         return iList;

@@ -139,6 +139,7 @@ $(document).ready(function () {
                     if (subcategory.level == 0 && index == 0) {
                         var option = $("<option>").text("-").attr("value", subcategory.id);
                         $("#sub-category-dropdown").append(option);
+                        $("#sub-category-dropdown").attr("disabled", true);
                     }
 
                     // 「選択してください」を入れる
@@ -541,6 +542,7 @@ function resetMain() {
 
 // 詳細カテゴリーをリセット
 function resetSub() {
+    $("#sub-category-dropdown").removeAttr("disabled");
     $("#sub-category-dropdown").empty();
     $("#sub-category-dropdown").append($("<option>").text("選択してください").attr("value", ""));
 }
