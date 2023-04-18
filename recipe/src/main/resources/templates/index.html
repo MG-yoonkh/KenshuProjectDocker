@@ -261,16 +261,20 @@ Array.from(page_elements).forEach(function(element) {
         document.getElementById('searchForm').submit();
     });
 });
-const btn_search = document.getElementById("btn_search");
-btn_search.addEventListener('click', function() {
-document.getElementById('kw').value = document.getElementById('search_kw').value;
-document.getElementById('category').value = document.getElementById('search_category').value;
-document.getElementById('cookTime').value = document.getElementById('search_cookTime').value;
-document.getElementById('budget').value = document.getElementById('search_budget').value;
-document.getElementById('orderBy').value = document.getElementById('search_orderBy').value;
-document.getElementById('page').value = 0;
-document.getElementById('searchForm').submit();
-});
+
+
+function performSearch() {
+  document.getElementById('kw').value = document.getElementById('search_kw').value;
+  document.getElementById('category').value = document.getElementById('search_category').value;
+  document.getElementById('cookTime').value = document.getElementById('search_cookTime').value;
+  document.getElementById('budget').value = document.getElementById('search_budget').value;
+  document.getElementById('orderBy').value = document.getElementById('search_orderBy').value;
+  document.getElementById('page').value = 0;
+  document.getElementById('searchForm').submit();
+}
+
+document.getElementById('btn_search').addEventListener('click', performSearch);
+
 
 
 
