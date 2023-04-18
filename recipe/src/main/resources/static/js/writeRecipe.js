@@ -116,11 +116,11 @@ function populateUnitDropdown(response) {
 // 詳細カテゴリー
 $(document).ready(function () {
     $("#main-category-dropdown").change(function () {
-        var parentId = $(this).val();
+        var ingredientCategoryId = $(this).val();
         $.ajax({
             type: "POST",
             url: "/ingredient/sub",
-            data: { parentId: parentId },
+            data: { ingredientCategoryId: ingredientCategoryId },
             dataType: "json",
             success: function (response) {
 
