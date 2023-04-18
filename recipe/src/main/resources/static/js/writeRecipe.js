@@ -66,8 +66,6 @@ $(function () {
         }
       });
 
-      //localStorage.clear();
-
       if (selectedItems.length > 0) {
 
         // 3. データ: savedList (Object)
@@ -97,7 +95,6 @@ $(function () {
           });
 
           selectedItems = [];
-          //localStorage.clear();
           const key = localStorage.key(i);
           const value = localStorage.getItem(key);
 
@@ -105,10 +102,7 @@ $(function () {
           console.log('localStorage length: ' + localStorage.length);
           console.log('selectedItems.length: ' + selectedItems.length);
           console.log('savedList.length: ' + savedList.length);
-          // console.log('localStorage data: ' + key + " : " + value);
           console.log('-----------------');
-
-          //paintText(localStorage.getItem(savedList));
 
           // savedList 出力
           let tableBody = document.querySelector("#selected-items");
@@ -146,7 +140,6 @@ $(function () {
             button.dataset.tableIngName = cell1.value;
             cell4.appendChild(button);
 
-
             cell0.appendChild(cell1);
             cell0.appendChild(cell2);
             cell0.appendChild(cell3);
@@ -159,30 +152,10 @@ $(function () {
             row.appendChild(cell4);
 
             tableBody.appendChild(row);
-
-
-
-
           }
-
         }
-
-        // document.addEventListener("DOMContentLoaded", function () {
-        //   tableBody.addEventListener("click", (event) => {
-        //     const target = event.target;
-        //     const id = event.target.dataset.tableIngName;
-        //     console.log('id 1: ' + id);
-
-        //   });
-        // });
-
       }
-
-
-
-
     });
-
   });
 
 
@@ -314,9 +287,7 @@ $(function () {
         });
         $("#qty-dropdown option:first").prop("selected", true);
       });
-
       $("#unit-dropdown option:first").prop("selected", true);
-
     });
   });
 
@@ -324,7 +295,6 @@ $(function () {
   let selectedItems = [];
   let savedList = [];
   let saveLength;
-
 
   document.querySelector("#add-button").addEventListener("click", function () {
     // 出力用
@@ -357,12 +327,10 @@ $(function () {
     });
 
     $("#main-category-dropdown option:first").prop("selected", true);
-    //$("#main-category-dropdown").empty();
     $("#sub-category-dropdown").empty();
     $("#ingredient-dropdown").empty();
     $("#unit-dropdown option:first").prop("selected", true);
 
-    //$("#main-category-dropdown").append($("<option>").text("選択してください").attr("value", ""));
     $("#sub-category-dropdown").append($("<option>").text("選択してください").attr("value", ""));
     $("#ingredient-dropdown").append($("<option>").text("選択してください").attr("value", ""));
     $("#unit-dropdown").append($("<option>").text("選択してください").attr("value", ""));
@@ -483,9 +451,6 @@ $(function () {
 
       tableBody.appendChild(row);
     }
-
-
-
   });
 
   // Exit Button
@@ -498,8 +463,6 @@ $(function () {
 
   saveButton.addEventListener("click", () => {
 
-
-
     // データがあれば
     if (tableBody.rows.length > 0) {
       savedIngList(); // 保存
@@ -508,14 +471,11 @@ $(function () {
       console.log('保存するデータがありません');
       // TODO: text append 保存する材料がありません
     }
-
   });
 
   function savedIngList() {
 
     console.log('selectedItems: ' + selectedItems.length);
-
-
 
     if (saveLength > 0) {
 
@@ -559,7 +519,6 @@ $(function () {
           qtyValue: qtyValue,
           unitId: unitValue
         });
-
       }
     } else {
       for (let i = 0; i < tableBody.rows.length; i++) {
@@ -602,7 +561,6 @@ $(function () {
           qtyValue: qtyValue,
           unitId: unitValue
         });
-
       }
     }
   }
@@ -615,7 +573,6 @@ $(function () {
       console.log('id 1: ' + id);
       console.log('selectedItems.indexOf(id) ' + selectedItems.indexOf(id));
       savedList.splice(savedList.indexOf(id), 1);
-
     });
   });
 
@@ -627,12 +584,6 @@ $(function () {
     $('#send-list-input').val(JSON.stringify(savedList));
     this.submit();
   })
-
-  // defaultイメージ設定
-  function setDefaultImage(img) {
-    img.src = '/assets/img/default.png';
-  }
-
 
 
 
