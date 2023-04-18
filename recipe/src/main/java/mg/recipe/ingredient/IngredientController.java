@@ -56,11 +56,4 @@ public class IngredientController {
         return iList;
     }
 
-    @PostMapping("/test")
-    @ResponseBody
-    public String handlePostRequest(@RequestParam String name) {
-        System.out.println("Received name: " + name);
-        return "success";
-    }
-
 }
