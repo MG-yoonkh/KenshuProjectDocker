@@ -2,6 +2,19 @@ let selectedItems = [];
 let savedList = [];
 let commonList = [];
 let saveLength;
+let tableBody;
+localStorage.clear();
+
+
+var savedListData = localStorage.getItem('savedList');
+savedList = savedListData ? JSON.parse(savedListData) : [];
+console.log('savedList.length: ' + savedList.length);
+if (savedList) {
+    tableBody = document.querySelector("#display-items");
+    tableBody.innerHTML = "";
+    paintTable2(savedList, tableBody);
+}
+
 
 // Modal Click
 $(document).ready(function () {
@@ -13,55 +26,42 @@ $(document).ready(function () {
         $(modal).modal('show');
 
         // 1. データ: mainCategory (DB) 出力
-        $.ajax({
-            type: "GET",
-            url: "/ingredient/main",
-            dataType: "json",
-            success: function (response) {
-
-                // リセット
-                $("#main-category-dropdown").empty();
-
-                // 「選択してください」を入れる
-                var option = $("<option>").text("選択してください").attr("value", "");
-                $("#main-category-dropdown").append(option);
-                // メインをリストに入れる
-                $.each(response, function (index, main) {
-                    var option = $("<option>").text(main.name).attr("value", main.id);
-                    $("#main-category-dropdown").append(option);
-                });
-
-            },
-            error: function (xhr, textStatus, errorThrown) {
-                console.log("Error: " + errorThrown);
-            }
-        });
+        var mainCategoryData = localStorage.getItem('mainCategoryData');
+        if (!mainCategoryData) {
+            $.ajax({
+                type: "GET",
+                url: "/ingredient/main",
+                dataType: "json",
+                success: function (response) {
+                    // localStorageにデータを保存
+                    localStorage.setItem('mainCategoryData', JSON.stringify(response));
+                    // main-category-dropdownを呼び出す
+                    populateMainCategoryDropdown(response);
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    console.log("Error: " + errorThrown);
+                }
+            });
+        }
 
         // 2. データ: Unit (DB) 出力
-        $.ajax({
-            type: "GET",
-            url: "/ingredient/unit",
-            dataType: "json",
-            success: function (response) {
-
-                // リセット
-                $("#unit-dropdown").empty();
-
-                // 「選択してください」を入れる
-                var option = $("<option>").text("選択してください").attr("value", "");
-                $("#unit-dropdown").append(option);
-
-                // Unitを入れる
-                $.each(response, function (index, unit) {
-                    var option = $("<option>").text(unit.name).attr("value", unit.id);
-                    $("#unit-dropdown").append(option);
-                });
-
-            },
-            error: function (xhr, textStatus, errorThrown) {
-                console.log("Error: " + errorThrown);
-            }
-        });
+        var unitData = localStorage.getItem('unitData');
+        if (!unitData) {
+            $.ajax({
+                type: "GET",
+                url: "/ingredient/unit",
+                dataType: "json",
+                success: function (response) {
+                    // localStorageにデータを保存
+                    localStorage.setItem('unitData', JSON.stringify(response));
+                    // unit-dropdownを呼び出す
+                    populateUnitDropdown(response);
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    console.log("Error: " + errorThrown);
+                }
+            });
+        }
 
         // リセット
         resetMain()
@@ -70,18 +70,47 @@ $(document).ready(function () {
         resetUnit();
         resetQty();
 
-        // console.log('-----------------------------');
-        // console.log('ModalOpen-selectedItems.length: ' + selectedItems.length);
-        // console.log('ModalOpen-savedList.length: ' + savedList.length);
-        // console.log('-----------------------------');
-
         // 3. データ: savedList (Object) 出力
-        let tableBody = document.querySelector("#selected-items");
+        var savedListData = localStorage.getItem('savedList');
+        savedList = savedListData ? JSON.parse(savedListData) : [];
+
+        tableBody = document.querySelector("#selected-items");
         tableBody.innerHTML = "";
-        paintTable(savedList);
+        paintTable(savedList, tableBody);
 
     });
-}); // Modal Close
+    console.log('localStorage: ' + localStorage.length);
+}); // Modal Open
+
+function populateMainCategoryDropdown(response) {
+    // リセット
+    $("#main-category-dropdown").empty();
+
+    // 「選択してください」を入れる
+    var option = $("<option>").text("選択してください").attr("value", "");
+    $("#main-category-dropdown").append(option);
+    // メインをリストに入れる
+    $.each(response, function (index, main) {
+        var option = $("<option>").text(main.name).attr("value", main.id);
+        $("#main-category-dropdown").append(option);
+    });
+}
+
+// Function to populate the unit dropdown
+function populateUnitDropdown(response) {
+    // リセット
+    $("#unit-dropdown").empty();
+
+    // 「選択してください」を入れる
+    var option = $("<option>").text("選択してください").attr("value", "");
+    $("#unit-dropdown").append(option);
+
+    // Unitを入れる
+    $.each(response, function (index, unit) {
+        var option = $("<option>").text(unit.name).attr("value", unit.id);
+        $("#unit-dropdown").append(option);
+    });
+}
 
 
 // 詳細カテゴリー
@@ -99,14 +128,9 @@ $(document).ready(function () {
                 $("#sub-category-dropdown").empty();
 
                 // メインカテゴリーを選えらび直すと → 以下のリストリセット
-                var option = $("<option>").text("選択してください").attr("value", "");
-
-                $("#ingredient-dropdown").empty();
-                $("#ingredient-dropdown").append(option);
-
+                resetIng();
                 resetQty();
-
-                $("#unit-dropdown option:first").prop("selected", true);
+                resetUnit();
 
                 // 詳細カテゴリーをリストに入れる
                 $.each(response, function (index, subcategory) {
@@ -149,14 +173,11 @@ $(document).ready(function () {
             success: function (response) {
 
                 // リセット
-                var option = $("<option>").text("選択してください").attr("value", "");
-                $("#ingredient-dropdown").empty();
-                $("#ingredient-dropdown").append(option);
+                resetIng();
 
                 // 詳細カテゴリーを選えらび直すと → 以下のリストリセット
                 resetQty();
-
-                $("#unit-dropdown option:first").prop("selected", true);
+                resetUnit();
 
                 // 材料をリストに入れる
                 $.each(response, function (index, ingredient) {
@@ -185,6 +206,8 @@ $(document).ready(function () {
         resetUnit();
     });
 });
+
+savedList = JSON.parse(localStorage.getItem('savedList')) || [];
 
 // Dynamic Table 材料
 document.querySelector("#add-button").addEventListener("click", function () {
@@ -225,16 +248,17 @@ document.querySelector("#add-button").addEventListener("click", function () {
     resetQty();
     resetUnit();
 
-
     // 出力
-    let tableBody = document.querySelector("#selected-items");
+    tableBody = document.querySelector("#selected-items");
     tableBody.innerHTML = "";
 
     // if savedList is already exist
+    var savedListData = localStorage.getItem('savedList');
+    savedList = savedListData ? JSON.parse(savedListData) : [];
     if (savedList.length > 0) {
-        paintTable(savedList);
+        paintTable(savedList, tableBody);
     }
-    paintTable(selectedItems);
+    paintTable(selectedItems, tableBody);
 
 });
 
@@ -248,7 +272,7 @@ closeButton.addEventListener("click", () => {
 
 // データ保存
 const saveButton = document.getElementById("save-button");
-const tableBody = document.getElementById("selected-items");
+tableBody = document.getElementById("selected-items");
 console.log('tableBody.rows.length: ' + tableBody.rows.length);
 
 saveButton.addEventListener("click", () => {
@@ -256,14 +280,24 @@ saveButton.addEventListener("click", () => {
     // データがあれば
     if (tableBody.rows.length > 0) {
         savedIngList(); // 保存
-        //localStorage.setItem("savedList", JSON.stringify(savedList));
+
     } else {
         console.log('保存するデータがありません');
+        savedList = [];
         // TODO: text append 保存する材料がありません
     }
 
     // Modal Close
     closeModal();
+
+    var savedListData = localStorage.getItem('savedList');
+    savedList = savedListData ? JSON.parse(savedListData) : [];
+    console.log('savedList.length: ' + savedList.length);
+    if (savedList) {
+        tableBody = document.querySelector("#display-items");
+        tableBody.innerHTML = "";
+        paintTable2(savedList, tableBody);
+    }
 
 });
 
@@ -288,7 +322,8 @@ function closeModal() {
 
     // console.log('-----------------------------');
     // console.log('ModalClose-selectedItems.length: ' + selectedItems.length);
-    // console.log('ModalClose-savedList.length: ' + savedList.length);
+    console.log('localStorage: ' + localStorage.length);
+    console.log('localStorage: ' + localStorage.getItem("savedList"));
     // console.log('-----------------------------');
 }
 
@@ -296,6 +331,7 @@ function closeModal() {
 // 材料 保存
 function savedIngList() {
 
+    //savedList = JSON.parse(localStorage.getItem('savedList')) || [];
     console.log('selectedItems are saved: ' + selectedItems.length);
     saveLength = savedList.length;
 
@@ -387,13 +423,15 @@ function savedIngList() {
         }
     }
 
+    localStorage.setItem('savedList', JSON.stringify(savedList));
+
     // selectedItems リセット
     selectedItems = [];
 }
 
 // Dynamic 材料テーブル　出力
-function paintTable(commonList) {
-
+function paintTable(commonList, tableBody) {
+    console.log('commonList.length: ' + commonList.length);
     for (let i = 0; i < commonList.length; i++) {
         let row = document.createElement("tr");
         row.className = "draggable";
@@ -404,7 +442,11 @@ function paintTable(commonList) {
 
         let cell1 = document.createElement("td");
         cell1.className = "table-ing-name";
-        cell1.textContent = commonList[i].ingredient;
+        if (commonList[i].mainCategory) {
+            cell1.textContent = commonList[i].ingredient + ' (' + commonList[i].subCategory + ', ' + commonList[i].mainCategory + ')';
+        } else {
+            cell1.textContent = commonList[i].ingredient;
+        }
         cell1.value = commonList[i].ingredientValue;
 
         let cell2 = document.createElement("td");
@@ -436,6 +478,57 @@ function paintTable(commonList) {
         row.appendChild(cell2);
         row.appendChild(cell3);
         row.appendChild(cell4);
+
+        tableBody.appendChild(row);
+    }
+}
+
+function paintTable2(commonList, tableBody) {
+    console.log('commonList.length: ' + commonList.length);
+    for (let i = 0; i < commonList.length; i++) {
+        let row = document.createElement("tr");
+
+        let cell0 = document.createElement("div");
+        cell0.className = "el2";
+
+        let cell1 = document.createElement("td");
+        cell1.className = "table-ing-name2";
+        if (commonList[i].mainCategory) {
+            cell1.textContent = commonList[i].ingredient + ' (' + commonList[i].subCategory + ', ' + commonList[i].mainCategory + ')';
+        } else {
+            cell1.textContent = commonList[i].ingredient;
+        }
+        cell1.value = commonList[i].ingredientValue;
+
+        let cell2 = document.createElement("td");
+        cell2.className = "table-ing-qty2";
+        cell2.textContent = commonList[i].qty;
+        cell2.value = commonList[i].qtyValue;
+
+        let cell3 = document.createElement("td");
+        cell3.className = "table-ing-unit2";
+        cell3.textContent = commonList[i].unit;
+        cell3.value = commonList[i].unitValue;
+
+        // let cell4 = document.createElement("td");
+        // cell4.className = "table-ing-unit";
+        // let button = document.createElement("button");
+        // button.type = "button";
+        // button.className = "btn-close";
+        // button.id = "deleteBtn";
+        // button.dataset.tableIngName = cell1.value;
+        // cell4.appendChild(button);
+
+        cell0.appendChild(cell1);
+        cell0.appendChild(cell2);
+        cell0.appendChild(cell3);
+        // cell0.appendChild(cell4);
+
+        row.appendChild(cell0);
+        row.appendChild(cell1);
+        row.appendChild(cell2);
+        row.appendChild(cell3);
+        // row.appendChild(cell4);
 
         tableBody.appendChild(row);
     }
@@ -479,28 +572,26 @@ function resetUnit() {
 // 材料を削除
 document.addEventListener('click', function (event) {
     if (event.target && event.target.id === 'deleteBtn') {
-        // Get the table row that contains the delete button
         let row = event.target.closest('tr');
-        // Get the tableIngName value from the dataset
         let tableIngName = event.target.dataset.tableIngName;
-        // Remove the row from the table
         row.parentNode.removeChild(row);
-        // Loop through selectedItems array and remove item with matching ingredientValue
         for (let i = 0; i < selectedItems.length; i++) {
             if (selectedItems[i].ingredientValue === tableIngName) {
                 selectedItems.splice(i, 1);
-                break; // Exit loop after removing the item
+                break;
             }
         }
-        // // Loop through savedList array and remove item with matching ingredientId
-        // for (let i = 0; i < savedList.length; i++) {
-        //     console.log('ingredientId' + savedList[i].ingredientId);
-        //     console.log('tableIngName' + tableIngName);
-        //     if (savedList[i].ingredientId === tableIngName) {
-        //         savedList.splice(i, 1);
-        //         break; // Exit loop after removing the item
-        //     }
-        // }
+        for (let i = 0; i < savedList.length; i++) {
+            console.log('ingredientId' + savedList[i].ingredientId);
+            console.log('tableIngName' + tableIngName);
+            if (savedList[i].ingredientId === tableIngName) {
+                savedList.splice(i, 1);
+                break;
+            }
+        }
+        localStorage.removeItem("savedList");
+        localStorage.setItem("savedList", JSON.stringify(savedList));
+        console.log("local modified2: " + localStorage.getItem("savedList"));
     }
 });
 
@@ -513,6 +604,30 @@ document.getElementById('writeForm').addEventListener('submit', function (evt) {
     $('#send-list-input').val(JSON.stringify(savedList));
     this.submit();
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

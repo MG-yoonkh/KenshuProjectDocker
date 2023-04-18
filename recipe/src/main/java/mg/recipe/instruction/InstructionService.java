@@ -29,6 +29,14 @@ public class InstructionService {
             return istList;
         }
     }
-   
 
+    public void create(String[] descriptionList, List<String> imgUrlList, Recipe recipe) {
+        Instruction instruction = new Instruction();
+        for (int i = 0; i < descriptionList.length; i++) {
+            instruction = new Instruction();
+            instruction.setDescription(descriptionList[i]);
+            instruction.setImgUrl(imgUrlList.get(i).toString());
+            instruction.setRecipe(recipe);
+        }
+    }
 }

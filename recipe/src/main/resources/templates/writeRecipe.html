@@ -155,7 +155,6 @@
                             <label for="main-category-dropdown" class="form-label">メインカテゴリー</label>
                             <select class="form-select" id="main-category-dropdown" name="mainCategoryId">
                               <option value="">選択してください</option>
-
                             </select>
                           </div>
                           <!-- 詳細リスト -->
@@ -225,22 +224,24 @@
                   </div><!-- Modal Content End -->
                 </div><!-- Modal Dialog End -->
               </div><!-- Modal End -->
-              <table class="table-ing container">
-                <thead>
-                </thead>
-                <tbody id="selected-items">
-                </tbody>
-              </table>
-
-
-              <div class="col-md-6 text-center">
+              <div class="col-md-6 text-center" >
                 <!-- Modal Button -->
                 <div class="modal-div">
                   <button type="button" class="btn modal-ing" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                     クリックして材料をのせる
+                    <div class="display-items">
+                      <table class="table-ing2 container">
+                        <thead>
+                        </thead>
+                        <tbody id="display-items">
+                        </tbody>
+                      </table>
+                    </div>
                   </button>
+                  
                 </div>
               </div>
+              
               <!--  区切り線 -->
               <div class="row justify-content-center p-5">
                 <div class="col-md-7">

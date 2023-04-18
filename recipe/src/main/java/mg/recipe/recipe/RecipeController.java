@@ -52,6 +52,7 @@ public class RecipeController {
     private final MeasurementUnitService measurementUnitService;
 
     private final RecipeIngredientService recipeIngredientService;
+    private final IngredientCategoryService ingredientCategoryService;
 
     @GetMapping("/")
     public String root() {
@@ -180,7 +181,7 @@ public class RecipeController {
         for (int i = 0; i < files.size(); i++) {
             
             if (files.get(i).getOriginalFilename() != null) {
-
+                System.out.println("name yes: " + files.get(i).getOriginalFilename());
                 String originalFilename = StringUtils.cleanPath(files.get(i).getOriginalFilename());
                 UUID uuid = UUID.randomUUID();
                 String fileName2 = uuid.toString() + "_" + originalFilename;
@@ -215,6 +216,7 @@ public class RecipeController {
             ist.add(instruction);
         }
         this.instructionService.create(ist);
+        //this.instructionService.create(descriptionList, imgUrlList, recipe);
 
         return String.format("redirect:/recipe/detail/%d", recipe.getId());
     }
@@ -223,6 +225,8 @@ public class RecipeController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/recipe/write")
     public String createRecipe(Model model, RecipeForm recipeForm) {
+        // List<IngredientCategory> mainList = this.ingredientCategoryService.getMainList(0);
+        // model.addAttribute("mainList", mainList);
         return "writeRecipe";
     }
 

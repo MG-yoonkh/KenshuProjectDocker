@@ -149,17 +149,18 @@
   max-height: 140px;
   margin: 10px 0px 0px 0px;
   border: 1px dashed gray;
-  font-size: 20px;
+  font-size: 17px;
   font-family: "Roboto", sans-serif;
   z-index: 100;
   border-radius: 8px;
 }
 
 
+
 .modal-div button:hover {
   color: blue;
   text-decoration: none;
-
+  
 }
 
 .modal.modal-center {
@@ -214,5 +215,12 @@
 }
 
 
+.display-items {
+  max-width: 300px;
+  width: 100%;
+}
 
-
+.table-ing2 {
+  background-color: #FAEBD7;
+  display: flex;
+}
