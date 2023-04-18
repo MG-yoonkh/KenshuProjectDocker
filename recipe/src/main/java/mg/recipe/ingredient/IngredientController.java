@@ -42,8 +42,27 @@ public class IngredientController {
     // 詳細カテゴリリスト(by parentId from IngredientCategory)
     @PostMapping("/sub")
     @ResponseBody
-    public List<IngredientCategory> getSubList(@RequestParam Integer parentId) {
+    public List<IngredientCategory> getSubList(@RequestParam Integer ingredientCategoryId) {
+        System.out.println("%%%INGREDIENT_CATEGORY_ID: " + ingredientCategoryId);
+        IngredientCategory category = this.ingredientCategoryService.getCategoryByCategoryId(ingredientCategoryId);
+    
+        if (category == null) {
+            throw new IllegalArgumentException("Invalid ingredient category id: " + ingredientCategoryId);
+        }
+    
+        Integer parentId = category.getParent() != null ? category.getParent().getId() : null;
+        if (parentId == null) {
+            throw new IllegalArgumentException("Ingredient category with id " + ingredientCategoryId + " has no parent.");
+        }
+    
+        System.out.println("%%%parentId: " + parentId);
+    
         List<IngredientCategory> subList = this.ingredientCategoryService.getSubList(parentId, 1);
+    
+        for (int i = 0; i < subList.size(); i++) {
+            System.out.println("###IngredientCategory name: " + subList.get(i).getName());
+        }
+    
         return subList;
     }
 

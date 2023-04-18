@@ -180,7 +180,7 @@ public class RecipeController {
 
         for (int i = 0; i < files.size(); i++) {
             
-            if (files.get(i).getOriginalFilename() != null) {
+            if (files.get(i).getOriginalFilename() != "") {
                 System.out.println("name yes: " + files.get(i).getOriginalFilename());
                 String originalFilename = StringUtils.cleanPath(files.get(i).getOriginalFilename());
                 UUID uuid = UUID.randomUUID();
@@ -200,24 +200,15 @@ public class RecipeController {
                 } catch (IOException e) {
                     throw new RuntimeException("Could not store file " + fileName2 + ". Please try again!", e);
                 }
-            } else {
-                System.out.println("name!!!: " + files.get(i).getOriginalFilename());
-            }
+            
+            } 
         }
 
         // // レシピ調理方法
-        List<Instruction> ist = new ArrayList<>();
-        Instruction instruction = new Instruction();
-        for (int i = 0; i < imgUrlList.size(); i++) {
-            instruction = new Instruction();
-            instruction.setDescription(descriptionList[i]);
-            instruction.setImgUrl(imgUrlList.get(i).toString());
-            instruction.setRecipe(recipe);
-            ist.add(instruction);
+        if(!imgUrlList.isEmpty()) {
+            this.instructionService.create(descriptionList, imgUrlList, recipe);
         }
-        this.instructionService.create(ist);
-        //this.instructionService.create(descriptionList, imgUrlList, recipe);
-
+        
         return String.format("redirect:/recipe/detail/%d", recipe.getId());
     }
 

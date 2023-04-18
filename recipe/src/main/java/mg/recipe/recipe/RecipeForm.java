@@ -24,6 +24,7 @@ public class RecipeForm {
 
     //private ArrayList<String> instruction;
 
+    // @NotEmpty(message = "レシピイメージは必須です。")
     private String thumbnail;
 
     private String videoUrl;

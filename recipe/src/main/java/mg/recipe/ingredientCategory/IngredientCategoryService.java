@@ -28,6 +28,7 @@ public class IngredientCategoryService {
         List<IngredientCategory> icList = this.ingredientCategoryRepository.findByParentIdAndLevel(parentId, level);
         if (icList.isEmpty()) {
             icList = this.ingredientCategoryRepository.findByParentId(parentId);
+            System.out.println("$$$IngredientCategory: " + icList.get(0).getName());
         }
         return icList;
     }
@@ -39,5 +40,10 @@ public class IngredientCategoryService {
 
     public IngredientCategory getIngredientCategory(Integer categoryId) {
         return this.ingredientCategoryRepository.findByIngredientCategoryId(categoryId);
+    }
+
+    public IngredientCategory getCategoryByCategoryId(Integer categoryId) {
+        IngredientCategory category = this.ingredientCategoryRepository.findById(categoryId).orElse(null);
+        return category;
     }
 }
