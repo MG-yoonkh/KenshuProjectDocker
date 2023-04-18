@@ -1,41 +1,47 @@
 <header th:fragment="headerFragment">
   <div class="header_area" id="">
-    <a class="navbar-brand" th:href="@{/index}">
-      <img th:src="@{/assets/img/food.png}" title="" class="thumb_nail" />
-      <p class="head-tagline"><img th:src="@{/assets/img/head-tagline.png}" alt="" id="iii"></p>
-    </a>
-    <nav>
-      <div class="row justify-content-between align-items-center">
-        <div class="col-sm-6">
-          <form th:action="@{/index}" method="get" id="headerSearchForm">
-            <div class="input-group">
-              <input type="text" name="kw" class="form-control" placeholder="キーワード検索" />
-              <input type="hidden" name="page" value="0" />
-              <span class="input-group-btn">
-                <button class="btn btn-dark" type="submit">
-                  検索
-                </button>
-              </span>
-            </div>
-          </form>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-4">
+          <a class="navbar-brand" th:href="@{/index}">
+            <img th:src="@{/assets/img/food.png}" title="" class="thumb_nail" />
+            <p class="head-tagline"><img th:src="@{/assets/img/head-tagline.png}" alt="" id="iii"></p>
+          </a>
         </div>
-        <div class="col-sm-6 text-end">
-          <ul>
-            <li th:classappend="${header} == 'index' ? 'active'"><a th:href="@{/index}">ホーム</a></li>
-            <li class="incomplete" sec:authorize="hasRole('USER')"><a th:href="@{/recipe/write}">レシピ投稿</a></li>
-            <li sec:authorize="hasRole('USER')"><a th:href="@{/mypage}">マイページ</a></li>
-            <li sec:authorize="hasRole('ADMIN')">
-              <a th:href="@{/adminPage}" >管理者ページ</a>
-            </li>
-            <li sec:authorize="isAnonymous()"><a th:href="@{/signin}" >会員登録</a></li>
-            <li>
-              <a th:href="@{/login}" sec:authorize="isAnonymous()">ログイン</a>
-              <a th:href="@{/logout}" sec:authorize="isAuthenticated()">ログアウト</a>
-            </li>
-          </ul>
+        <div class="col-md-4 mt-2">
+          <nav>
+            <form th:action="@{/index}" method="get" id="headerSearchForm">
+              <div class="input-group">
+                <input type="text" name="kw" class="form-control" placeholder="キーワード検索" />
+                <input type="hidden" name="page" value="0" />
+                <span class="input-group-btn">
+                  <button class="btn btn-dark" type="submit">
+                    検索
+                  </button>
+                </span>
+              </div>
+            </form>
+          </nav>
+        </div>
+        <div class="col-md-4 text-end">
+          <nav>
+            <ul>
+              <li th:classappend="${header} == 'index' ? 'active'"><a th:href="@{/index}">ホーム</a></li>
+              <li class="incomplete" sec:authorize="hasRole('USER')"><a th:href="@{/recipe/write}">レシピ投稿</a></li>
+              <li sec:authorize="hasRole('USER')"><a th:href="@{/mypage}">マイページ</a></li>
+              <li sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/adminPage}" >管理者ページ</a>
+              </li>
+              <li sec:authorize="isAnonymous()"><a th:href="@{/signin}" >会員登録</a></li>
+              <li>
+                <a th:href="@{/login}" sec:authorize="isAnonymous()">ログイン</a>
+                <a th:href="@{/logout}" sec:authorize="isAuthenticated()">ログアウト</a>
+              </li>
+            </ul>
+          </nav>
         </div>
       </div>
-    </nav>
+    </div>
   </div>
 </header>
 <script layout:fragment="script" type="text/javascript">
