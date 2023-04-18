@@ -1,5 +1,6 @@
 let selectedItems = [];
 let savedList = [];
+let commonList = [];
 let saveLength;
 
 // Modal Click
@@ -69,60 +70,15 @@ $(document).ready(function () {
         resetUnit();
         resetQty();
 
-        console.log('-----------------------------');
-        console.log('ModalOpen-selectedItems.length: ' + selectedItems.length);
-        console.log('ModalOpen-savedList.length: ' + savedList.length);
-        console.log('-----------------------------');
+        // console.log('-----------------------------');
+        // console.log('ModalOpen-selectedItems.length: ' + selectedItems.length);
+        // console.log('ModalOpen-savedList.length: ' + savedList.length);
+        // console.log('-----------------------------');
 
         // 3. データ: savedList (Object) 出力
         let tableBody = document.querySelector("#selected-items");
         tableBody.innerHTML = "";
-
-        for (let i = 0; i < savedList.length; i++) {
-            let row = document.createElement("tr");
-            row.className = "draggable";
-            // row.draggable = true;
-
-            let cell0 = document.createElement("div");
-            cell0.className = "el";
-
-            let cell1 = document.createElement("td");
-            cell1.className = "table-ing-name";
-            cell1.textContent = savedList[i].ingredient;
-            cell1.value = savedList[i].ingredientValue;
-
-            let cell2 = document.createElement("td");
-            cell2.className = "table-ing-qty";
-            cell2.textContent = savedList[i].qty;
-            cell2.value = savedList[i].qtyValue;
-
-            let cell3 = document.createElement("td");
-            cell3.className = "table-ing-unit";
-            cell3.textContent = savedList[i].unit;
-            cell3.value = savedList[i].unitValue;
-
-            let cell4 = document.createElement("td");
-            cell4.className = "table-ing-unit";
-            let button = document.createElement("button");
-            button.type = "button";
-            button.className = "btn-close";
-            button.id = "deleteBtn";
-            button.dataset.tableIngName = cell1.value;
-            cell4.appendChild(button);
-
-            cell0.appendChild(cell1);
-            cell0.appendChild(cell2);
-            cell0.appendChild(cell3);
-            cell0.appendChild(cell4);
-
-            row.appendChild(cell0);
-            row.appendChild(cell1);
-            row.appendChild(cell2);
-            row.appendChild(cell3);
-            row.appendChild(cell4);
-
-            tableBody.appendChild(row);
-        }
+        paintTable(savedList);
 
     });
 }); // Modal Close
@@ -232,6 +188,7 @@ $(document).ready(function () {
 
 // Dynamic Table 材料
 document.querySelector("#add-button").addEventListener("click", function () {
+
     // 出力用
     let mainCategory = document.querySelector("#main-category-dropdown option:checked").textContent;
     let subCategory = document.querySelector("#sub-category-dropdown option:checked").textContent;
@@ -258,10 +215,10 @@ document.querySelector("#add-button").addEventListener("click", function () {
         qty: qty,
         unit: unit,
         ingredientValue: ingredientValue,
-        qtyValue: qty,
+        qtyValue: qtyValue,
         unitValue: unitValue
     });
-    
+
     resetMain();
     resetSub();
     resetIng();
@@ -275,104 +232,10 @@ document.querySelector("#add-button").addEventListener("click", function () {
 
     // if savedList is already exist
     if (savedList.length > 0) {
-
-        saveLength = savedList.length;
-        console.log('saveLength: ' + saveLength);
-
-        for (let i = 0; i < savedList.length; i++) {
-            let row = document.createElement("tr");
-            row.className = "draggable";
-            // row.draggable = true;
-
-            let cell0 = document.createElement("div");
-            cell0.className = "el";
-
-            let cell1 = document.createElement("td");
-            cell1.className = "table-ing-name"; //class 속성 추가
-            cell1.textContent = savedList[i].ingredient;
-            cell1.value = savedList[i].ingredientValue;
-
-            let cell2 = document.createElement("td");
-            cell2.className = "table-ing-qty";
-            cell2.textContent = savedList[i].qty;
-            cell2.value = savedList[i].qtyValue;
-
-            let cell3 = document.createElement("td");
-            cell3.className = "table-ing-unit";
-            cell3.textContent = savedList[i].unit;
-            cell3.value = savedList[i].unitValue;
-
-            let cell4 = document.createElement("td");
-            cell4.className = "table-ing-unit";
-            let button = document.createElement("button");
-            button.type = "button";
-            button.className = "btn-close";
-            button.id = "deleteBtn";
-            button.dataset.tableIngName = cell1.value;
-            cell4.appendChild(button);
-
-            cell0.appendChild(cell1);
-            cell0.appendChild(cell2);
-            cell0.appendChild(cell3);
-            cell0.appendChild(cell4);
-
-            row.appendChild(cell0);
-            row.appendChild(cell1);
-            row.appendChild(cell2);
-            row.appendChild(cell3);
-            row.appendChild(cell4);
-
-            tableBody.appendChild(row);
-        }
+        paintTable(savedList);
     }
+    paintTable(selectedItems);
 
-
-
-    for (let i = 0; i < selectedItems.length; i++) {
-        let row = document.createElement("tr");
-        row.className = "draggable";
-        //row.draggable = true;
-
-        let cell0 = document.createElement("div");
-        cell0.className = "el";
-
-        let cell1 = document.createElement("td");
-        cell1.className = "table-ing-name"; //class 속성 추가
-        cell1.textContent = selectedItems[i].ingredient + ' (' + selectedItems[i].subCategory + ', ' + selectedItems[i].mainCategory + ')';
-        cell1.value = selectedItems[i].ingredientValue;
-
-        let cell2 = document.createElement("td");
-        cell2.className = "table-ing-qty";
-        cell2.textContent = selectedItems[i].qty;
-        cell2.value = selectedItems[i].qtyValue;
-
-        let cell3 = document.createElement("td");
-        cell3.className = "table-ing-unit";
-        cell3.textContent = selectedItems[i].unit;
-        cell3.value = selectedItems[i].unitValue;
-
-        let cell4 = document.createElement("td");
-        cell4.className = "table-ing-unit";
-        let button = document.createElement("button");
-        button.type = "button";
-        button.className = "btn-close";
-        button.id = "deleteBtn";
-        button.dataset.tableIngName = cell1.value;
-        cell4.appendChild(button);
-
-        cell0.appendChild(cell1);
-        cell0.appendChild(cell2);
-        cell0.appendChild(cell3);
-        cell0.appendChild(cell4);
-
-        row.appendChild(cell0);
-        row.appendChild(cell1);
-        row.appendChild(cell2);
-        row.appendChild(cell3);
-        row.appendChild(cell4);
-
-        tableBody.appendChild(row);
-    }
 });
 
 // Exit Button
@@ -423,10 +286,10 @@ function closeModal() {
 
     selectedItems = [];
 
-    console.log('-----------------------------');
-    console.log('ModalClose-selectedItems.length: ' + selectedItems.length);
-    console.log('ModalClose-savedList.length: ' + savedList.length);
-    console.log('-----------------------------');
+    // console.log('-----------------------------');
+    // console.log('ModalClose-selectedItems.length: ' + selectedItems.length);
+    // console.log('ModalClose-savedList.length: ' + savedList.length);
+    // console.log('-----------------------------');
 }
 
 
@@ -528,25 +391,74 @@ function savedIngList() {
     selectedItems = [];
 }
 
-// リセット
+// Dynamic 材料テーブル　出力
+function paintTable(commonList) {
+
+    for (let i = 0; i < commonList.length; i++) {
+        let row = document.createElement("tr");
+        row.className = "draggable";
+        // row.draggable = true;
+
+        let cell0 = document.createElement("div");
+        cell0.className = "el";
+
+        let cell1 = document.createElement("td");
+        cell1.className = "table-ing-name";
+        cell1.textContent = commonList[i].ingredient;
+        cell1.value = commonList[i].ingredientValue;
+
+        let cell2 = document.createElement("td");
+        cell2.className = "table-ing-qty";
+        cell2.textContent = commonList[i].qty;
+        cell2.value = commonList[i].qtyValue;
+
+        let cell3 = document.createElement("td");
+        cell3.className = "table-ing-unit";
+        cell3.textContent = commonList[i].unit;
+        cell3.value = commonList[i].unitValue;
+
+        let cell4 = document.createElement("td");
+        cell4.className = "table-ing-unit";
+        let button = document.createElement("button");
+        button.type = "button";
+        button.className = "btn-close";
+        button.id = "deleteBtn";
+        button.dataset.tableIngName = cell1.value;
+        cell4.appendChild(button);
+
+        cell0.appendChild(cell1);
+        cell0.appendChild(cell2);
+        cell0.appendChild(cell3);
+        cell0.appendChild(cell4);
+
+        row.appendChild(cell0);
+        row.appendChild(cell1);
+        row.appendChild(cell2);
+        row.appendChild(cell3);
+        row.appendChild(cell4);
+
+        tableBody.appendChild(row);
+    }
+}
+
+// メインカテゴリーをリセット
 function resetMain() {
     $("#main-category-dropdown option:first").prop("selected", true);
 }
 
+// 詳細カテゴリーをリセット
 function resetSub() {
     $("#sub-category-dropdown").empty();
     $("#sub-category-dropdown").append($("<option>").text("選択してください").attr("value", ""));
 }
 
+// 材料をリストをリセット
 function resetIng() {
     $("#ingredient-dropdown").empty();
     $("#ingredient-dropdown").append($("<option>").text("選択してください").attr("value", ""));
 }
 
-function resetUnit() {
-    $("#unit-dropdown option:first").prop("selected", true);
-}
-
+// 容量をリストをリセット
 function resetQty() {
     $("#qtyDirect").hide(); // Input Hidden
     $("#qty-dropdown").change(function () {
@@ -559,21 +471,44 @@ function resetQty() {
     $("#qty-dropdown option:first").prop("selected", true);
 }
 
-// 削除
-document.addEventListener("DOMContentLoaded", function () {
-    tableBody.addEventListener("click", (event) => {
-        const target = event.target;
-        const id = event.target.dataset.tableIngName;
-        console.log('id 1: ' + id);
-        console.log('selectedItems.indexOf(id) ' + selectedItems.indexOf(id));
-        savedList.splice(savedList.indexOf(id), 1);
-    });
+// 単位をリストをリセット
+function resetUnit() {
+    $("#unit-dropdown option:first").prop("selected", true);
+}
+
+// 材料を削除
+document.addEventListener('click', function (event) {
+    if (event.target && event.target.id === 'deleteBtn') {
+        // Get the table row that contains the delete button
+        let row = event.target.closest('tr');
+        // Get the tableIngName value from the dataset
+        let tableIngName = event.target.dataset.tableIngName;
+        // Remove the row from the table
+        row.parentNode.removeChild(row);
+        // Loop through selectedItems array and remove item with matching ingredientValue
+        for (let i = 0; i < selectedItems.length; i++) {
+            if (selectedItems[i].ingredientValue === tableIngName) {
+                selectedItems.splice(i, 1);
+                break; // Exit loop after removing the item
+            }
+        }
+        // // Loop through savedList array and remove item with matching ingredientId
+        // for (let i = 0; i < savedList.length; i++) {
+        //     console.log('ingredientId' + savedList[i].ingredientId);
+        //     console.log('tableIngName' + tableIngName);
+        //     if (savedList[i].ingredientId === tableIngName) {
+        //         savedList.splice(i, 1);
+        //         break; // Exit loop after removing the item
+        //     }
+        // }
+    }
 });
 
 
 // writeFormSubmitの前
 document.getElementById('writeForm').addEventListener('submit', function (evt) {
     evt.preventDefault();
+
     // savedListをJSON.stringにして、input hiddenに入れる
     $('#send-list-input').val(JSON.stringify(savedList));
     this.submit();
