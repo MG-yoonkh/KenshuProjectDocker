@@ -74,7 +74,7 @@
               <label for="" class="p-2">
                 <h3>カテゴリー</h3>
               </label>
-              <h5 th:text="@{|${recipe.category}|}">西洋料理</h5>
+              <h5 th:text="@{|${recipe.category}|}"></h5>
             </div>
             <div class="col-md-2">
               <label for="" class="p-2">
@@ -86,7 +86,7 @@
               <label for="" class="p-2">
                 <h3>予算</h3>
               </label>
-              <h5>100円以内</h5>
+              <h5 th:text="@{|${recipe.budget}円|}"></h5>
             </div>
 
           </div>
