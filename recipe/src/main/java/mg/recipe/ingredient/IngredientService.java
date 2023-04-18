@@ -3,7 +3,6 @@ package mg.recipe.ingredient;
 import lombok.RequiredArgsConstructor;
 import mg.recipe.DataNotFoundException;
 import mg.recipe.ingredientCategory.IngredientCategory;
-import mg.recipe.measurementUnit.MeasurementUnit;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

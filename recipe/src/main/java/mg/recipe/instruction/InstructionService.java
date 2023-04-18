@@ -13,16 +13,6 @@ public class InstructionService {
 
     private final InstructionRepository instructionRepository;
 
-    // public void create(String[] descriptionList, List<String> imgUrlList, Recipe recipe) {
-    //     Instruction instruction = new Instruction();
-    //     for (int i = 0; i < descriptionList.length; i++) {
-    //         instruction.setDescription(descriptionList[i]);
-    //         instruction.setImgUrl(imgUrlList.get(i));
-    //         instruction.setRecipe(recipe);
-    //     }
-    //     this.instructionRepository.save(instruction);
-    // }
-
     public void create(List<Instruction> ist) {
         
         for (int i = 0; i < ist.size(); i++) {
