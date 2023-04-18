@@ -538,11 +538,12 @@ function paintTable2(commonList, tableBody) {
 // メインカテゴリーをリセット
 function resetMain() {
     $("#main-category-dropdown option:first").prop("selected", true);
+    $("#sub-category-dropdown").removeAttr("disabled");
 }
 
 // 詳細カテゴリーをリセット
 function resetSub() {
-    $("#sub-category-dropdown").removeAttr("disabled");
+    
     $("#sub-category-dropdown").empty();
     $("#sub-category-dropdown").append($("<option>").text("選択してください").attr("value", ""));
 }
