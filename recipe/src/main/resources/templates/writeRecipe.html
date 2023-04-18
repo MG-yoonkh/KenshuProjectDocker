@@ -7,6 +7,14 @@
       <div class="row">
         <div class="col-md-2"></div>
         <div class="col-md-auto">
+          <div class="mt-5">
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item">&nbsp;&nbsp;&nbsp;<a th:href="@{/index}">ホーム</a></li>
+                <li class="breadcrumb-item active" aria-current="page">レシピ投稿</li>
+              </ol>
+            </nav>
+          </div>
           <form th:object="${recipeForm}" method="post" id='writeForm' enctype="multipart/form-data" novalidate>
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
             <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
