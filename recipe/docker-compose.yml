@@ -11,6 +11,8 @@ services:
     ports:
       - "3307:3306"
     command: '--default-authentication-plugin=mysql_native_password'
+    volumes:
+      - db_data:/var/lib/mysql
     networks:
       - my-network
 
@@ -27,6 +29,9 @@ services:
     networks:
       - my-network
     command: ["/app/wait-for-it.sh", "db:3306", "--", "java", "-jar", "app.jar"]
+
+volumes:
+  db_data:
 
 networks:
   my-network:

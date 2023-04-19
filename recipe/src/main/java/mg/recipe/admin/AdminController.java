@@ -1,9 +1,11 @@
 package mg.recipe.admin;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import mg.recipe.recipe.Recipe;
 import mg.recipe.recipe.RecipeService;
 import mg.recipe.user.SiteUser;
+import mg.recipe.user.UserRole;
 import mg.recipe.user.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,11 +13,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.YearMonth;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Controller
@@ -80,4 +84,25 @@ public class AdminController {
         adminService.deleteRecipe(recipeId);
         return "redirect:/admin/recipe";
     }
+
+    @GetMapping("/admin/adminright")
+    public String adminRight(Model model){
+        List<SiteUser> users = userService.findAll();
+        model.addAttribute("users",users);
+        return "adminRight";
+    }
+
+    @PostMapping("/admin/changeRole/{id}")
+    public String changeUserRole(@PathVariable Integer id,
+                                            @RequestParam UserRole role,
+                                            RedirectAttributes redirectAttributes) {
+        try {
+            userService.changeUserRole(id, role);
+            redirectAttributes.addFlashAttribute("message","権限が変更されました。");
+        } catch (EntityNotFoundException e) {
+            redirectAttributes.addAttribute("errorMessage",e.getMessage());
+        }
+        return "redirect:/admin/adminright";
+    }
+
 }
