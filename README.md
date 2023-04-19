@@ -24,13 +24,22 @@
 
 # 3. プロジェクトの設置および実行方法
 
-1. jdk17、 MySQL8.0、IntelliJ 設置。
-2. MySQLに'Recipe' Databaseを生成する。
-3. プロジェクトをzipファイルでダウンロードし、管理しやすい経路に展開
-4. IntelliJを開けて、recipe - build.gradleを開ける。
-5. IntelliJのFile - project structureでJAVAのバージョンを17に設定
-6. recipe - src - main - java - RecipeApplicationを実行する。
-7. localhost:8080に接続する。
+* ローカルに設置する場合
+ 1. jdk17、 MySQL8.0、IntelliJ 設置。
+ 2. MySQLに'Recipe' Databaseを生成する。
+ 3. プロジェクトをzipファイルでダウンロードし、管理しやすい経路に展開
+ 4. IntelliJを開けて、recipe - build.gradleを開ける。
+ 5. IntelliJのFile - project structureでJAVAのバージョンを17に設定
+ 6. recipe - src - main - java - RecipeApplicationを実行する。
+ 7. localhost:8080に接続する。
+
+* Dockerを使う場合
+ 1. Docker desktopを設置する
+ 2. 
+ 3.
+ 4.
+ 
+
 
 ***
 
