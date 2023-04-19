@@ -69,7 +69,7 @@ public class IngredientController {
     @PostMapping("/ing")
     @ResponseBody
     public List<Ingredient> getIngList(@RequestParam Integer categoryId) {
-        System.out.println("categoryId: " + categoryId);
+        System.out.println("categoryId/subcategoryId: " + categoryId);
         IngredientCategory ingredientCategory = this.ingredientCategoryService.getIngredientCategory(categoryId);
         List<Ingredient> iList = this.ingredientService.getSameCategoryIngredient(ingredientCategory);
         return iList;
