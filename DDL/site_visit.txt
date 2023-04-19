@@ -1,0 +1,1 @@
+'site_visit', 'CREATE TABLE `site_visit` (\n  `id` bigint NOT NULL AUTO_INCREMENT,\n  `visit_date_time` datetime(6) DEFAULT NULL,\n  PRIMARY KEY (`id`)\n) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci'

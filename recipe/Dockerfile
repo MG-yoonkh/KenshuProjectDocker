@@ -2,8 +2,9 @@ FROM openjdk:17
 
 WORKDIR /app
 
-COPY build/libs/*.jar app.jar
+ARG JAR_FILE=build/libs/*.jar
 
-EXPOSE 8082
+COPY ${JAR_FILE} app.jar
+COPY wait-for-it.sh /app/wait-for-it.sh
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
+CMD ["java", "-jar", "app.jar"]
