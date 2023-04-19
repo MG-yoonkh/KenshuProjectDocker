@@ -425,56 +425,37 @@ function paintTableOnModal(commonList, tableBody) {
 
 function paintListOnMain(commonList, listElement) {
     for (let i = 0; i < commonList.length; i++) {
-        let listItem = document.createElement("li");
+        let listItem = document.createElement("div");
+        listItem.className = "displayed-item-list";
+
+        let ingredient = document.createElement("div");
         if (commonList[i].mainCategory) {
-            listItem.textContent = commonList[i].ingredient + ' (' + commonList[i].subCategory + ', ' + commonList[i].mainCategory + ')';
+            ingredient.textContent = commonList[i].ingredient + ' (' + commonList[i].subCategory + ', ' + commonList[i].mainCategory + ')';
         } else {
-            listItem.textContent = commonList[i].ingredient;
+            ingredient.textContent = commonList[i].ingredient;
         }
-        listItem.setAttribute('data-value', commonList[i].ingredientValue);
+        ingredient.className = "displayed-item-ingredient";
+        listItem.appendChild(ingredient);
+
+        let listItem2 = document.createElement("div");
+        listItem2.className = "displayed-item-list2";
+
+        let quantity = document.createElement("div");
+        quantity.textContent = commonList[i].qty;
+        quantity.className = "displayed-item-qty";
+        listItem2.appendChild(quantity);
+
+        let unit = document.createElement("div");
+        unit.textContent = commonList[i].unit;
+        unit.className = "displayed-item-unit";
+        listItem2.appendChild(unit);
+
         listElement.appendChild(listItem);
+        listElement.appendChild(listItem2);
     }
 }
 
-// function paintTableOnMain(commonList, tableBody) {
 
-//     for (let i = 0; i < commonList.length; i++) {
-//         let row = document.createElement("tr");
-
-//         let cell0 = document.createElement("div");
-//         cell0.className = "el2";
-
-//         let cell1 = document.createElement("td");
-//         cell1.className = "table-ing-name2";
-//         if (commonList[i].mainCategory) {
-//             cell1.textContent = commonList[i].ingredient + ' (' + commonList[i].subCategory + ', ' + commonList[i].mainCategory + ')';
-//         } else {
-//             cell1.textContent = commonList[i].ingredient;
-//         }
-//         cell1.value = commonList[i].ingredientValue;
-
-//         let cell2 = document.createElement("td");
-//         cell2.className = "table-ing-qty2";
-//         cell2.textContent = commonList[i].qty;
-//         cell2.value = commonList[i].qtyValue;
-
-//         let cell3 = document.createElement("td");
-//         cell3.className = "table-ing-unit2";
-//         cell3.textContent = commonList[i].unit;
-//         cell3.value = commonList[i].unitValue;
-
-//         cell0.appendChild(cell1);
-//         cell0.appendChild(cell2);
-//         cell0.appendChild(cell3);
-
-//         row.appendChild(cell0);
-//         row.appendChild(cell1);
-//         row.appendChild(cell2);
-//         row.appendChild(cell3);
-
-//         tableBody.appendChild(row);
-//     }
-// }
 
 // メインカテゴリーをリセット
 function resetMain() {
@@ -536,16 +517,6 @@ document.addEventListener('click', function (event) {
 
 });
 
-// Modalの外側に選択された材料を表示する。
-// function getDataFromLocalStorageAndDisplay() {
-//     var savedListData = localStorage.getItem('savedList');
-//     savedList = savedListData ? JSON.parse(savedListData) : [];
-//     tableBody = document.querySelector("#display-items");
-//     tableBody.innerHTML = "";
-//     if (savedList) {
-//         paintTableOnMain(savedList, tableBody);
-//     }
-// }
 function getDataFromLocalStorageAndDisplay() {
     var savedListData = localStorage.getItem('savedList');
     savedList = savedListData ? JSON.parse(savedListData) : [];
@@ -560,6 +531,9 @@ function getDataFromLocalStorageAndDisplay() {
 // writeFormSubmitの前
 document.getElementById('writeForm').addEventListener('submit', function (evt) {
     evt.preventDefault();
+
+    var savedListData = localStorage.getItem('savedList');
+    savedList = savedListData ? JSON.parse(savedListData) : [];
 
     // savedListをJSON.stringにして、input hiddenに入れる
     $('#send-list-input').val(JSON.stringify(savedList));

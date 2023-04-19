@@ -1,7 +1,6 @@
-
 .input-title {
   max-width: 560px;
-  width:100%;
+  width: 100%;
   margin: 0 auto;
   margin-top: 30px;
   margin-bottom: 20px;
@@ -30,9 +29,7 @@
   background-color: #b8b4aff2;
 }
 
-.draggable:last-child {
-  
-}
+.draggable:last-child {}
 
 .draggable.dragging {
   opacity: .5;
@@ -83,13 +80,13 @@
   border-radius: 10px;
 }
 
-@media (any-hover: hover){
-  .inner:hover{
+@media (any-hover: hover) {
+  .inner:hover {
     background-color: var(--hoverBg);
   }
 }
 
-.label--hover{
+.label--hover {
   background-color: var(--hoverBg);
 }
 
@@ -102,7 +99,7 @@
 
 
 .preview {
-  position:relative;
+  position: relative;
   z-index: 1;
   bottom: 0px;
   left: 0px;
@@ -114,7 +111,7 @@
 }
 
 .container-img {
-  position:relative;
+  position: relative;
   z-index: 2;
   bottom: 0px;
   left: 0px;
@@ -148,19 +145,64 @@
   max-width: 668px;
   max-height: 140px;
   margin: 10px 0px 0px 0px;
-  border: 1px dashed gray;
-  font-size: 17px;
-  font-family: "Roboto", sans-serif;
+  border: 3px dashed;
   z-index: 100;
   border-radius: 8px;
 }
 
-
+.modal-ing-content {
+  font-size: 20px;
+  font-weight: bold;
+  font-family: "Roboto", sans-serif;
+  /* padding: 10px 0px 10px 0px; */
+}
 
 .modal-div button:hover {
-  color: blue;
+  background-color: var(--hoverBg);
   text-decoration: none;
+  color: black;
+  border: 3px dashed black;
+}
+
+
+
+.display-items {
+  font-size: 17px;
+  width: 100%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding: 0px 0px 0px 0px;
+}
+
+.displayed-item-ingredient {
+  float: left; 
+  margin-right: 135px;
+  margin-left: 100px;
+}
+
+.displayed-item-qty {
+}
+
+.displayed-item-unit {
+  margin-left: 2px;
+}
+
+.displayed-item-list {
   
+}
+
+.displayed-item-list2 {
+  float:right;
+  margin-right: 140px;
+}
+
+.displayed-item-ingredient, .displayed-item-qty, .displayed-item-unit {
+  display: inline-block;
+}
+
+.table-ing2 {
+  background-color: #FAEBD7;
+  display: flex;
 }
 
 .modal.modal-center {
@@ -194,7 +236,7 @@
   margin: 0px 0px 0px 0px;
 }
 
-.el > .table-ing-name {
+.el>.table-ing-name {
   margin-left: 5px;
 }
 
@@ -212,15 +254,4 @@
 
 .modal-content {
   background-color: white;
-}
-
-
-.display-items {
-  max-width: 300px;
-  width: 100%;
-}
-
-.table-ing2 {
-  background-color: #FAEBD7;
-  display: flex;
 }
