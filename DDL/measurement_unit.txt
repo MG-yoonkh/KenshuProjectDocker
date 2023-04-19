@@ -1,0 +1,1 @@
+'measurement_unit', 'CREATE TABLE `measurement_unit` (\n  `measurement_unit_id` int NOT NULL AUTO_INCREMENT,\n  `measurement_unit_name` varchar(255) DEFAULT NULL,\n  PRIMARY KEY (`measurement_unit_id`)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci'
