@@ -5,18 +5,6 @@ let tableBody;
 localStorage.clear();
 
 
-function getDataFromLocalStorageAndDisplay() {
-    var savedListData = localStorage.getItem('savedList');
-    savedList = savedListData ? JSON.parse(savedListData) : [];
-    console.log('savedList.length: ' + savedList.length);
-    tableBody = document.querySelector("#display-items");
-    tableBody.innerHTML = "";
-    if (savedList) {
-        paintTable2(savedList, tableBody);
-    }
-}
-
-getDataFromLocalStorageAndDisplay();
 
 // Modal Click
 $(document).ready(function () {
@@ -78,7 +66,7 @@ $(document).ready(function () {
 
         tableBody = document.querySelector("#selected-items");
         tableBody.innerHTML = "";
-        paintTable(savedList, tableBody);
+        paintTableOnModal(savedList, tableBody);
 
     });
     console.log('localStorage: ' + localStorage.length);
@@ -174,7 +162,6 @@ $(document).ready(function () {
 });
 
 function dropdownSub(categoryId) {
-
     $.ajax({
         type: "POST",
         url: "/ingredient/ing",
@@ -266,9 +253,9 @@ document.querySelector("#add-button").addEventListener("click", function () {
     var savedListData = localStorage.getItem('savedList');
     savedList = savedListData ? JSON.parse(savedListData) : [];
     if (savedList.length > 0) {
-        paintTable(savedList, tableBody);
+        paintTableOnModal(savedList, tableBody);
     }
-    paintTable(selectedItems, tableBody);
+    paintTableOnModal(selectedItems, tableBody);
 
 });
 
@@ -375,8 +362,8 @@ function savedIngList() {
     selectedItems = [];
 }
 
-// Dynamic 材料テーブル　出力
-function paintTable(commonList, tableBody) {
+// Dynamic材料テーブルをModalに出力
+function paintTableOnModal(commonList, tableBody) {
     console.log('commonList.length: ' + commonList.length);
     for (let i = 0; i < commonList.length; i++) {
         let row = document.createElement("tr");
@@ -436,45 +423,58 @@ function paintTable(commonList, tableBody) {
     }
 }
 
-function paintTable2(commonList, tableBody) {
-
+function paintListOnMain(commonList, listElement) {
     for (let i = 0; i < commonList.length; i++) {
-        let row = document.createElement("tr");
-
-        let cell0 = document.createElement("div");
-        cell0.className = "el2";
-
-        let cell1 = document.createElement("td");
-        cell1.className = "table-ing-name2";
+        let listItem = document.createElement("li");
         if (commonList[i].mainCategory) {
-            cell1.textContent = commonList[i].ingredient + ' (' + commonList[i].subCategory + ', ' + commonList[i].mainCategory + ')';
+            listItem.textContent = commonList[i].ingredient + ' (' + commonList[i].subCategory + ', ' + commonList[i].mainCategory + ')';
         } else {
-            cell1.textContent = commonList[i].ingredient;
+            listItem.textContent = commonList[i].ingredient;
         }
-        cell1.value = commonList[i].ingredientValue;
-
-        let cell2 = document.createElement("td");
-        cell2.className = "table-ing-qty2";
-        cell2.textContent = commonList[i].qty;
-        cell2.value = commonList[i].qtyValue;
-
-        let cell3 = document.createElement("td");
-        cell3.className = "table-ing-unit2";
-        cell3.textContent = commonList[i].unit;
-        cell3.value = commonList[i].unitValue;
-
-        cell0.appendChild(cell1);
-        cell0.appendChild(cell2);
-        cell0.appendChild(cell3);
-
-        row.appendChild(cell0);
-        row.appendChild(cell1);
-        row.appendChild(cell2);
-        row.appendChild(cell3);
-
-        tableBody.appendChild(row);
+        listItem.setAttribute('data-value', commonList[i].ingredientValue);
+        listElement.appendChild(listItem);
     }
 }
+
+// function paintTableOnMain(commonList, tableBody) {
+
+//     for (let i = 0; i < commonList.length; i++) {
+//         let row = document.createElement("tr");
+
+//         let cell0 = document.createElement("div");
+//         cell0.className = "el2";
+
+//         let cell1 = document.createElement("td");
+//         cell1.className = "table-ing-name2";
+//         if (commonList[i].mainCategory) {
+//             cell1.textContent = commonList[i].ingredient + ' (' + commonList[i].subCategory + ', ' + commonList[i].mainCategory + ')';
+//         } else {
+//             cell1.textContent = commonList[i].ingredient;
+//         }
+//         cell1.value = commonList[i].ingredientValue;
+
+//         let cell2 = document.createElement("td");
+//         cell2.className = "table-ing-qty2";
+//         cell2.textContent = commonList[i].qty;
+//         cell2.value = commonList[i].qtyValue;
+
+//         let cell3 = document.createElement("td");
+//         cell3.className = "table-ing-unit2";
+//         cell3.textContent = commonList[i].unit;
+//         cell3.value = commonList[i].unitValue;
+
+//         cell0.appendChild(cell1);
+//         cell0.appendChild(cell2);
+//         cell0.appendChild(cell3);
+
+//         row.appendChild(cell0);
+//         row.appendChild(cell1);
+//         row.appendChild(cell2);
+//         row.appendChild(cell3);
+
+//         tableBody.appendChild(row);
+//     }
+// }
 
 // メインカテゴリーをリセット
 function resetMain() {
@@ -535,6 +535,26 @@ document.addEventListener('click', function (event) {
     }
 
 });
+
+// Modalの外側に選択された材料を表示する。
+// function getDataFromLocalStorageAndDisplay() {
+//     var savedListData = localStorage.getItem('savedList');
+//     savedList = savedListData ? JSON.parse(savedListData) : [];
+//     tableBody = document.querySelector("#display-items");
+//     tableBody.innerHTML = "";
+//     if (savedList) {
+//         paintTableOnMain(savedList, tableBody);
+//     }
+// }
+function getDataFromLocalStorageAndDisplay() {
+    var savedListData = localStorage.getItem('savedList');
+    savedList = savedListData ? JSON.parse(savedListData) : [];
+    listElement = document.querySelector(".display-items");
+    listElement.innerHTML = "";
+    if (savedList) {
+        paintListOnMain(savedList, listElement);
+    }
+}
 
 
 // writeFormSubmitの前
