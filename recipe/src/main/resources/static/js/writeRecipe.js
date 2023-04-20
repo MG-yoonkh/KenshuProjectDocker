@@ -531,10 +531,75 @@ function getDataFromLocalStorageAndDisplay() {
     savedList = savedListData ? JSON.parse(savedListData) : [];
     listElement = document.querySelector(".display-items");
     listElement.innerHTML = "";
-    if (savedList) {
+    if (savedList>0) {
         paintListOnMain(savedList, listElement);
     }
 }
+
+//<!-- Set a JavaScript variable with the value of riList -->
+var riList = /*[[${riList}]]*/ null;
+console.log('riList:' + riList);
+
+var recipe = /*[[${recipe}]]*/ null;
+console.log('recipe:' + recipe);
+
+
+
+//$(document).ready(function() {
+//// 隠しフィールドからレシピ名を取得する
+//  const recipeId = document.getElementById('recipeId').value;
+//  console.log('recipeId:' + recipeId);
+//
+//    if (recipeId) {
+//      // サーバーからriListデータを取得する
+//      $.ajax({
+//        url: '/getRiList',
+//        type: 'GET',
+//        data: {
+//          recipeId: recipeId
+//        },
+//        success: function(recipeId) {
+//          // 取得したriListデータを変数riListに代入する
+//          var riList = response;
+//          console.log(riList);
+//
+//          // riListデータをlocalStorageに保存する処理を続ける
+//          if (riList != null && !riList.isEmpty()) {
+//            console.log('riListは空ではありません。');
+//
+//            // localStorageに既にデータがあるかどうかを確認する
+//            if (localStorage.getItem('savedList') !== null) {
+//              console.log('localStorageに既にsavedListのデータがあります。既存のデータを削除します.');
+//              // 既存のデータを削除する
+//              localStorage.removeItem('savedList');
+//            }
+//
+//            // riListをJSON文字列に変換する
+//            const riListJson = JSON.stringify(riList);
+//
+//            // riListをlocalStorageに保存する
+//            localStorage.setItem('savedList', riListJson);
+//            console.log('riListのデータがlocalStorageに保存されました。');
+//
+//            // localStorageからリストを表示する関数を呼び出す
+//            getDataFromLocalStorageAndDisplay();
+//          } else {
+//            console.log('riListは空またはnullです。localStorageに保存しません。');
+//          }
+//        },
+//        error: function(xhr, status, error) {
+//          console.log('recipeIngredientの取得中にエラーが発生しました: ' + error);
+//        }
+//      });
+//    }
+//});
+
+
+
+
+
+
+
 
 
 // writeFormSubmitの前

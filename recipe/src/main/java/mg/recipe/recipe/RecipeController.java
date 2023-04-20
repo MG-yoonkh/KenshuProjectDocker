@@ -281,18 +281,33 @@ public class RecipeController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/recipe/modify/{id}")
-    public String recipeModify(RecipeForm recipeForm, @PathVariable("id") Integer id,
+    public String recipeModify(Model model, RecipeForm recipeForm, @PathVariable("id") Integer id,
             Principal principal) {
         Recipe recipe = this.recipeService.getRecipe(id);
         if (!recipe.getAuthor().getUsername().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "修正権限がありません。");
         }
         recipeForm.setRecipeName(recipe.getRecipeName());
-        //recipeForm.setThumbnail(recipe.getThumbnail());
+        recipeForm.setThumbnail(recipe.getThumbnail());
         recipeForm.setCategory(recipe.getCategory());
         recipeForm.setCookTime(recipe.getCookTime());
         recipeForm.setBudget(recipe.getBudget());
+        recipeForm.setId(recipe.getId());
         recipeForm.setVideoUrl("https://www.youtube.com/watch?v=" + recipe.getVideoUrl());
+
+        // レシピ材料のリスト
+        List<RecipeIngredient> riList = this.recipeIngredientService.getAllIngredient(recipe);
+        if (riList != null) {
+            for (int i = 0; i < riList.size(); i++) {
+                System.out.println(riList.get(i));
+            }
+        }
+
+        List<Instruction> istList = this.instructionService.getAllInstruction(recipe);
+
+        model.addAttribute("recipe", recipe);
+        model.addAttribute("riList", riList);
+        model.addAttribute("istList", istList);
         return "writeRecipe";
     }
 

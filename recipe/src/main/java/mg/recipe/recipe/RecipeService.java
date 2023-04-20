@@ -71,6 +71,11 @@ public class RecipeService {
         }
     }
 
+    public Recipe getRecipe(String recipeName) {
+        Recipe recipe = this.recipeRepository.findByRecipeName(recipeName);
+        return recipe;
+    }
+
     public Recipe create(RecipeForm recipeForm, SiteUser user){
         Recipe r1 = new Recipe();
         r1.setRecipeName(recipeForm.getRecipeName());
@@ -168,4 +173,6 @@ public class RecipeService {
             }
         };
     }
+
+
 }

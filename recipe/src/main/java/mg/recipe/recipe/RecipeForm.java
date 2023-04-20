@@ -29,6 +29,6 @@ public class RecipeForm {
 
     private String videoUrl;
 
-
+    private Integer id;
 
 }

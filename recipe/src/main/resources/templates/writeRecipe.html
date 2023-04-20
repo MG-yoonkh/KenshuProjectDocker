@@ -231,6 +231,30 @@
                     <span class="modal-ing-content">クリックして材料をのせる</span> 
                     <div class="display-items">
                     </div>
+                    <table class="table">
+                      <thead>
+                      <tr>
+                        <th scope="col"></th>
+                        <th scope="col">材料名</th>
+                        <th scope="col">数量</th>
+                        <th scope="col">計量単位</th>
+                      </tr>
+                      </thead>
+                      <tbody th:if="${not #lists.isEmpty(riList)}">
+                      <tr th:each="ing, loop : ${riList}">
+                        <th scope="row"></th>
+                        <td th:text="${ing.ingredient.name}"></td>
+                        <td th:text="${ing.quantity}"></td>
+                        <td th:text="${ing.measurementUnit.name}"></td>
+                      </tr>
+                      </tbody>
+                      <tbody th:if="${#lists.isEmpty(riList)}">
+                      <td></td>
+                      <td>材料がありません。</td>
+                      <td>数量がありません。</td>
+                      <td>計量単位がありません。</td>
+                      </tbody>
+                    </table>
                   </button>
                 </div>
               </div>
@@ -367,6 +391,7 @@
               </div>
               <div class="row p-5"></div>
               <input type="hidden" id="send-list-input" name="sendList">
+              <input type="hidden" id="recipeId" th:field="*{id}">
             </div>
           </form>
         </div>
