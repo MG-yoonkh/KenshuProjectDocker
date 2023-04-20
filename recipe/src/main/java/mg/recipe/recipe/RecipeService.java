@@ -1,10 +1,9 @@
 package mg.recipe.recipe;
 
 import jakarta.persistence.criteria.*;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import mg.recipe.DataNotFoundException;
-import mg.recipe.ingredient.Ingredient;
-import mg.recipe.instruction.Instruction;
 import mg.recipe.user.SiteUser;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -12,13 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -106,7 +99,18 @@ public class RecipeService {
         }
     }
 
-    public void modify(Recipe recipe, String recipeName){
+//    public void modify(Recipe recipe, @Valid RecipeForm recipeForm){
+//        recipe.setRecipeName(recipeForm.getRecipeName());
+//        recipe.setThumbnail(recipe.getThumbnail());
+//        recipe.setBudget(recipe.getBudget());
+//        recipe.setCategory(recipe.getCategory());
+//        recipe.setCookTime(recipe.getCookTime());
+//        recipe.setVideoUrl(recipe.getVideoUrl());
+//        recipe.setModifyDate(LocalDateTime.now());
+//        this.recipeRepository.save(recipe);
+//    }
+
+    public void modify(Recipe recipe, @Valid String recipeName){
         recipe.setRecipeName(recipeName);
         recipe.setModifyDate(LocalDateTime.now());
         this.recipeRepository.save(recipe);
