@@ -273,6 +273,7 @@ const closeButton = document.getElementById("close-ingredient-modal");
 
 closeButton.addEventListener("click", () => {
     closeModal();
+
 });
 
 
@@ -309,6 +310,13 @@ function closeModal() {
     });
 
     selectedItems = [];
+    const table = document.getElementById("riListTable");
+    if (table.style.display === "none") {
+    table.style.display = "table-row-group";
+    } else {
+    table.style.display = "none";
+    }
+    resetQty();
 }
 
 

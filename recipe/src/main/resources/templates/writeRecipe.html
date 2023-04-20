@@ -241,7 +241,7 @@
                       </tr>
                       </thead>
                       <tbody class="display-items"></tbody>
-                      <tbody th:if="${not #lists.isEmpty(riList)}">
+                      <tbody id="riListTable" class="display-riList" th:if="${not #lists.isEmpty(riList)}">
                       <tr th:each="ing, loop : ${riList}">
                         <th scope="row"></th>
                         <td th:text="${ing.ingredient.name}"></td>
