@@ -178,15 +178,26 @@ function dropdownSub(categoryId) {
 
             // 材料をリストに入れる
             $.each(response, function (index, ingredient) {
+                console.log("response.length " + response.length);
+                if (response.length === 1) {
+                    console.log("response.length! " + response.length);
+                    var option = $("<option>").text(ingredient.name).attr("value", ingredient.id);
+                    $("#ingredient-dropdown").append(option);
+                     $("#ingredient-dropdown").attr("disabled", true);
+                  } else {
+                    // 「選択してください」を入れる
+                    console.log("response.length === 1 !!");
+                      if (index == 0) {
+                          var option = $("<option>").text(ingredient.name).attr("value", ingredient.id);
+                          $("#ingredient-dropdown").append(option);
+                      } else { // 材料を出力
+                          var option = $("<option>").text(ingredient.name).attr("value", ingredient.id);
+                          $("#ingredient-dropdown").append(option);
+                      }
+                  }
 
-                // 「選択してください」を入れる
-                if (index == 0) {
-                    var option = $("<option>").text(ingredient.name).attr("value", ingredient.id);
-                    $("#ingredient-dropdown").append(option);
-                } else { // 材料を出力
-                    var option = $("<option>").text(ingredient.name).attr("value", ingredient.id);
-                    $("#ingredient-dropdown").append(option);
-                }
+
+
             });
         },
         error: function (xhr, textStatus, errorThrown) {
@@ -213,6 +224,7 @@ document.querySelector("#add-button").addEventListener("click", function () {
     let subCategory = document.querySelector("#sub-category-dropdown option:checked").textContent;
     $("#sub-category-dropdown").removeAttr("disabled");
     let ingredient = document.querySelector("#ingredient-dropdown option:checked").textContent;
+    $("#ingredient-dropdown").removeAttr("disabled");
     let qty;
 
     if (document.querySelector("#qty-dropdown").value === "direct") {
