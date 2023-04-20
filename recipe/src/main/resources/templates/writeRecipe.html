@@ -240,9 +240,7 @@
                         <th scope="col">計量単位</th>
                       </tr>
                       </thead>
-                      <tbody class="display-items">
-
-                      </tbody>
+                      <tbody class="display-items"></tbody>
                       <tbody th:if="${not #lists.isEmpty(riList)}">
                       <tr th:each="ing, loop : ${riList}">
                         <th scope="row"></th>
@@ -250,12 +248,6 @@
                         <td th:text="${ing.quantity}"></td>
                         <td th:text="${ing.measurementUnit.name}"></td>
                       </tr>
-                      </tbody>
-                      <tbody th:if="${#lists.isEmpty(riList) and not #strings.isEmpty(sendList)}">
-                      <td></td>
-                      <td>材料がありません。</td>
-                      <td>数量がありません。</td>
-                      <td>計量単位がありません。</td>
                       </tbody>
                     </table>
                   </button>

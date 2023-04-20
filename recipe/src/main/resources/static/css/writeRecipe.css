@@ -145,7 +145,7 @@
   max-width: 668px;
   min-height: 130px;
   margin: 10px 0px 0px 0px;
-  border: 3px dashed;
+  border: 2px dashed #464646;
   z-index: 100;
   border-radius: 8px;
 }
@@ -154,6 +154,7 @@
   font-size: 20px;
   font-weight: bold;
   font-family: "Roboto", sans-serif;
+  color: #464646;
   /* padding: 10px 0px 10px 0px; */
 }
 
@@ -191,14 +192,7 @@
   
 }
 
-.displayed-item-list2 {
-  float:right;
-  margin-right: 140px;
-}
 
-.displayed-item-ingredient, .displayed-item-qty, .displayed-item-unit {
-  display: inline-block;
-}
 
 .table-ing2 {
   background-color: #FAEBD7;
