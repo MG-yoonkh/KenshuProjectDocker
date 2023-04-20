@@ -175,10 +175,6 @@ public class RecipeController {
             return "writeRecipe";
         }
 
-        // 레시피 수정 시 기존 데이터 불러오기
-
-
-
         // サムネイル画像のアップロード
         Path fileStorageLocation = Paths.get("C:", "KenshuProject", "recipe", "src", "main", "resources", "static", "uploaded")
                 .toAbsolutePath();
@@ -314,9 +310,13 @@ public class RecipeController {
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/recipe/modify/{id}")
     public String recipeModify(@Valid RecipeForm recipeForm,
-            BindingResult bindingResult,
-            Principal principal,
-            @PathVariable Integer id) {
+                               @RequestParam("thumbFile") MultipartFile file,
+                               @RequestParam("sendList") String sendListStr,
+                               @RequestParam("description") String[] descriptionList,
+                               @RequestParam(value = "imgUrl") List<MultipartFile> files,
+                               BindingResult bindingResult,
+                               Principal principal,
+                               @PathVariable Integer id) {
         if (bindingResult.hasErrors()) {
             return "writeRecipe";
         }
@@ -325,8 +325,16 @@ public class RecipeController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "修正権限がありません。");
         }
         this.recipeService.modify(recipe, recipeForm.getRecipeName());
+
+
+
+
+
+
+
         return String.format("redirect:/recipe/detail/%s", id);
     }
+
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/recipe/delete/{id}")
