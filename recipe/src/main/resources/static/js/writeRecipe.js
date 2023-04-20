@@ -434,33 +434,34 @@ function paintTableOnModal(commonList, tableBody) {
 
 function paintListOnMain(commonList, listElement) {
     for (let i = 0; i < commonList.length; i++) {
-        let listItem = document.createElement("div");
-        listItem.className = "displayed-item-list";
+        let listItem = document.createElement("tr");
+        listItem.className = "";
 
-        let ingredient = document.createElement("div");
+        let orderNum = document.createElement("th");
+        orderNum.textContent = i + 1;
+        listItem.appendChild(orderNum);
+
+        let ingredient = document.createElement("td");
         if (commonList[i].mainCategory) {
             ingredient.textContent = commonList[i].ingredient + ' (' + commonList[i].subCategory + ', ' + commonList[i].mainCategory + ')';
         } else {
             ingredient.textContent = commonList[i].ingredient;
         }
-        ingredient.className = "displayed-item-ingredient";
+        ingredient.className = "";
         listItem.appendChild(ingredient);
 
-        let listItem2 = document.createElement("div");
-        listItem2.className = "displayed-item-list2";
-
-        let quantity = document.createElement("div");
+        let quantity = document.createElement("td");
         quantity.textContent = commonList[i].qty;
-        quantity.className = "displayed-item-qty";
-        listItem2.appendChild(quantity);
+        quantity.className = "";
+        listItem.appendChild(quantity);
 
-        let unit = document.createElement("div");
+        let unit = document.createElement("td");
         unit.textContent = commonList[i].unit;
-        unit.className = "displayed-item-unit";
-        listItem2.appendChild(unit);
+        unit.className = "";
+        listItem.appendChild(unit);
 
         listElement.appendChild(listItem);
-        listElement.appendChild(listItem2);
+
     }
 }
 

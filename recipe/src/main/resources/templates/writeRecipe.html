@@ -229,7 +229,7 @@
                 <div class="modal-div">
                   <button type="button" class="btn modal-ing" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                     <span class="modal-ing-content">クリックして材料をのせる</span> 
-                    <div class="display-items">
+                    <div>
                     </div>
                     <table class="table">
                       <thead>
@@ -240,6 +240,9 @@
                         <th scope="col">計量単位</th>
                       </tr>
                       </thead>
+                      <tbody class="display-items">
+
+                      </tbody>
                       <tbody th:if="${not #lists.isEmpty(riList)}">
                       <tr th:each="ing, loop : ${riList}">
                         <th scope="row"></th>
@@ -248,7 +251,7 @@
                         <td th:text="${ing.measurementUnit.name}"></td>
                       </tr>
                       </tbody>
-                      <tbody th:if="${#lists.isEmpty(riList)}">
+                      <tbody th:if="${#lists.isEmpty(riList) and not #strings.isEmpty(sendList)}">
                       <td></td>
                       <td>材料がありません。</td>
                       <td>数量がありません。</td>
