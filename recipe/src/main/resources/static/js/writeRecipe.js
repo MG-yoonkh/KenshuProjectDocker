@@ -195,9 +195,6 @@ function dropdownSub(categoryId) {
                           $("#ingredient-dropdown").append(option);
                       }
                   }
-
-
-
             });
         },
         error: function (xhr, textStatus, errorThrown) {

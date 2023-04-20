@@ -18,9 +18,14 @@ import mg.recipe.recipeIngredient.RecipeIngredientJson;
 import mg.recipe.recipeIngredient.RecipeIngredientService;
 import mg.recipe.user.SiteUser;
 import mg.recipe.user.UserService;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -109,43 +114,89 @@ public class RecipeController {
         return "recipeDetail";
     }
 
-    // レシピ登録機能
+    /**
+     * 画像ファイルのリクエストを処理して、キャッシュを制御してレスポンスを返します。
+     *
+     * @param filename 画像ファイルのファイル名
+     * @return 画像ファイルのレスポンスエンティティ
+     * @throws IOException ファイルが見つからない場合、または読み取りエラーが発生した場合にスローされます
+     */
+    @GetMapping("/uploaded/{filename:.+}")
+    public ResponseEntity<Resource> getImage(@PathVariable String filename) throws IOException {
+
+        // 画像ファイルの保存先ディレクトリを設定
+        Path fileStorageLocation = Paths.get("C:", "KenshuProject", "recipe", "src", "main", "resources", "static", "uploaded")
+                .toAbsolutePath();
+
+        // ファイルのパスを解決
+        Path filePath = fileStorageLocation.resolve(filename).normalize();
+
+        // リソースオブジェクトを作成
+        Resource resource = new UrlResource(filePath.toUri());
+
+        // キャッシュ制御のためのHTTPヘッダーを設定
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
+        headers.add("Pragma", "no-cache");
+        headers.add("Expires", "0");
+
+        // 画像ファイルのレスポンスエンティティを作成して返す
+        return ResponseEntity.ok()
+                .headers(headers)
+                .contentType(MediaType.IMAGE_JPEG)
+                .body(resource);
+    }
+
+    /**
+     認証済みユーザーのみがアクセスできるエンドポイントです。レシピの投稿を作成します。
+     @param recipeForm 投稿されたレシピのフォームデータ
+     @param file 投稿されたサムネイル画像ファイル
+     @param sendListStr レシピの送信先リスト（カンマ区切りのユーザーID文字列）
+     @param descriptionList レシピの手順のテキスト配列
+     @param files 調理手順の画像ファイルのリスト
+     @param bindingResult フォームデータのバインド結果
+     @param principal リクエストを行うユーザーのPrincipalオブジェクト
+     @return リダイレクト先のURL文字列
+     @throws IOException ファイルの処理中にエラーが発生した場合にスローされます
+     */
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/recipe/write")
     public String createRecipe(@Valid RecipeForm recipeForm,
-            @RequestParam("thumbFile") MultipartFile file,
-            @RequestParam("sendList") String sendListStr,
-            @RequestParam("description") String[] descriptionList,
-            @RequestParam(value = "imgUrl") List<MultipartFile> files,
-            BindingResult bindingResult,
-            Principal principal) throws IOException {
+                               @RequestParam("thumbFile") MultipartFile file,
+                               @RequestParam("sendList") String sendListStr,
+                               @RequestParam("description") String[] descriptionList,
+                               @RequestParam(value = "imgUrl") List<MultipartFile> files,
+                               BindingResult bindingResult,
+                               Principal principal) throws IOException {
 
+        // エラーがある場合はレシピ投稿ページに戻る
         if (bindingResult.hasErrors()) {
             return "writeRecipe";
         }
 
-        // イメージ登録
-        Path fileStorageLocation = Paths
-                .get("C:", "KenshuProject", "recipe", "src", "main", "resources", "static", "uploaded")
+        // サムネイル画像のアップロード
+        Path fileStorageLocation = Paths.get("C:", "KenshuProject", "recipe", "src", "main", "resources", "static", "uploaded")
                 .toAbsolutePath();
 
+        // サムネイル画像の保存
         if (!file.isEmpty()) {
 
+            // オリジナルファイル名をクリーンアップ
             String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
-            // UUIDでランダムなファイル名を付与
+            // UUIDでランダムなファイル名を付
             UUID uuid = UUID.randomUUID();
             String newFileName = uuid.toString() + "_" + fileName;
 
             try {
-                // ファイルセーブする場所の生成
+                // ファイル保存する場所を作成
                 Files.createDirectories(fileStorageLocation);
 
-                // ファイルセーブ
+                // ファイル保存
                 Path targetLocation = fileStorageLocation.resolve(newFileName);
                 file.transferTo(targetLocation.toFile());
 
-                // Recipe オブジェクトに経路を格納
+                // Recipe オブジェクトにファイルのパスを格納
                 recipeForm.setThumbnail(newFileName);
             } catch (IOException e) {
                 throw new RuntimeException("Could not store file " + fileName + ". Please try again!", e);
@@ -154,17 +205,14 @@ public class RecipeController {
             System.out.println("保存するThumbnailがありません。");
         }
 
-        // レシピ登録
-        SiteUser siteUser = this.userService.getUserByUsername(principal.getName());
-        Recipe recipe = this.recipeService.create(recipeForm, siteUser);
+        // レシピの登録
+        SiteUser siteUser = userService.getUserByUsername(principal.getName());
+        Recipe recipe = recipeService.create(recipeForm, siteUser);
 
-        // Json -> Java
+        // JSON文字列をJavaオブジェクトに変換する
         ObjectMapper objectMapper = new ObjectMapper();
-        List<RecipeIngredientJson> jsonList = objectMapper.readValue(sendListStr,
-                new TypeReference<List<RecipeIngredientJson>>() {
-                });
+        List<RecipeIngredientJson> jsonList = objectMapper.readValue(sendListStr, new TypeReference<>() {});
 
-        // 材料を登録
         List<RecipeIngredient> rList = new ArrayList<>();
         for (RecipeIngredientJson json : jsonList) {
             RecipeIngredient recipeIngredient = new RecipeIngredient();
@@ -173,44 +221,42 @@ public class RecipeController {
             recipeIngredient.setIngredient(ingredientService.getIng(json.getIngredientId()));
             rList.add(recipeIngredient);
         }
-        this.recipeIngredientService.create(recipe, rList);
 
-        // イメージ登録
+        // 材料の登録
+        recipeIngredientService.create(recipe, rList);
+
+        // 調理手順の画像の登録
         List<String> imgUrlList = new ArrayList<>();
-
         for (int i = 0; i < files.size(); i++) {
-            
-            if (files.get(i).getOriginalFilename() != "") {
-                System.out.println("name yes: " + files.get(i).getOriginalFilename());
+            if (!files.get(i).isEmpty()) {
+
+                // オリジナルファイル名をクリーンアップ
                 String originalFilename = StringUtils.cleanPath(files.get(i).getOriginalFilename());
                 UUID uuid = UUID.randomUUID();
-                String fileName2 = uuid.toString() + "_" + originalFilename;
+                String fileName2 = uuid + "_" + originalFilename;
 
                 try {
-                    // ファイルセーブする場所の生成
+                    // ファイル保存する場所を作成
                     Files.createDirectories(fileStorageLocation);
-
-                    // ファイルセーブ
+                    // ファイル保存
                     Path targetLocation2 = fileStorageLocation.resolve(fileName2);
                     files.get(i).transferTo(targetLocation2.toFile());
-
-                    // Recipe オブジェクトに経路を格納
                     imgUrlList.add(fileName2);
 
                 } catch (IOException e) {
-                    throw new RuntimeException("Could not store file " + fileName2 + ". Please try again!", e);
+                    throw new RuntimeException("ファイルを保存できませんでした。 " + fileName2 + ". もう一度やり直してください!", e);
                 }
-            
-            } 
+            }
         }
 
-        // // レシピ調理方法
-        if(!imgUrlList.isEmpty()) {
-            this.instructionService.create(descriptionList, imgUrlList, recipe);
+        // レシピ調理手順の作成
+        if (!imgUrlList.isEmpty()) {
+            instructionService.create(descriptionList, imgUrlList, recipe);
         }
-        
+
         return String.format("redirect:/recipe/detail/%d", recipe.getId());
     }
+
 
     // レシピ登録画面
     @PreAuthorize("isAuthenticated()")
