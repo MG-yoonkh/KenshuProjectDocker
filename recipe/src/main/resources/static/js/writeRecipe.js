@@ -178,15 +178,12 @@ function dropdownSub(categoryId) {
 
             // 材料をリストに入れる
             $.each(response, function (index, ingredient) {
-                console.log("response.length " + response.length);
                 if (response.length === 1) {
-                    console.log("response.length! " + response.length);
                     var option = $("<option>").text(ingredient.name).attr("value", ingredient.id);
                     $("#ingredient-dropdown").append(option);
                      $("#ingredient-dropdown").attr("disabled", true);
                   } else {
                     // 「選択してください」を入れる
-                    console.log("response.length === 1 !!");
                       if (index == 0) {
                           var option = $("<option>").text(ingredient.name).attr("value", ingredient.id);
                           $("#ingredient-dropdown").append(option);
@@ -310,13 +307,16 @@ function closeModal() {
     });
 
     selectedItems = [];
-    const table = document.getElementById("riListTable");
-    if (table.style.display === "none") {
-    table.style.display = "table-row-group";
-    } else {
-    table.style.display = "none";
-    }
-    resetQty();
+   const table = document.getElementById("riListTable");
+   if (table) {
+       if (table.style.display === "none") {
+           table.style.display = "table-row-group";
+       } else {
+           table.style.display = "none";
+       }
+       resetQty();
+   }
+
 }
 
 
@@ -545,29 +545,29 @@ function getDataFromLocalStorageAndDisplay() {
     }
 }
 
-/*<![CDATA[*/
+
 var imgUrl = /*[[${ist.imgUrl}]]*/ null;
 var imgPreview = document.getElementById("img-preview");
 var imgFile = document.getElementById("img-file");
 
-if (imgUrl != null) {
-    imgPreview.src = imgUrl;
-}
-
-imgFile.addEventListener("change", function() {
-    var file = imgFile.files[0];
-    var reader = new FileReader();
-
-    reader.addEventListener("load", function() {
-        imgPreview.src = reader.result;
-    }, false);
-
-    if (file) {
-        reader.readAsDataURL(file);
+if (imgFile) {
+    if (imgUrl != null) {
+        imgPreview.src = imgUrl;
     }
-});
-/*]]>*/
 
+    imgFile.addEventListener("change", function() {
+        var file = imgFile.files[0];
+        var reader = new FileReader();
+
+        reader.addEventListener("load", function() {
+            imgPreview.src = reader.result;
+        }, false);
+
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    });
+}
 
 
 
