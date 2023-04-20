@@ -210,6 +210,15 @@ $(document).ready(function () {
 
 savedList = JSON.parse(localStorage.getItem('savedList')) || [];
 
+document.querySelector("#reset-button").addEventListener("click", function () {
+    resetMain()
+    resetSub();
+    resetIng();
+    resetUnit();
+    resetQty();
+});
+
+
 // Dynamic Table 材料
 document.querySelector("#add-button").addEventListener("click", function () {
 
@@ -497,13 +506,14 @@ function resetQty() {
     $("#qtyDirect").hide(); // Input Hidden
     $("#qty-dropdown").change(function () {
         if ($("#qty-dropdown").val() == "direct") {
-            $("#qtyDirect").show(); // Input Display
+            $("#qtyDirect").show().val(""); // Input Display and clear the value
         } else {
-            $("#qtyDirect").hide(); // Input Hidden
+            $("#qtyDirect").hide().val(""); // Input Hidden and clear the value
         }
     });
     $("#qty-dropdown option:first").prop("selected", true);
 }
+
 
 // 単位をリストをリセット
 function resetUnit() {
