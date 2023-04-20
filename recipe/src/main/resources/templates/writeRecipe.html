@@ -252,7 +252,7 @@
                     <label for="" class="p-2 text-start">1番目</label>
                     <div class="col-md-8 p-2">
                       <textarea class="form-control" name="description" id="instructions" rows="5"
-                        placeholder="作り方を入力"></textarea>
+                        placeholder="作り方を入力" ></textarea>
                     </div>
                     <div class="col-md-4">
                       <label class="label" id="label" for="input">
@@ -274,7 +274,7 @@
                     <label for="" class="p-2 text-start">1番目</label>
                     <div class="col-md-8 p-2">
                       <textarea class="form-control" name="description" id="instructions" rows="5"
-                        placeholder="作り方を入力"></textarea>
+                        placeholder="作り方を入力" ></textarea>
                     </div>
                     <div class="col-md-4">
                       <label class="label" id="label" for="input">
@@ -296,7 +296,7 @@
                     <label for="" class="p-2 text-start">1番目</label>
                     <div class="col-md-8 p-2">
                       <textarea class="form-control" name="description" id="instructions" rows="5"
-                        placeholder="作り方を入力"></textarea>
+                        placeholder="作り方を入力" ></textarea>
                     </div>
                     <div class="col-md-4">
                       <label class="label" id="label" for="input">
@@ -405,8 +405,29 @@ function extractVideoIdFromUrl(url) {
                 videoIframe.src = '';
             }
         });
+
+        // ページ読み込み時に入力欄に既に動画URLがあれば、プレビューを更新する
+        const existingVideoUrl = videoUrlInput.value;
+
+        // 入力欄に値が入力されたときにプレビューを更新する
+        updateVideoPreview(existingVideoUrl);
+
+        function updateVideoPreview(videoUrl) {
+            const videoId = extractVideoIdFromUrl(videoUrl);
+
+            if (videoId) {
+                // 動画IDが抽出できた場合、プレビューを表示する
+                videoPreviewContainer.style.display = 'block';
+                videoIframe.src = `https://www.youtube.com/embed/${videoId}`;
+            } else {
+                // 動画IDが抽出できなかった場合、プレビューを非表示にする
+                videoPreviewContainer.style.display = 'none';
+                videoIframe.src = '';
+            }
+        }
     }
 
+    // showVideoPreview()関数を実行して、プレビューを表示する
     showVideoPreview();
 
 

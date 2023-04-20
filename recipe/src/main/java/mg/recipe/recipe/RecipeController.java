@@ -166,6 +166,7 @@ public class RecipeController {
                                @RequestParam("sendList") String sendListStr,
                                @RequestParam("description") String[] descriptionList,
                                @RequestParam(value = "imgUrl") List<MultipartFile> files,
+                               Model model,
                                BindingResult bindingResult,
                                Principal principal) throws IOException {
 
@@ -173,6 +174,10 @@ public class RecipeController {
         if (bindingResult.hasErrors()) {
             return "writeRecipe";
         }
+
+        // 레시피 수정 시 기존 데이터 불러오기
+
+
 
         // サムネイル画像のアップロード
         Path fileStorageLocation = Paths.get("C:", "KenshuProject", "recipe", "src", "main", "resources", "static", "uploaded")
@@ -264,6 +269,8 @@ public class RecipeController {
     public String createRecipe(Model model, RecipeForm recipeForm) {
         // List<IngredientCategory> mainList = this.ingredientCategoryService.getMainList(0);
         // model.addAttribute("mainList", mainList);
+
+
         return "writeRecipe";
     }
 
@@ -281,6 +288,11 @@ public class RecipeController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "修正権限がありません。");
         }
         recipeForm.setRecipeName(recipe.getRecipeName());
+        //recipeForm.setThumbnail(recipe.getThumbnail());
+        recipeForm.setCategory(recipe.getCategory());
+        recipeForm.setCookTime(recipe.getCookTime());
+        recipeForm.setBudget(recipe.getBudget());
+        recipeForm.setVideoUrl("https://www.youtube.com/watch?v=" + recipe.getVideoUrl());
         return "writeRecipe";
     }
 
