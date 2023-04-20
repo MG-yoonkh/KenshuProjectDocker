@@ -271,70 +271,93 @@
                   <label class="" for="">
                     <h1>作り方</h1>
                   </label>
-                  <!-- 1番目 -->
-                  <div class="row justify-content-center">
-                    <label for="" class="p-2 text-start">1番目</label>
-                    <div class="col-md-8 p-2">
+                  <div th:if="${not #lists.isEmpty(istList)}">
+                    <div class="row justify-content-center" th:each="ist, loop : ${istList}">
+                      <label for="" class="p-2 text-start">1番目</label>
+                      <div class="col-md-8 p-2">
                       <textarea class="form-control" name="description" id="instructions" rows="5"
-                        placeholder="作り方を入力" ></textarea>
-                    </div>
-                    <div class="col-md-4">
-                      <label class="label" id="label" for="input">
-                        <!-- Drag N Drop Icon -->
-                        <div class="inner" id="inner">
-                          <img th:src="@{/assets/icon/dragndrop.png}" class="dragicon" alt="">
-                          <!-- イメージ preview-->
-                          <div class="preview" id="preview1"></div>
-                        </div>
-                      </label>
-                      <!-- イメージファイル thumbFile-->
-                      <!-- <input id="input" class="input" accept="image/*" type="file" name="imgUrl1" required="true"
-                        multiple="true" hidden="true"> -->
-                      <input type="file" name="imgUrl" id="">
+                                th:text="${ist.description}"  ></textarea>
+                      </div>
+                      <div class="col-md-4">
+                        <label class="label" id="label" for="input">
+                          <!-- Drag N Drop Icon -->
+                          <div class="inner" id="inner">
+                            <img th:src="@{/assets/icon/dragndrop.png}" class="dragicon" alt="" th:if="${ist.imgUrl == null}">
+                            <!-- イメージ preview-->
+                            <div class="preview" id="preview1" ></div>
+                          </div>
+                        </label>
+                        <input type="file" name="imgUrl" id="" th:if="${ist.imgUrl == null}">
+                        <img th:src="@{|\uploaded\${ist.imgUrl}|}" alt="Image preview" th:if="${ist.imgUrl != null}" id="img-preview">
+                      </div>
                     </div>
                   </div>
-                  <!-- 2番目 -->
-                  <div class="row justify-content-center">
-                    <label for="" class="p-2 text-start">1番目</label>
-                    <div class="col-md-8 p-2">
+                  <div th:if="${#lists.isEmpty(istList)}">
+                    <!-- 1番目 -->
+                    <div class="row justify-content-center">
+                      <label for="" class="p-2 text-start">1番目</label>
+                      <div class="col-md-8 p-2">
                       <textarea class="form-control" name="description" id="instructions" rows="5"
-                        placeholder="作り方を入力" ></textarea>
+                                placeholder="作り方を入力" ></textarea>
+                      </div>
+                      <div class="col-md-4">
+                        <label class="label" id="label" for="input">
+                          <!-- Drag N Drop Icon -->
+                          <div class="inner" id="inner">
+                            <img th:src="@{/assets/icon/dragndrop.png}" class="dragicon" alt="">
+                            <!-- イメージ preview-->
+                            <div class="preview" id="preview1"></div>
+                          </div>
+                        </label>
+                        <!-- イメージファイル thumbFile-->
+                        <!-- <input id="input" class="input" accept="image/*" type="file" name="imgUrl1" required="true"
+                          multiple="true" hidden="true"> -->
+                        <input type="file" name="imgUrl" id="">
+                      </div>
                     </div>
-                    <div class="col-md-4">
-                      <label class="label" id="label" for="input">
-                        <!-- Drag N Drop Icon -->
-                        <div class="inner" id="inner">
-                          <img th:src="@{/assets/icon/dragndrop.png}" class="dragicon" alt="">
-                          <!-- イメージ preview-->
-                          <div class="preview" id="preview2"></div>
-                        </div>
-                      </label>
-                      <!-- イメージファイル thumbFile-->
-                      <!-- <input id="input" class="input" accept="image/*" type="file" name="imgUrl2" required="true"
-                        multiple="true" hidden="true"> -->
-                      <input type="file" name="imgUrl" id="">
-                    </div>
-                  </div>
-                  <!-- 3番目 -->
-                  <div class="row justify-content-center">
-                    <label for="" class="p-2 text-start">1番目</label>
-                    <div class="col-md-8 p-2">
+                    <!-- 2番目 -->
+                    <div class="row justify-content-center">
+                      <label for="" class="p-2 text-start">1番目</label>
+                      <div class="col-md-8 p-2">
                       <textarea class="form-control" name="description" id="instructions" rows="5"
-                        placeholder="作り方を入力" ></textarea>
+                                placeholder="作り方を入力" ></textarea>
+                      </div>
+                      <div class="col-md-4">
+                        <label class="label" id="label" for="input">
+                          <!-- Drag N Drop Icon -->
+                          <div class="inner" id="inner">
+                            <img th:src="@{/assets/icon/dragndrop.png}" class="dragicon" alt="">
+                            <!-- イメージ preview-->
+                            <div class="preview" id="preview2"></div>
+                          </div>
+                        </label>
+                        <!-- イメージファイル thumbFile-->
+                        <!-- <input id="input" class="input" accept="image/*" type="file" name="imgUrl2" required="true"
+                          multiple="true" hidden="true"> -->
+                        <input type="file" name="imgUrl" id="">
+                      </div>
                     </div>
-                    <div class="col-md-4">
-                      <label class="label" id="label" for="input">
-                        <!-- Drag N Drop Icon -->
-                        <div class="inner" id="inner">
-                          <img th:src="@{/assets/icon/dragndrop.png}" class="dragicon" alt="">
-                          <!-- イメージ preview-->
-                          <div class="preview" id="preview3"></div>
-                        </div>
-                      </label>
-                      <!-- イメージファイル File-->
-                      <!-- <input accept="image/*" type="file" name="imgUrl3" required="true"
-                        multiple="true" hidden="true"> -->
-                      <input type="file" name="imgUrl" id="">
+                    <!-- 3番目 -->
+                    <div class="row justify-content-center">
+                      <label for="" class="p-2 text-start">1番目</label>
+                      <div class="col-md-8 p-2">
+                      <textarea class="form-control" name="description" id="instructions" rows="5"
+                                placeholder="作り方を入力" ></textarea>
+                      </div>
+                      <div class="col-md-4">
+                        <label class="label" id="label" for="input">
+                          <!-- Drag N Drop Icon -->
+                          <div class="inner" id="inner">
+                            <img th:src="@{/assets/icon/dragndrop.png}" class="dragicon" alt="">
+                            <!-- イメージ preview-->
+                            <div class="preview" id="preview3"></div>
+                          </div>
+                        </label>
+                        <!-- イメージファイル File-->
+                        <!-- <input accept="image/*" type="file" name="imgUrl3" required="true"
+                          multiple="true" hidden="true"> -->
+                        <input type="file" name="imgUrl" id="">
+                      </div>
                     </div>
                   </div>
                   <!-- 追加 Button -->

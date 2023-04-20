@@ -536,12 +536,29 @@ function getDataFromLocalStorageAndDisplay() {
     }
 }
 
-//<!-- Set a JavaScript variable with the value of riList -->
-var riList = /*[[${riList}]]*/ null;
-console.log('riList:' + riList);
+/*<![CDATA[*/
+var imgUrl = /*[[${ist.imgUrl}]]*/ null;
+var imgPreview = document.getElementById("img-preview");
+var imgFile = document.getElementById("img-file");
 
-var recipe = /*[[${recipe}]]*/ null;
-console.log('recipe:' + recipe);
+if (imgUrl != null) {
+    imgPreview.src = imgUrl;
+}
+
+imgFile.addEventListener("change", function() {
+    var file = imgFile.files[0];
+    var reader = new FileReader();
+
+    reader.addEventListener("load", function() {
+        imgPreview.src = reader.result;
+    }, false);
+
+    if (file) {
+        reader.readAsDataURL(file);
+    }
+});
+/*]]>*/
+
 
 
 
