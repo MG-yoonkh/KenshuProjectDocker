@@ -64,13 +64,14 @@
                     </label>
                     <!-- イメージファイル thumbFile-->
                     <input id="input" class="input" accept="image/*" type="file" name="thumbFile" required="true"
-                      multiple="true" hidden="true">
+                           multiple="true" hidden="true" onchange="handleUpdate(event)">
                     <h5>ドラッグ＆ドロップで登録</h5>
 
                   </div>
                 </div>
               </div>
             </div>
+
             <!--  区切り線 -->
             <div class="row justify-content-center p-5">
               <div class="col-md-7">

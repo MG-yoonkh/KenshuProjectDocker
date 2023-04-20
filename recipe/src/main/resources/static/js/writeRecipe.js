@@ -720,22 +720,48 @@ function changeEvent(event) {
     return [...target.files];
 };
 
-function handleUpdate(fileList) {
-    const preview = document.getElementById("preview");
+//function handleUpdate(fileList) {
+//    const preview = document.getElementById("preview");
+//
+//    const file = fileList[0];
+//    const reader = new FileReader();
+//    reader.addEventListener("load", (event) => {
+//        const img = el("img", {
+//            className: "embed-img",
+//            src: event.target?.result,
+//        });
+//        const imgContainer = el("div", { className: "container-img" }, img);
+//        preview.innerHTML = ""; // clear any existing preview
+//        preview.append(imgContainer);
+//    });
+//    reader.readAsDataURL(file);
+//};
 
-    const file = fileList[0];
-    const reader = new FileReader();
-    reader.addEventListener("load", (event) => {
-        const img = el("img", {
-            className: "embed-img",
-            src: event.target?.result,
-        });
-        const imgContainer = el("div", { className: "container-img" }, img);
-        preview.innerHTML = ""; // clear any existing preview
-        preview.append(imgContainer);
-    });
-    reader.readAsDataURL(file);
-};
+function handleUpdate(event) {
+  const preview = document.getElementById("preview");
+  const dragIcon = document.querySelector(".dragicon");
+
+  const fileList = event.target.files;
+  const file = fileList[0];
+  const reader = new FileReader();
+
+  reader.addEventListener("load", (event) => {
+    const img = document.createElement("img");
+    img.className = "embed-img";
+    img.src = event.target.result;
+
+    const imgContainer = document.createElement("div");
+    imgContainer.className = "container-img";
+    imgContainer.appendChild(img);
+
+    preview.innerHTML = ""; // clear any existing preview
+    preview.appendChild(imgContainer);
+    dragIcon.style.display = "none";
+  });
+
+  reader.readAsDataURL(file);
+}
+
 
 function el(nodeName, attributes, ...children) {
     const node =
