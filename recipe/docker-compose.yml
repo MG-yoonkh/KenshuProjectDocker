@@ -5,14 +5,17 @@ services:
     image: mysql
     environment:
       MYSQL_ROOT_PASSWORD: 0000
+      MYSQL_ROOT_HOST: 'localhost'
       MYSQL_DATABASE: Recipe
-      MYSQL_USER: user1
+      MYSQL_USER: root
       MYSQL_PASSWORD: 0000
     ports:
       - "3307:3306"
-    command: '--default-authentication-plugin=mysql_native_password'
+#    --skip-grant-tables  ,
+    command: --default-authentication-plugin=mysql_native_password --secure-file-priv=/csv_files --local-infile=1
     volumes:
       - db_data:/var/lib/mysql
+      - ../DATA:/csv_files
     networks:
       - my-network
 
@@ -22,7 +25,7 @@ services:
       - "8080:8080"
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/Recipe?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8
-      SPRING_DATASOURCE_USERNAME: user1
+      SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: 0000
     depends_on:
       - db
