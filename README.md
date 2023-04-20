@@ -31,8 +31,8 @@
  4. IntelliJを開けて、recipe - build.gradleを開ける。
  5. IntelliJのFile - project structureでJAVAのバージョンを17に設定
  6. recipe - src - main - java - RecipeApplicationを実行する。
- 7. localhost:8080に接続する。
- 8. ~~CSVフォルダのファイルをMySQLにインポートする。~~
+ 7. DATAフォルダのcsvファイルをMySQLにインポートする。
+ 8. localhost:8080に接続する。
 
 * Dockerを使う場合
  1. Docker desktopを設置する
