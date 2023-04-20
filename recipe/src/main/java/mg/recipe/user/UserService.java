@@ -62,6 +62,22 @@ public class UserService {
             throw new DataNotFoundException("ユーザー情報が見つかりません。");
         }
     }
+    public List<SiteUser> findAll() {
+        return userRepository.findAll();
+    }
+
+    public void changeUserRole(Integer userId, UserRole role) {
+        Optional<SiteUser> user = userRepository.findById(userId);
+
+        if (user.isPresent()) {
+            SiteUser targetUser = user.get();
+            targetUser.setRole(role);
+            userRepository.save(targetUser);
+        } else {
+            throw new EntityNotFoundException("ユーザーが見つかりません。");
+        }
+    }
+
     public void resetPassword(String username, String email, String newPassword) {
 
         Optional<SiteUser> userOptional = userRepository.findByUsernameAndEmail(username, email);

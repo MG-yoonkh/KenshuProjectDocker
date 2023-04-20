@@ -1,0 +1,34 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content">
+    <header th:replace="~{header :: headerFragment}"></header>
+    <h1>사용자 관리</h1>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>이름</th>
+            <th>이메일</th>
+            <th>권한</th>
+            <th>권한 변경</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.id}"></td>
+            <td th:text="${user.username}"></td>
+            <td th:text="${user.email}"></td>
+            <td th:text="${user.role}"></td>
+            <td>
+                <form th:action="@{/admin/changeRole/{id}(id=${user.id})}" method="post">
+                    <select name="role">
+                        <option value="USER">사용자</option>
+                        <option value="ADMIN">관리자</option>
+                    </select>
+                    <button type="submit">권한 변경</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</html>
