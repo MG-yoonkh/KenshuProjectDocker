@@ -531,7 +531,7 @@ function getDataFromLocalStorageAndDisplay() {
     savedList = savedListData ? JSON.parse(savedListData) : [];
     listElement = document.querySelector(".display-items");
     listElement.innerHTML = "";
-    if (savedList>0) {
+    if (savedList) {
         paintListOnMain(savedList, listElement);
     }
 }
