@@ -142,6 +142,7 @@ main {
   position: relative;
   background-color: var(--selectColor-background);
   padding-bottom: 150px;
+  padding-top: 80px;
   /*font-family: 'neon';*/
   margin: 0;
   height: 100%;
