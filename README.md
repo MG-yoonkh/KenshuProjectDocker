@@ -36,6 +36,11 @@
 
 * Dockerを使う場合
  1. Docker desktopを設置する
+ 2. Docker desktopを実行する。
+ 3. プロジェクトのrecipeフォルダの経路でcmdを実行する。
+ 4. gradlew.bat clean build を入力する。
+ 5. docker-compose up --build を入力する。
+ 6. ブラウザを開き、localhost:8080に接続する。
  
 
 
