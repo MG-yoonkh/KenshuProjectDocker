@@ -2,6 +2,8 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content">
   <link rel="stylesheet" type="text/css" th:href="@{/css/index.css}" />
+  <link rel="stylesheet" type="text/css" th:href="@{/css/loading.css}">
+  <script type="text/javascript" th:src="@{/js/loading.js}"></script>
   <header th:replace="~{header :: headerFragment}"></header>
   <main>
     <div class="container-fluid text-center">
@@ -214,6 +216,12 @@
   function setDefaultImage(img) {
     img.src = '/assets/img/default.png';
   }
+
+  const expired = /*[[${expired}]]*/ false;
+
+    if (expired) {
+        alert('期限切れのページです。');
+    }
 </script>
 
 </html>

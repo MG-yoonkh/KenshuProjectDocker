@@ -3,6 +3,8 @@ package mg.recipe.recipe;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import mg.recipe.ingredient.Ingredient;
@@ -89,7 +91,10 @@ public class RecipeController {
 
     // レシピ詳細
     @GetMapping("/recipe/detail/{id}")
-    public String detail(Model model, @PathVariable("id") Integer id, Principal principal) {
+    public String detail(Model model,
+                         @PathVariable("id") Integer id,
+                         Principal principal,
+                         HttpSession session) {
 
         Recipe recipe = this.recipeService.getRecipe(id);
         if (principal != null) {
@@ -111,6 +116,15 @@ public class RecipeController {
         model.addAttribute("recipe", recipe);
         model.addAttribute("riList", riList);
         model.addAttribute("istList", istList);
+
+        Boolean recipeSaved = (Boolean) session.getAttribute("recipeSaved");
+
+        if (recipeSaved == null || !recipeSaved) {
+            model.addAttribute("expired", true);
+        } else {
+            session.removeAttribute("recipeSaved");
+        }
+
         return "recipeDetail";
     }
 
@@ -168,7 +182,8 @@ public class RecipeController {
                                @RequestParam(value = "imgUrl") List<MultipartFile> files,
                                Model model,
                                BindingResult bindingResult,
-                               Principal principal) throws IOException {
+                               Principal principal,
+                               HttpSession session) throws IOException {
 
         // エラーがある場合はレシピ投稿ページに戻る
         if (bindingResult.hasErrors()) {
@@ -255,6 +270,7 @@ public class RecipeController {
             instructionService.create(descriptionList, imgUrlList, recipe);
         }
 
+        session.setAttribute("recipeSaved", true);
         return String.format("redirect:/recipe/detail/%d", recipe.getId());
     }
 
@@ -262,9 +278,18 @@ public class RecipeController {
     // レシピ登録画面
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/recipe/write")
-    public String createRecipe(Model model, RecipeForm recipeForm) {
+    public String createRecipe(Model model,
+                               RecipeForm recipeForm,
+                               HttpSession session) {
         // List<IngredientCategory> mainList = this.ingredientCategoryService.getMainList(0);
         // model.addAttribute("mainList", mainList);
+        Boolean recipeSaved = (Boolean) session.getAttribute("recipeSaved");
+
+        if (recipeSaved != null && recipeSaved) {
+            model.addAttribute("expired", true);
+        } else {
+            session.removeAttribute("recipeSaved");
+        }
 
 
         return "writeRecipe";
