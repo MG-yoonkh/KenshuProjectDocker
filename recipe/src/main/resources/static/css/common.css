@@ -19,11 +19,7 @@ html {
 }
 
 body {
-margin: 0;
-height: 100%;
-padding-top: 80px;
-padding-bottom: 80px;
-background-color: var(--selectColor-background) !important;
+
 }
 
 /* font */
@@ -147,6 +143,9 @@ main {
   background-color: var(--selectColor-background);
   padding-bottom: 150px;
   /*font-family: 'neon';*/
+  margin: 0;
+  height: 100%;
+  background-color: var(--selectColor-background) !important;
 }
 
 
