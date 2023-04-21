@@ -423,9 +423,7 @@
       </div>
     </div>
   </main>
-  <footer class="bg-light mt-3 p-3 text-center">
-    <p>Recipe Management Site &copy; 2023</p>
-  </footer>
+  <footer th:replace="~{footer :: footerFragment}"></footer>
   <script layout:fragment="script" type="text/javascript" th:src="@{/js/writeRecipe.js}"></script>
 </div>
 

@@ -1,11 +1,10 @@
 .user_form_wrapper {
     position: absolute;
     width: 400px;
-    height: 350px;
     padding: 30px;
     box-sizing: border-box;
     margin-left: -200px;
-    margin-top: -300px;
+    margin-top: -345px;
     left: 50%;
     top: 50%; 
 }
