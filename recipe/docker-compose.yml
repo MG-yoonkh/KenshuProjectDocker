@@ -1,5 +1,4 @@
 version: '3.8'
-
 services:
   db:
     image: mysql
@@ -11,14 +10,12 @@ services:
       MYSQL_PASSWORD: 0000
     ports:
       - "3307:3306"
-#    --skip-grant-tables  ,
-    command: --skip-grant-tables --default-authentication-plugin=mysql_native_password --secure-file-priv=/csv_files --local-infile=1
+    command: --default-authentication-plugin=mysql_native_password --secure-file-priv=/csv_files --local-infile=1
     volumes:
       - db_data:/var/lib/mysql
       - ../DATA:/csv_files
     networks:
       - my-network
-
   app:
     build: .
     ports:
@@ -31,11 +28,9 @@ services:
       - db
     networks:
       - my-network
-    command: ["/app/wait-for-it.sh", "db:3306", "--", "java", "-jar", "app.jar"]
-
+    command: ["java", "-jar", "app.jar"]
 volumes:
   db_data:
-
 networks:
   my-network:
     driver: bridge
