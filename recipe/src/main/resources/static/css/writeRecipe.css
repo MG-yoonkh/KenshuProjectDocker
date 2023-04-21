@@ -174,7 +174,6 @@
 }
 
 
-
 .display-items {
   font-size: 17px;
   width: 100%;
@@ -182,6 +181,7 @@
   margin-bottom: 20px;
   padding: 0px 0px 0px 0px;
 }
+
 
 .displayed-item-ingredient {
   float: left; 
@@ -217,6 +217,13 @@
     vertical-align: middle;
     content: " ";
     height: 100%;
+  }
+}
+@media (min-width: 576px) {
+  .modal-dialog {
+    max-width: 600px;
+    margin: 1.75rem auto;
+     /* Adjust the height as needed */
   }
 }
 
