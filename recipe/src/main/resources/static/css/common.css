@@ -15,6 +15,15 @@
 html {
   /* scroll bar */
   overflow-y: scroll;
+  height: 100%;
+}
+
+body {
+margin: 0;
+height: 100%;
+padding-top: 80px;
+padding-bottom: 80px;
+background-color: var(--selectColor-background) !important;
 }
 
 /* font */
@@ -135,8 +144,8 @@ main {
   z-index: 4;
   overflow: hidden;
   position: relative;
-  top: 80px;
   background-color: var(--selectColor-background);
+  padding-bottom: 150px;
   /*font-family: 'neon';*/
 }
 
@@ -156,7 +165,6 @@ main>.container>.col-md-2>.nav>a {
 
 
 footer {
-  margin-top:150px;
   padding: 20px 0px 10px 0px;
   width: 100%;
   left: 0;
