@@ -872,3 +872,20 @@ $(document).ready(function () {
     }
   });
   
+
+  function handleImageUpload(input) {
+    var files = input.files;
+    var preview = $(input).siblings(".preview2");
+    var sectionNum = $(input).data("section-id");
+  
+    if (files && files[0]) {
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        var dataURL = e.target.result;
+        preview.html('<img src="' + dataURL + '">');
+        preview.siblings(`.dragicon2_${sectionNum}`).hide();
+      };
+      reader.readAsDataURL(files[0]);
+    }
+  }
+  
