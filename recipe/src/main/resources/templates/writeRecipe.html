@@ -335,20 +335,8 @@
                           追加
                         </button>
                       </div>
-                    </div>
-
-
+                    </div>                    
                   </div>
-                  <!-- 追加 Button -->
-<!--                  <div class="row text-start">-->
-
-<!--                    <div class="col-md-3 text-start">-->
-
-<!--                      <button type="button" class="btn btn-secondary" id="add-section-btn">-->
-<!--                        追加-->
-<!--                      </button>-->
-<!--                    </div>-->
-<!--                  </div>-->
                 </div>
               </div>
               <!--  区切り線 -->
@@ -360,7 +348,7 @@
               <!-- YouTube登録 -->
               <div class="row justify-content-center">
                 <label class="text-center" for="">
-                  <h1>YouTube動画</h1><a href="https://www.youtube.com" target="_blank"><span>YouTubeへ移動</span></a>
+                  <h1>YouTube動画</h1>
                 </label>
                 <div class="col-md-6">
                   <div class="row p-3">
@@ -462,7 +450,7 @@
   showVideoPreview();
 
 
-$(document).ready(function () {
+  $(document).ready(function () {
 // セクション数を追跡する変数
   var sectionCount = 1;
   $("#add-section-btn").click(function () {
@@ -532,15 +520,6 @@ function updateSectionLabels() {
 });
 
 
-$(document).on("change", "input[type='file']", function (e) {
-  var sectionId = $(this).attr("id").replace("imgUrl", "");
-  var file = e.target.files[0];
-  var reader = new FileReader();
-  reader.onload = function (e) {
-    $("#preview" + sectionId).html("<img src='" + e.target.result + "' class='img-fluid' alt='Preview'>");
-  }
-  reader.readAsDataURL(file);
-});
 
 
 </script>
