@@ -300,30 +300,26 @@
                   <div th:if="${#lists.isEmpty(istList)}">
 
                     <!-- 1番目 -->
-                    <div class="row justify-content-center">
+                    <!-- <div class="row justify-content-center">
                       <label for="" class="p-2 text-start">1番目</label>
                       <div class="col-md-8 p-2">
                         <textarea class="form-control" name="description" id="instructions" rows="5"
                           placeholder="作り方を入力"></textarea>
                       </div>
                       <div class="col-md-4">
-                        <label class="label" id="label" for="input">
-                          <!-- Drag N Drop Icon -->
-                          <div class="inner" id="inner">
+                        <label class="label2" id="label2" for="input">
+                          <div class="inner2" id="inner2">
                             <img th:src="@{/assets/icon/dragndrop.png}" class="dragicon" alt="">
-                            <!-- イメージ preview-->
-                            <div class="preview" id="preview1"></div>
+                            <div class="preview2" id="preview2"></div>
                           </div>
                         </label>
-                        <!-- イメージファイル thumbFile-->
-                        <!-- <input id="input" class="input" accept="image/*" type="file" name="imgUrl1" required="true"
-                          multiple="true" hidden="true"> -->
-                        <input type="file" name="imgUrl" id="">
+                        <input id="input2" class="input2" accept="image/*" type="file" name="imgUrl" required="true"
+                          multiple="true" hidden="true">
                         <button type="button" class="btn btn-danger delete-section-btn" style="display: none;">
                           削除
                         </button>
                       </div>
-                    </div>
+                    </div> -->
 
                     <!-- 動的に追加される節の場所 -->
                     <div id="dynamic-section"></div>
@@ -450,76 +446,7 @@
   showVideoPreview();
 
 
-  $(document).ready(function () {
-// セクション数を追跡する変数
-  var sectionCount = 1;
-  $("#add-section-btn").click(function () {
-   // セクション数を増やす
-    sectionCount++;
-    var newSection = '<div class="row justify-content-center" id="section' + sectionCount + '">' +
-      '<div class="d-flex align-items-center">' +
-'<label for="" class="p-2 text-start">' + sectionCount + '番目</label>' +
-'<button type="button" class="btn btn-danger delete-section-btn" data-section-id="' + sectionCount + '">削除</button>' +
-'</div>' +
-      '<div class="col-md-8 p-2">' +
-      '<textarea class="form-control" name="description" id="instructions' + sectionCount + '" rows="5" placeholder="作り方を入力" ></textarea>' +
-      '</div>' +
-      '<div class="col-md-4">' +
-      '<div class="inner" id="inner' + sectionCount + '">' +
-      '<img th:src="@{/assets/icon/dragndrop.png}" class="dragicon" alt="">' +
-      '<div class="preview" id="preview' + sectionCount + '"></div>' +
-      '</div>' +
-      '</label>' +
-      '<input type="file" name="imgUrl" ' + sectionCount + '">' +
-      '</div>' +
-      '<div class="col-md-12">' +
-
-      '</div>' +
-      '</div>';
-
-      // 新しいセクションをHTMLに追加
-    $("#dynamic-section").append(newSection);
-
-// 残りのすべてのセクションのセクションラベルを更新
-    updateSectionLabels();
-  });
-
-  $(document).on("click", ".delete-section-btn", function () {
-  var sectionId = $(this).data("section-id");
-  // Check if the section is not the first section
-  if (sectionId > 1) {
-    // Remove the section from the HTML
-    $("#section" + sectionId).remove();
-    // Decrease the section count
-    sectionCount--;
-    // Update the section labels for all remaining sections
-    updateSectionLabels();
-    // Shift the section labels for all remaining sections by 1
-    for (var i = sectionId + 1; i <= sectionCount; i++) {
-      $("#section" + i).find("label").text((i - 1) + "番目");
-      $("#section" + i).find(".delete-section-btn").data("section-id", i - 1);
-      $("#instructions" + i).attr("id", "instructions" + (i - 1));
-      $("#inner" + i).attr("id", "inner" + (i - 1));
-      $("#preview" + i).attr("id", "preview" + (i - 1));
-      $("[name='imgUrl" + i + "']").attr("name", "imgUrl" + (i - 1));
-    }
-  }
-});
-
-function updateSectionLabels() {
-  for (var i = 1; i <= sectionCount; i++) {
-    $("#section" + i + " label").text(i + "番目");
-    $("#instructions" + i).attr("id", "instructions" + i);
-    $("#label" + i).attr("for", "input" + i);
-    $("#label" + i + " div").attr("id", "inner" + i);
-    $("#imgUrl" + i).attr("id", "imgUrl" + i);
-    $("#preview" + i).attr("id", "preview" + i);
-    $("#section" + i + " .delete-section-btn").attr("data-section-id", i);
-  }
-}
-});
-
-
+  
 
 
 </script>

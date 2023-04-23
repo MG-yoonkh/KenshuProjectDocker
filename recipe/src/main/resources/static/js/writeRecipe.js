@@ -790,7 +790,69 @@ function el(nodeName, attributes, ...children) {
 }
 
 
-$(document).on("change", ".input2", function (e) {
+$(document).ready(function () {
+    // セクションの数を追跡する
+    var sectionCount = 1;
+
+    $("#add-section-btn").click(function () {
+      // セクションの数を増やす
+      sectionCount++;
+
+      // 新しいセクションのHTMLを作成する
+      var newSection = `
+  <div class="row justify-content-center" id="section${sectionCount}">
+    <div class="d-flex align-items-center">
+      <label for="" class="p-2 text-start section-label">${sectionCount}番目</label>
+      <button type="button" class="btn btn-danger delete-section-btn" data-section-id="${sectionCount}">
+        削除
+      </button>
+    </div>
+    <div class="col-md-8 p-2">
+      <textarea class="form-control" name="description" id="instructions" rows="5"
+        placeholder="作り方を入力"></textarea>
+    </div>
+    <div class="col-md-4">
+      <label class="label2" for="input2_${sectionCount}">
+        <div class="inner2">
+          <img src="/assets/icon/dragndrop.png" class="dragicon2_${sectionCount}" alt="">
+          <div class="preview2" id="preview2_${sectionCount}"></div>
+        </div>
+      </label>
+      <input id="input2_${sectionCount}" class="input2" accept="image/*" type="file" name="imgUrl" required="true"
+                          multiple="true" hidden="true" data-section-id="${sectionCount}">
+    </div>
+  </div>
+`;
+
+      // 新しいセクションのHTMLをフォームに追加する
+      $("#dynamic-section").append(newSection);
+
+      // すべてのセクションのラベルを更新する
+      updateSectionLabels();
+    });
+
+    $(document).on("click", ".delete-section-btn", function () {
+      var sectionId = $(this).data("section-id");
+      // セクションが最初のセクションでないかどうかを確認する
+      if (sectionId > 1) {
+        // HTMLからセクションを削除する
+        $("#section" + sectionId).remove();
+        // セクションの数を減らす
+        sectionCount--;
+        // 残りのすべてのセクションのラベルを更新する
+        updateSectionLabels();
+      }
+    });
+
+    function updateSectionLabels() {
+      $(".section-label").each(function (index) {
+        $(this).text((index + 1) + "番目");
+      });
+    }
+  });
+
+
+  $(document).on("change", ".input2", function (e) {
     var input = e.target;
     if (input.files && input.files[0]) {
       var file = input.files[0];
@@ -807,6 +869,3 @@ $(document).on("change", ".input2", function (e) {
       reader.readAsDataURL(file);
     }
   });
-  
-
-  
