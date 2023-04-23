@@ -861,11 +861,14 @@ $(document).ready(function () {
         var dataURL = e.target.result;
         // Use .closest() method to find the parent section element
         var section = $(input).closest(".row");
+        // Get the section number from the data-section-id attribute
+        var sectionNum = section.find(".input2").data("section-id");
         // Set the preview image source of the selected section to the data URL
-        section.find(".preview2").html('<img src="' + dataURL + '">');
+        section.find(`#preview2_${sectionNum}`).html('<img src="' + dataURL + '">');
         // Hide the dragicon image element of the selected section
-        section.find(".dragicon2").hide();
+        section.find(`.dragicon2_${sectionNum}`).hide();
       };
       reader.readAsDataURL(file);
     }
   });
+  
