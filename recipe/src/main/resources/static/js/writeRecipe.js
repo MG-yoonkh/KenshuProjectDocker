@@ -730,23 +730,6 @@ function changeEvent(event) {
     return [...target.files];
 };
 
-//function handleUpdate(fileList) {
-//    const preview = document.getElementById("preview");
-//
-//    const file = fileList[0];
-//    const reader = new FileReader();
-//    reader.addEventListener("load", (event) => {
-//        const img = el("img", {
-//            className: "embed-img",
-//            src: event.target?.result,
-//        });
-//        const imgContainer = el("div", { className: "container-img" }, img);
-//        preview.innerHTML = ""; // clear any existing preview
-//        preview.append(imgContainer);
-//    });
-//    reader.readAsDataURL(file);
-//};
-
 function handleUpdate(event) {
   const preview = document.getElementById("preview");
   const dragIcon = document.querySelector(".dragicon");
@@ -805,3 +788,25 @@ function el(nodeName, attributes, ...children) {
 
     return node;
 }
+
+
+$(document).on("change", ".input2", function (e) {
+    var input = e.target;
+    if (input.files && input.files[0]) {
+      var file = input.files[0];
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        var dataURL = e.target.result;
+        // Use .closest() method to find the parent section element
+        var section = $(input).closest(".row");
+        // Set the preview image source of the selected section to the data URL
+        section.find(".preview2").html('<img src="' + dataURL + '">');
+        // Hide the dragicon image element of the selected section
+        section.find(".dragicon2").hide();
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+  
+
+  
