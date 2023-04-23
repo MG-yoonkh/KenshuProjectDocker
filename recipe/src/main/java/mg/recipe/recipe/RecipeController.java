@@ -1,5 +1,6 @@
 package mg.recipe.recipe;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
@@ -341,7 +342,7 @@ public class RecipeController {
                                @RequestParam(value = "imgUrl") List<MultipartFile> files,
                                BindingResult bindingResult,
                                Principal principal,
-                               @PathVariable Integer id) {
+                               @PathVariable Integer id) throws JsonProcessingException {
         if (bindingResult.hasErrors()) {
             return "writeRecipe";
         }
@@ -349,11 +350,88 @@ public class RecipeController {
         if (!recipe.getAuthor().getUsername().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "修正権限がありません。");
         }
-        this.recipeService.modify(recipe, recipeForm.getRecipeName());
 
+        // サムネイル画像のアップロード
+        Path fileStorageLocation = Paths.get("C:", "KenshuProject", "recipe", "src", "main", "resources", "static", "uploaded")
+                .toAbsolutePath();
 
+        // サムネイル画像の保存
+        if (!file.isEmpty()) {
 
+            // オリジナルファイル名をクリーンアップ
+            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
+            // UUIDでランダムなファイル名を付
+            UUID uuid = UUID.randomUUID();
+            String newFileName = uuid.toString() + "_" + fileName;
+
+            try {
+                // ファイル保存する場所を作成
+                Files.createDirectories(fileStorageLocation);
+
+                // ファイル保存
+                Path targetLocation = fileStorageLocation.resolve(newFileName);
+                file.transferTo(targetLocation.toFile());
+
+                // Recipe オブジェクトにファイルのパスを格納
+                recipeForm.setThumbnail(newFileName);
+            } catch (IOException e) {
+                throw new RuntimeException("Could not store file " + fileName + ". Please try again!", e);
+            }
+        } else {
+            System.out.println("保存するThumbnailがありません。");
+        }
+
+        this.recipeService.modify(recipe, recipeForm);
+        System.out.println("1: " + recipeForm.getRecipeName());
+        System.out.println("2: " + recipeForm.getCategory());
+        System.out.println("3: " + recipeForm.getThumbnail());
+        System.out.println("4: " + descriptionList.toString());
+
+        // JSON文字列をJavaオブジェクトに変換する
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<RecipeIngredientJson> jsonList = objectMapper.readValue(sendListStr, new TypeReference<>() {});
+
+        List<RecipeIngredient> rList = new ArrayList<>();
+        for (RecipeIngredientJson json : jsonList) {
+            RecipeIngredient recipeIngredient = new RecipeIngredient();
+            recipeIngredient.setQuantity(json.getQty());
+            recipeIngredient.setMeasurementUnit(measurementUnitService.getUnit(json.getUnitId()));
+            recipeIngredient.setIngredient(ingredientService.getIng(json.getIngredientId()));
+            rList.add(recipeIngredient);
+        }
+
+        // 材料の登録
+        recipeIngredientService.create(recipe, rList);
+
+        // 調理手順の画像の登録
+        List<String> imgUrlList = new ArrayList<>();
+        for (int i = 0; i < files.size(); i++) {
+            if (!files.get(i).isEmpty()) {
+
+                // オリジナルファイル名をクリーンアップ
+                String originalFilename = StringUtils.cleanPath(files.get(i).getOriginalFilename());
+                UUID uuid = UUID.randomUUID();
+                String fileName2 = uuid + "_" + originalFilename;
+
+                try {
+                    // ファイル保存する場所を作成
+                    Files.createDirectories(fileStorageLocation);
+                    // ファイル保存
+                    Path targetLocation2 = fileStorageLocation.resolve(fileName2);
+                    files.get(i).transferTo(targetLocation2.toFile());
+                    imgUrlList.add(fileName2);
+
+                } catch (IOException e) {
+                    throw new RuntimeException("ファイルを保存できませんでした。 " + fileName2 + ". もう一度やり直してください!", e);
+                }
+            }
+        }
+
+        // レシピ調理手順の作成
+        if (!imgUrlList.isEmpty()) {
+            instructionService.create(descriptionList, imgUrlList, recipe);
+        }
 
 
 
