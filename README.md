@@ -65,5 +65,9 @@
     * 朴海鎮、尹景湖
   * 参考資料
     * 書籍(점프 투 스프링부트)、Google検索
+   
+***
+
+# 6. MySQL EER Diagram
 
 ![image](https://user-images.githubusercontent.com/125540360/233840943-cb039ec4-6206-4e5a-9776-bdad1ac47a6e.png)
