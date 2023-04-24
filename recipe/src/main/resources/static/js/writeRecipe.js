@@ -77,7 +77,7 @@ function populateMainCategoryDropdown(response) {
     $("#main-category-dropdown").empty();
 
     // 「選択してください」を入れる
-    var option = $("<option>").text("選択してください").attr("value", "");
+    var option = $("<option>").text("選択してください").attr("value", "").attr("disabled", true).attr("selected", true).attr("hidden", true);
     $("#main-category-dropdown").append(option);
     // メインをリストに入れる
     $.each(response, function (index, main) {
@@ -92,7 +92,7 @@ function populateUnitDropdown(response) {
     $("#unit-dropdown").empty();
 
     // 「選択してください」を入れる
-    var option = $("<option>").text("選択してください").attr("value", "");
+    var option = $("<option>").text("選択してください").attr("value", "").attr("disabled", true).attr("selected", true).attr("hidden", true);
     $("#unit-dropdown").append(option);
 
     // Unitを入れる
@@ -106,6 +106,7 @@ function populateUnitDropdown(response) {
 // 詳細カテゴリー
 $(document).ready(function () {
     $("#main-category-dropdown").change(function () {
+
         var ingredientCategoryId = $(this).val();
         $.ajax({
             type: "POST",
@@ -117,6 +118,8 @@ $(document).ready(function () {
                 // リセット
                 $("#sub-category-dropdown").empty();
                 $("#sub-category-dropdown").removeAttr("disabled");
+
+
                 // メインカテゴリーを選えらび直すと → 以下のリストリセット
                 resetIng();
                 resetQty();
@@ -135,7 +138,7 @@ $(document).ready(function () {
 
                     // 「選択してください」を入れる
                     if (subcategory.level == 1 && index == 0) {
-                        var option = $("<option>").text("選択してください").attr("value", subcategory.id);
+                        var option = $("<option>").text("選択してください").attr("value", "").attr("disabled", true).attr("selected", true).attr("hidden", true);
                         $("#sub-category-dropdown").append(option);
                     }
 
@@ -230,6 +233,7 @@ document.querySelector("#add-button").addEventListener("click", function () {
     $("#ingredient-dropdown").removeAttr("disabled");
     let qty;
 
+
     if (document.querySelector("#qty-dropdown").value === "direct") {
         qty = document.querySelector("#qtyDirect").value;
     } else {
@@ -241,6 +245,46 @@ document.querySelector("#add-button").addEventListener("click", function () {
     let ingredientValue = document.querySelector("#ingredient-dropdown").value; // ingredient.id
     let qtyValue = document.querySelector("#qty-dropdown").value; // quantity
     let unitValue = document.querySelector("#unit-dropdown").value; // unit.id
+
+    let mainCategoryValue = document.querySelector("#main-category-dropdown").value;
+
+    if (mainCategoryValue === "") {
+        let mainLabel = document.createElement("label");
+        mainLabel.innerHTML = "メインカテゴリーを選択してください";
+        mainLabel.style.color = "red";
+        document.querySelector(".mainAlert").appendChild(mainLabel);
+    }
+
+    let subCategoryValue = document.querySelector("#sub-category-dropdown").value;
+    if (subCategoryValue === "") {
+        // Append a label indicating that the subcategory selection is missing
+        let subLabel = document.createElement("label");
+        subLabel.innerHTML = "詳細カテゴリーを選択してください";
+        subLabel.style.color = "red";
+        document.querySelector(".subAlert").appendChild(subLabel);
+    }
+
+    if (ingredientValue === "") {
+        let ingredientLabel = document.createElement("label");
+        ingredientLabel.innerHTML = "材料を選択してください";
+        ingredientLabel.style.color = "red";
+        document.querySelector(".ingredientAlert").appendChild(ingredientLabel);
+    }
+
+    if (qtyValue === "") {
+        let qtyLabel = document.createElement("label");
+        qtyLabel.innerHTML = "計量を選択してください";
+        qtyLabel.style.color = "red";
+        document.querySelector(".qtyAlert").appendChild(qtyLabel);
+    }
+
+    if (unitValue === "") {
+        let unitLabel = document.createElement("label");
+        unitLabel.innerHTML = "単位を選択してください";
+        unitLabel.style.color = "red";
+        document.querySelector(".unitAlert").appendChild(unitLabel);
+        return;
+    }
 
     // Object: selectedItemsに保存
     selectedItems.push({
@@ -274,6 +318,21 @@ document.querySelector("#add-button").addEventListener("click", function () {
 
 });
 
+
+function removeAlertLabels() {
+  const alertLabels = document.querySelectorAll('.alert label');
+  alertLabels.forEach(label => label.remove());
+}
+
+document.querySelector('#reset-button').addEventListener('click', removeAlertLabels);
+document.querySelector('#close-ingredient-modal').addEventListener('click', removeAlertLabels);
+document.querySelector('#main-category-dropdown').addEventListener('click', removeAlertLabels);
+
+//function hideAlertLabels() {
+//  const alertLabels = document.querySelectorAll('.alertLabel');
+//  alertLabels.forEach(label => label.style.display = 'none');
+//}
+
 // Exit Button
 const closeButton = document.getElementById("close-ingredient-modal");
 
@@ -300,6 +359,9 @@ saveButton.addEventListener("click", () => {
 
 // Modal Close
 function closeModal() {
+
+    //hideAlertLabels();
+
     var modal = document.querySelector('#staticBackdrop');
     $(modal).modal('hide');
 
@@ -487,18 +549,19 @@ function paintListOnMain(commonList, listElement) {
 // メインカテゴリーをリセット
 function resetMain() {
     $("#main-category-dropdown option:first").prop("selected", true);
+    //hideAlertLabels();
 }
 
 // 詳細カテゴリーをリセット
 function resetSub() {
     $("#sub-category-dropdown").empty();
-    $("#sub-category-dropdown").append($("<option>").text("選択してください").attr("value", ""));
+    $("#sub-category-dropdown").append($("<option>").text("選択してください").attr("value", "").attr("disabled", true).attr("selected", true).attr("hidden", true));
 }
 
 // 材料をリストをリセット
 function resetIng() {
     $("#ingredient-dropdown").empty();
-    $("#ingredient-dropdown").append($("<option>").text("選択してください").attr("value", ""));
+    $("#ingredient-dropdown").append($("<option>").text("選択してください").attr("value", "").attr("disabled", true).attr("selected", true).attr("hidden", true));
 }
 
 // 容量をリストをリセット
