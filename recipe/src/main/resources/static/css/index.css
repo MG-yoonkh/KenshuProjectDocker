@@ -160,3 +160,8 @@
 #search_category {
   background-color: white;
 }
+
+.recipe_image {
+    width: 163px;
+    height: 120px;
+}
