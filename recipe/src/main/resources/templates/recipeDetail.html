@@ -52,7 +52,7 @@
               <h1 th:text="${recipe.recipeName}" class="p-2 font-face"></h1>
             </div>
             <div class="col-md-9">
-              <img th:src="@{|\uploaded\${recipe.thumbnail}|}" class="img-fluid" alt="Recipe Image" id="recipe_image"
+              <img th:src="@{|\uploaded\${recipe.thumbnail}|}" class="img-fluid border border-secondary rounded" alt="Recipe Image" id="recipe_image"
                 th:onerror="setDefaultImage(this)" />
               <div class="p-3 g-3">
                 <a th:href="@{|/recipe/modify/${recipe.id}|}" class="btn btn-sm btn-outline-secondary"
@@ -149,12 +149,12 @@
               </label>
               <div th:if="${not #lists.isEmpty(istList)}">
                 <div class="row text-start p-2" th:each="ist, loop : ${istList}">
-                  <label for="">1番目</label>
-                  <div class="col-md-9 border border-secondary rounded">
+                  <label for="" th:text="${loop.index + 1} + '番目'"></label>
+                  <div class="col-md-8 border border-secondary rounded">
                     <pre th:text="${ist.description}">ジャガイモを洗う。</pre>
                   </div>
-                  <div class="col-md-3">
-                    <img th:src="@{|\uploaded\${ist.imgUrl}|}" class="img-fluid" alt="Recipe Image" id="recipe_image"
+                  <div class="col-md-4">
+                    <img th:src="@{|\uploaded\${ist.imgUrl}|}" class="img-fluid recipe_image border border-secondary rounded" alt="Recipe Image" id="recipe_image"
                       th:onerror="setDefaultImage(this)" />
                   </div>
                 </div>

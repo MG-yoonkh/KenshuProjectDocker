@@ -926,7 +926,7 @@ $(document).ready(function () {
     <div class="col-md-4">
       <label class="label2" for="input2_${sectionCount}">
         <div class="inner2">
-          <img src="/assets/icon/dragndrop.png" class="dragicon2_${sectionCount}" alt="">
+          <img src="/assets/icon/dragndrop.png" class="dragicon2_${sectionCount} img-fluid recipe_image border border-secondary rounded" alt="">
           <div class="preview2" id="preview2_${sectionCount}"></div>
         </div>
       </label>
@@ -976,7 +976,7 @@ $(document).ready(function () {
         // Get the section number from the data-section-id attribute
         var sectionNum = section.find(".input2").data("section-id");
         // Set the preview image source of the selected section to the data URL
-        section.find(`#preview2_${sectionNum}`).html('<img src="' + dataURL + '">');
+        section.find(`#preview2_${sectionNum}`).html('<img src="' + dataURL + '" class="img-fluid recipe_image border border-secondary rounded">');
         // Hide the dragicon image element of the selected section
         section.find(`.dragicon2_${sectionNum}`).hide();
       };
