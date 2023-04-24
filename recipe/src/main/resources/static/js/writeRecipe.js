@@ -141,7 +141,9 @@ $(document).ready(function () {
                         var option = $("<option>").text("-").attr("value", "-");
                         $("#sub-category-dropdown").append(option);
                         $("#sub-category-dropdown").attr("disabled", true);
-                        dropdownSub(subcategory.id);
+console.log("subcategory.level == 0 && index == 0 subcategory.id: " + subcategory.id);
+//                        dropdownSub(subcategory.id);
+
                     }
 
                     // 「選択してください」を入れる
@@ -155,6 +157,8 @@ $(document).ready(function () {
                         var option = $("<option>").text(subcategory.name).attr("value", "");
                         $("#sub-category-dropdown").append(option);
                     }
+
+
                 });
             },
             error: function (xhr, textStatus, errorThrown) {
@@ -168,7 +172,11 @@ $(document).ready(function () {
 $(document).ready(function () {
     $("#sub-category-dropdown").change(function () {
         var categoryId = $(this).val();
-        dropdownSub(categoryId);
+        var valuee = document.querySelector("#main-category-dropdown").value;
+        console.log("valuee: " + valuee);
+
+        //dropdownSub(categoryId);
+
     });
 });
 
