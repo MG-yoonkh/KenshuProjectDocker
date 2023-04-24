@@ -11,6 +11,12 @@ $(document).ready(function () {
 
     document.querySelector(".modal-ing").addEventListener("click", function () {
 
+    removeAlert("main");
+    removeAlert("sub");
+    removeAlert("ingredient");
+    removeAlert("qty");
+    removeAlert("unit");
+
         // Modal Open
         var modal = document.querySelector('#staticBackdrop');
         $(modal).modal('show');
@@ -54,7 +60,7 @@ $(document).ready(function () {
         }
 
         // リセット
-        resetMain()
+        resetMain();
         resetSub();
         resetIng();
         resetUnit();
@@ -107,6 +113,8 @@ function populateUnitDropdown(response) {
 $(document).ready(function () {
     $("#main-category-dropdown").change(function () {
 
+        removeAlert("main");
+
         var ingredientCategoryId = $(this).val();
         $.ajax({
             type: "POST",
@@ -130,7 +138,7 @@ $(document).ready(function () {
 
                     // 詳細カテゴリーがメインカテゴリーと一緒
                     if (subcategory.level == 0 && index == 0) {
-                        var option = $("<option>").text("-").attr("value", subcategory.id);
+                        var option = $("<option>").text("-").attr("value", "-");
                         $("#sub-category-dropdown").append(option);
                         $("#sub-category-dropdown").attr("disabled", true);
                         dropdownSub(subcategory.id);
@@ -144,7 +152,7 @@ $(document).ready(function () {
 
                     // 詳細カテゴリーを出力
                     if (subcategory.level == 1) {
-                        var option = $("<option>").text(subcategory.name).attr("value", subcategory.id);
+                        var option = $("<option>").text(subcategory.name).attr("value", "");
                         $("#sub-category-dropdown").append(option);
                     }
                 });
@@ -182,7 +190,7 @@ function dropdownSub(categoryId) {
             // 材料をリストに入れる
             $.each(response, function (index, ingredient) {
                 if (response.length === 1) {
-                    var option = $("<option>").text(ingredient.name).attr("value", ingredient.id);
+                    var option = $("<option>").text(ingredient.name).attr("value", "-");
                     $("#ingredient-dropdown").append(option);
                      $("#ingredient-dropdown").attr("disabled", true);
                   } else {
@@ -195,6 +203,8 @@ function dropdownSub(categoryId) {
                           $("#ingredient-dropdown").append(option);
                       }
                   }
+
+                  removeAlert("sub");
             });
         },
         error: function (xhr, textStatus, errorThrown) {
@@ -208,8 +218,22 @@ $(document).ready(function () {
     $("#ingredient-dropdown").change(function () {
         resetQty();
         resetUnit();
+        removeAlert("ingredient");
     });
 });
+
+$(document).ready(function () {
+    $("#qty-dropdown").change(function () {
+        removeAlert("qty");
+    });
+});
+
+$(document).ready(function () {
+    $("#unit-dropdown").change(function () {
+        removeAlert("unit");
+    });
+});
+
 
 savedList = JSON.parse(localStorage.getItem('savedList')) || [];
 
@@ -247,42 +271,59 @@ document.querySelector("#add-button").addEventListener("click", function () {
     let unitValue = document.querySelector("#unit-dropdown").value; // unit.id
 
     let mainCategoryValue = document.querySelector("#main-category-dropdown").value;
+    let subCategoryValue = document.querySelector("#sub-category-dropdown").value;
+
+
+    let mainAlert = document.querySelector(".mainAlert");
+    let subAlert = document.querySelector(".subAlert");
+    let ingredientAlert = document.querySelector(".ingredientAlert");
+    let qtyAlert = document.querySelector(".qtyAlert");
+    let unitAlert = document.querySelector(".unitAlert");
 
     if (mainCategoryValue === "") {
+      if (!mainAlert.querySelector("label")) {
         let mainLabel = document.createElement("label");
         mainLabel.innerHTML = "メインカテゴリーを選択してください";
         mainLabel.style.color = "red";
-        document.querySelector(".mainAlert").appendChild(mainLabel);
+        mainAlert.appendChild(mainLabel);
+      }
     }
 
-    let subCategoryValue = document.querySelector("#sub-category-dropdown").value;
     if (subCategoryValue === "") {
-        // Append a label indicating that the subcategory selection is missing
+        if (!subAlert.querySelector("label")) {
         let subLabel = document.createElement("label");
         subLabel.innerHTML = "詳細カテゴリーを選択してください";
         subLabel.style.color = "red";
         document.querySelector(".subAlert").appendChild(subLabel);
+        }
     }
 
+
     if (ingredientValue === "") {
-        let ingredientLabel = document.createElement("label");
-        ingredientLabel.innerHTML = "材料を選択してください";
-        ingredientLabel.style.color = "red";
-        document.querySelector(".ingredientAlert").appendChild(ingredientLabel);
+        if (!ingredientAlert.querySelector("label")) {
+            let ingredientLabel = document.createElement("label");
+            ingredientLabel.innerHTML = "材料を選択してください";
+            ingredientLabel.style.color = "red";
+            document.querySelector(".ingredientAlert").appendChild(ingredientLabel);
+        }
     }
 
     if (qtyValue === "") {
-        let qtyLabel = document.createElement("label");
-        qtyLabel.innerHTML = "計量を選択してください";
-        qtyLabel.style.color = "red";
-        document.querySelector(".qtyAlert").appendChild(qtyLabel);
+        if (!qtyAlert.querySelector("label")) {
+            let qtyLabel = document.createElement("label");
+            qtyLabel.innerHTML = "計量を選択してください";
+            qtyLabel.style.color = "red";
+            document.querySelector(".qtyAlert").appendChild(qtyLabel);
+        }
     }
 
     if (unitValue === "") {
-        let unitLabel = document.createElement("label");
-        unitLabel.innerHTML = "単位を選択してください";
-        unitLabel.style.color = "red";
-        document.querySelector(".unitAlert").appendChild(unitLabel);
+        if (!unitAlert.querySelector("label")) {
+            let unitLabel = document.createElement("label");
+            unitLabel.innerHTML = "単位を選択してください";
+            unitLabel.style.color = "red";
+            document.querySelector(".unitAlert").appendChild(unitLabel);
+        }
         return;
     }
 
@@ -304,6 +345,12 @@ document.querySelector("#add-button").addEventListener("click", function () {
     resetQty();
     resetUnit();
 
+    removeAlert("main");
+    removeAlert("sub");
+    removeAlert("ingredient");
+    removeAlert("qty");
+    removeAlert("unit");
+
     // 出力
     tableBody = document.querySelector("#selected-items");
     tableBody.innerHTML = "";
@@ -318,28 +365,13 @@ document.querySelector("#add-button").addEventListener("click", function () {
 
 });
 
+function removeAlert(className) {
+  let alertElement = document.querySelector("." + className + "Alert");
 
-function removeAlertLabels() {
-  const alertLabels = document.querySelectorAll('.alert label');
-  alertLabels.forEach(label => label.remove());
+  if (alertElement.querySelector("label")) {
+    alertElement.removeChild(alertElement.querySelector("label"));
+  }
 }
-
-document.querySelector('#reset-button').addEventListener('click', removeAlertLabels);
-document.querySelector('#close-ingredient-modal').addEventListener('click', removeAlertLabels);
-document.querySelector('#main-category-dropdown').addEventListener('click', removeAlertLabels);
-
-//function hideAlertLabels() {
-//  const alertLabels = document.querySelectorAll('.alertLabel');
-//  alertLabels.forEach(label => label.style.display = 'none');
-//}
-
-// Exit Button
-const closeButton = document.getElementById("close-ingredient-modal");
-
-closeButton.addEventListener("click", () => {
-    closeModal();
-
-});
 
 
 // データ保存
@@ -359,8 +391,6 @@ saveButton.addEventListener("click", () => {
 
 // Modal Close
 function closeModal() {
-
-    //hideAlertLabels();
 
     var modal = document.querySelector('#staticBackdrop');
     $(modal).modal('hide');
@@ -549,7 +579,6 @@ function paintListOnMain(commonList, listElement) {
 // メインカテゴリーをリセット
 function resetMain() {
     $("#main-category-dropdown option:first").prop("selected", true);
-    //hideAlertLabels();
 }
 
 // 詳細カテゴリーをリセット
@@ -711,6 +740,7 @@ document.getElementById('writeForm').addEventListener('submit', function (evt) {
     // savedListをJSON.stringにして、input hiddenに入れる
     $('#send-list-input').val(JSON.stringify(savedList));
     this.submit();
+})
 })
 
 
