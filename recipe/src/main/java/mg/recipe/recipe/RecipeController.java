@@ -263,6 +263,8 @@ public class RecipeController {
                 } catch (IOException e) {
                     throw new RuntimeException("ファイルを保存できませんでした。 " + fileName2 + ". もう一度やり直してください!", e);
                 }
+            } else {
+                imgUrlList.add("default");
             }
         }
 
@@ -425,6 +427,8 @@ public class RecipeController {
                 } catch (IOException e) {
                     throw new RuntimeException("ファイルを保存できませんでした。 " + fileName2 + ". もう一度やり直してください!", e);
                 }
+            } else {
+                imgUrlList.add("default");
             }
         }
 
