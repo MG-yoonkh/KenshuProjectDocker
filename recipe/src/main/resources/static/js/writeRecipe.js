@@ -761,7 +761,6 @@ document.getElementById('writeForm').addEventListener('submit', function (evt) {
     $('#send-list-input').val(JSON.stringify(savedList));
     this.submit();
 })
-})
 
 
 
