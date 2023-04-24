@@ -734,6 +734,26 @@ if (imgFile) {
 document.getElementById('writeForm').addEventListener('submit', function (evt) {
     evt.preventDefault();
 
+    var recipeName = document.getElementById("floatingInput").value;
+    if(recipeName == ""){
+        alert("レシピ名を入力してください。")
+        return false;
+    }
+    var instructions = document.getElementById("instructions").value;
+    if(instructions == ""){
+        alert("作り方を入力してください。")
+        return false;
+    }
+
+    var videoUrl = document.getElementById("video-url").value;
+    console.log(videoUrl);
+    var pattern = /^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$/;
+    if(videoUrl != ""){
+        if(!pattern.test(videoUrl)){
+                alert("正しいURLを入力してください。")
+                return false;
+        }
+    }
     var savedListData = localStorage.getItem('savedList');
     savedList = savedListData ? JSON.parse(savedListData) : [];
 
