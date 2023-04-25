@@ -1,3 +1,7 @@
+// Ajax 通信のため
+var token = $("meta[name='_csrf']").attr("content");
+var header = $("meta[name='_csrf_header']").attr("content");
+$(document).ajaxSend(function (e, xhr, options) { xhr.setRequestHeader(header, token); });
 
 function setDefaultImage(img) {
     const randomNum = Math.floor(Math.random() * 10 + 1);

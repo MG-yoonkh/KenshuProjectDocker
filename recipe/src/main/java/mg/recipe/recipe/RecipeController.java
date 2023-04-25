@@ -109,8 +109,10 @@ public class RecipeController {
         if (riList != null) {
             for (int i = 0; i < riList.size(); i++) {
                 System.out.println(riList.get(i));
+//                IngredientCategory ic = this.ingredientCategoryService.getCategory(riList.get(i).getId(), 0);
             }
         }
+
 
         List<Instruction> istList = this.instructionService.getAllInstruction(recipe);
 
@@ -321,16 +323,22 @@ public class RecipeController {
 
         // レシピ材料のリスト
         List<RecipeIngredient> riList = this.recipeIngredientService.getAllIngredient(recipe);
+
+        List<IngredientCategory> icList = new ArrayList<>();
         if (riList != null) {
             for (int i = 0; i < riList.size(); i++) {
-                System.out.println(riList.get(i));
+                IngredientCategory ic = this.ingredientCategoryService.getCategory(riList.get(i).getIngredient().getCategory().getId(), 0);
+                icList.add(ic);
+                System.out.println(icList.get(i).getName());
             }
         }
+
 
         List<Instruction> istList = this.instructionService.getAllInstruction(recipe);
 
         model.addAttribute("recipe", recipe);
         model.addAttribute("riList", riList);
+        model.addAttribute("icList", icList);
         model.addAttribute("istList", istList);
         return "writeRecipe";
     }

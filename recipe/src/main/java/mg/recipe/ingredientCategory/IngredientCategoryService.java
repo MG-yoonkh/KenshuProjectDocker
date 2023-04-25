@@ -33,6 +33,14 @@ public class IngredientCategoryService {
         return icList;
     }
 
+    public IngredientCategory getCategory(Integer id, Integer level) {
+        IngredientCategory ic = this.ingredientCategoryRepository.findParentById(id);
+        Integer parentId = ic.getParent().getId();
+        List<IngredientCategory> icList = this.ingredientCategoryRepository.findByParentIdAndLevel(parentId, level);
+
+        return icList.get(0);
+    }
+
     public List<IngredientCategory> findAll() {
         return this.ingredientCategoryRepository.findAll();
     }

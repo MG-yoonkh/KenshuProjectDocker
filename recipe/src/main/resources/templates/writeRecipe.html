@@ -255,17 +255,21 @@
                       </thead>
                       <tbody class="display-items"></tbody>
                       <tbody id="riListTable" class="display-riList" th:if="${not #lists.isEmpty(riList)}">
-                        <tr th:each="ing, loop : ${riList}">
-                          <th scope="row"></th>
-                          <td th:text="${ing.ingredient.name}"></td>
-                          <td th:text="${ing.ingredient.category.name}"></td>
-
-
-                          <td th:text="${ing.quantity}"></td>
-                          <td th:text="${ing.measurementUnit.name}"></td>
-                        </tr>
+                      <tr th:each="ing, loop : ${riList}">
+                        <th th:text="${loop.index + 1}"></th>
+                        <td th:text="${ing.ingredient.name + ' (' + ing.ingredient.category.name + ', ' + icList[loop.index].name + ')'}"></td>
+                        <td th:text="${ing.quantity}"></td>
+                        <td th:text="${ing.measurementUnit.name}"></td>
+                        <input type="hidden" id="mainCategory" th:value="${icList[loop.index].name}" >
+                        <input type="hidden" id="subCategory" th:value="${ing.ingredient.category.name}" >
+                        <input type="hidden" id="ingredient" th:value="${ing.ingredient.name}" >
+                        <input type="hidden" id="ingredient" th:value="${ing.ingredient.id}" >
+                        <input type="hidden" id="qty" th:value="${ing.quantity}">
+                        <input type="hidden" id="qtyValue" th:value="${ing.quantity}">
+                        <input type="hidden" id="qty" th:value="${ing.measurementUnit.name}">
+                        <input type="hidden" id="qty" th:value="${ing.measurementUnit.id}">
+                      </tr>
                       </tbody>
-
                     </table>
                   </button>
                 </div>

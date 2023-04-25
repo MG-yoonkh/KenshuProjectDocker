@@ -6,11 +6,10 @@ import mg.recipe.recipe.Recipe;
 import mg.recipe.recipe.RecipeService;
 import mg.recipe.user.UserService;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -26,11 +25,12 @@ public class RecipeIngredientController {
         return "searchIngredient";
     }
 
-    @GetMapping("/getRiList")
+    @PostMapping("/getRecipe")
     @ResponseBody
-    public List<RecipeIngredient> getRiList(@RequestParam("recipeId") Integer id, Model model) {
+    public List<RecipeIngredient> getRiList(@RequestParam Integer recipeId, Model model) {
         try {
-            Recipe recipe = this.recipeService.getRecipe(id);
+            System.out.println("Received POST request with recipeId: " + recipeId);
+            Recipe recipe = this.recipeService.getRecipe(recipeId);
             List<RecipeIngredient> riList = this.recipeIngredientService.getAllIngredient(recipe);
             if (riList != null) {
                 for (int i = 0; i < riList.size(); i++) {
@@ -40,6 +40,7 @@ public class RecipeIngredientController {
             return riList;
         } catch (IllegalStateException ex) {
             // handle the exception
+            System.err.println("Exception caught in getRiList: " + ex.getMessage());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error message", ex);
         }
     }

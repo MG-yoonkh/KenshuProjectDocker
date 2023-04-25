@@ -121,7 +121,7 @@
                 </thead>
                 <tbody th:if="${not #lists.isEmpty(riList)}">
                   <tr th:each="ing, loop : ${riList}">
-                    <th scope="row"></th>
+                    <th th:text="${loop.index + 1}"></th>
                     <td th:text="${ing.ingredient.name}"></td>
                     <td th:text="${ing.quantity}"></td>
                     <td th:text="${ing.measurementUnit.name}"></td>

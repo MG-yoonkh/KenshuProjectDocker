@@ -72,7 +72,17 @@ $(document).ready(function () {
 
         tableBody = document.querySelector("#selected-items");
         tableBody.innerHTML = "";
+
+        var selectedItemsData = localStorage.getItem('selectedItems');
+        selectedItems = selectedItemsData ? JSON.parse(selectedItemsData) : [];
+        if(selectedItems) {
+            paintTableOnModal(selectedItems,tableBody);
+            localStorage.removeItem('selectedItems');
+        }
+
+       if(savedList) {
         paintTableOnModal(savedList, tableBody);
+       }
 
     });
     console.log('localStorage: ' + localStorage.length);
@@ -394,8 +404,9 @@ saveButton.addEventListener("click", () => {
 
     savedIngList();
 
-    // Modal Close
     closeModal();
+
+
 
     getDataFromLocalStorageAndDisplay();
 });
@@ -684,59 +695,6 @@ if (imgFile) {
 
 
 
-$(document).ready(function() {
-// 隠しフィールドからレシピ名を取得する
-  const recipeId = document.getElementById('recipeId').value;
-  console.log('recipeId:' + recipeId);
-
-    if (recipeId) {
-      // サーバーからriListデータを取得する
-      $.ajax({
-        url: '/getRiList',
-        type: 'GET',
-        data: {
-          recipeId: recipeId
-        },
-        success: function(recipeId) {
-          // 取得したriListデータを変数riListに代入する
-          var riList = response;
-          console.log(riList);
-
-          // riListデータをlocalStorageに保存する処理を続ける
-          if (riList != null && !riList.isEmpty()) {
-            console.log('riListは空ではありません。');
-
-            // localStorageに既にデータがあるかどうかを確認する
-            if (localStorage.getItem('savedList') !== null) {
-              console.log('localStorageに既にsavedListのデータがあります。既存のデータを削除します.');
-              // 既存のデータを削除する
-              localStorage.removeItem('savedList');
-            }
-
-            // riListをJSON文字列に変換する
-            const riListJson = JSON.stringify(riList);
-
-            // riListをlocalStorageに保存する
-            localStorage.setItem('savedList', riListJson);
-            console.log('riListのデータがlocalStorageに保存されました。');
-
-            // localStorageからリストを表示する関数を呼び出す
-            getDataFromLocalStorageAndDisplay();
-          } else {
-            console.log('riListは空またはnullです。localStorageに保存しません。');
-          }
-        },
-        error: function(xhr, status, error) {
-          console.log('recipeIngredientの取得中にエラーが発生しました: ' + error);
-        }
-      });
-    }
-});
-
-
-
-
-
 
 
 
@@ -1011,4 +969,34 @@ $(document).ready(function () {
       reader.readAsDataURL(files[0]);
     }
   }
-  
+
+    var ingredientInput = document.getElementById("ingredient");
+    checkIngredientList();
+    function checkIngredientList() {
+        if (ingredientInput && ingredientInput.value) {
+
+            if (localStorage.getItem('selectedItems')) {
+                localStorage.removeItem('selectedItems');
+            }
+
+          let selectedItems = [];
+
+          let inputs = document.querySelectorAll('#riListTable input[type="hidden"]');
+
+          for (let i = 0; i < inputs.length; i += 8) {
+            let item = {
+              mainCategory: inputs[i].value,
+              subCategory: inputs[i + 1].value,
+              ingredient: inputs[i + 2].value,
+              ingredientValue: inputs[i + 3].value,
+              qty: inputs[i + 4].value,
+              qtyValue: inputs[i + 5].value,
+              unit: inputs[i + 6].value,
+              unitValue: inputs[i + 7].value
+            };
+            selectedItems.push(item);
+          }
+          localStorage.setItem('selectedItems', JSON.stringify(selectedItems));
+          let checked = JSON.parse(localStorage.getItem('selectedItems'));
+        }
+    }
