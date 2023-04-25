@@ -747,6 +747,11 @@ document.getElementById('writeForm').addEventListener('submit', function (evt) {
         alert("レシピ名を入力してください。")
         return false;
     }
+    var recipe_image = document.getElementById("input").value;
+    if(recipe_image == ""){
+        alert("レシピのイメージを登録してください。")
+        return false;
+    }
     var instructions = document.getElementById("instructions").value;
     if(instructions == ""){
         alert("作り方を入力してください。")
