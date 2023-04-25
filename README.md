@@ -37,6 +37,8 @@
  7. DATAフォルダのcsvファイルをMySQLにインポートする。
  8. localhost:8080に接続する。
 
+
+
 * Dockerを使う場合
  1. Docker desktopを設置する(https://www.docker.com/products/docker-desktop/)
  2. Docker desktopを実行する。
