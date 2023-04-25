@@ -38,13 +38,12 @@
  8. localhost:8080に接続する。
 
 * Dockerを使う場合
- 1. Docker desktopを設置する
+ 1. Docker desktopを設置する(https://www.docker.com/products/docker-desktop/)
  2. Docker desktopを実行する。
- 3. プロジェクトをzipファイルでダウンロードし、管理しやすい経路で展開する。
- 4. プロジェクトのrecipeフォルダでcmdを実行する。
- 5. gradlew.bat clean build を入力する。
- 6. docker-compose up --build を入力する。
- 7. ブラウザを開き、localhost:8080に接続する。
+ 3. プロジェクトファイルをzipファイルでダウンロードし、管理しやすい経路で展開する。
+ 4. プロジェクトのrecipeフォルダの内でcmdを開け、docker load -i recipe.tarを入力する。
+ 5. docker-compose up を入力する。
+ 6. ブラウザを開き、localhost:8080に接続する。
  
 
 
