@@ -413,7 +413,14 @@ public class RecipeController {
         }
 
         // 材料の登録
-        recipeIngredientService.create(recipe, rList);
+        if (rList != null && !rList.isEmpty()) {
+            System.out.println(rList.get(0).getId());
+
+        } else {
+            System.out.println("rList is null or empty");
+        }
+        recipeIngredientService.modify(recipe, rList);
+
 
         // 調理手順の画像の登録
         List<String> imgUrlList = new ArrayList<>();

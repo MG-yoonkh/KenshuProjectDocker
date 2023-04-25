@@ -29,10 +29,7 @@ public class RecipeIngredientService {
 
         // 既存のレシピ材料を削除
         List<RecipeIngredient> irList = this.recipeIngredientRepository.findAllByRecipe(recipe);
-        if (!irList.isEmpty()) {
-            System.out.println("재료리스트가 새로 들어왔음으로 기존 재료 삭제합니다.");
-            this.recipeIngredientRepository.deleteAll(irList);
-        }
+        this.recipeIngredientRepository.deleteAll(irList);
         // 新しいレシピ材料登録
         RecipeIngredient ri;
         for (int i = 0; i < rList.size(); i++) {
