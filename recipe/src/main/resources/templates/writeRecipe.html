@@ -257,7 +257,10 @@
                       <tbody id="riListTable" class="display-riList" th:if="${not #lists.isEmpty(riList)}">
                       <tr th:each="ing, loop : ${riList}">
                         <th th:text="${loop.index + 1}"></th>
-                        <td th:text="${ing.ingredient.name + ' (' + ing.ingredient.category.name + ', ' + icList[loop.index].name + ')'}"></td>
+                        <td th:text="${ing.ingredient.name + ' (' + ing.ingredient.category.name + ')'}"
+                            th:if="${ing.ingredient.category.name == icList[loop.index].name}"></td>
+                        <td th:text="${ing.ingredient.name + ' (' + ing.ingredient.category.name + ', ' + icList[loop.index].name + ')'}"
+                            th:if="${ing.ingredient.category.name != icList[loop.index].name}"></td>
                         <td th:text="${ing.quantity}"></td>
                         <td th:text="${ing.measurementUnit.name}"></td>
                         <input type="hidden" id="mainCategory" th:value="${icList[loop.index].name}" >

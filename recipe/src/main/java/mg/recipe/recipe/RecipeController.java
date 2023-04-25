@@ -113,11 +113,20 @@ public class RecipeController {
             }
         }
 
+        List<IngredientCategory> icList = new ArrayList<>();
+        if (riList != null) {
+            for (int i = 0; i < riList.size(); i++) {
+                IngredientCategory ic = this.ingredientCategoryService.getCategory(riList.get(i).getIngredient().getCategory().getId(), 0);
+                icList.add(ic);
+                System.out.println(icList.get(i).getName());
+            }
+        }
 
         List<Instruction> istList = this.instructionService.getAllInstruction(recipe);
 
         model.addAttribute("recipe", recipe);
         model.addAttribute("riList", riList);
+        model.addAttribute("icList", icList);
         model.addAttribute("istList", istList);
 
         Boolean recipeSaved = (Boolean) session.getAttribute("recipeSaved");

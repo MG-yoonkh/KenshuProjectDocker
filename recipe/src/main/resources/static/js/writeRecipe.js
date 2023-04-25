@@ -516,9 +516,9 @@ function paintTableOnModal(commonList, tableBody) {
         // mainCategoryデータがあれば
         if (commonList[i].mainCategory) {
             // subCategoryデータがなければ 
-            if (commonList[i].subCategory == "-") {
+            if (commonList[i].subCategory == "-" || commonList[i].subCategory == commonList[i].mainCategory) {
                 cell1.textContent = commonList[i].ingredient + ' (' + commonList[i].mainCategory + ')';
-            } else { // subCategoryデータがあれば
+            } else {
                 cell1.textContent = commonList[i].ingredient + ' (' + commonList[i].subCategory + ', ' + commonList[i].mainCategory + ')';
             }
             // mainCategoryデータがなければ
@@ -572,7 +572,11 @@ function paintListOnMain(commonList, listElement) {
 
         let ingredient = document.createElement("td");
         if (commonList[i].mainCategory) {
-            ingredient.textContent = commonList[i].ingredient + ' (' + commonList[i].subCategory + ', ' + commonList[i].mainCategory + ')';
+            if(commonList[i].subCategory == commonList[i].mainCategory) {
+                ingredient.textContent = commonList[i].ingredient + ' (' + commonList[i].mainCategory + ')';
+            } else {
+                ingredient.textContent = commonList[i].ingredient + ' (' + commonList[i].subCategory + ', ' + commonList[i].mainCategory + ')';
+            }
         } else {
             ingredient.textContent = commonList[i].ingredient;
         }
