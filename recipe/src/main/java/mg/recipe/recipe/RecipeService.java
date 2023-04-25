@@ -12,6 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -68,7 +69,9 @@ public class RecipeService {
         Recipe recipe = this.recipeRepository.findByRecipeName(recipeName);
         return recipe;
     }
-
+    public int countDailyRecipesByUser(SiteUser user, LocalDate date) {
+        return recipeRepository.countByAuthorAndCreateDateBetween(user, date.atStartOfDay(), date.plusDays(1).atStartOfDay());
+    }
     public Recipe create(RecipeForm recipeForm, SiteUser user){
         Recipe r1 = new Recipe();
         r1.setRecipeName(recipeForm.getRecipeName());

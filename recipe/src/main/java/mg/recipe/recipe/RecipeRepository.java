@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface RecipeRepository extends JpaRepository<Recipe, Integer> {
@@ -21,4 +22,6 @@ public interface RecipeRepository extends JpaRepository<Recipe, Integer> {
 
     @Query("SELECT r FROM Recipe r JOIN r.voter v WHERE v.id = :userId")
     Page<Recipe> findLikedRecipesByUserId(@Param("userId") Integer userId, Pageable pageable);
+
+    int countByAuthorAndCreateDateBetween(SiteUser author, LocalDateTime startDate, LocalDateTime endDate);
 }

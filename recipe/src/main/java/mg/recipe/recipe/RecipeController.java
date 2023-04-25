@@ -44,6 +44,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Principal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -174,6 +175,9 @@ public class RecipeController {
      @return リダイレクト先のURL文字列
      @throws IOException ファイルの処理中にエラーが発生した場合にスローされます
      */
+
+    private static final int MAX_DAILY_RECIPES = 100;
+
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/recipe/write")
     public String createRecipe(@Valid RecipeForm recipeForm,
@@ -185,6 +189,7 @@ public class RecipeController {
                                BindingResult bindingResult,
                                Principal principal,
                                HttpSession session) throws IOException {
+
 
         // エラーがある場合はレシピ投稿ページに戻る
         if (bindingResult.hasErrors()) {
@@ -225,6 +230,14 @@ public class RecipeController {
         // レシピの登録
         SiteUser siteUser = userService.getUserByUsername(principal.getName());
         Recipe recipe = recipeService.create(recipeForm, siteUser);
+
+        int dailyRecipeCount = recipeService.countDailyRecipesByUser(siteUser, LocalDate.now());
+
+        // 1 日に登録可能なレシピの数を超えていることを確認します。
+        if (dailyRecipeCount >= MAX_DAILY_RECIPES) {
+            model.addAttribute("error", "1 日に登録可能なレシピの数を超えました。");
+            return "writeRecipe";
+        }
 
         // JSON文字列をJavaオブジェクトに変換する
         ObjectMapper objectMapper = new ObjectMapper();
