@@ -5,6 +5,7 @@ import mg.recipe.recipe.Recipe;
 
 import java.util.List;
 
+import mg.recipe.recipeIngredient.RecipeIngredient;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -31,6 +32,14 @@ public class InstructionService {
     }
 
     public void create(String[] descriptionList, List<String> imgUrlList, Recipe recipe) {
+        // 기존 조리방법 삭제
+        List<Instruction> istList = this.instructionRepository.findAllByRecipe(recipe);
+        if(!istList.isEmpty()) {
+            for (int i = 0; i < istList.size(); i++) {
+                this.instructionRepository.delete(istList.get(i));
+            }
+        }
+
         Instruction instruction = new Instruction();
 
         for (int i = 0; i < imgUrlList.size(); i++) {

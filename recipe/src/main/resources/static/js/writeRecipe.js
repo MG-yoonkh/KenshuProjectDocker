@@ -77,11 +77,11 @@ $(document).ready(function () {
         selectedItems = selectedItemsData ? JSON.parse(selectedItemsData) : [];
         if(selectedItems) {
             paintTableOnModal(selectedItems,tableBody);
-            localStorage.removeItem('selectedItems');
         }
 
        if(savedList) {
         paintTableOnModal(savedList, tableBody);
+            console.log('savedList 있음' + savedListData);
        }
 
     });
@@ -151,7 +151,6 @@ $(document).ready(function () {
                         var option = $("<option>").text("-").attr("value", "-");
                         $("#sub-category-dropdown").append(option);
                         $("#sub-category-dropdown").attr("disabled", true);
-console.log("subcategory.level == 0 && index == 0 subcategory.id: " + subcategory.id);
                         dropdownSub(subcategory.id);
 
                     }
@@ -376,7 +375,7 @@ document.querySelector("#add-button").addEventListener("click", function () {
     tableBody = document.querySelector("#selected-items");
     tableBody.innerHTML = "";
 
-    // if savedList is already exist
+    // if savedList
     var savedListData = localStorage.getItem('savedList');
     savedList = savedListData ? JSON.parse(savedListData) : [];
     if (savedList.length > 0) {
@@ -405,8 +404,6 @@ saveButton.addEventListener("click", () => {
     savedIngList();
 
     closeModal();
-
-
 
     getDataFromLocalStorageAndDisplay();
 });
@@ -448,6 +445,7 @@ function savedIngList() {
 
     // 保存の前、初期化
     localStorage.removeItem("savedList");
+    localStorage.removeItem("selectedItems");
     savedList = [];
     selectedItems = [];
 
@@ -661,11 +659,13 @@ document.addEventListener('click', function (event) {
 
 function getDataFromLocalStorageAndDisplay() {
     var savedListData = localStorage.getItem('savedList');
+    console.log('출력하는 최종 데이터: '+savedListData);
     savedList = savedListData ? JSON.parse(savedListData) : [];
     listElement = document.querySelector(".display-items");
     listElement.innerHTML = "";
     if (savedList) {
         paintListOnMain(savedList, listElement);
+        document.getElementById("riListTable").style.display = "none";
     }
 }
 
@@ -725,7 +725,7 @@ document.getElementById('writeForm').addEventListener('submit', function (evt) {
     }
     var savedListData = localStorage.getItem('savedList');
     savedList = savedListData ? JSON.parse(savedListData) : [];
-
+console.log('form submit 데이터: '+savedListData);
     // savedListをJSON.stringにして、input hiddenに入れる
     $('#send-list-input').val(JSON.stringify(savedList));
     this.submit();

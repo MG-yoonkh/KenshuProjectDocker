@@ -14,6 +14,14 @@ public class RecipeIngredientService {
     @Autowired
     private final RecipeIngredientRepository recipeIngredientRepository;
     public void create(Recipe recipe, List<RecipeIngredient> rList) {
+        // 기존 레시피재료 삭제
+        List<RecipeIngredient> irList = this.recipeIngredientRepository.findAllByRecipe(recipe);
+        if(!irList.isEmpty()) {
+            for (int i = 0; i < irList.size(); i++) {
+                this.recipeIngredientRepository.delete(irList.get(i));
+            }
+        }
+        // 새로운 레시피재료 등록
         RecipeIngredient ri;
         for (int i = 0; i < rList.size(); i++) {
             ri = new RecipeIngredient();
