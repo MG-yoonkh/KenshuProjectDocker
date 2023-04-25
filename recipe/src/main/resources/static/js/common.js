@@ -5,5 +5,5 @@ $(document).ajaxSend(function (e, xhr, options) { xhr.setRequestHeader(header, t
 
 // defaultイメージ設定
 function setDefaultImage(img) {
-    img.src = '/assets/img/default.png';
+    img.src = '/assets/icon/cooking.png';
 }

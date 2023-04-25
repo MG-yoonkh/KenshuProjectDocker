@@ -6,7 +6,7 @@ document.onreadystatechange = function () {
 
 
 function setDefaultImage(img) {
-    img.src = '/assets/img/default.png';
+    img.src = '/assets/icon/cooking.png';
   }
 
   const expired = /*[[${expired}]]*/ false;
