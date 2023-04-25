@@ -8,7 +8,9 @@ import mg.recipe.user.SiteUser;
 import mg.recipe.user.UserRole;
 import mg.recipe.user.UserService;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -57,26 +59,33 @@ public class AdminController {
     }
 
     @GetMapping("/admin/user")
-    public String ユーザー管理(@RequestParam(defaultValue = "0") int userpage,
-                           @RequestParam(defaultValue = "10") int usersize,
-                           Model model,
-                           Pageable pageable){
+    public String ユーザー管理(Model model,
+                           @RequestParam(defaultValue = "0") int page,
+                           @RequestParam(defaultValue = "10") int size){
 
-        long totalUserCount = userService.getTotalUserCount();
+        Pageable pageable = PageRequest.of(page,size,Sort.by(Sort.Direction.DESC, "createDate"));
         Page<SiteUser> users = adminService.getUsers(pageable);
-        model.addAttribute("totalUserCount", totalUserCount);
+        model.addAttribute("totalUserCount", users.getTotalElements());
         model.addAttribute("users", users.getContent());
-        model.addAttribute("userpage",userpage);
-        model.addAttribute("usersize",usersize);
+        model.addAttribute("totalPages", users.getTotalPages());
+        model.addAttribute("currentPage", page);
         return "/userManagement";
     }
+
+
     @GetMapping("/admin/recipe")
-    public String レシピ管理(Model model, Pageable pageable){
-        long totalRecipeCount = recipeService.getTotalRecipeCount();
+    public String レシピ管理(Model model,
+                          @RequestParam(defaultValue = "0") int page,
+                          @RequestParam(defaultValue = "10") int size){
+
+        Pageable pageable = PageRequest.of(page,size, Sort.by(Sort.Direction.DESC, "createDate"));
         Page<Recipe> recipes = adminService.getRecipes(pageable);
-        Page<SiteUser> users = adminService.getUsers(pageable);
-        model.addAttribute("totalRecipeCount", totalRecipeCount);
+
+        model.addAttribute("totalRecipeCount", recipes.getTotalElements());
         model.addAttribute("recipes", recipes.getContent());
+        model.addAttribute("totalPages",recipes.getTotalPages());
+        model.addAttribute("currentPage",page);
+
         return "/recipeManagement";
     }
 
@@ -92,9 +101,16 @@ public class AdminController {
     }
 
     @GetMapping("/admin/adminright")
-    public String adminRight(Model model){
-        List<SiteUser> users = userService.findAll();
-        model.addAttribute("users",users);
+    public String adminRight(Model model,
+                             @RequestParam(defaultValue = "0") int page,
+                             @RequestParam(defaultValue = "10") int size){
+
+        Pageable pageable = PageRequest.of(page,size,Sort.by(Sort.Direction.DESC, "createDate"));
+        Page<SiteUser> users = adminService.getUsers(pageable);
+        model.addAttribute("totalUserCount", users.getTotalElements());
+        model.addAttribute("users", users.getContent());
+        model.addAttribute("totalPages", users.getTotalPages());
+        model.addAttribute("currentPage", page);
         return "adminRight";
     }
 
