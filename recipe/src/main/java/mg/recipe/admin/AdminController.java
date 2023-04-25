@@ -57,18 +57,24 @@ public class AdminController {
     }
 
     @GetMapping("/admin/user")
-    public String ユーザー管理(Model model, Pageable pageable){
+    public String ユーザー管理(@RequestParam(defaultValue = "0") int userpage,
+                           @RequestParam(defaultValue = "10") int usersize,
+                           Model model,
+                           Pageable pageable){
 
         long totalUserCount = userService.getTotalUserCount();
         Page<SiteUser> users = adminService.getUsers(pageable);
         model.addAttribute("totalUserCount", totalUserCount);
         model.addAttribute("users", users.getContent());
+        model.addAttribute("userpage",userpage);
+        model.addAttribute("usersize",usersize);
         return "/userManagement";
     }
     @GetMapping("/admin/recipe")
     public String レシピ管理(Model model, Pageable pageable){
         long totalRecipeCount = recipeService.getTotalRecipeCount();
         Page<Recipe> recipes = adminService.getRecipes(pageable);
+        Page<SiteUser> users = adminService.getUsers(pageable);
         model.addAttribute("totalRecipeCount", totalRecipeCount);
         model.addAttribute("recipes", recipes.getContent());
         return "/recipeManagement";
