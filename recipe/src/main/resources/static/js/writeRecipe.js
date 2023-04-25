@@ -142,7 +142,7 @@ $(document).ready(function () {
                         $("#sub-category-dropdown").append(option);
                         $("#sub-category-dropdown").attr("disabled", true);
 console.log("subcategory.level == 0 && index == 0 subcategory.id: " + subcategory.id);
-//                        dropdownSub(subcategory.id);
+                        dropdownSub(subcategory.id);
 
                     }
 
@@ -154,7 +154,7 @@ console.log("subcategory.level == 0 && index == 0 subcategory.id: " + subcategor
 
                     // 詳細カテゴリーを出力
                     if (subcategory.level == 1) {
-                        var option = $("<option>").text(subcategory.name).attr("value", "");
+                        var option = $("<option>").text(subcategory.name).attr("value", subcategory.id);
                         $("#sub-category-dropdown").append(option);
                     }
 
@@ -173,9 +173,10 @@ $(document).ready(function () {
     $("#sub-category-dropdown").change(function () {
         var categoryId = $(this).val();
         var valuee = document.querySelector("#main-category-dropdown").value;
-        console.log("valuee: " + valuee);
+        console.log("subーvaluee: " + categoryId);
+        console.log("mainーvaluee: " + valuee);
 
-        //dropdownSub(categoryId);
+        dropdownSub(categoryId);
 
     });
 });
@@ -205,9 +206,11 @@ function dropdownSub(categoryId) {
                     // 「選択してください」を入れる
                       if (index == 0) {
                           var option = $("<option>").text(ingredient.name).attr("value", ingredient.id);
+                          console.log('index == 0 ingredient: '+ingredient.name);
                           $("#ingredient-dropdown").append(option);
                       } else { // 材料を出力
                           var option = $("<option>").text(ingredient.name).attr("value", ingredient.id);
+                          console.log('index != 0 ingredient: '+ingredient.name);
                           $("#ingredient-dropdown").append(option);
                       }
                   }
