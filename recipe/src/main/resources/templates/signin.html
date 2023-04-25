@@ -3,85 +3,93 @@
   <link rel="stylesheet" type="text/css" th:href="@{/css/signin.css}">
   <header th:replace="~{header :: headerFragment}"></header>
   <main>
-  <div class="signin_container">
-    <div class="">
-      <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item">&nbsp&nbsp&nbsp&nbsp<a th:href="@{/index}">ホーム</a></li>
-          <li class="breadcrumb-item active" aria-current="page">&nbsp&nbspログイン</li>
-        </ol>
-      </nav>
-    </div>
-    <h1><i class="fa-solid fa-user"></i> 会員登録フォーム</h1>
-    <form id="signin_form" th:action="@{/signin}" th:object="${userCreateForm}" method="post">
-      <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
-        <div th:each="err : ${#fields.allErrors()}" th:text="${err}"/>
+  <div class="container-fluid">
+    <div class="row p-3"></div>
+    <div class="row justify-content-center">
+      <div class="col-md-2">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">&nbsp&nbsp&nbsp&nbsp<a th:href="@{/index}">ホーム</a></li>
+            <li class="breadcrumb-item active" aria-current="page">&nbsp&nbsp会員登録</li>
+          </ol>
+        </nav>
       </div>
-      <div class="join_row">
-        <div class="form-group">
-          <h3 class="join_title">
-            <label for="username">ID</label>
-          </h3>
-          <input type="text" class="form-control" id="username" th:field="*{username}" placeholder="IDを入力してください" autocomplete="off"/>
-          <button type="button" class="form-control" id="check-duplicate">チェック</button>
-        </div>
-        <div class="error">
-          <!-- "assertive" -->
-          <span class="error_next_box" id="nickname_msg" style aria-live="assertive">必須項目です</span>
-        </div>
-      </div>
-      <div class="join_row">
-        <div class="form-group">
-          <h3 class="join_title">
-            <label for="password1">パスワード</label>
-          </h3>
-        <input type="password" class="form-control" id="password1" th:field="*{password1}" placeholder="パスワードを入力してください" autocomplete="off"/>
-        </div>
-        <div class="error">
-          <!-- "assertive" -->
-          <span class="error_next_box" style aria-live="assertive">必須項目です</span>
-        </div>
-      </div>
-      <div class="join_row">
-        <div class="form-group">
-          <h3 class="join_title">
-            <label for="password2">パスワード再入力</label>
-          </h3>
-        <input type="password" class="form-control" id="password2" th:field="*{password2}" placeholder="パスワードを入力してください" autocomplete="off"/>
-        </div>
-        <div class="error">
-          <!-- "assertive" -->
-          <span class="error_next_box" style aria-live="assertive">必須項目です</span>
-        </div>
-      </div>
-      <div class="join_row">
-        <div class="form-group">
-          <h3 class="join_title">
-            <label for="email">メールアドレス</label>
-          </h3>
-          <input type="email" class="form-control" id="email" th:field="*{email}" placeholder="メールアドレスを入力してください" autocomplete="off"/>
-        </div>
-        <div class="error">
-          <!-- "assertive" -->
-          <p class="error_next_box" id="email_msg" style aria-live="assertive">必須項目です</p>
-        </div>
-      </div>
+      <div class="col-md-4">
+        <h1><i class="fa-solid fa-user"></i> 会員登録</h1>
+        <form id="signin_form" th:action="@{/signin}" th:object="${userCreateForm}" method="post">
+          <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
+            <div th:each="err : ${#fields.allErrors()}" th:text="${err}"/>
+          </div>
+          <div class="join_row">
+            <div class="form-group">
+              <h3 class="join_title">
+                <label for="username">ID</label>
+              </h3>
+              <div class="input-group input-group-lg">
+                <input type="text" class="form-control" id="username" th:field="*{username}" placeholder="IDを入力してください" aria-describedby="check-duplicate" autocomplete="off"/>
+                <button type="button" class="btn btn-outline-secondary" id="check-duplicate">チェック</button>
+              </div>
+            </div>
+            <div class="error">
+              <!-- "assertive" -->
+              <span class="error_next_box" id="nickname_msg" style aria-live="assertive">必須項目です</span>
+            </div>
+          </div>
+          <div class="join_row">
+            <div class="form-group">
+              <h3 class="join_title">
+                <label for="password1">パスワード</label>
+              </h3>
+            <input type="password" class="form-control" id="password1" th:field="*{password1}" placeholder="パスワードを入力してください" autocomplete="off"/>
+            </div>
+            <div class="error">
+              <!-- "assertive" -->
+              <span class="error_next_box" style aria-live="assertive">必須項目です</span>
+            </div>
+          </div>
+          <div class="join_row">
+            <div class="form-group">
+              <h3 class="join_title">
+                <label for="password2">パスワード再入力</label>
+              </h3>
+            <input type="password" class="form-control" id="password2" th:field="*{password2}" placeholder="パスワードを入力してください" autocomplete="off"/>
+            </div>
+            <div class="error">
+              <!-- "assertive" -->
+              <span class="error_next_box" style aria-live="assertive">必須項目です</span>
+            </div>
+          </div>
+          <div class="join_row">
+            <div class="form-group">
+              <h3 class="join_title">
+                <label for="email">メールアドレス</label>
+              </h3>
+              <input type="email" class="form-control" id="email" th:field="*{email}" placeholder="メールアドレスを入力してください" autocomplete="off"/>
+            </div>
+            <div class="error">
+              <!-- "assertive" -->
+              <p class="error_next_box" id="email_msg" style aria-live="assertive">必須項目です</p>
+            </div>
+          </div>
 
-      <div class="join_row">
-        <div class="form-group form-check">
-          <h3 class="join_title">
-            <input type="checkbox" class="form-check-input" id="terms" />
-          </h3>
-          <label class="form-check-label" for="terms">利用規約に同意する</label>
-        </div>
+          <div class="join_row">
+            <div class="form-group form-check">
+              <h3 class="join_title">
+                <input type="checkbox" class="form-check-input" id="terms" />
+              </h3>
+              <label class="form-check-label" for="terms">利用規約に同意する</label>
+            </div>
+          </div>
+          <div class="btn_area">
+            <button type="submit" class="btn_submit">
+              <span>登録する</span>
+            </button>
+          </div>
+        </form>
+        <a href="login">ログインページに戻る</a>
       </div>
-      <div class="btn_area">
-        <button type="submit" class="btn_submit">
-          <span>登録する</span>
-        </button>
-      </div>
-    </form>
-    <a href="login">ログインページに戻る</a>
+      <div class="col-md-2"></div>
+    </div>
   </div>
   </main>
 
