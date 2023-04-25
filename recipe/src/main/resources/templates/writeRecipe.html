@@ -1,5 +1,6 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content">
+  <link rel="stylesheet" type="text/css" th:href="@{/css/index.css}" />
   <link rel="stylesheet" type="text/css" th:href="@{/css/writeRecipe.css}" />
   <header th:replace="~{header :: headerFragment}"></header>
   <main>
@@ -10,7 +11,7 @@
           <div class="mt-5">
             <nav aria-label="breadcrumb">
               <ol class="breadcrumb">
-                <li class="breadcrumb-item">&nbsp;&nbsp;&nbsp;<a th:href="@{/index}">ホーム</a></li>
+                <li class="breadcrumb-item"><a th:href="@{/index}">ホーム</a></li>
                 <li class="breadcrumb-item active" aria-current="page">レシピ投稿</li>
               </ol>
             </nav>
@@ -291,29 +292,31 @@
                     <h1>作り方</h1>
                   </label>
                   <div th:if="${not #lists.isEmpty(istList)}">
-                    <div class="row justify-content-center" th:each="ist, loop : ${istList}">
-                      <label for="" class="p-2 text-start" th:text="${loop.index + 1 + '番目'}"></label>
-                      <div class="col-md-8 p-2">
+                    <div class="row text-start p-2" th:each="ist, loop : ${istList}">
+                      <label for="" th:text="${loop.index + 1 + '番目'}"></label>
+                      <div class="col-md-8 p-1">
                         <textarea class="form-control" name="description" id="instructions" rows="5"
                           th:text="${ist.description}"></textarea>
                       </div>
-                      <div class="col-md-4">
+                      <div class="col-md-4 ">
                         <label class="label2" id="label2" for="input2_${loop.index+1}">
                           <!-- Drag N Drop Icon -->
-                          <div class="inner2" id="inner2">
-                            <img th:src="@{|\uploaded\${ist.imgUrl}|}" th:classappend="'dragicon2_' + ${loop.index + 1}"
-                              alt="" th:if="${ist.imgUrl != null}">
+                          <div class="inner2  p-2" id="inner2">
                             <!-- イメージ preview-->
-                            <div class="preview2" th:id="'preview2_' + ${loop.index}" ></div>
+                            <div class="preview2" id="recipe_image" th:id="'preview2_' + ${loop.index}" >
+                              <img class="img-fluid recipe_image border border-secondary rounded"  th:if="${ist.imgUrl}"
+                                   th:src="@{|/uploaded/${ist.imgUrl}|}" th:onerror="setDefaultImage(this)"/>
+                            </div>
+                            <img th:src="@{/assets/icon/dragndrop.png}" class="dragicon img-fluid border border-secondary rounded" alt=""
+                                 th:classappend="${ist.imgUrl} ? 'hidden' : ''"  >
                           </div>
                         </label>
-                        <input th:id="'input2_' + ${loop.index+1}" class="input2" accept="image/*" type="file"
-                          name="imgUrl" required="true" multiple="true" hidden="true"
-                          onchange="handleImageUpload(this)">
+
+                        <input th:id="'input2_' + ${loop.index+1}" class="input2" accept="image/*" type="file" name="imgUrl" required="true"
+                               multiple="true" hidden="true" data-section-id="1">
                       </div>
                     </div>
                   </div>
-
                   <div th:if="${#lists.isEmpty(istList)}">
                     <div class="row justify-content-center" id="section1">
                       <div class="d-flex align-items-center">
@@ -327,7 +330,8 @@
                         <label class="label2" for="input2_1">
                           <div class="inner2">
                             <img src="/assets/icon/dragndrop.png" class="dragicon2_1" alt="">
-                            <div class="preview2" id="preview2_1"></div>
+                            <div class="preview2" id="preview2_1">
+                            </div>
                           </div>
                         </label>
                         <input id="input2_1" class="input2" accept="image/*" type="file" name="imgUrl" required="true"
