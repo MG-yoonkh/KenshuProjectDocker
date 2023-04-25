@@ -11,6 +11,7 @@
                         <a class="nav-link" th:href="@{/admin}">サイト管理</a>
                         <a class="nav-link" th:href="@{/admin/user}">ユーザー管理</a>
                         <a class="nav-link" th:href="@{/admin/recipe}">レシピ管理</a>
+                        <a class="nav-link" th:href="@{/admin/adminright}">権限変更</a>
                     </nav>
                 </div>
                 <div class="col-md-10">
@@ -32,37 +33,51 @@
                                 <div class="row p-5"></div>
                                 <h3><span th:text="${totalRecipeCount + '個'}"></span></h3>
                             </div>
+                        </div>
+                        <div class="row justify-content-center p-5">
+                            <div class="col-md-8">
+                                <hr>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center">
                             <!-- レシピ修正、削除 -->
                             <div class="col-md-6">
                                 <div class="row justify-content-center">
-                                    <h1>レシピ情報修正、削除</h1>
-                                    <table>
+                                    <h1 class="p-3">レシピ削除</h1>
+                                    <table class="table table-striped border rounded">
                                         <tr>
                                             <th><h4>id</h4></th>
                                             <th><h4>レシピ前</h4></th>
                                             <th><h4>削除</h4></th>
                                         </tr>
-                                        <div th:each="recipe : ${recipes}">
-                                            <tr>
-                                                <h5><td th:text="${recipe.id}"></td></h5>
-                                                <h5><td th:text="${recipe.recipeName}"></td></h5>
-                                                <td>
-                                                    <form th:action="@{'/admin/recipe/' + ${recipe.id}}" method="post">
-                                                        <button type="submit">削除</button>
-                                                    </form>
-                                                </td>
-                                            </tr>
-                                        </div>
+                                        <tr th:each="recipe : ${recipes}">
+                                            <td th:text="${recipe.id}"></td>
+                                            <td th:text="${recipe.recipeName}"></td>
+                                            <td>
+                                                <form th:action="@{'/admin/recipe/' + ${recipe.id}}" method="post">
+                                                    <button type="submit">削除</button>
+                                                </form>
+                                            </td>
+                                        </tr>
                                     </table>
+                                    <nav>
+                                        <ul class="pagination justify-content-center">
+                                            <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled' : ''">
+                                                <a class="page-link" th:href="@{'/admin/recipe?page=' + ${currentPage - 1}}" tabindex="-1" aria-disabled="true">&laquo;</a>
+                                            </li>
+                                            <li class="page-item" th:each="page : ${#numbers.sequence(0, totalPages - 1)}" th:classappend="${currentPage == page} ? 'active' : ''">
+                                                <a class="page-link" th:href="@{'/admin/recipe?page=' + ${page}}" th:text="${page + 1}"></a>
+                                            </li>
+                                            <li class="page-item" th:classappend="${currentPage + 1 >= totalPages} ? 'disabled' : ''">
+                                                <a class="page-link" th:href="@{'/admin/recipe?page=' + ${currentPage + 1}}">&raquo;</a>
+                                            </li>
+                                        </ul>
+                                    </nav>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="row p-5"></div>
-                <div class="row p-5"></div>
-                <div class="row p-5"></div>
-                <div class="row p-5"></div>
             </div>
         </div>
     </main>

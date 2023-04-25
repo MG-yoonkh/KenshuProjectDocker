@@ -25,26 +25,32 @@
 # 3. プロジェクトの設置および実行方法
 
 * ローカルに設置する場合
- 1. jdk17の設置 : OracleのJDK17をダウンロード ( https://download.oracle.com/java/17/latest/jdk-17_windows-x64_bin.exe )し、インストールする。
- 2. PATH設定 : Windowsのシステム詳細設定 - 環境変数 - システム環境変数の新規 - 変数名：JAVA_HOME、変数値：JAVAのディレクトリを入力 - OK - システム環境変数のpathをダブルクリック - 新規 - %JAVA_HOME%\bin\ を入力 - 上へをクリックし、一番上まで上げる - ok
- 3. MySQL8.0設置 : mysqlのダウンロードページに接続 - 8.0.32バージョンのインストーラーをダウンロード(https://downloads.mysql.com/archives/installer/) - インストールする。
- 4. IntelliJ設置 : IntelliJのダウンロードページに接続(https://www.jetbrains.com/idea/download/#section=windows) - Ultimate(有料) or Community(無料)をダウンロード - インストールする。
- 5. MySQLWorkbenchを開き、新規コネクションを作って'Recipe' Databaseを生成する。(CREATE DATABASE Recipe;)
- 6. プロジェクトをzipファイルでダウンロードし、管理しやすい経路に展開
- 4. IntelliJを開けて、recipe - build.gradleを開ける。
- 5. IntelliJのFile - project structureでJAVAのバージョンを17に設定
- 6. recipe - src - main - java - RecipeApplicationを実行する。
- 7. DATAフォルダのcsvファイルをMySQLにインポートする。
- 8. localhost:8080に接続する。
+ 1. jdk17の設置 : OracleのJDK17をダウンロードし、インストールする。  
+ [java17ダウンロード](https://download.oracle.com/java/17/latest/jdk-17_windows-x64_bin.exe)
+ 3. PATH設定 : Windowsのシステム詳細設定 - 環境変数 - システム環境変数の新規 - 変数名：JAVA_HOME、変数値：JAVAのディレクトリを入力 - OK - システム環境変数のpathをダブルクリック - 新規 - %JAVA_HOME%\bin\ を入力 - 上へをクリックし、一番上まで上げる - ok
+ 4. MySQL8.0設置 : mysqlのダウンロードページに接続 - 8.0.32バージョンのインストーラーをダウンロード - インストールする。  
+ [MySQL8.0ダウンロード](https://downloads.mysql.com/archives/installer/)
+ 6. IntelliJ設置 : IntelliJのダウンロードページに接続 - Ultimate(有料) or Community(無料)をダウンロード - インストールする。  
+ [IntelliJダウンロード](https://www.jetbrains.com/idea/download/#section=windows)
+ 8. MySQLWorkbenchを開き、新規コネクションを作って'Recipe' Databaseを生成する。(CREATE DATABASE Recipe;)
+ 9. プロジェクトをzipファイルでダウンロードし、管理しやすい経路に展開
+ 10. IntelliJを開けて、recipe - build.gradleを開ける。
+ 11. IntelliJのFile - project structureでJAVAのバージョンを17に設定
+ 12. recipe - src - main - java - RecipeApplicationを実行する。
+ 13. DATAフォルダのcsvファイルをMySQLにインポートする。
+ 14. localhost:8080に接続する。
+
+
 
 * Dockerを使う場合
- 1. Docker desktopを設置する
- 2. Docker desktopを実行する。
- 3. プロジェクトをzipファイルでダウンロードし、管理しやすい経路で展開する。
- 4. プロジェクトのrecipeフォルダでcmdを実行する。
- 5. gradlew.bat clean build を入力する。
- 6. docker-compose up --build を入力する。
- 7. ブラウザを開き、localhost:8080に接続する。
+ 1. Docker desktopを設置する  
+ [Docker desktop ダウンロード](https://www.docker.com/products/docker-desktop/)
+ 3. Docker desktopを実行する。
+ 4. recipetarfile.zipファイルをダウンロードする。  
+ [recipetarfile.zip ダウンロード](https://drive.google.com/file/d/16TcQ87fWujOzH8VApu2gG5aMpw_-7Pdx/view?usp=share_link)
+ 6. recipetarfile.zipファイルを展開し、recipetarfileフォルダの内でcmdを開け、docker load -i recipe.tarを入力する。
+ 7. docker-compose up -dを入力する。
+ 8. ブラウザを開き、localhost:8080に接続する。
  
 
 

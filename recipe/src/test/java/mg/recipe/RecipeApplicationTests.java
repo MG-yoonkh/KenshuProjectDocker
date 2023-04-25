@@ -11,12 +11,12 @@ import mg.recipe.recipe.RecipeRepository;
 //import mg.recipe.user.UserRepository;
 import mg.recipe.recipe.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+//import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@SpringBootTest
+//@SpringBootTest
 class RecipeApplicationTests {
     @Autowired
     private RecipeRepository recipeRepository;
@@ -26,6 +26,9 @@ class RecipeApplicationTests {
     private InstructionRepository instructionRepository;
     @Autowired
     private IngredientRepository ingredientRepository;
+
+
+
 
 //    @Test
 //    void testJpa(){
@@ -213,5 +216,4 @@ class RecipeApplicationTests {
 //        assertEquals(1, answerList.size());
 //        assertEquals("네 자동으로 생성됩니다.", answerList.get(0).getContent());
 //    }
-
 }
