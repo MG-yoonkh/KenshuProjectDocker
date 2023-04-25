@@ -396,7 +396,8 @@ public class RecipeController {
         System.out.println("1: " + recipeForm.getRecipeName());
         System.out.println("2: " + recipeForm.getCategory());
         System.out.println("3: " + recipeForm.getThumbnail());
-        System.out.println("4: " + descriptionList.toString());
+//        System.out.println("4: " + descriptionList[1]);
+        System.out.println("5: " + recipeForm.getVideoUrl());
 
         // JSON文字列をJavaオブジェクトに変換する
         ObjectMapper objectMapper = new ObjectMapper();

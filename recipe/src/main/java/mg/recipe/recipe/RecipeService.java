@@ -101,20 +101,21 @@ public class RecipeService {
 
     public void modify(Recipe recipe, @Valid RecipeForm recipeForm){
         recipe.setRecipeName(recipeForm.getRecipeName());
-        recipe.setThumbnail(recipeForm.getThumbnail());
+        if(recipeForm.getThumbnail() != null) {
+            recipe.setThumbnail(recipeForm.getThumbnail());
+        }
         recipe.setBudget(recipeForm.getBudget());
         recipe.setCategory(recipeForm.getCategory());
         recipe.setCookTime(recipeForm.getCookTime());
-        recipe.setVideoUrl(recipeForm.getVideoUrl());
+
         recipe.setModifyDate(LocalDateTime.now());
+
+        String videoUrl = recipeForm.getVideoUrl();
+        String videoId = extractVideoIdFromUrl(videoUrl);
+        recipe.setVideoUrl(videoId);
+
         this.recipeRepository.save(recipe);
     }
-
-//    public void modify(Recipe recipe, @Valid String recipeName){
-//        recipe.setRecipeName(recipeName);
-//        recipe.setModifyDate(LocalDateTime.now());
-//        this.recipeRepository.save(recipe);
-//    }
 
     public void delete(Recipe recipe) {
         this.recipeRepository.delete(recipe);
