@@ -31,7 +31,6 @@ public class RecipeIngredientController {
     public List<RecipeIngredient> getRiList(@RequestParam("recipeId") Integer id, Model model) {
         try {
             Recipe recipe = this.recipeService.getRecipe(id);
-            // retrieve the riList data
             List<RecipeIngredient> riList = this.recipeIngredientService.getAllIngredient(recipe);
             if (riList != null) {
                 for (int i = 0; i < riList.size(); i++) {

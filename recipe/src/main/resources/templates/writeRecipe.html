@@ -258,10 +258,14 @@
                         <tr th:each="ing, loop : ${riList}">
                           <th scope="row"></th>
                           <td th:text="${ing.ingredient.name}"></td>
+                          <td th:text="${ing.ingredient.category.name}"></td>
+
+
                           <td th:text="${ing.quantity}"></td>
                           <td th:text="${ing.measurementUnit.name}"></td>
                         </tr>
                       </tbody>
+
                     </table>
                   </button>
                 </div>
@@ -293,7 +297,7 @@
                             <img th:src="@{|\uploaded\${ist.imgUrl}|}" th:classappend="'dragicon2_' + ${loop.index + 1}"
                               alt="" th:if="${ist.imgUrl != null}">
                             <!-- イメージ preview-->
-                            <div class="preview2" th:id="'preview2_' + ${loop.index}"></div>
+                            <div class="preview2" th:id="'preview2_' + ${loop.index}" ></div>
                           </div>
                         </label>
                         <input th:id="'input2_' + ${loop.index+1}" class="input2" accept="image/*" type="file"
