@@ -159,6 +159,11 @@
   border: 3px dashed black;
 }
 
+.youtube-icon {
+  max-width: 50px;
+  max-height: 50px;
+}
+
 .hidden {
   display: none;
 }

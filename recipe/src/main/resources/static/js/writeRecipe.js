@@ -729,10 +729,17 @@ document.getElementById('writeForm').addEventListener('submit', function (evt) {
     }
     var savedListData = localStorage.getItem('savedList');
     savedList = savedListData ? JSON.parse(savedListData) : [];
-console.log('form submit 데이터: '+savedListData);
+    console.log('form submit 데이터: '+savedListData);
+
     // savedListをJSON.stringにして、input hiddenに入れる
     $('#send-list-input').val(JSON.stringify(savedList));
+
+    var ist = document.getElementById("input2_1").value;
+    if(confirm(ist)) {
     this.submit();
+    }
+
+
 })
 
 

@@ -32,7 +32,19 @@ public class InstructionService {
     }
 
     public void create(String[] descriptionList, List<String> imgUrlList, Recipe recipe) {
-        // 기존 조리방법 삭제
+        Instruction instruction;
+
+        for (int i = 0; i < imgUrlList.size(); i++) {
+            instruction = new Instruction();
+            instruction.setDescription(descriptionList[i]);
+            instruction.setImgUrl(imgUrlList.get(i).toString());
+            instruction.setRecipe(recipe);
+            this.instructionRepository.save(instruction);
+        }
+    }
+
+    public void modify(String[] descriptionList, List<String> imgUrlList, Recipe recipe) {
+
         List<Instruction> istList = this.instructionRepository.findAllByRecipe(recipe);
         if(!istList.isEmpty()) {
             for (int i = 0; i < istList.size(); i++) {
@@ -45,7 +57,10 @@ public class InstructionService {
         for (int i = 0; i < imgUrlList.size(); i++) {
             instruction = new Instruction();
             instruction.setDescription(descriptionList[i]);
-            instruction.setImgUrl(imgUrlList.get(i).toString());
+            System.out.println("Service imgUrlList.get(i): " + imgUrlList.get(i));
+            if(imgUrlList.get(i) == "") {
+                instruction.setImgUrl(istList.get(i).getImgUrl());
+            }
             instruction.setRecipe(recipe);
             this.instructionRepository.save(instruction);
         }

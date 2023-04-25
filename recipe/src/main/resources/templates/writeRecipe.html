@@ -364,6 +364,10 @@
                 <label class="text-center" for="">
                   <h1>YouTube動画</h1>
                 </label>
+                <a href='https://www.youtube.com/results?search_query=recipe+for+dinner' target='_blank' class="block_none">
+                  <img th:src="@{/assets/icon/youtube.png}" title="" class="youtube-icon" th:onerror="setDefaultImage(this)" />
+                  サイト</a>
+                </a>
                 <div class="col-md-6">
                   <div class="row p-3">
                     <div class="col-md-4">
@@ -373,7 +377,6 @@
                       <input type="text" id="video-url" class="form-control" th:field="*{videoUrl}"
                         placeholder="URL入力" />
                     </div>
-
                   </div>
                   <div class="row mt-3">
                     <div class="col-md-12">

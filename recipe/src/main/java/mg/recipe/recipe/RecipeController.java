@@ -455,13 +455,13 @@ public class RecipeController {
             } else {
                 imgUrlList.add("");
             }
+            System.out.println("imgUrlList: "+imgUrlList.get(i));
         }
 
         // レシピ調理手順の作成
         if (!imgUrlList.isEmpty()) {
-            instructionService.create(descriptionList, imgUrlList, recipe);
+            instructionService.modify(descriptionList, imgUrlList, recipe);
         }
-
 
 
         return String.format("redirect:/recipe/detail/%s", id);
