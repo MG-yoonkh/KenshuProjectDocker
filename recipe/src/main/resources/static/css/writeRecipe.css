@@ -302,7 +302,12 @@
   margin-left: 5px;
 }
 
+.table-ing-index {
+ padding: 12px;
+}
+
 .table-ing-name {
+max-width: 120px;
 
 }
 
@@ -311,10 +316,12 @@
 }
 
 .table-ing-unit {
-  text-align: left;
+  text-align: center;
 }
 
-
+#deleteBtn {
+padding: 15px;
+}
 
 .modal {
   background-color: white;
