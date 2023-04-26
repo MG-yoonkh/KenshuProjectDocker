@@ -737,7 +737,28 @@ document.getElementById('writeForm').addEventListener('submit', function (evt) {
         return false;
     }
 
-    var recipe_image = document.getElementById("input").value;
+    const input = document.getElementById('input');
+    const preview = document.getElementById('preview');
+
+    if (!input.value && preview.querySelector('img')) {
+      const imgSrc = preview.querySelector('img').getAttribute('src');
+      const thumbInput = document.createElement('input');
+      thumbInput.setAttribute('type', 'hidden');
+      thumbInput.setAttribute('id', 'thumbFile2');
+      thumbInput.setAttribute('name', 'thumbFile');
+      thumbInput.setAttribute('value', imgSrc);
+      preview.appendChild(thumbInput);
+    }
+
+    var thumbFile2Input = document.getElementById("thumbFile2");
+    var recipe_image = "";
+
+    if (thumbFile2Input) {
+      recipe_image = thumbFile2Input.value;
+    } else {
+      recipe_image = document.getElementById("preview").querySelector('img').getAttribute('src');
+    }
+
     if(recipe_image == ""){
         alert("レシピのイメージを登録してください。")
         moveToRecipeImageSmooth();
@@ -875,6 +896,10 @@ function handleUpdate(event) {
   const dragIcon = document.querySelector(".dragicon");
 
   const fileList = event.target.files;
+  if (!fileList) {
+    return; // exit the function if no file is selected
+  }
+
   const file = fileList[0];
   const reader = new FileReader();
 

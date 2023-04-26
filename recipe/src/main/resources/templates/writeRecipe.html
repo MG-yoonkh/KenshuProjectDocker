@@ -72,17 +72,18 @@
                         <!-- イメージ preview-->
                         <div class="preview" id="preview">
                           <img class="preview" th:if="${recipeForm.thumbnail}"
-                            th:src="@{|/uploaded/${recipeForm.thumbnail}|}" />
+                            th:src="@{|/uploaded/${recipe.thumbnail}|}" />
                         </div>
                         <img th:src="@{/assets/icon/dragndrop.png}" class="dragicon" alt=""
-                          th:classappend="${recipeForm.thumbnail} ? 'hidden' : ''">
+                          th:classappend="${recipe.thumbnail} ? 'hidden' : ''">
                       </div>
                     </label>
 
                     <!-- イメージファイル thumbFile-->
                     <input id="input" class="input" accept="image/*" type="file" name="thumbFile" required="true"
-                      multiple="true" hidden="true" onchange="handleUpdate(event)"
-                      th:attr="data-thumbnail=${recipeForm.thumbnail}">
+                     multiple="true" hidden="true" onchange="handleUpdate(event)"
+                     th:attr="data-thumbnail=${recipeForm.thumbnail}">
+
                     <h5>ドラッグ＆ドロップで登録</h5>
                   </div>
                 </div>
