@@ -17,6 +17,13 @@ $(document).ready(function () {
     removeAlert("qty");
     removeAlert("unit");
 
+    let ingredientValue = document.querySelector("#ingredient-dropdown").value; // ingredient.id
+    let qtyValue = document.querySelector("#qty-dropdown").value; // quantity
+    let unitValue = document.querySelector("#unit-dropdown").value; // unit.id
+
+    let subCategoryValue = document.querySelector("#sub-category-dropdown").value;
+
+
         // Modal Open
         var modal = document.querySelector('#staticBackdrop');
         $(modal).modal('show');
@@ -122,6 +129,10 @@ $(document).ready(function () {
     $("#main-category-dropdown").change(function () {
 
         removeAlert("main");
+        removeAlert("sub");
+        removeAlert("ingredient");
+        removeAlert("qty");
+        removeAlert("unit");
 
         var ingredientCategoryId = $(this).val();
         $.ajax({
@@ -150,7 +161,7 @@ $(document).ready(function () {
                         $("#sub-category-dropdown").append(option);
                         $("#sub-category-dropdown").attr("disabled", true);
                         dropdownSub(subcategory.id);
-
+                        console.log("dropdownSub run")
                     }
 
                     // 「選択してください」を入れる
@@ -201,12 +212,13 @@ function dropdownSub(categoryId) {
             resetQty();
             resetUnit();
 
-            // 材料をリストに入れる
+            // 材料をリストに入れる subcategory.level == 0 && index == 0
             $.each(response, function (index, ingredient) {
                 if (response.length === 1) {
-                    var option = $("<option>").text(ingredient.name).attr("value", "-");
+                    var option = $("<option>").text(ingredient.name).attr("value", ingredient.id);
                     $("#ingredient-dropdown").append(option);
-                     $("#ingredient-dropdown").attr("disabled", true);
+                    $("#ingredient-dropdown option:last-child").prop("selected", true);
+//                    $("#ingredient-dropdown").attr("disabled", true);
                   } else {
                     // 「選択してください」を入れる
                       if (index == 0) {
@@ -216,6 +228,7 @@ function dropdownSub(categoryId) {
                           var option = $("<option>").text(ingredient.name).attr("value", ingredient.id);
                           $("#ingredient-dropdown").append(option);
                       }
+                      $("#ingredient-dropdown").removeAttr("disabled");
                   }
 
                   removeAlert("sub");
@@ -231,6 +244,7 @@ function dropdownSub(categoryId) {
 $(document).ready(function () {
     $("#ingredient-dropdown").change(function () {
         resetQty();
+        $("#qty-dropdown").removeAttr("disabled");
         resetUnit();
         removeAlert("ingredient");
     });
@@ -238,6 +252,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
     $("#qty-dropdown").change(function () {
+        $("#unit-dropdown").removeAttr("disabled");
         removeAlert("qty");
     });
 });
@@ -252,11 +267,13 @@ $(document).ready(function () {
 savedList = JSON.parse(localStorage.getItem('savedList')) || [];
 
 document.querySelector("#reset-button").addEventListener("click", function () {
+
     resetMain()
     resetSub();
     resetIng();
     resetUnit();
     resetQty();
+
 });
 
 
@@ -266,9 +283,7 @@ document.querySelector("#add-button").addEventListener("click", function () {
     // 出力用
     let mainCategory = document.querySelector("#main-category-dropdown option:checked").textContent;
     let subCategory = document.querySelector("#sub-category-dropdown option:checked").textContent;
-    $("#sub-category-dropdown").removeAttr("disabled");
     let ingredient = document.querySelector("#ingredient-dropdown option:checked").textContent;
-    $("#ingredient-dropdown").removeAttr("disabled");
     let qty;
 
 
@@ -293,6 +308,7 @@ document.querySelector("#add-button").addEventListener("click", function () {
     let ingredientAlert = document.querySelector(".ingredientAlert");
     let qtyAlert = document.querySelector(".qtyAlert");
     let unitAlert = document.querySelector(".unitAlert");
+
 
     if (mainCategoryValue === "") {
       if (!mainAlert.querySelector("label")) {
@@ -338,7 +354,10 @@ document.querySelector("#add-button").addEventListener("click", function () {
             unitLabel.style.color = "red";
             document.querySelector(".unitAlert").appendChild(unitLabel);
         }
-        return;
+    }
+
+    if (mainCategoryValue === "" || subCategoryValue === "" || ingredientValue === "" || qtyValue === "" || unitValue === "") {
+      return false;
     }
 
     // Object: selectedItemsに保存
@@ -607,17 +626,18 @@ function paintListOnMain(commonList, listElement) {
 function resetMain() {
     $("#main-category-dropdown option:first").prop("selected", true);
 }
-
 // 詳細カテゴリーをリセット
 function resetSub() {
     $("#sub-category-dropdown").empty();
     $("#sub-category-dropdown").append($("<option>").text("選択してください").attr("value", "").attr("disabled", true).attr("selected", true).attr("hidden", true));
+    document.querySelector("#sub-category-dropdown").disabled = true;
 }
 
 // 材料をリストをリセット
 function resetIng() {
     $("#ingredient-dropdown").empty();
     $("#ingredient-dropdown").append($("<option>").text("選択してください").attr("value", "").attr("disabled", true).attr("selected", true).attr("hidden", true));
+    document.querySelector("#ingredient-dropdown").disabled = true;
 }
 
 // 容量をリストをリセット
@@ -631,12 +651,14 @@ function resetQty() {
         }
     });
     $("#qty-dropdown option:first").prop("selected", true);
+    document.querySelector("#qty-dropdown").disabled = true;
 }
 
 
 // 単位をリストをリセット
 function resetUnit() {
     $("#unit-dropdown option:first").prop("selected", true);
+    document.querySelector("#unit-dropdown").disabled = true;
 }
 
 // 材料を削除

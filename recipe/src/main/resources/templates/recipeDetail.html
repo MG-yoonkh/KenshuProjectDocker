@@ -7,8 +7,8 @@
   <script type="text/javascript" th:src="@{/js/loading.js}"></script>
   <script type="text/javascript" th:src="@{/js/recipeInfo.js}"></script>
   <header th:replace="~{header :: headerFragment}"></header>
-  <main>
-    <div class="container-fluid text-center">
+  <main id="top">
+    <div class="container-fluid text-center" >
       <div id="test_obj">
 <!--        <button class="btn scroll-btn" onclick="moveToTopSmooth()">レシピのタイトル</button>-->
 <!--        <button class="btn scroll-btn" onclick="moveToRecipeImageSmooth()">レシピの写真</button>-->
@@ -30,6 +30,7 @@
            class="delete btn scroll-btn sub-btn" sec:authorize="isAuthenticated()"
            th:if="${recipe.author != null and #authentication.getPrincipal().getUsername() == recipe.author.username}"
            th:text="削除"></a>
+        <button class="btn scroll-btn" onclick="moveToTopSmooth()">トップに戻る</button>
       </div>
       <div class="row">
         <div class="col-sm-2">
