@@ -317,3 +317,35 @@
 .modal-content {
   background-color: white;
 }
+
+#test_obj {
+    position: absolute;
+    width: 135px;
+    height: 200px;
+    right: 130px;
+    border-radius: 10px;
+    top: 150px;
+    bottom: 150px;
+    padding: 10px;
+    transition: top 0.2s ease-out;
+}
+
+.scroll-btn {
+  background-color:#f4511e;
+  border: none;
+  color: white;
+  padding: 13px 32px;
+  text-align: center;
+  font-size: 16px;
+  margin: 4px 2px;
+  opacity: 0.6;
+  transition: 0.3s;
+  display: inline-block;
+  text-decoration: none;
+  cursor: pointer;
+  width: 191px;
+}
+
+.sub-btn {
+    background-color: #9B91A3;
+}

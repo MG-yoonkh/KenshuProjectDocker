@@ -2,13 +2,24 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content">
   <link rel="stylesheet" type="text/css" th:href="@{/css/index.css}" />
-  <link rel="stylesheet" type="text/css" th:href="@{/css/loading.css}">
+  <link rel="stylesheet" type="text/css" th:href="@{/css/index.css}" />
+  <link rel="stylesheet" type="text/css" th:href="@{/css/writeRecipe.css}">
   <script type="text/javascript" th:src="@{/js/loading.js}"></script>
   <header th:replace="~{header :: headerFragment}"></header>
   <main>
     <div class="container-fluid text-center">
+      <div id="test_obj">
+        <button class="btn scroll-btn" onclick="moveToTopSmooth()">レシピのタイトル</button>
+        <button class="btn scroll-btn" onclick="moveToRecipeImageSmooth()">レシピの写真</button>
+        <button class="btn scroll-btn" onclick="moveToRecipeCategorySmooth()">カテゴリ・時間・予算</button>
+        <button class="btn scroll-btn" onclick="moveToRecipeIngredientSmooth()">材料</button>
+        <button class="btn scroll-btn" onclick="moveToRecipeInstructionSmooth()">作り方</button>
+        <button class="btn scroll-btn" onclick="moveToBottomSmooth()">YouTube</button>
+        <button class="btn scroll-btn sub-btn">
+          投稿
+        </button>
+      </div>
       <div class="row">
-
         <div class="col-sm-2">
           <div class="row p-5"></div>
           <!-- カテゴリー -->

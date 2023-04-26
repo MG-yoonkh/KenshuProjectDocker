@@ -5,6 +5,17 @@
   <header th:replace="~{header :: headerFragment}"></header>
   <main>
     <div class="container-fluid">
+      <div id="test_obj">
+        <button class="btn scroll-btn" onclick="moveToTopSmooth()">レシピのタイトル</button>
+        <button class="btn scroll-btn" onclick="moveToRecipeImageSmooth()">レシピの写真</button>
+        <button class="btn scroll-btn" onclick="moveToRecipeCategorySmooth()">カテゴリ・時間・予算</button>
+        <button class="btn scroll-btn" onclick="moveToRecipeIngredientSmooth()">材料</button>
+        <button class="btn scroll-btn" onclick="moveToRecipeInstructionSmooth()">作り方</button>
+        <button class="btn scroll-btn" onclick="moveToBottomSmooth()">YouTube</button>
+        <button class="btn scroll-btn sub-btn">
+          投稿
+        </button>
+      </div>
       <div class="row">
         <div class="col-md-2"></div>
         <div class="col-md-auto">
@@ -22,9 +33,9 @@
               <div th:each="err : ${#fields.allErrors()}" th:text="${err}"></div>
             </div>
             <div class="row justify-content-center p-5">
-              <div class="text-center" id="">
+              <div class="text-center">
                 <h1 class="p-2">レシピを書く</h1>
-                <h6>あなたの家の定番の味、工夫やアイデアをレシピとして記録しよう</h6>
+                <h6 >あなたの家の定番の味、工夫やアイデアをレシピとして記録しよう</h6>
               </div>
             </div>
             <!-- レシピ名入力 -->
@@ -44,7 +55,7 @@
               </div>
             </div>
             <!--  区切り線 -->
-            <div class="row justify-content-center p-5">
+            <div class="row justify-content-center p-5" id="recipe-image">
               <div class="col-md-7">
                 <hr />
               </div>
@@ -80,7 +91,7 @@
 
 
             <!--  区切り線 -->
-            <div class="row justify-content-center p-5">
+            <div class="row justify-content-center p-5" id="recipe-category">
               <div class="col-md-7">
                 <hr />
               </div>
@@ -123,7 +134,7 @@
                 <label for="" class="p-2">
                   <h3>予算</h3>
                 </label>
-                <div class="col-md-auto">
+                <div class="col-md-auto" id="recipe-ingredient">
                   <select class="form-select" th:field="*{budget}" id="write_budget">
                     <option value="100" selected>100円以内</option>
                     <option value="500">101~500円</option>
@@ -137,7 +148,7 @@
             </div>
             <!--  区切り線 -->
             <div class="row justify-content-center p-5" id="ing-tag">
-              <div class="col-md-7">
+              <div class="col-md-7" >
                 <hr />
               </div>
             </div>
@@ -242,10 +253,10 @@
                 <!-- Modal Button -->
                 <div class="modal-div">
                   <button type="button" class="btn modal-ing" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                    <span class="modal-ing-content">クリックして材料をのせる</span>
+                    <span class="modal-ing-content" >クリックして材料をのせる</span>
                     <div>
                     </div>
-                    <table class="table">
+                    <table class="table"  id="recipe-instruction">
                       <thead>
                         <tr>
                           <th scope="col"></th>
@@ -298,22 +309,18 @@
                         <textarea class="form-control" name="description" id="instructions" rows="5"
                           th:text="${ist.description}"></textarea>
                       </div>
-                      <div class="col-md-4 ">
-                        <label class="label2" id="label2" for="input2_${loop.index+1}">
-                          <!-- Drag N Drop Icon -->
-                          <div class="inner2  p-2" id="inner2">
-                            <!-- イメージ preview-->
-                            <div class="preview2" id="recipe_image" th:id="'preview2_' + ${loop.index}" >
+                      <div class="col-md-4">
+                        <label class="label2" th:for="'input2_' + ${loop.index+1}">
+                          <div class="inner2">
+                            <img th:src="@{/assets/icon/dragndrop.png}" class="dragicon2_1" alt="" th:classappend="${ist.imgUrl} ? 'hidden' : ''" >
+                            <div class="preview2" th:id="'preview2_' + ${loop.index+1}">
                               <img class="img-fluid recipe_image border border-secondary rounded"  th:if="${ist.imgUrl}"
                                    th:src="@{|/uploaded/${ist.imgUrl}|}" th:onerror="setDefaultImage(this)"/>
                             </div>
-                            <img th:src="@{/assets/icon/dragndrop.png}" class="dragicon img-fluid border border-secondary rounded" alt=""
-                                 th:classappend="${ist.imgUrl} ? 'hidden' : ''"  >
                           </div>
                         </label>
-
                         <input th:id="'input2_' + ${loop.index+1}" class="input2" accept="image/*" type="file" name="imgUrl" required="true"
-                               multiple="true" hidden="true" data-section-id="1">
+                               multiple="true" hidden="true" th:data-section-id="1">
                       </div>
                     </div>
                   </div>
@@ -343,7 +350,7 @@
                     <div id="dynamic-section"></div>
 
                     <!-- 追加 Button -->
-                    <div class="row text-start">
+                    <div class="row text-start" id="recipe-youtube">
                       <div class="col-md-3 text-start">
                         <button type="button" class="btn btn-secondary" id="add-section-btn">
                           追加
@@ -398,7 +405,7 @@
               </div>
               <!--  投稿 button -->
               <div class="row justify-content-center">
-                <button type="submit" class="btn btn-secondary col col-md-1">
+                <button type="submit" class="btn btn-secondary col col-md-1 submit-btn">
                   投稿
                 </button>
               </div>

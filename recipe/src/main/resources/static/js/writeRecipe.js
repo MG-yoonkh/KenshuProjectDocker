@@ -669,7 +669,10 @@ function getDataFromLocalStorageAndDisplay() {
     listElement.innerHTML = "";
     if (savedList) {
         paintListOnMain(savedList, listElement);
-        document.getElementById("riListTable").style.display = "none";
+        var riListTable = document.getElementById("riListTable");
+        if(riListTable) {
+            riListTable.style.display = "none";
+        }
     }
 }
 
@@ -697,10 +700,30 @@ if (imgFile) {
     });
 }
 
+function scrollToElementSmooth(id) {
+  document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+}
+
+const moveToTopSmooth = () => scrollToElementSmooth('top');
+const moveToRecipeTitleSmooth = () => scrollToElementSmooth('recipe-title');
+const moveToRecipeImageSmooth = () => scrollToElementSmooth('recipe-image');
+const moveToRecipeCategorySmooth = () => scrollToElementSmooth('recipe-category');
+const moveToRecipeIngredientSmooth = () => scrollToElementSmooth('recipe-ingredient');
+const moveToRecipeInstructionSmooth = () => scrollToElementSmooth('recipe-instruction');
+const moveToBottomSmooth = () => scrollToElementSmooth('recipe-youtube');
 
 
+//var moveToBottomSmooth = function() {
+//  window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+//};
 
-
+$(document).ready(function() {
+  // Handle click event on the first button
+  $(".sub-btn").click(function() {
+    // Trigger a click event on the submit button
+    $(".submit-btn").click();
+  });
+});
 
 
 // writeFormSubmitの前
@@ -710,16 +733,33 @@ document.getElementById('writeForm').addEventListener('submit', function (evt) {
     var recipeName = document.getElementById("floatingInput").value;
     if(recipeName == ""){
         alert("レシピ名を入力してください。")
+        moveToTopSmooth();
         return false;
     }
+
     var recipe_image = document.getElementById("input").value;
     if(recipe_image == ""){
         alert("レシピのイメージを登録してください。")
+        moveToRecipeImageSmooth();
         return false;
     }
+
+    var savedListData = localStorage.getItem('savedList');
+    savedList = savedListData ? JSON.parse(savedListData) : [];
+
+    if(savedListData == null) {
+        alert("レシピの材料を登録してください。");
+        moveToRecipeIngredientSmooth();
+        return false;
+    } else {
+        // savedListをJSON.stringにして、input hiddenに入れる
+        $('#send-list-input').val(JSON.stringify(savedList));
+    }
+
     var instructions = document.getElementById("instructions").value;
     if(instructions == ""){
-        alert("作り方を入力してください。")
+        alert("作り方を入力してください。");
+        moveToRecipeInstructionSmooth();
         return false;
     }
 
@@ -729,25 +769,28 @@ document.getElementById('writeForm').addEventListener('submit', function (evt) {
     if(videoUrl != ""){
         if(!pattern.test(videoUrl)){
                 alert("正しいURLを入力してください。")
+                moveToBottomSmooth();
                 return false;
         }
     }
-    var savedListData = localStorage.getItem('savedList');
-    savedList = savedListData ? JSON.parse(savedListData) : [];
-    console.log('form submit 데이터: '+savedListData);
-
-    // savedListをJSON.stringにして、input hiddenに入れる
-    $('#send-list-input').val(JSON.stringify(savedList));
 
     var ist = document.getElementById("input2_1").value;
-    if(confirm(ist)) {
-    this.submit();
+    if(confirm('投稿しますか')) {
+        this.submit();
     }
-
-
 })
 
 
+    $(document).ready(function () {
+        var tmp = parseInt($("#test_obj").css('top'));
+
+        $(window).scroll(function () {
+            var scrollTop = $(window).scrollTop();
+            var obj_position = scrollTop + tmp + "px";
+
+            $("#test_obj").css("top", obj_position);
+        }).scroll();
+    });
 
 
 
