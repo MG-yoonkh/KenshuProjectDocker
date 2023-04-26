@@ -801,11 +801,6 @@ document.getElementById('writeForm').addEventListener('submit', function (evt) {
         return false;
     }
 
-    var imgUrl1 = document.getElementById("input2_1").value;
-    console.log('imgUrl1: '+imgUrl1);
-    var imgUrl2 = document.getElementById("input2_2").value;
-        console.log('imgUrl2: '+imgUrl2);
-
     var videoUrl = document.getElementById("video-url").value;
     console.log(videoUrl);
     var pattern = /^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$/;
