@@ -921,77 +921,13 @@ document.getElementById('writeForm').addEventListener('submit', function (evt) {
 
 
 
+const label = document.getElementById("label");
+const input = document.getElementById("input");
+const preview = document.getElementById("preview");
+const dragIcon = document.querySelector(".dragicon");
 
-
-
-
-
-
-
-
-var input = document.getElementById("input");
-var initLabel = document.getElementById("label");
-
-input.addEventListener("change", (event) => {
-    const files = changeEvent(event);
-    handleUpdate(files);
-});
-
-initLabel.addEventListener("mouseover", (event) => {
-    event.preventDefault();
-    const label = document.getElementById("label");
-    label?.classList.add("label--hover");
-});
-
-initLabel.addEventListener("mouseout", (event) => {
-    event.preventDefault();
-    const label = document.getElementById("label");
-    label?.classList.remove("label--hover");
-});
-
-initLabel.addEventListener("dragenter", (event) => {
-    event.preventDefault();
-    console.log("dragenter");
-    const label = document.getElementById("label");
-    label?.classList.add("label--hover");
-});
-
-initLabel.addEventListener("dragover", (event) => {
-    console.log("dragover");
-    event.preventDefault();
-});
-
-initLabel.addEventListener("dragleave", (event) => {
-    event.preventDefault();
-    console.log("dragleave");
-    const label = document.getElementById("label");
-    label?.classList.remove("label--hover");
-});
-
-initLabel.addEventListener("drop", (event) => {
-    event.preventDefault();
-    console.log("drop");
-    const label = document.getElementById("label");
-    label?.classList.remove("label--hover");
-    const files = event.dataTransfer?.files;
-    handleUpdate([...files]);
-});
-
-function changeEvent(event) {
-    const { target } = event;
-    return [...target.files];
-};
-
-function handleUpdate(event) {
-  const preview = document.getElementById("preview");
-  const dragIcon = document.querySelector(".dragicon");
-
-  const fileList = event.target.files;
-  if (!fileList) {
-    return; // exit the function if no file is selected
-  }
-
-  const file = fileList[0];
+function handleFiles(files) {
+  const file = files[0];
   const reader = new FileReader();
 
   reader.addEventListener("load", (event) => {
@@ -1011,40 +947,248 @@ function handleUpdate(event) {
   reader.readAsDataURL(file);
 }
 
-
-function el(nodeName, attributes, ...children) {
-    const node =
-        nodeName === "fragment"
-            ? document.createDocumentFragment()
-            : document.createElement(nodeName);
-
-    Object.entries(attributes).forEach(([key, value]) => {
-        if (key === "events") {
-            Object.entries(value).forEach(([type, listener]) => {
-                node.addEventListener(type, listener);
-            });
-        } else if (key in node) {
-            try {
-                node[key] = value;
-            } catch (err) {
-                node.setAttribute(key, value);
-            }
-        } else {
-            node.setAttribute(key, value);
-        }
-    });
-
-    children.forEach((childNode) => {
-        if (typeof childNode === "string") {
-            node.appendChild(document.createTextNode(childNode));
-        } else {
-            node.appendChild(childNode);
-        }
-    });
-
-    return node;
+function handleInputChange(event) {
+  const files = event.target.files;
+  if (!files) {
+    return;
+  }
+  handleFiles(files);
 }
 
+function handleDragEnter(event) {
+  event.preventDefault();
+  label.classList.add("label--hover");
+}
+
+function handleDragOver(event) {
+  event.preventDefault();
+}
+
+function handleDragLeave(event) {
+  event.preventDefault();
+  label.classList.remove("label--hover");
+}
+
+function handleDrop(event) {
+  event.preventDefault();
+  label.classList.remove("label--hover");
+  const files = event.dataTransfer.files;
+  if (!files) {
+    return;
+  }
+  handleFiles(files);
+}
+
+input.addEventListener("change", handleInputChange);
+
+label.addEventListener("mouseover", (event) => {
+  event.preventDefault();
+  label.classList.add("label--hover");
+});
+
+label.addEventListener("mouseout", (event) => {
+  event.preventDefault();
+  label.classList.remove("label--hover");
+});
+
+label.addEventListener("dragenter", handleDragEnter);
+
+label.addEventListener("dragover", handleDragOver);
+
+label.addEventListener("dragleave", handleDragLeave);
+
+label.addEventListener("drop", handleDrop);
+
+
+function el(nodeName, attributes, ...children) {
+  const node =
+    nodeName === "fragment"
+      ? document.createDocumentFragment()
+      : document.createElement(nodeName);
+
+  Object.entries(attributes).forEach(([key, value]) => {
+    if (key === "events") {
+      Object.entries(value).forEach(([type, listener]) => {
+        node.addEventListener(type, listener);
+      });
+    } else if (key in node) {
+      try {
+        node[key] = value;
+      } catch (err) {
+        node.setAttribute(key, value);
+      }
+    } else {
+      node.setAttribute(key, value);
+    }
+  });
+
+  children.forEach((childNode) => {
+    if (typeof childNode === "string") {
+      node.appendChild(document.createTextNode(childNode));
+    } else {
+      node.appendChild(childNode);
+    }
+  });
+
+  if (nodeName === "input" && attributes.type === "file") {
+    const sectionId = attributes["data-section-id"];
+    const inputId = `input${sectionId}_${Math.floor(Math.random() * 100)}`;
+    const label = node.parentElement;
+    const preview = label.querySelector(".preview2");
+    const dragIcon = label.querySelector(".dragicon2_1");
+
+    label.addEventListener("dragover", (event) => {
+      event.preventDefault();
+    });
+
+    label.addEventListener("dragenter", (event) => {
+      event.preventDefault();
+      label.classList.add("dragover");
+    });
+
+    label.addEventListener("dragleave", (event) => {
+      event.preventDefault();
+      label.classList.remove("dragover");
+    });
+
+    // add handleDrop listener to label element
+    label.addEventListener("drop", handleDrop);
+
+    const input = node;
+    input.id = inputId;
+    input.addEventListener("change", (event) => {
+      const files = event.target.files;
+      if (!files) {
+        return;
+      }
+      handleFiles(files);
+    });
+  }
+
+  return node;
+}
+
+
+
+
+
+//
+//
+//var input = document.getElementById("input");
+//var initLabel = document.getElementById("label");
+//
+//input.addEventListener("change", (event) => {
+//    const files = changeEvent(event);
+//    handleUpdate(files);
+//});
+//
+//initLabel.addEventListener("mouseover", (event) => {
+//    event.preventDefault();
+//    const label = document.getElementById("label");
+//    label?.classList.add("label--hover");
+//});
+//
+//initLabel.addEventListener("mouseout", (event) => {
+//    event.preventDefault();
+//    const label = document.getElementById("label");
+//    label?.classList.remove("label--hover");
+//});
+//
+//initLabel.addEventListener("dragenter", (event) => {
+//    event.preventDefault();
+//    console.log("dragenter");
+//    const label = document.getElementById("label");
+//    label?.classList.add("label--hover");
+//});
+//
+//initLabel.addEventListener("dragover", (event) => {
+//    console.log("dragover");
+//    event.preventDefault();
+//});
+//
+//initLabel.addEventListener("dragleave", (event) => {
+//    event.preventDefault();
+//    console.log("dragleave");
+//    const label = document.getElementById("label");
+//    label?.classList.remove("label--hover");
+//});
+//
+//initLabel.addEventListener("drop", (event) => {
+//    event.preventDefault();
+//    console.log("drop");
+//    const label = document.getElementById("label");
+//    label?.classList.remove("label--hover");
+//    const files = event.dataTransfer?.files;
+//    handleUpdate([...files]);
+//});
+//
+//function changeEvent(event) {
+//    const { target } = event;
+//    return [...target.files];
+//};
+//
+//function handleUpdate(event) {
+//  const preview = document.getElementById("preview");
+//  const dragIcon = document.querySelector(".dragicon");
+//
+//  const fileList = event.target.files;
+//  if (!fileList) {
+//    return; // exit the function if no file is selected
+//  }
+//
+//  const file = fileList[0];
+//  const reader = new FileReader();
+//
+//  reader.addEventListener("load", (event) => {
+//    const img = document.createElement("img");
+//    img.className = "embed-img";
+//    img.src = event.target.result;
+//
+//    const imgContainer = document.createElement("div");
+//    imgContainer.className = "container-img";
+//    imgContainer.appendChild(img);
+//
+//    preview.innerHTML = ""; // clear any existing preview
+//    preview.appendChild(imgContainer);
+//    dragIcon.style.display = "none";
+//  });
+//
+//  reader.readAsDataURL(file);
+//}
+//
+//
+//function el(nodeName, attributes, ...children) {
+//    const node =
+//        nodeName === "fragment"
+//            ? document.createDocumentFragment()
+//            : document.createElement(nodeName);
+//
+//    Object.entries(attributes).forEach(([key, value]) => {
+//        if (key === "events") {
+//            Object.entries(value).forEach(([type, listener]) => {
+//                node.addEventListener(type, listener);
+//            });
+//        } else if (key in node) {
+//            try {
+//                node[key] = value;
+//            } catch (err) {
+//                node.setAttribute(key, value);
+//            }
+//        } else {
+//            node.setAttribute(key, value);
+//        }
+//    });
+//
+//    children.forEach((childNode) => {
+//        if (typeof childNode === "string") {
+//            node.appendChild(document.createTextNode(childNode));
+//        } else {
+//            node.appendChild(childNode);
+//        }
+//    });
+//
+//    return node;
+//}
 
 $(document).ready(function () {
     // セクションの数を追跡する
@@ -1056,29 +1200,29 @@ $(document).ready(function () {
 
       // 新しいセクションのHTMLを作成する
       var newSection = `
-  <div class="row justify-content-center" id="section${sectionCount}">
-    <div class="d-flex align-items-center">
-      <label for="" class="p-2 text-start section-label">${sectionCount}番目</label>
-      <button type="button" class="btn btn-danger delete-section-btn" data-section-id="${sectionCount}">
-        削除
-      </button>
+    <div class="row justify-content-center" id="section${sectionCount}">
+      <div class="d-flex align-items-center">
+        <label for="" class="p-2 text-start section-label">${sectionCount}番目</label>
+        <button type="button" class="btn btn-danger delete-section-btn" data-section-id="${sectionCount}">
+          削除
+        </button>
+      </div>
+      <div class="col-md-8 p-2">
+        <textarea class="form-control" name="description" id="instructions" rows="5"
+          placeholder="作り方を入力"></textarea>
+      </div>
+      <div class="col-md-4">
+        <label class="label2" for="input2_${sectionCount}">
+          <div class="inner2">
+            <img src="/assets/icon/dragndrop.png" class="dragicon2_${sectionCount} img-fluid recipe_image border border-secondary rounded" alt="">
+            <div class="preview2" id="preview2_${sectionCount}"></div>
+          </div>
+        </label>
+        <input id="input2_${sectionCount}" class="input2" accept="image/*" type="file" name="imgUrl" required="true"
+                            multiple="true" hidden="true" data-section-id="${sectionCount}">
+      </div>
     </div>
-    <div class="col-md-8 p-2">
-      <textarea class="form-control" name="description" id="instructions" rows="5"
-        placeholder="作り方を入力"></textarea>
-    </div>
-    <div class="col-md-4">
-      <label class="label2" for="input2_${sectionCount}">
-        <div class="inner2">
-          <img src="/assets/icon/dragndrop.png" class="dragicon2_${sectionCount} img-fluid recipe_image border border-secondary rounded" alt="">
-          <div class="preview2" id="preview2_${sectionCount}"></div>
-        </div>
-      </label>
-      <input id="input2_${sectionCount}" class="input2" accept="image/*" type="file" name="imgUrl" required="true"
-                          multiple="true" hidden="true" data-section-id="${sectionCount}">
-    </div>
-  </div>
-`;
+  `;
 
       // 新しいセクションのHTMLをフォームに追加する
       $("#dynamic-section").append(newSection);
@@ -1105,45 +1249,35 @@ $(document).ready(function () {
         $(this).text((index + 1) + "番目");
       });
     }
-  });
 
-
-  $(document).on("change", ".input2", function (e) {
-    var input = e.target;
-    if (input.files && input.files[0]) {
-      var file = input.files[0];
-      var reader = new FileReader();
-      reader.onload = function (e) {
-        var dataURL = e.target.result;
-        // Use .closest() method to find the parent section element
-        var section = $(input).closest(".row");
-        // Get the section number from the data-section-id attribute
-        var sectionNum = section.find(".input2").data("section-id");
-        // Set the preview image source of the selected section to the data URL
-        section.find(`#preview2_${sectionNum}`).html('<img src="' + dataURL + '" class="img-fluid recipe_image border border-secondary rounded">');
-        // Hide the dragicon image element of the selected section
-        section.find(`.dragicon2_${sectionNum}`).hide();
-      };
-      reader.readAsDataURL(file);
+    function handleDrop2(event) {
+      event.preventDefault();
+      var sectionId = event.target.dataset.sectionId;
+      var fileList = event.dataTransfer.files;
+      if (fileList.length > 0) {
+        var file = fileList[0];
+        var reader = new FileReader();
+        reader.onload = function (event) {
+          var image = new Image();
+          image.src = event.target.result;
+          image.onload = function () {
+            var preview = document.getElementById(`preview2_${sectionId}`);
+            var dragIcon = document.querySelector(`.dragicon2_${sectionId}`);
+            preview.innerHTML = `
+              <div class="img-preview-container">
+                <img src="${image.src}" alt="preview" class="img-preview" />
+                <button type="button" class="btn btn-sm btn-danger remove-img-btn" data-section-id="${sectionId}">Remove</button>
+              </div>
+            `;
+            dragIcon.style.display = "none";
+          };
+        };
+        reader.readAsDataURL(file);
+      }
     }
-  });
-  
 
-  function handleImageUpload(input) {
-    var files = input.files;
-    var preview = $(input).siblings(".preview2");
-    var sectionNum = $(input).data("section-id");
-  
-    if (files && files[0]) {
-      var reader = new FileReader();
-      reader.onload = function(e) {
-        var dataURL = e.target.result;
-        preview.html('<img src="' + dataURL + '">');
-        preview.siblings(`.dragicon2_${sectionNum}`).hide();
-      };
-      reader.readAsDataURL(files[0]);
-    }
-  }
+
+ });
 
     var ingredientInput = document.getElementById("ingredient");
     checkIngredientList();
