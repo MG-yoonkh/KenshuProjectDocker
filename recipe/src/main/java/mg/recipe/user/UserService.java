@@ -45,15 +45,6 @@ public class UserService {
         return userRepository.existsByUsername(username);
     }
 
-    public SiteUser getUserById(Integer id){
-        Optional<SiteUser> siteUser = this.userRepository.findById(id);
-        if(siteUser.isPresent()){
-            return siteUser.get();
-        } else{
-            throw new DataNotFoundException("ユーザー情報が見つかりません。");
-        }
-    }
-
     public SiteUser getUserByUsername(String username){
         Optional<SiteUser> siteUser = this.userRepository.findByUsername(username);
         if(siteUser.isPresent()){
@@ -61,9 +52,6 @@ public class UserService {
         } else{
             throw new DataNotFoundException("ユーザー情報が見つかりません。");
         }
-    }
-    public List<SiteUser> findAll() {
-        return userRepository.findAll();
     }
 
     public void changeUserRole(Integer userId, UserRole role) {

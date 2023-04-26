@@ -12,6 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -71,5 +72,37 @@ public class UserServiceTest {
         verify(userRepository, times(1)).existsByUsername(existingUsername);
         verify(userRepository, times(1)).existsByUsername(notExistingUsername);
     }
+
+    @Test
+    public void getUserByUsernameTest(){
+
+        String existingUsername = "ExistingUser";
+        String notExistingUsername = "NotExistingUser";
+
+        // データの準備
+        SiteUser existingUser = new SiteUser();
+        existingUser.setUsername(existingUsername);
+        existingUser.setEmail("existing.user@example.com");
+
+        // 動作の設定
+        when(userRepository.findByUsername(existingUsername)).thenReturn(Optional.of(existingUser));
+        when(userRepository.findByUsername(notExistingUsername)).thenReturn(Optional.empty());
+
+        // テスト実行
+        SiteUser retrivedUser = userService.getUserByUsername(existingUsername);
+
+        // 結果の検証
+        assertEquals(existingUser, retrivedUser);
+
+        // リポジトリの呼び出しを確認
+        verify(userRepository, times(1)).findByUsername(existingUsername);
+
+        // 存在しないユーザーに対してException確認
+        assertThrows(DataNotFoundException.class, () -> userService.getUserByUsername(notExistingUsername));
+
+        // リポジトリの呼び出しを確認
+        verify(userRepository, times(1)).findByUsername(notExistingUsername);
+    }
+
 
 }
