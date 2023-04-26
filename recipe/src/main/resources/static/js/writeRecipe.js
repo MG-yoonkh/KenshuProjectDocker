@@ -283,7 +283,17 @@ document.querySelector("#reset-button").addEventListener("click", function () {
 document.querySelector("#add-button").addEventListener("click", function () {
 
     // max check
-
+    // if savedList
+    resetSavedList();
+        var savedListData = localStorage.getItem('savedList');
+        console.log("savedListData check: " + savedListData);
+        savedList = savedListData ? JSON.parse(savedListData) : [];
+        console.log('savedList.length: ' + savedList.length);
+        console.log('savedListData.length: ' + savedListData.length);
+        if (savedListData.length > 11) {
+            alert('材料は10個まで追加できます。')
+            return false;
+        }
 
     // 出力用
     let mainCategory = document.querySelector("#main-category-dropdown option:checked").textContent;
@@ -394,10 +404,7 @@ document.querySelector("#add-button").addEventListener("click", function () {
     console.log('tableBody: '+tableBody);
     tableBody.innerHTML = "";
 
-    // if savedList
-    var savedListData = localStorage.getItem('savedList');
-    console.log("savedListData check: " + savedListData);
-    savedList = savedListData ? JSON.parse(savedListData) : [];
+
     if (savedList.length > 0) {
         paintTableOnModal(savedList, tableBody);
     }
@@ -606,7 +613,12 @@ function paintListOnMain(commonList, listElement) {
         let ingredient = document.createElement("td");
         if (commonList[i].mainCategory) {
             if(commonList[i].subCategory == commonList[i].mainCategory) {
-                ingredient.textContent = commonList[i].ingredient + ' (' + commonList[i].mainCategory + ')';
+                if(commonList[i].mainCategory == commonList[i].ingredient) {
+                    ingredient.textContent = commonList[i].ingredient;
+                } else {
+                    ingredient.textContent = commonList[i].ingredient + ' (' + commonList[i].mainCategory + ')';
+                }
+
             } else {
                 ingredient.textContent = commonList[i].ingredient + ' (' + commonList[i].subCategory + ', ' + commonList[i].mainCategory + ')';
             }

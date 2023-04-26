@@ -272,7 +272,9 @@
                       <tr th:each="ing, loop : ${riList}">
                         <th th:text="${loop.index + 1}"></th>
                         <td class="list-ing-name" th:text="${ing.ingredient.name + ' (' + ing.ingredient.category.name + ')'}"
-                            th:if="${ing.ingredient.category.name == icList[loop.index].name}"></td>
+                            th:if="${ing.ingredient.category.name == icList[loop.index].name && ing.ingredient.category.name != ing.ingredient.name}"></td>
+                        <td class="list-ing-name" th:text="${ing.ingredient.name}"
+                            th:if="${ing.ingredient.category.name == ing.ingredient.name}"></td>
                         <td class="list-ing-name" th:text="${ing.ingredient.name + ' (' + ing.ingredient.category.name + ', ' + icList[loop.index].name + ')'}"
                             th:if="${ing.ingredient.category.name != icList[loop.index].name}"></td>
                         <td class="list-ing-qty" th:text="${ing.quantity}"></td>
