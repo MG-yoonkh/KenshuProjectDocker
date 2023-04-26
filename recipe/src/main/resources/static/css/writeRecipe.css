@@ -359,3 +359,12 @@
     display: none;
   }
 }
+
+.instruction-label {
+padding-bottom: 3px;
+}
+
+.instruction-text {
+padding: 10px 0px 10px 0px;
+white-space: pre-wrap;
+}

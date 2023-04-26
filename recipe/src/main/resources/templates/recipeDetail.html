@@ -174,9 +174,9 @@
               </label>
               <div th:if="${not #lists.isEmpty(istList)}">
                 <div class="row text-start p-2" th:each="ist, loop : ${istList}">
-                  <label for="" th:text="${loop.index + 1} + '番目'"></label>
+                  <label class="instruction-label" th:text="${loop.index + 1} + '番目'"></label>
                   <div class="col-md-8 border border-secondary rounded">
-                    <pre th:text="${ist.description}">ジャガイモを洗う。</pre>
+                    <pre th:text="${ist.description}" class="instruction-text"></pre>
                   </div>
                   <div class="col-md-4">
                     <img th:src="@{|\uploaded\${ist.imgUrl}|}" class="img-fluid recipe_image border border-secondary rounded" alt="Recipe Image" id="recipe_image"
