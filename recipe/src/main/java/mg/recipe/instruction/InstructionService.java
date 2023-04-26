@@ -60,6 +60,8 @@ public class InstructionService {
             System.out.println("Service imgUrlList.get(i): " + imgUrlList.get(i));
             if(imgUrlList.get(i) == "") {
                 instruction.setImgUrl(istList.get(i).getImgUrl());
+            } else {
+                instruction.setImgUrl(imgUrlList.get(i));
             }
             instruction.setRecipe(recipe);
             this.instructionRepository.save(instruction);

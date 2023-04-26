@@ -72,10 +72,10 @@
                         <!-- イメージ preview-->
                         <div class="preview" id="preview">
                           <img class="preview" th:if="${recipeForm.thumbnail}"
-                            th:src="@{|/uploaded/${recipe.thumbnail}|}" />
+                            th:src="@{|/uploaded/${recipeForm.thumbnail}|}" />
                         </div>
                         <img th:src="@{/assets/icon/dragndrop.png}" class="dragicon" alt=""
-                          th:classappend="${recipe.thumbnail} ? 'hidden' : ''">
+                          th:classappend="${recipeForm.thumbnail} ? 'hidden' : ''">
                       </div>
                     </label>
 

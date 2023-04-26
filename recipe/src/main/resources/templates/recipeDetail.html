@@ -5,19 +5,31 @@
   <link rel="stylesheet" type="text/css" th:href="@{/css/index.css}" />
   <link rel="stylesheet" type="text/css" th:href="@{/css/writeRecipe.css}">
   <script type="text/javascript" th:src="@{/js/loading.js}"></script>
+  <script type="text/javascript" th:src="@{/js/recipeInfo.js}"></script>
   <header th:replace="~{header :: headerFragment}"></header>
   <main>
     <div class="container-fluid text-center">
       <div id="test_obj">
-        <button class="btn scroll-btn" onclick="moveToTopSmooth()">レシピのタイトル</button>
-        <button class="btn scroll-btn" onclick="moveToRecipeImageSmooth()">レシピの写真</button>
-        <button class="btn scroll-btn" onclick="moveToRecipeCategorySmooth()">カテゴリ・時間・予算</button>
-        <button class="btn scroll-btn" onclick="moveToRecipeIngredientSmooth()">材料</button>
-        <button class="btn scroll-btn" onclick="moveToRecipeInstructionSmooth()">作り方</button>
-        <button class="btn scroll-btn" onclick="moveToBottomSmooth()">YouTube</button>
-        <button class="btn scroll-btn sub-btn">
-          投稿
-        </button>
+<!--        <button class="btn scroll-btn" onclick="moveToTopSmooth()">レシピのタイトル</button>-->
+<!--        <button class="btn scroll-btn" onclick="moveToRecipeImageSmooth()">レシピの写真</button>-->
+<!--        <button class="btn scroll-btn" onclick="moveToRecipeCategorySmooth()">カテゴリ・時間・予算</button>-->
+<!--        <button class="btn scroll-btn" onclick="moveToRecipeIngredientSmooth()">材料</button>-->
+<!--        <button class="btn scroll-btn" onclick="moveToRecipeInstructionSmooth()">作り方</button>-->
+<!--        <button class="btn scroll-btn" onclick="moveToBottomSmooth()">YouTube</button>-->
+        <a href="javascript:void(0);" class="recommend btn scroll-btn sub-btn"
+           th:data-uri="@{|/recipe/vote/${recipe.id}|}"
+           th:data-voted="${userHasVoted != null ? userHasVoted : false}">
+          いいね
+          <span class="badge rounded-pill bg-success" th:text="${#lists.size(recipe.voter)}"></span>
+        </a>
+        <a th:href="@{|/recipe/modify/${recipe.id}|}" class="btn scroll-btn sub-btn"
+           sec:authorize="isAuthenticated()"
+           th:if="${recipe.author != null and #authentication.getPrincipal().getUsername() == recipe.author.username}"
+           th:text="修正"></a>
+        <a href="javascript:void(0);" th:data-uri="@{|/recipe/delete/${recipe.id}|}"
+           class="delete btn scroll-btn sub-btn" sec:authorize="isAuthenticated()"
+           th:if="${recipe.author != null and #authentication.getPrincipal().getUsername() == recipe.author.username}"
+           th:text="削除"></a>
       </div>
       <div class="row">
         <div class="col-sm-2">
@@ -200,7 +212,6 @@
   </main>
   <footer th:replace="~{footer :: footerFragment}"></footer>
 </div>
-<script type="text/javascript" th:href="@{js/recipeInfo.js}"></script>
 
 <script layout:fragment="script" type="text/javascript">
   const delete_elements = document.getElementsByClassName("delete");

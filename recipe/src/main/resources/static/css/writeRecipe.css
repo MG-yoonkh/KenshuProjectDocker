@@ -349,3 +349,13 @@
 .sub-btn {
     background-color: #9B91A3;
 }
+
+.like-btn {
+    background-color: red;
+}
+
+@media only screen and (max-width: 768px) {
+  #test_obj {
+    display: none;
+  }
+}

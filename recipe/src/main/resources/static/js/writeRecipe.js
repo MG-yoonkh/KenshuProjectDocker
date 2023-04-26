@@ -700,6 +700,18 @@ if (imgFile) {
     });
 }
 
+$(document).ready(function () {
+    var tmp = parseInt($("#test_obj").css('top'));
+
+    $(window).scroll(function () {
+        var scrollTop = $(window).scrollTop();
+        var obj_position = scrollTop + tmp + "px";
+
+        $("#test_obj").css("top", obj_position);
+    }).scroll();
+});
+
+
 function scrollToElementSmooth(id) {
   document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
 }
@@ -768,12 +780,17 @@ document.getElementById('writeForm').addEventListener('submit', function (evt) {
     var savedListData = localStorage.getItem('savedList');
     savedList = savedListData ? JSON.parse(savedListData) : [];
 
-    if(savedListData == null) {
-        alert("レシピの材料を登録してください。");
-        moveToRecipeIngredientSmooth();
-        return false;
+    if (savedListData == null || savedList.length === 0) {
+        checkOriginalList();
+        var originalItemsData = localStorage.getItem('originalItems');
+        if (originalItemsData == null) {
+            alert("レシピの材料を登録してください。");
+            moveToRecipeIngredientSmooth();
+            return false;
+        }
+        originalItems = JSON.parse(originalItemsData);
+        $('#send-list-input').val(JSON.stringify(originalItems));
     } else {
-        // savedListをJSON.stringにして、input hiddenに入れる
         $('#send-list-input').val(JSON.stringify(savedList));
     }
 
@@ -783,6 +800,11 @@ document.getElementById('writeForm').addEventListener('submit', function (evt) {
         moveToRecipeInstructionSmooth();
         return false;
     }
+
+    var imgUrl1 = document.getElementById("input2_1").value;
+    console.log('imgUrl1: '+imgUrl1);
+    var imgUrl2 = document.getElementById("input2_2").value;
+        console.log('imgUrl2: '+imgUrl2);
 
     var videoUrl = document.getElementById("video-url").value;
     console.log(videoUrl);
@@ -796,22 +818,13 @@ document.getElementById('writeForm').addEventListener('submit', function (evt) {
     }
 
     var ist = document.getElementById("input2_1").value;
-    if(confirm('投稿しますか')) {
+    if(confirm('レシピを投稿しますか?')) {
         this.submit();
+        alert("投稿しました!");
     }
 })
 
 
-    $(document).ready(function () {
-        var tmp = parseInt($("#test_obj").css('top'));
-
-        $(window).scroll(function () {
-            var scrollTop = $(window).scrollTop();
-            var obj_position = scrollTop + tmp + "px";
-
-            $("#test_obj").css("top", obj_position);
-        }).scroll();
-    });
 
 
 
@@ -1084,3 +1097,30 @@ $(document).ready(function () {
           let checked = JSON.parse(localStorage.getItem('selectedItems'));
         }
     }
+
+    function checkOriginalList() {
+            if (ingredientInput && ingredientInput.value) {
+
+                if (localStorage.getItem('originalItems')) {
+                    localStorage.removeItem('originalItems');
+                }
+
+              let originalItems = [];
+
+              let inputs = document.querySelectorAll('#riListTable input[type="hidden"]');
+
+              for (let i = 0; i < inputs.length; i += 8) {
+                let item = {
+                  ingredient: inputs[i + 2].value,
+                  ingredientId: inputs[i + 3].value,
+                  qty: inputs[i + 4].value,
+                  qtyValue: inputs[i + 5].value,
+                  unit: inputs[i + 6].value,
+                  unitId: inputs[i + 7].value
+                };
+                originalItems.push(item);
+              }
+              localStorage.setItem('originalItems', JSON.stringify(originalItems));
+              let checked = JSON.parse(localStorage.getItem('originalItems'));
+            }
+        }
