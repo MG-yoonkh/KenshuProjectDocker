@@ -11,6 +11,7 @@ $(document).ready(function () {
 
     document.querySelector(".modal-ing").addEventListener("click", function () {
 
+    resetSavedList();
     removeAlert("main");
     removeAlert("sub");
     removeAlert("ingredient");
@@ -281,6 +282,9 @@ document.querySelector("#reset-button").addEventListener("click", function () {
 // Dynamic Table 材料
 document.querySelector("#add-button").addEventListener("click", function () {
 
+    // max check
+
+
     // 出力用
     let mainCategory = document.querySelector("#main-category-dropdown option:checked").textContent;
     let subCategory = document.querySelector("#sub-category-dropdown option:checked").textContent;
@@ -387,6 +391,7 @@ document.querySelector("#add-button").addEventListener("click", function () {
 
     // 出力
     tableBody = document.querySelector("#selected-items");
+    console.log('tableBody: '+tableBody);
     tableBody.innerHTML = "";
 
     // if savedList
@@ -516,17 +521,17 @@ function resetSavedList() {
     }
 
     localStorage.setItem("savedList", JSON.stringify(savedList));
-    console.log("local modified: " + localStorage.getItem("savedList"));
+    console.log("local reset: " + localStorage.getItem("savedList"));
 }
 
 // Dynamic材料テーブルをModalに出力
 function paintTableOnModal(commonList, tableBody) {
     console.log('paintTableOnModal commonList.length: ' + commonList.length);
 
-//    if(commonList.length>0) {
-//        tableBody = document.querySelector("#selected-items");
-//        tableBody.innerHTML = "";
-//    }
+    if(commonList.length>0) {
+        tableBody = document.querySelector("#selected-items");
+        tableBody.innerHTML = "";
+    }
     for (let i = 0; i < commonList.length; i++) {
         let row = document.createElement("tr");
         row.className = "draggable";
