@@ -81,11 +81,9 @@ $(document).ready(function () {
 
        if(savedList) {
         paintTableOnModal(savedList, tableBody);
-            console.log('savedList 있음' + savedListData);
        }
 
     });
-    console.log('localStorage: ' + localStorage.length);
 }); // Modal Open
 
 function populateMainCategoryDropdown(response) {
@@ -182,8 +180,6 @@ $(document).ready(function () {
     $("#sub-category-dropdown").change(function () {
         var categoryId = $(this).val();
         var valuee = document.querySelector("#main-category-dropdown").value;
-        console.log("subーvaluee: " + categoryId);
-        console.log("mainーvaluee: " + valuee);
 
         dropdownSub(categoryId);
 
@@ -215,11 +211,9 @@ function dropdownSub(categoryId) {
                     // 「選択してください」を入れる
                       if (index == 0) {
                           var option = $("<option>").text(ingredient.name).attr("value", ingredient.id);
-                          console.log('index == 0 ingredient: '+ingredient.name);
                           $("#ingredient-dropdown").append(option);
                       } else { // 材料を出力
                           var option = $("<option>").text(ingredient.name).attr("value", ingredient.id);
-                          console.log('index != 0 ingredient: '+ingredient.name);
                           $("#ingredient-dropdown").append(option);
                       }
                   }
@@ -397,7 +391,6 @@ function removeAlert(className) {
 // データ保存
 const saveButton = document.getElementById("save-button");
 tableBody = document.getElementById("selected-items");
-console.log('tableBody.rows.length: ' + tableBody.rows.length);
 
 saveButton.addEventListener("click", () => {
 
@@ -443,12 +436,20 @@ function closeModal() {
 // 材料 保存
 function savedIngList() {
 
+    // savedList リセット
+    resetSavedList();
+
+    // selectedItems リセット
+    localStorage.removeItem("selectedItems");
+    selectedItems = [];
+}
+
+function resetSavedList() {
     // 保存の前、初期化
     localStorage.removeItem("savedList");
-    localStorage.removeItem("selectedItems");
+    console.log("local removed: " + localStorage.getItem("savedList"));
     savedList = [];
-    selectedItems = [];
-
+    console.log('table length: ' + tableBody.rows.length);
     if (tableBody.rows.length != 0) {
         for (let i = 0; i < tableBody.rows.length; i++) {
 
@@ -495,14 +496,16 @@ function savedIngList() {
 
     localStorage.setItem("savedList", JSON.stringify(savedList));
     console.log("local modified: " + localStorage.getItem("savedList"));
-
-    // selectedItems リセット
-    selectedItems = [];
 }
 
 // Dynamic材料テーブルをModalに出力
 function paintTableOnModal(commonList, tableBody) {
-    console.log('commonList.length: ' + commonList.length);
+    console.log('paintTableOnModal commonList.length: ' + commonList.length);
+
+    if(commonList.length>0) {
+        tableBody = document.querySelector("#selected-items");
+        tableBody.innerHTML = "";
+    }
     for (let i = 0; i < commonList.length; i++) {
         let row = document.createElement("tr");
         row.className = "draggable";
@@ -650,20 +653,22 @@ document.addEventListener('click', function (event) {
             }
         }
         for (let i = 0; i < savedList.length; i++) {
-            console.log('ingredientId: ' + savedList[i].ingredientId);
-            console.log('tableIngName: ' + savedList[i].tableIngName);
+            console.log('deleteBtn ingredientId: ' + savedList[i].ingredientId);
+            console.log('deleteBtn tableIngName: ' + savedList[i].tableIngName);
             if (savedList[i].ingredientId === savedList[i].tableIngName) {
                 savedList.splice(i, 1);
                 break;
             }
         }
+        resetSavedList();
     }
+
+
 
 });
 
 function getDataFromLocalStorageAndDisplay() {
     var savedListData = localStorage.getItem('savedList');
-    console.log('출력하는 최종 데이터: '+savedListData);
     savedList = savedListData ? JSON.parse(savedListData) : [];
     listElement = document.querySelector(".display-items");
     listElement.innerHTML = "";
