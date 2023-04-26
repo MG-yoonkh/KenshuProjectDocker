@@ -32,7 +32,7 @@
             <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
               <div th:each="err : ${#fields.allErrors()}" th:text="${err}"></div>
             </div>
-            <div class="row justify-content-center p-5">
+            <div class="row justify-content-center p-5" id="top">
               <div class="text-center">
                 <h1 class="p-2">レシピを書く</h1>
                 <h6 >あなたの家の定番の味、工夫やアイデアをレシピとして記録しよう</h6>
@@ -324,6 +324,7 @@
                                multiple="true" hidden="true" th:data-section-id="1">
                       </div>
                     </div>
+                    <div id="recipe-youtube"></div>
                   </div>
                   <div th:if="${#lists.isEmpty(istList)}">
                     <div class="row justify-content-center" id="section1">
