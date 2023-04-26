@@ -264,18 +264,20 @@
                           <th scope="col">材料名</th>
                           <th scope="col">数量</th>
                           <th scope="col">計量単位</th>
+                          <th></th>
                         </tr>
                       </thead>
                       <tbody class="display-items"></tbody>
                       <tbody id="riListTable" class="display-riList" th:if="${not #lists.isEmpty(riList)}">
                       <tr th:each="ing, loop : ${riList}">
                         <th th:text="${loop.index + 1}"></th>
-                        <td th:text="${ing.ingredient.name + ' (' + ing.ingredient.category.name + ')'}"
+                        <td class="list-ing-name" th:text="${ing.ingredient.name + ' (' + ing.ingredient.category.name + ')'}"
                             th:if="${ing.ingredient.category.name == icList[loop.index].name}"></td>
-                        <td th:text="${ing.ingredient.name + ' (' + ing.ingredient.category.name + ', ' + icList[loop.index].name + ')'}"
+                        <td class="list-ing-name" th:text="${ing.ingredient.name + ' (' + ing.ingredient.category.name + ', ' + icList[loop.index].name + ')'}"
                             th:if="${ing.ingredient.category.name != icList[loop.index].name}"></td>
-                        <td th:text="${ing.quantity}"></td>
-                        <td th:text="${ing.measurementUnit.name}"></td>
+                        <td class="list-ing-qty" th:text="${ing.quantity}"></td>
+                        <td class="list-ing-unit" th:text="${ing.measurementUnit.name}"></td>
+                        <td class=""></td>
                         <input type="hidden" id="mainCategory" th:value="${icList[loop.index].name}" >
                         <input type="hidden" id="subCategory" th:value="${ing.ingredient.category.name}" >
                         <input type="hidden" id="ingredient" th:value="${ing.ingredient.name}" >
@@ -321,7 +323,7 @@
                           </div>
                         </label>
                         <input th:id="'input2_' + ${loop.index+1}" class="input2" accept="image/*" type="file" name="imgUrl" required="true"
-                               multiple="true" hidden="true" th:data-section-id="1">
+                               multiple="true" hidden="true" th:data-section-id="${loop.index+1}">
                       </div>
                     </div>
                     <div id="recipe-youtube"></div>

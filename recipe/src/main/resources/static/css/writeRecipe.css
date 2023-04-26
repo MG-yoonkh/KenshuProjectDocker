@@ -302,6 +302,10 @@
   margin-left: 5px;
 }
 
+.table-ing-name {
+
+}
+
 .table-ing-qty {
   text-align: right;
 }
@@ -309,6 +313,8 @@
 .table-ing-unit {
   text-align: left;
 }
+
+
 
 .modal {
   background-color: white;

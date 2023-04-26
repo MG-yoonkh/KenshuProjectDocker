@@ -210,6 +210,7 @@ function dropdownSub(categoryId) {
 
             // 詳細カテゴリーを選えらび直すと → 以下のリストリセット
             resetQty();
+            $("#qty-dropdown").removeAttr("disabled");
             resetUnit();
 
             // 材料をリストに入れる subcategory.level == 0 && index == 0
@@ -390,6 +391,7 @@ document.querySelector("#add-button").addEventListener("click", function () {
 
     // if savedList
     var savedListData = localStorage.getItem('savedList');
+    console.log("savedListData check: " + savedListData);
     savedList = savedListData ? JSON.parse(savedListData) : [];
     if (savedList.length > 0) {
         paintTableOnModal(savedList, tableBody);
@@ -521,10 +523,10 @@ function resetSavedList() {
 function paintTableOnModal(commonList, tableBody) {
     console.log('paintTableOnModal commonList.length: ' + commonList.length);
 
-    if(commonList.length>0) {
-        tableBody = document.querySelector("#selected-items");
-        tableBody.innerHTML = "";
-    }
+//    if(commonList.length>0) {
+//        tableBody = document.querySelector("#selected-items");
+//        tableBody.innerHTML = "";
+//    }
     for (let i = 0; i < commonList.length; i++) {
         let row = document.createElement("tr");
         row.className = "draggable";
@@ -539,7 +541,11 @@ function paintTableOnModal(commonList, tableBody) {
         if (commonList[i].mainCategory) {
             // subCategoryデータがなければ 
             if (commonList[i].subCategory == "-" || commonList[i].subCategory == commonList[i].mainCategory) {
-                cell1.textContent = commonList[i].ingredient + ' (' + commonList[i].mainCategory + ')';
+                if(commonList[i].mainCategory == commonList[i].ingredient) {
+                    cell1.textContent = commonList[i].ingredient;
+                } else {
+                    cell1.textContent = commonList[i].ingredient + ' (' + commonList[i].mainCategory + ')';
+                }
             } else {
                 cell1.textContent = commonList[i].ingredient + ' (' + commonList[i].subCategory + ', ' + commonList[i].mainCategory + ')';
             }
@@ -602,18 +608,21 @@ function paintListOnMain(commonList, listElement) {
         } else {
             ingredient.textContent = commonList[i].ingredient;
         }
-        ingredient.className = "";
+        ingredient.className = "list-ing-name";
         listItem.appendChild(ingredient);
 
         let quantity = document.createElement("td");
         quantity.textContent = commonList[i].qty;
-        quantity.className = "";
+        quantity.className = "list-ing-qty";
         listItem.appendChild(quantity);
 
         let unit = document.createElement("td");
         unit.textContent = commonList[i].unit;
-        unit.className = "";
+        unit.className = "list-ing-unit";
         listItem.appendChild(unit);
+
+        let blank = document.createElement("td");
+        listItem.appendChild(blank);
 
         listElement.appendChild(listItem);
 
