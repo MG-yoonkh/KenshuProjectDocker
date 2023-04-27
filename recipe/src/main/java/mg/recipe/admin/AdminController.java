@@ -80,6 +80,7 @@ public class AdminController {
 
         Pageable pageable = PageRequest.of(page,size, Sort.by(Sort.Direction.DESC, "createDate"));
         Page<Recipe> recipes = adminService.getRecipes(pageable);
+        Page<SiteUser> users = adminService.getUsers(pageable);
 
         model.addAttribute("totalRecipeCount", recipes.getTotalElements());
         model.addAttribute("recipes", recipes.getContent());

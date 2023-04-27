@@ -44,24 +44,25 @@
                             <div class="col-md-8">
                                 <div class="row justify-content-center">
                                     <h1 class="p-3">レシピ削除</h1>
-                                    <table class="table table-striped border rounded">
-                                        <tr>
-                                            <th><h4>id</h4></th>
-                                            <th><h4>レシピ名</h4></th>
-                                            <th><h4>削除</h4></th>
-                                        </tr>
-                                        <tr th:each="recipe : ${recipes}">
-                                            <td th:text="${recipe.id}"></td>
-                                            <td th:text="${recipe.recipeName}"></td>
-                                            <td>
+                                    <div class="row border border-dark rounded">
+                                        <div class="row p-3">
+                                            <div class="col-md-4"><h4>id</h4></div>
+                                            <div class="col-md-4"><h4>レシピ名</h4></div>
+                                            <div class="col-md-4"><h4>削除</h4></div>
+                                        </div>
+                                        <div class="row" th:each="recipe : ${recipes}">
+                                            <hr>
+                                            <div class="col-md-4" th:text="${recipe.id}"></div>
+                                            <div class="col-md-4" ><a th:href="@{|/recipe/detail/${recipe.id}|}" th:text="${recipe.recipeName}"></a></div>
+                                            <div class="col-md-4 mb-2">
                                                 <form th:action="@{'/admin/recipe/' + ${recipe.id}}" method="post">
-                                                    <button type="submit">削除</button>
+                                                    <button class="btn btn-outline-danger" type="submit">削除</button>
                                                 </form>
-                                            </td>
-                                        </tr>
-                                    </table>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <nav>
-                                        <ul class="pagination justify-content-center">
+                                        <ul class="pagination justify-content-center p-3">
                                             <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled' : ''">
                                                 <a class="page-link" th:href="@{'/admin/recipe?page=' + ${currentPage - 1}}" tabindex="-1" aria-disabled="true">&laquo;</a>
                                             </li>
