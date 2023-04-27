@@ -50,13 +50,16 @@ public class UserController {
         return "signin";
     }
     @PostMapping("/signin")
-    public String signin(@Valid UserCreateForm userCreateForm, BindingResult bindingResult){
+    public String signin(@Valid UserCreateForm userCreateForm,
+                         BindingResult bindingResult,
+                         Model model){
         if(bindingResult.hasErrors()){
+            model.addAttribute("firstErrorMessage", userService.getFirstErrorMessage(bindingResult));
             return "signin";
         }
         if(!userCreateForm.getPassword1().equals(userCreateForm.getPassword2())){
-            bindingResult.rejectValue("password2", "passwordInCorrect",
-                    "パスワードが一致していません。");
+            bindingResult.rejectValue("password2", "passwordInCorrect", "パスワードが一致していません。");
+            model.addAttribute("firstErrorMessage", userService.getFirstErrorMessage(bindingResult));
             return "signin";
         }
         try {
@@ -65,10 +68,12 @@ public class UserController {
         } catch (DataIntegrityViolationException e){
             e.printStackTrace();
             bindingResult.reject("signupFailed","既に登録されたIDです。");
+            model.addAttribute("firstErrorMessage", userService.getFirstErrorMessage(bindingResult));
             return "signin";
         } catch (Exception e){
             e.printStackTrace();
             bindingResult.reject("signupFailed", e.getMessage());
+            model.addAttribute("firstErrorMessage", userService.getFirstErrorMessage(bindingResult));
             return "signin";
         }
         return "redirect:/login";

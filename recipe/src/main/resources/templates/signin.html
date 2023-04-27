@@ -16,59 +16,45 @@
       </div>
       <div class="col-md-4">
         <h1><i class="fa-solid fa-user"></i> 会員登録</h1>
-        <form id="signin_form" th:action="@{/signin}" th:object="${userCreateForm}" method="post">
-          <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
-            <div th:each="err : ${#fields.allErrors()}" th:text="${err}"/>
+        <form id="signin_form" th:action="@{/signin}" th:object="${userCreateForm}" method="post" class="needs-validation" novalidate>
+          <div class="alert alert-danger" role="alert" th:if="${firstErrorMessage}">
+            <div th:text="${firstErrorMessage}"/>
           </div>
           <div class="join_row">
             <div class="form-group">
               <h3 class="join_title">
-                <label for="username">ID</label>
+                <label for="username">* ID</label>
               </h3>
               <div class="input-group input-group-lg">
                 <input type="text" class="form-control" id="username" th:field="*{username}" placeholder="IDを入力してください" aria-describedby="check-duplicate" autocomplete="off"/>
                 <button type="button" class="btn btn-outline-secondary" id="check-duplicate">チェック</button>
+                <div class="valid-feedback">いいね</div>
+                <div class="invalid-feedback">IDを入力してください。</div>
               </div>
-            </div>
-            <div class="error">
-              <!-- "assertive" -->
-              <span class="error_next_box" id="nickname_msg" style aria-live="assertive">必須項目です</span>
             </div>
           </div>
           <div class="join_row">
             <div class="form-group">
               <h3 class="join_title">
-                <label for="password1">パスワード</label>
+                <label for="password1">* パスワード</label>
               </h3>
             <input type="password" class="form-control" id="password1" th:field="*{password1}" placeholder="パスワードを入力してください" autocomplete="off"/>
             </div>
-            <div class="error">
-              <!-- "assertive" -->
-              <span class="error_next_box" style aria-live="assertive">必須項目です</span>
-            </div>
           </div>
           <div class="join_row">
             <div class="form-group">
               <h3 class="join_title">
-                <label for="password2">パスワード再入力</label>
+                <label for="password2">* パスワード再入力</label>
               </h3>
             <input type="password" class="form-control" id="password2" th:field="*{password2}" placeholder="パスワードを入力してください" autocomplete="off"/>
             </div>
-            <div class="error">
-              <!-- "assertive" -->
-              <span class="error_next_box" style aria-live="assertive">必須項目です</span>
-            </div>
           </div>
           <div class="join_row">
             <div class="form-group">
               <h3 class="join_title">
-                <label for="email">メールアドレス</label>
+                <label for="email">* メールアドレス</label>
               </h3>
               <input type="email" class="form-control" id="email" th:field="*{email}" placeholder="メールアドレスを入力してください" autocomplete="off"/>
-            </div>
-            <div class="error">
-              <!-- "assertive" -->
-              <p class="error_next_box" id="email_msg" style aria-live="assertive">必須項目です</p>
             </div>
           </div>
 

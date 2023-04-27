@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -128,6 +130,13 @@ public class UserService {
         return siteVisitRepository.save(siteVisit);
     }
 
+    public String getFirstErrorMessage(BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            List<ObjectError> errors = bindingResult.getAllErrors();
+            return errors.get(0).getDefaultMessage();
+        }
+        return "";
+    }
     public Map<YearMonth, Long> getMonthlyRegistrations(YearMonth startMonth, YearMonth endMonth) {
         LocalDateTime startDateTime = startMonth.atDay(1).atStartOfDay();
         LocalDateTime endDateTime = endMonth.plusMonths(1).atDay(1).atStartOfDay();
