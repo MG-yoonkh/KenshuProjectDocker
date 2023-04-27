@@ -45,24 +45,25 @@
               <div class="col-md-8">
                 <div class="row justify-content-center text-center">
                   <h1 class="p-3">ユーザー削除</h1>
-                  <table class="table table-striped border rounded">
-                    <tr>
-                      <th><h4>id</h4></th>
-                      <th><h4>名前</h4></th>
-                      <th><h4>削除</h4></th>
-                    </tr>
-                    <tr th:each="user : ${users}">
-                      <td th:text="${user.id}"></td>
-                      <td th:text="${user.username}"></td>
-                      <td>
+                  <div class="row border border-dark rounded">
+                    <div class="row p-3">
+                      <div class="col-md-4"><h4>id</h4></div>
+                      <div class="col-md-4"><h4>名前</h4></div>
+                      <div class="col-md-4"><h4>削除</h4></div>
+                    </div>
+                    <div class="row" th:each="user : ${users}">
+                      <hr>
+                      <div class="col-md-4" th:text="${user.id}"></div>
+                      <div class="col-md-4" th:text="${user.username}"></div>
+                      <div class="col-md-4 mb-3">
                         <form th:action="@{'/admin/user/' + ${user.id}}" method="post">
-                          <button type="submit">削除</button>
+                          <button class="btn btn-outline-danger" type="submit">削除</button>
                         </form>
-                      </td>
-                    </tr>
-                  </table>
+                      </div>
+                    </div>
+                  </div>
                   <nav>
-                    <ul class="pagination justify-content-center">
+                    <ul class="pagination justify-content-center p-3">
                       <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled' : ''">
                         <a class="page-link" th:href="@{'/admin/user?page=' + ${currentPage - 1}}" tabindex="-1" aria-disabled="true">&laquo;</a>
                       </li>

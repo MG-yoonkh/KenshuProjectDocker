@@ -54,7 +54,7 @@
                                             <hr>
                                             <div class="col-md-4" th:text="${recipe.id}"></div>
                                             <div class="col-md-4" ><a th:href="@{|/recipe/detail/${recipe.id}|}" th:text="${recipe.recipeName}"></a></div>
-                                            <div class="col-md-4 mb-2">
+                                            <div class="col-md-4 mb-3">
                                                 <form th:action="@{'/admin/recipe/' + ${recipe.id}}" method="post">
                                                     <button class="btn btn-outline-danger" type="submit">削除</button>
                                                 </form>
