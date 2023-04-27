@@ -1,3 +1,0 @@
-id,create_date,email,modify_date,password,role,username
-1,"2023-04-19 15:05:01.382168",admin123@gmail.com,"2023-04-19 15:05:01.382168",$2a$10$AD4Y3frCHjVGBe6yaQLI5.xP1hdYIY6QH4/aZI3yp6SAX8/eMt0K6,USER,admin01
-2,"2023-04-19 15:06:10.363661",user123@gmail.com,"2023-04-19 15:06:10.363661",$2a$10$Kh5FFaeTPsPySaCGFdtcwOKdn.XHnG6TkUtcOT5b/do58D7GBAdtC,USER,user01
