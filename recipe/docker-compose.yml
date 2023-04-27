@@ -4,7 +4,6 @@ services:
     image: mysql
     environment:
       MYSQL_ROOT_PASSWORD: 1111
-#      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
       MYSQL_ROOT_HOST: '%'
       MYSQL_DATABASE: Recipe
     ports:

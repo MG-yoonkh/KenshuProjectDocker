@@ -29,9 +29,7 @@ import java.util.stream.Collectors;
 public class AdminController {
 
     private final UserService userService;
-    private final RecipeService recipeService;
     private final AdminService adminService;
-    private final SiteVisitRepository siteVisitRepository;
 
     @GetMapping("/admin")
     public String 管理者ページ(){
@@ -69,7 +67,7 @@ public class AdminController {
         model.addAttribute("users", users.getContent());
         model.addAttribute("totalPages", users.getTotalPages());
         model.addAttribute("currentPage", page);
-        return "/userManagement";
+        return "userManagement";
     }
 
 
@@ -80,14 +78,13 @@ public class AdminController {
 
         Pageable pageable = PageRequest.of(page,size, Sort.by(Sort.Direction.DESC, "createDate"));
         Page<Recipe> recipes = adminService.getRecipes(pageable);
-        Page<SiteUser> users = adminService.getUsers(pageable);
 
         model.addAttribute("totalRecipeCount", recipes.getTotalElements());
         model.addAttribute("recipes", recipes.getContent());
         model.addAttribute("totalPages",recipes.getTotalPages());
         model.addAttribute("currentPage",page);
 
-        return "/recipeManagement";
+        return "recipeManagement";
     }
 
     @PostMapping("/admin/user/{id}")
