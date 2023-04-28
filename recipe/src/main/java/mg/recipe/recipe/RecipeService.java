@@ -4,6 +4,7 @@ import jakarta.persistence.criteria.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import mg.recipe.DataNotFoundException;
+import mg.recipe.ingredient.Ingredient;
 import mg.recipe.user.SiteUser;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -145,13 +146,15 @@ public class RecipeService {
                 query.distinct(true); // 重複 除去
 
                 Join<Recipe, SiteUser> u1 = r.join("author", JoinType.LEFT);
+                r.join("ingredients", JoinType.LEFT);
 
                 List<Predicate> predicates = new ArrayList<>(); // Predicate リスト生成
 
                 if (kw != null && !kw.isEmpty()) {
                     Predicate kwPredicate = cb.or(
                             cb.like(r.get("recipeName"), "%" + kw + "%"),
-                            cb.like(u1.get("username"), "%" + kw + "%")
+                            cb.like(u1.get("username"), "%" + kw + "%"),
+                            cb.like(r.join("ingredients", JoinType.LEFT).get("name"), "%" + kw + "%")
                     );
                     predicates.add(kwPredicate); // リスト追加
                 }

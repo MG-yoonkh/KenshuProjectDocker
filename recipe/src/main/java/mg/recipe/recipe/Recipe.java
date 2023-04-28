@@ -3,6 +3,7 @@ package mg.recipe.recipe;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import mg.recipe.ingredient.Ingredient;
 import mg.recipe.recipeIngredient.RecipeIngredient;
 import mg.recipe.instruction.Instruction;
 import mg.recipe.user.SiteUser;
@@ -80,5 +81,11 @@ public class Recipe {
     // 調理方法
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
     private List<Instruction> instructionList;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "recipe_ingredient",
+            joinColumns = @JoinColumn(name = "recipe_id"),
+            inverseJoinColumns = @JoinColumn(name = "ingredient_id"))
+    private Set<Ingredient> ingredients;
 
 }
