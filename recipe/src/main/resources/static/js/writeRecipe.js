@@ -4,8 +4,6 @@ let commonList = [];
 let tableBody;
 localStorage.clear();
 
-
-
 // Modal Click
 $(document).ready(function () {
 
@@ -837,6 +835,8 @@ document.getElementById('writeForm').addEventListener('submit', function (evt) {
     const input = document.getElementById('input');
     const preview = document.getElementById('preview');
 
+
+
     if (!input.value && preview.querySelector('img')) {
       const imgSrc = preview.querySelector('img').getAttribute('src');
       const thumbInput = document.createElement('input');
@@ -865,23 +865,24 @@ document.getElementById('writeForm').addEventListener('submit', function (evt) {
     var savedListData = localStorage.getItem('savedList');
     savedList = savedListData ? JSON.parse(savedListData) : [];
 
-    if (savedListData == null || savedList.length === 0) {
-        checkOriginalList();
-        var originalItemsData = localStorage.getItem('originalItems');
-        if (originalItemsData == null) {
-            alert("レシピの材料を登録してください。");
-            moveToRecipeIngredientSmooth();
-            return false;
-        } else {
-        originalItems = JSON.parse(originalItemsData);
-            $('#send-list-input').val(JSON.stringify(originalItems));
-            alert('1. ' + JSON.stringify(originalItems));
-        }
-    } else {
-        $('#send-list-input').val(JSON.stringify(savedList));
-        alert('2. ' + JSON.stringify(savedList));
-    }
-console.log('3. ' + $('#send-list-input').value);
+//    if (savedListData == null || savedList.length === 0) {
+//        checkOriginalList();
+//        var originalItemsData = localStorage.getItem('originalItems');
+//        if (originalItemsData == null) {
+//            alert("レシピの材料を登録してください。");
+//            moveToRecipeIngredientSmooth();
+//            return false;
+//        } else {
+//        originalItems = JSON.parse(originalItemsData);
+//            $('#send-list-input').val(JSON.stringify(originalItems));
+//            alert('1. ' + JSON.stringify(originalItems));
+//        }
+//    } else {
+//        $('#send-list-input').val(JSON.stringify(savedList));
+//        alert('2. ' + JSON.stringify(savedList));
+//    }
+$('#send-list-input').val(JSON.stringify(savedList));
+//console.log('3. ' + $('#send-list-input').value);
 
 
     var instructions = document.getElementById("instructions").value;
@@ -892,7 +893,7 @@ console.log('3. ' + $('#send-list-input').value);
     }
 
     var videoUrl = document.getElementById("video-url").value;
-    console.log(videoUrl);
+    console.log('videoUrl: ' + videoUrl);
     var pattern = /^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$/;
     if(videoUrl != ""){
         if(!pattern.test(videoUrl)){
