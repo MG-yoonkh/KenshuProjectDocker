@@ -4,8 +4,6 @@ let commonList = [];
 let tableBody;
 localStorage.clear();
 
-
-
 // Modal Click
 $(document).ready(function () {
 
@@ -837,7 +835,7 @@ document.getElementById('writeForm').addEventListener('submit', function (evt) {
     const input = document.getElementById('input');
     const preview = document.getElementById('preview');
 
-    console.log('Thumbnail input: ' + input.value);
+
 
     if (!input.value && preview.querySelector('img')) {
       const imgSrc = preview.querySelector('img').getAttribute('src');
@@ -884,6 +882,7 @@ document.getElementById('writeForm').addEventListener('submit', function (evt) {
 //        alert('2. ' + JSON.stringify(savedList));
 //    }
 $('#send-list-input').val(JSON.stringify(savedList));
+//console.log('3. ' + $('#send-list-input').value);
 
 
     var instructions = document.getElementById("instructions").value;
@@ -894,7 +893,7 @@ $('#send-list-input').val(JSON.stringify(savedList));
     }
 
     var videoUrl = document.getElementById("video-url").value;
-    console.log(videoUrl);
+    console.log('videoUrl: ' + videoUrl);
     var pattern = /^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$/;
     if(videoUrl != ""){
         if(!pattern.test(videoUrl)){

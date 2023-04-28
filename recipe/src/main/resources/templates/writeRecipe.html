@@ -72,21 +72,28 @@
                         <!-- イメージ preview-->
                         <div class="preview" id="preview">
                           <img class="preview" th:if="${recipeForm.thumbnail}"
-                            th:src="@{|/app/img_files/${recipeForm.thumbnail}|}"  th:onerror="setDefaultImage(this)" />
-<!--                            th:src="@{|/uploaded/${recipeForm.thumbnail}|}"  th:onerror="setDefaultImage(this)" />-->
+                            th:src="@{|/uploaded/${recipeForm.thumbnail}|}"  th:onerror="setDefaultImage(this)" />
                         </div>
                         <img th:src="@{/assets/icon/dragndrop.png}" class="dragicon" alt=""
                           th:classappend="${recipeForm.thumbnail} ? 'hidden' : ''">
                       </div>
                     </label>
+
                     <!-- イメージファイル thumbFile-->
                     <input id="input" class="input" accept="image/*" type="file" name="thumbFile" required="true"
-                     multiple="true" hidden="true" th:attr="data-thumbnail=${recipeForm.thumbnail}">
+                     multiple="true" hidden="true"
+                     th:attr="data-thumbnail=${recipeForm.thumbnail}">
+                    <<th:block th:if="${recipeForm.thumbnail != null}">
+                      <input type="hidden" id="OriginalThumbFile" th:value="${recipeForm.thumbnail}" />
+                    </th:block>
+
                     <h5>ドラッグ＆ドロップで登録</h5>
                   </div>
                 </div>
               </div>
             </div>
+
+
             <!--  区切り線 -->
             <div class="row justify-content-center p-5" id="recipe-category">
               <div class="col-md-7">
