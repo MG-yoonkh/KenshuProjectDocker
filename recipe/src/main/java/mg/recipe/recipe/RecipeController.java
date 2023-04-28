@@ -172,6 +172,12 @@ public class RecipeController {
             return "writeRecipe";
         }
 
+
+        System.out.println("1: getRecipeName " + recipeForm.getRecipeName());
+        System.out.println("2: getCategory " + recipeForm.getCategory());
+        System.out.println("3: getThumbnail " + recipeForm.getThumbnail());
+        System.out.println("4: getVideoUrl " + recipeForm.getVideoUrl());
+
         // サムネイル画像の保存
         String newFileName = saveThumbNail(file);
 
@@ -198,17 +204,7 @@ public class RecipeController {
         }
 
         // JSON文字列をJavaオブジェクトに変換する
-        ObjectMapper objectMapper = new ObjectMapper();
-        List<RecipeIngredientJson> jsonList = objectMapper.readValue(sendListStr, new TypeReference<>() {});
-
-        List<RecipeIngredient> rList = new ArrayList<>();
-        for (RecipeIngredientJson json : jsonList) {
-            RecipeIngredient recipeIngredient = new RecipeIngredient();
-            recipeIngredient.setQuantity(json.getQty());
-            recipeIngredient.setMeasurementUnit(measurementUnitService.getUnit(json.getUnitId()));
-            recipeIngredient.setIngredient(ingredientService.getIng(json.getIngredientId()));
-            rList.add(recipeIngredient);
-        }
+        List<RecipeIngredient> rList = modifyJson(sendListStr);
 
         // 材料の登録
         recipeIngredientService.create(recipe, rList);
@@ -308,55 +304,13 @@ public class RecipeController {
         recipeForm.setThumbnail(newFileName);
 
         this.recipeService.modify(recipe, recipeForm);
-        System.out.println("1: " + recipeForm.getRecipeName());
-        System.out.println("2: " + recipeForm.getCategory());
-        System.out.println("3: " + recipeForm.getThumbnail());
-//        System.out.println("4: " + descriptionList[1]);
-        System.out.println("5: " + recipeForm.getVideoUrl());
+        System.out.println("1: getRecipeName " + recipeForm.getRecipeName());
+        System.out.println("2: getCategory " + recipeForm.getCategory());
+        System.out.println("3: getThumbnail " + recipeForm.getThumbnail());
+        System.out.println("4: getVideoUrl " + recipeForm.getVideoUrl());
 
         // JSON文字列をJavaオブジェクトに変換する
-        ObjectMapper objectMapper = new ObjectMapper();
-//        List<RecipeIngredientJson> jsonList = objectMapper.readValue(sendListStr, new TypeReference<>() {});
-//
-//        List<RecipeIngredient> rList = new ArrayList<>();
-//        for (RecipeIngredientJson json : jsonList) {
-//            RecipeIngredient recipeIngredient = new RecipeIngredient();
-//            recipeIngredient.setQuantity(json.getQty());
-//            recipeIngredient.setMeasurementUnit(measurementUnitService.getUnit(json.getUnitId()));
-//            recipeIngredient.setIngredient(ingredientService.getIng(json.getIngredientId()));
-//            rList.add(recipeIngredient);
-//        }
-
-        List<RecipeIngredientJson> jsonList = objectMapper.readValue(sendListStr, new TypeReference<>() {});
-
-        List<RecipeIngredient> rList = new ArrayList<>();
-        for (RecipeIngredientJson json : jsonList) {
-            RecipeIngredient recipeIngredient = new RecipeIngredient();
-            recipeIngredient.setQuantity(json.getQty());
-
-            // Get measurement unit
-            if (json.getUnitId() == null) {
-                throw new IllegalArgumentException("Unit ID cannot be null");
-            }
-            MeasurementUnit unit = measurementUnitService.getUnit(json.getUnitId());
-            if (unit == null) {
-                throw new DataNotFoundException("Measurement unit not found for ID " + json.getUnitId());
-            }
-            recipeIngredient.setMeasurementUnit(unit);
-
-            // Get ingredient
-            if (json.getIngredientId() == null) {
-                throw new IllegalArgumentException("Ingredient ID cannot be null");
-            }
-            Ingredient ingredient = ingredientService.getIng(json.getIngredientId());
-            if (ingredient == null) {
-                throw new DataNotFoundException("Ingredient not found for ID " + json.getIngredientId());
-            }
-            recipeIngredient.setIngredient(ingredient);
-
-            rList.add(recipeIngredient);
-        }
-
+        List<RecipeIngredient> rList = modifyJson(sendListStr);
 
         // 材料の登録
         if (rList != null && !rList.isEmpty()) {
@@ -380,6 +334,39 @@ public class RecipeController {
         return String.format("redirect:/recipe/detail/%s", id);
     }
 
+    public List<RecipeIngredient> modifyJson(String sendListStr) throws JsonProcessingException {
+        // JSON文字列をJavaオブジェクトに変換する
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        List<RecipeIngredientJson> jsonList = objectMapper.readValue(sendListStr, new TypeReference<>() {});
+
+        List<RecipeIngredient> rList = new ArrayList<>();
+        for (RecipeIngredientJson json : jsonList) {
+            RecipeIngredient recipeIngredient = new RecipeIngredient();
+            recipeIngredient.setQuantity(json.getQty());
+
+            if (json.getUnitId() == null) {
+                throw new IllegalArgumentException("UnitIDはnullにできません");
+            }
+            MeasurementUnit unit = measurementUnitService.getUnit(json.getUnitId());
+            if (unit == null) {
+                throw new DataNotFoundException("Unitが見つかりません" + json.getUnitId());
+            }
+            recipeIngredient.setMeasurementUnit(unit);
+
+            if (json.getIngredientId() == null) {
+                throw new IllegalArgumentException("IngredientIDはnullにできません");
+            }
+            Ingredient ingredient = ingredientService.getIng(json.getIngredientId());
+            if (ingredient == null) {
+                throw new DataNotFoundException("Ingredientが見つかりません " + json.getIngredientId());
+            }
+            recipeIngredient.setIngredient(ingredient);
+
+            rList.add(recipeIngredient);
+        }
+        return rList;
+    }
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/recipe/delete/{id}")
