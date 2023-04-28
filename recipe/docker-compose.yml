@@ -28,7 +28,8 @@ services:
       - my-network
     command: ["java", "-jar", "app.jar"]
     volumes:
-      - ./recipe/src/main/resources/static/uploaded:/app/img_files
+      - C:\KenshuProject\recipe\src\main\resources\static\uploaded:/app/img_files
+#      - /mnt/C/KenshuProject/recipe/src/main/resources/static/uploaded:/app/img_files
 volumes:
   db_data:
 networks:
