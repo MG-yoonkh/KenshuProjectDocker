@@ -837,6 +837,8 @@ document.getElementById('writeForm').addEventListener('submit', function (evt) {
     const input = document.getElementById('input');
     const preview = document.getElementById('preview');
 
+    console.log('Thumbnail input: ' + input.value);
+
     if (!input.value && preview.querySelector('img')) {
       const imgSrc = preview.querySelector('img').getAttribute('src');
       const thumbInput = document.createElement('input');
@@ -865,23 +867,23 @@ document.getElementById('writeForm').addEventListener('submit', function (evt) {
     var savedListData = localStorage.getItem('savedList');
     savedList = savedListData ? JSON.parse(savedListData) : [];
 
-    if (savedListData == null || savedList.length === 0) {
-        checkOriginalList();
-        var originalItemsData = localStorage.getItem('originalItems');
-        if (originalItemsData == null) {
-            alert("レシピの材料を登録してください。");
-            moveToRecipeIngredientSmooth();
-            return false;
-        } else {
-        originalItems = JSON.parse(originalItemsData);
-            $('#send-list-input').val(JSON.stringify(originalItems));
-            alert('1. ' + JSON.stringify(originalItems));
-        }
-    } else {
-        $('#send-list-input').val(JSON.stringify(savedList));
-        alert('2. ' + JSON.stringify(savedList));
-    }
-console.log('3. ' + $('#send-list-input').value);
+//    if (savedListData == null || savedList.length === 0) {
+//        checkOriginalList();
+//        var originalItemsData = localStorage.getItem('originalItems');
+//        if (originalItemsData == null) {
+//            alert("レシピの材料を登録してください。");
+//            moveToRecipeIngredientSmooth();
+//            return false;
+//        } else {
+//        originalItems = JSON.parse(originalItemsData);
+//            $('#send-list-input').val(JSON.stringify(originalItems));
+//            alert('1. ' + JSON.stringify(originalItems));
+//        }
+//    } else {
+//        $('#send-list-input').val(JSON.stringify(savedList));
+//        alert('2. ' + JSON.stringify(savedList));
+//    }
+$('#send-list-input').val(JSON.stringify(savedList));
 
 
     var instructions = document.getElementById("instructions").value;

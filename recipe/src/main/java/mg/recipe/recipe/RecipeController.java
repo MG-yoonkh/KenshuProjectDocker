@@ -20,8 +20,8 @@ import mg.recipe.recipeIngredient.RecipeIngredientJson;
 import mg.recipe.recipeIngredient.RecipeIngredientService;
 import mg.recipe.user.SiteUser;
 import mg.recipe.user.UserService;
+import org.springframework.core.io.PathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -402,24 +402,28 @@ public class RecipeController {
     }
 
     // 画像ファイルの保存先ディレクトリを設定
-    Path fileStorageLocation = Paths.get("C:", "KenshuProject", "recipe", "src", "main", "resources", "static", "uploaded")
-            .toAbsolutePath();
+    // local
+//    Path fileStorageLocation = Paths.get("recipe","src", "main", "resources", "static", "uploaded")
+//            .toAbsolutePath();
+    //docker
+    Path fileStorageLocation = Paths.get("/app/img_files").toAbsolutePath().normalize();
 
     @GetMapping("/uploaded/{filename:.+}")
     public ResponseEntity<Resource> getImage(@PathVariable String filename) throws IOException {
-
 
         // ファイルのパスを解決
         Path filePath = fileStorageLocation.resolve(filename).normalize();
 
         // リソースオブジェクトを作成
-        Resource resource = new UrlResource(filePath.toUri());
+        Resource resource = new PathResource(filePath);
 
         // キャッシュ制御のためのHTTPヘッダーを設定
         HttpHeaders headers = new HttpHeaders();
         headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
         headers.add("Pragma", "no-cache");
         headers.add("Expires", "0");
+
+        System.out.println("File storage location: " + fileStorageLocation.toString());
 
         // 画像ファイルのレスポンスエンティティを作成して返す
         return ResponseEntity.ok()
@@ -447,6 +451,8 @@ public class RecipeController {
                 // ファイル保存
                 Path targetLocation = fileStorageLocation.resolve(newFileName);
                 file.transferTo(targetLocation.toFile());
+
+                System.out.println(fileStorageLocation);
 
                 return newFileName;
             } catch (IOException e) {
@@ -477,6 +483,8 @@ public class RecipeController {
                     Path targetLocation2 = fileStorageLocation.resolve(fileName2);
                     files.get(i).transferTo(targetLocation2.toFile());
                     imgUrlList.add(fileName2);
+
+                    System.out.println(fileStorageLocation);
 
                 } catch (IOException e) {
                     throw new RuntimeException("ファイルを保存できませんでした。 " + fileName2 + ". もう一度やり直してください!", e);
