@@ -153,7 +153,7 @@ public class RecipeController {
     public ResponseEntity<Resource> getImage(@PathVariable String filename) throws IOException {
 
         // 画像ファイルの保存先ディレクトリを設定
-        Path fileStorageLocation = Paths.get("C:", "KenshuProject", "recipe", "src", "main", "resources", "static", "uploaded")
+        Path fileStorageLocation = Paths.get("/app/img_files")
                 .toAbsolutePath();
 
         // ファイルのパスを解決
@@ -209,7 +209,7 @@ public class RecipeController {
         }
 
         // サムネイル画像のアップロード
-        Path fileStorageLocation = Paths.get("C:", "KenshuProject", "recipe", "src", "main", "resources", "static", "uploaded")
+        Path fileStorageLocation = Paths.get("/app/img_files")
                 .toAbsolutePath();
 
         // サムネイル画像の保存
@@ -225,10 +225,12 @@ public class RecipeController {
             try {
                 // ファイル保存する場所を作成
                 Files.createDirectories(fileStorageLocation);
+                System.out.println(fileStorageLocation);
 
                 // ファイル保存
                 Path targetLocation = fileStorageLocation.resolve(newFileName);
                 file.transferTo(targetLocation.toFile());
+                System.out.println(targetLocation);
 
                 // Recipe オブジェクトにファイルのパスを格納
                 recipeForm.setThumbnail(newFileName);
@@ -321,11 +323,6 @@ public class RecipeController {
 
 
         return "writeRecipe";
-    }
-
-    @GetMapping("/adminPage")
-    public String adminPage() {
-        return "adminPage";
     }
 
     @PreAuthorize("isAuthenticated()")
