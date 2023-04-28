@@ -81,8 +81,11 @@
 
                     <!-- イメージファイル thumbFile-->
                     <input id="input" class="input" accept="image/*" type="file" name="thumbFile" required="true"
-                     multiple="true" hidden="true" onchange="handleUpdate(event)"
+                     multiple="true" hidden="true"
                      th:attr="data-thumbnail=${recipeForm.thumbnail}">
+                    <<th:block th:if="${recipeForm.thumbnail != null}">
+                      <input type="hidden" id="OriginalThumbFile" th:value="${recipeForm.thumbnail}" />
+                    </th:block>
 
                     <h5>ドラッグ＆ドロップで登録</h5>
                   </div>
