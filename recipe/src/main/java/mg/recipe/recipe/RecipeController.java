@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import mg.recipe.DataNotFoundException;
 import mg.recipe.ingredient.Ingredient;
 import mg.recipe.ingredient.IngredientService;
 import mg.recipe.ingredientCategory.IngredientCategory;
@@ -423,16 +424,47 @@ public class RecipeController {
 
         // JSON文字列をJavaオブジェクトに変換する
         ObjectMapper objectMapper = new ObjectMapper();
+//        List<RecipeIngredientJson> jsonList = objectMapper.readValue(sendListStr, new TypeReference<>() {});
+//
+//        List<RecipeIngredient> rList = new ArrayList<>();
+//        for (RecipeIngredientJson json : jsonList) {
+//            RecipeIngredient recipeIngredient = new RecipeIngredient();
+//            recipeIngredient.setQuantity(json.getQty());
+//            recipeIngredient.setMeasurementUnit(measurementUnitService.getUnit(json.getUnitId()));
+//            recipeIngredient.setIngredient(ingredientService.getIng(json.getIngredientId()));
+//            rList.add(recipeIngredient);
+//        }
+
         List<RecipeIngredientJson> jsonList = objectMapper.readValue(sendListStr, new TypeReference<>() {});
 
         List<RecipeIngredient> rList = new ArrayList<>();
         for (RecipeIngredientJson json : jsonList) {
             RecipeIngredient recipeIngredient = new RecipeIngredient();
             recipeIngredient.setQuantity(json.getQty());
-            recipeIngredient.setMeasurementUnit(measurementUnitService.getUnit(json.getUnitId()));
-            recipeIngredient.setIngredient(ingredientService.getIng(json.getIngredientId()));
+
+            // Get measurement unit
+            if (json.getUnitId() == null) {
+                throw new IllegalArgumentException("Unit ID cannot be null");
+            }
+            MeasurementUnit unit = measurementUnitService.getUnit(json.getUnitId());
+            if (unit == null) {
+                throw new DataNotFoundException("Measurement unit not found for ID " + json.getUnitId());
+            }
+            recipeIngredient.setMeasurementUnit(unit);
+
+            // Get ingredient
+            if (json.getIngredientId() == null) {
+                throw new IllegalArgumentException("Ingredient ID cannot be null");
+            }
+            Ingredient ingredient = ingredientService.getIng(json.getIngredientId());
+            if (ingredient == null) {
+                throw new DataNotFoundException("Ingredient not found for ID " + json.getIngredientId());
+            }
+            recipeIngredient.setIngredient(ingredient);
+
             rList.add(recipeIngredient);
         }
+
 
         // 材料の登録
         if (rList != null && !rList.isEmpty()) {

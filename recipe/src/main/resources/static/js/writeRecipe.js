@@ -84,11 +84,13 @@ $(document).ready(function () {
         var selectedItemsData = localStorage.getItem('selectedItems');
         selectedItems = selectedItemsData ? JSON.parse(selectedItemsData) : [];
         if(selectedItems) {
+        console.log('selectedItems is exist: ' + selectedItems);
             paintTableOnModal(selectedItems,tableBody);
-            return false;
+//            return false;
         }
 
        if(savedList) {
+       console.log('savedList is exist: ' + savedList);
         paintTableOnModal(savedList, tableBody);
         return false;
        }
@@ -870,12 +872,17 @@ document.getElementById('writeForm').addEventListener('submit', function (evt) {
             alert("レシピの材料を登録してください。");
             moveToRecipeIngredientSmooth();
             return false;
-        }
+        } else {
         originalItems = JSON.parse(originalItemsData);
-        $('#send-list-input').val(JSON.stringify(originalItems));
+            $('#send-list-input').val(JSON.stringify(originalItems));
+            alert('1. ' + JSON.stringify(originalItems));
+        }
     } else {
         $('#send-list-input').val(JSON.stringify(savedList));
+        alert('2. ' + JSON.stringify(savedList));
     }
+console.log('3. ' + $('#send-list-input').value);
+
 
     var instructions = document.getElementById("instructions").value;
     if(instructions == ""){
@@ -1200,29 +1207,29 @@ $(document).ready(function () {
 
       // 新しいセクションのHTMLを作成する
       var newSection = `
-    <div class="row justify-content-center" id="section${sectionCount}">
-      <div class="d-flex align-items-center">
-        <label for="" class="p-2 text-start section-label">${sectionCount}番目</label>
-        <button type="button" class="btn btn-danger delete-section-btn" data-section-id="${sectionCount}">
-          削除
-        </button>
-      </div>
-      <div class="col-md-8 p-2">
-        <textarea class="form-control" name="description" id="instructions" rows="5"
-          placeholder="作り方を入力"></textarea>
-      </div>
-      <div class="col-md-4">
-        <label class="label2" for="input2_${sectionCount}">
-          <div class="inner2">
-            <img src="/assets/icon/dragndrop.png" class="dragicon2_${sectionCount} img-fluid recipe_image border border-secondary rounded" alt="">
-            <div class="preview2" id="preview2_${sectionCount}"></div>
-          </div>
-        </label>
-        <input id="input2_${sectionCount}" class="input2" accept="image/*" type="file" name="imgUrl" required="true"
-                            multiple="true" hidden="true" data-section-id="${sectionCount}">
-      </div>
+  <div class="row justify-content-center" id="section${sectionCount}">
+    <div class="d-flex align-items-center">
+      <label for="" class="p-2 text-start section-label">${sectionCount}番目</label>
+      <button type="button" class="btn btn-danger delete-section-btn" data-section-id="${sectionCount}">
+        削除
+      </button>
     </div>
-  `;
+    <div class="col-md-8 p-2">
+      <textarea class="form-control" name="description" id="instructions" rows="5"
+        placeholder="作り方を入力"></textarea>
+    </div>
+    <div class="col-md-4">
+      <label class="label2" for="input2_${sectionCount}">
+        <div class="inner2">
+          <img src="/assets/icon/dragndrop.png" class="dragicon2_${sectionCount} img-fluid recipe_image border border-secondary rounded" alt="">
+          <div class="preview2" id="preview2_${sectionCount}"></div>
+        </div>
+      </label>
+      <input id="input2_${sectionCount}" class="input2" accept="image/*" type="file" name="imgUrl" required="true"
+                          multiple="true" hidden="true" data-section-id="${sectionCount}">
+    </div>
+  </div>
+`;
 
       // 新しいセクションのHTMLをフォームに追加する
       $("#dynamic-section").append(newSection);
@@ -1249,35 +1256,134 @@ $(document).ready(function () {
         $(this).text((index + 1) + "番目");
       });
     }
+  });
 
-    function handleDrop2(event) {
-      event.preventDefault();
-      var sectionId = event.target.dataset.sectionId;
-      var fileList = event.dataTransfer.files;
-      if (fileList.length > 0) {
-        var file = fileList[0];
-        var reader = new FileReader();
-        reader.onload = function (event) {
-          var image = new Image();
-          image.src = event.target.result;
-          image.onload = function () {
-            var preview = document.getElementById(`preview2_${sectionId}`);
-            var dragIcon = document.querySelector(`.dragicon2_${sectionId}`);
-            preview.innerHTML = `
-              <div class="img-preview-container">
-                <img src="${image.src}" alt="preview" class="img-preview" />
-                <button type="button" class="btn btn-sm btn-danger remove-img-btn" data-section-id="${sectionId}">Remove</button>
-              </div>
-            `;
-            dragIcon.style.display = "none";
-          };
-        };
-        reader.readAsDataURL(file);
-      }
+
+  $(document).on("change", ".input2", function (e) {
+    var input = e.target;
+    if (input.files && input.files[0]) {
+      var file = input.files[0];
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        var dataURL = e.target.result;
+        // Use .closest() method to find the parent section element
+        var section = $(input).closest(".row");
+        // Get the section number from the data-section-id attribute
+        var sectionNum = section.find(".input2").data("section-id");
+        // Set the preview image source of the selected section to the data URL
+        section.find(`#preview2_${sectionNum}`).html('<img src="' + dataURL + '" class="img-fluid recipe_image border border-secondary rounded">');
+        // Hide the dragicon image element of the selected section
+        section.find(`.dragicon2_${sectionNum}`).hide();
+      };
+      reader.readAsDataURL(file);
     }
+  });
 
 
- });
+  function handleImageUpload(input) {
+    var files = input.files;
+    var preview = $(input).siblings(".preview2");
+    var sectionNum = $(input).data("section-id");
+
+    if (files && files[0]) {
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        var dataURL = e.target.result;
+        preview.html('<img src="' + dataURL + '">');
+        preview.siblings(`.dragicon2_${sectionNum}`).hide();
+      };
+      reader.readAsDataURL(files[0]);
+    }
+  }
+
+//$(document).ready(function () {
+//    // セクションの数を追跡する
+//    var sectionCount = 1;
+//
+//    $("#add-section-btn").click(function () {
+//      // セクションの数を増やす
+//      sectionCount++;
+//
+//      // 新しいセクションのHTMLを作成する
+//      var newSection = `
+//    <div class="row justify-content-center" id="section${sectionCount}">
+//      <div class="d-flex align-items-center">
+//        <label for="" class="p-2 text-start section-label">${sectionCount}番目</label>
+//        <button type="button" class="btn btn-danger delete-section-btn" data-section-id="${sectionCount}">
+//          削除
+//        </button>
+//      </div>
+//      <div class="col-md-8 p-2">
+//        <textarea class="form-control" name="description" id="instructions" rows="5"
+//          placeholder="作り方を入力"></textarea>
+//      </div>
+//      <div class="col-md-4">
+//        <label class="label2" for="input2_${sectionCount}">
+//          <div class="inner2">
+//            <img src="/assets/icon/dragndrop.png" class="dragicon2_${sectionCount} img-fluid recipe_image border border-secondary rounded" alt="">
+//            <div class="preview2" id="preview2_${sectionCount}"></div>
+//          </div>
+//        </label>
+//        <input id="input2_${sectionCount}" class="input2" accept="image/*" type="file" name="imgUrl" required="true"
+//                            multiple="true" hidden="true" data-section-id="1">
+//      </div>
+//    </div>
+//  `;
+//
+//      // 新しいセクションのHTMLをフォームに追加する
+//      $("#dynamic-section").append(newSection);
+//
+//      // すべてのセクションのラベルを更新する
+//      updateSectionLabels();
+//    });
+//
+//    $(document).on("click", ".delete-section-btn", function () {
+//      var sectionId = $(this).data("section-id");
+//      // セクションが最初のセクションでないかどうかを確認する
+//      if (sectionId > 1) {
+//        // HTMLからセクションを削除する
+//        $("#section" + sectionId).remove();
+//        // セクションの数を減らす
+//        sectionCount--;
+//        // 残りのすべてのセクションのラベルを更新する
+//        updateSectionLabels();
+//      }
+//    });
+//
+//    function updateSectionLabels() {
+//      $(".section-label").each(function (index) {
+//        $(this).text((index + 1) + "番目");
+//      });
+//    }
+//
+//    function handleDrop(event) {
+//      event.preventDefault();
+//      var sectionId = event.target.dataset.sectionId;
+//      var fileList = event.dataTransfer.files;
+//      if (fileList.length > 0) {
+//        var file = fileList[0];
+//        var reader = new FileReader();
+//        reader.onload = function (event) {
+//          var image = new Image();
+//          image.src = event.target.result;
+//          image.onload = function () {
+//            var preview = document.getElementById(`preview2_${sectionId}`);
+//            var dragIcon = document.querySelector(`.dragicon2_${sectionId}`);
+//            preview.innerHTML = `
+//              <div class="img-preview-container">
+//                <img src="${image.src}" alt="preview" class="img-preview" />
+//                <button type="button" class="btn btn-sm btn-danger remove-img-btn" data-section-id="${sectionId}">Remove</button>
+//              </div>
+//            `;
+//            dragIcon.style.display = "none";
+//          };
+//        };
+//        reader.readAsDataURL(file);
+//      }
+//    }
+//
+//
+// });
 
     var ingredientInput = document.getElementById("ingredient");
     checkIngredientList();
