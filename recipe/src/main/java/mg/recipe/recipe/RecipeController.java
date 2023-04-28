@@ -3,8 +3,6 @@ package mg.recipe.recipe;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.type.CollectionType;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +23,6 @@ import mg.recipe.user.UserService;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
-import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -37,7 +34,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
@@ -142,38 +138,6 @@ public class RecipeController {
         return "recipeDetail";
     }
 
-    /**
-     * 画像ファイルのリクエストを処理して、キャッシュを制御してレスポンスを返します。
-     *
-     * @param filename 画像ファイルのファイル名
-     * @return 画像ファイルのレスポンスエンティティ
-     * @throws IOException ファイルが見つからない場合、または読み取りエラーが発生した場合にスローされます
-     */
-    @GetMapping("/uploaded/{filename:.+}")
-    public ResponseEntity<Resource> getImage(@PathVariable String filename) throws IOException {
-
-        // 画像ファイルの保存先ディレクトリを設定
-        Path fileStorageLocation = Paths.get("/app/img_files")
-                .toAbsolutePath();
-
-        // ファイルのパスを解決
-        Path filePath = fileStorageLocation.resolve(filename).normalize();
-
-        // リソースオブジェクトを作成
-        Resource resource = new UrlResource(filePath.toUri());
-
-        // キャッシュ制御のためのHTTPヘッダーを設定
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
-        headers.add("Pragma", "no-cache");
-        headers.add("Expires", "0");
-
-        // 画像ファイルのレスポンスエンティティを作成して返す
-        return ResponseEntity.ok()
-                .headers(headers)
-                .contentType(MediaType.IMAGE_JPEG)
-                .body(resource);
-    }
 
     /**
      認証済みユーザーのみがアクセスできるエンドポイントです。レシピの投稿を作成します。
@@ -208,38 +172,11 @@ public class RecipeController {
             return "writeRecipe";
         }
 
-        // サムネイル画像のアップロード
-        Path fileStorageLocation = Paths.get("/app/img_files")
-                .toAbsolutePath();
-
         // サムネイル画像の保存
-        if (!file.isEmpty()) {
+        String newFileName = saveThumbNail(file);
 
-            // オリジナルファイル名をクリーンアップ
-            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-
-            // UUIDでランダムなファイル名を付
-            UUID uuid = UUID.randomUUID();
-            String newFileName = uuid.toString() + "_" + fileName;
-
-            try {
-                // ファイル保存する場所を作成
-                Files.createDirectories(fileStorageLocation);
-                System.out.println(fileStorageLocation);
-
-                // ファイル保存
-                Path targetLocation = fileStorageLocation.resolve(newFileName);
-                file.transferTo(targetLocation.toFile());
-                System.out.println(targetLocation);
-
-                // Recipe オブジェクトにファイルのパスを格納
-                recipeForm.setThumbnail(newFileName);
-            } catch (IOException e) {
-                throw new RuntimeException("Could not store file " + fileName + ". Please try again!", e);
-            }
-        } else {
-            System.out.println("保存するThumbnailがありません。");
-        }
+        // Recipe オブジェクトにファイルのパスをDBに格納
+        recipeForm.setThumbnail(newFileName);
 
         // レシピの登録
         SiteUser siteUser = userService.getUserByUsername(principal.getName());
@@ -251,6 +188,13 @@ public class RecipeController {
         if (dailyRecipeCount >= MAX_DAILY_RECIPES) {
             model.addAttribute("error", "1 日に登録可能なレシピの数を超えました。");
             return "writeRecipe";
+        }
+
+        List<String> imgUrlList = saveInstructionImg(files);
+
+        // レシピ調理手順の作成
+        if (!imgUrlList.isEmpty()) {
+            instructionService.create(descriptionList, imgUrlList, recipe);
         }
 
         // JSON文字列をJavaオブジェクトに変換する
@@ -269,36 +213,7 @@ public class RecipeController {
         // 材料の登録
         recipeIngredientService.create(recipe, rList);
 
-        // 調理手順の画像の登録
-        List<String> imgUrlList = new ArrayList<>();
-        for (int i = 0; i < files.size(); i++) {
-            if (!files.get(i).isEmpty()) {
 
-                // オリジナルファイル名をクリーンアップ
-                String originalFilename = StringUtils.cleanPath(files.get(i).getOriginalFilename());
-                UUID uuid = UUID.randomUUID();
-                String fileName2 = uuid + "_" + originalFilename;
-
-                try {
-                    // ファイル保存する場所を作成
-                    Files.createDirectories(fileStorageLocation);
-                    // ファイル保存
-                    Path targetLocation2 = fileStorageLocation.resolve(fileName2);
-                    files.get(i).transferTo(targetLocation2.toFile());
-                    imgUrlList.add(fileName2);
-
-                } catch (IOException e) {
-                    throw new RuntimeException("ファイルを保存できませんでした。 " + fileName2 + ". もう一度やり直してください!", e);
-                }
-            } else {
-                imgUrlList.add("");
-            }
-        }
-
-        // レシピ調理手順の作成
-        if (!imgUrlList.isEmpty()) {
-            instructionService.create(descriptionList, imgUrlList, recipe);
-        }
 
         session.setAttribute("recipeSaved", true);
         return String.format("redirect:/recipe/detail/%d", recipe.getId());
@@ -323,6 +238,11 @@ public class RecipeController {
 
 
         return "writeRecipe";
+    }
+
+    @GetMapping("/adminPage")
+    public String adminPage() {
+        return "adminPage";
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -381,36 +301,11 @@ public class RecipeController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "修正権限がありません。");
         }
 
-        // サムネイル画像のアップロード
-        Path fileStorageLocation = Paths.get("C:", "KenshuProject", "recipe", "src", "main", "resources", "static", "uploaded")
-                .toAbsolutePath();
-
         // サムネイル画像の保存
-        if (!file.isEmpty()) {
+        String newFileName = saveThumbNail(file);
 
-            // オリジナルファイル名をクリーンアップ
-            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-
-            // UUIDでランダムなファイル名を付
-            UUID uuid = UUID.randomUUID();
-            String newFileName = uuid.toString() + "_" + fileName;
-
-            try {
-                // ファイル保存する場所を作成
-                Files.createDirectories(fileStorageLocation);
-
-                // ファイル保存
-                Path targetLocation = fileStorageLocation.resolve(newFileName);
-                file.transferTo(targetLocation.toFile());
-
-                // Recipe オブジェクトにファイルのパスを格納
-                recipeForm.setThumbnail(newFileName);
-            } catch (IOException e) {
-                throw new RuntimeException("Could not store file " + fileName + ". Please try again!", e);
-            }
-        } else {
-            System.out.println("保存するThumbnailがありません。");
-        }
+        // Recipe オブジェクトにファイルのパスをDBに格納
+        recipeForm.setThumbnail(newFileName);
 
         this.recipeService.modify(recipe, recipeForm);
         System.out.println("1: " + recipeForm.getRecipeName());
@@ -474,31 +369,7 @@ public class RecipeController {
 
 
         // 調理手順の画像の登録
-        List<String> imgUrlList = new ArrayList<>();
-        for (int i = 0; i < files.size(); i++) {
-            if (!files.get(i).isEmpty()) {
-
-                // オリジナルファイル名をクリーンアップ
-                String originalFilename = StringUtils.cleanPath(files.get(i).getOriginalFilename());
-                UUID uuid = UUID.randomUUID();
-                String fileName2 = uuid + "_" + originalFilename;
-
-                try {
-                    // ファイル保存する場所を作成
-                    Files.createDirectories(fileStorageLocation);
-                    // ファイル保存
-                    Path targetLocation2 = fileStorageLocation.resolve(fileName2);
-                    files.get(i).transferTo(targetLocation2.toFile());
-                    imgUrlList.add(fileName2);
-
-                } catch (IOException e) {
-                    throw new RuntimeException("ファイルを保存できませんでした。 " + fileName2 + ". もう一度やり直してください!", e);
-                }
-            } else {
-                imgUrlList.add("");
-            }
-            System.out.println("imgUrlList: "+imgUrlList.get(i));
-        }
+        List<String> imgUrlList = saveInstructionImg(files);
 
         // レシピ調理手順の作成
         if (!imgUrlList.isEmpty()) {
@@ -528,6 +399,94 @@ public class RecipeController {
         SiteUser siteUser = this.userService.getUserByUsername(principal.getName());
         this.recipeService.handleVote(recipe, siteUser);
         return String.format("redirect:/recipe/detail/%s", id);
+    }
+
+    // 画像ファイルの保存先ディレクトリを設定
+    Path fileStorageLocation = Paths.get("C:", "KenshuProject", "recipe", "src", "main", "resources", "static", "uploaded")
+            .toAbsolutePath();
+
+    @GetMapping("/uploaded/{filename:.+}")
+    public ResponseEntity<Resource> getImage(@PathVariable String filename) throws IOException {
+
+
+        // ファイルのパスを解決
+        Path filePath = fileStorageLocation.resolve(filename).normalize();
+
+        // リソースオブジェクトを作成
+        Resource resource = new UrlResource(filePath.toUri());
+
+        // キャッシュ制御のためのHTTPヘッダーを設定
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
+        headers.add("Pragma", "no-cache");
+        headers.add("Expires", "0");
+
+        // 画像ファイルのレスポンスエンティティを作成して返す
+        return ResponseEntity.ok()
+                .headers(headers)
+                .contentType(MediaType.IMAGE_JPEG)
+                .body(resource);
+    }
+
+    public String saveThumbNail(MultipartFile file) {
+
+        // サムネイル画像の保存
+        if (!file.isEmpty()) {
+
+            // オリジナルファイル名をクリーンアップ
+            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+
+            // UUIDでランダムなファイル名を付
+            UUID uuid = UUID.randomUUID();
+            String newFileName = uuid.toString() + "_" + fileName;
+
+            try {
+                // ファイル保存する場所を作成
+                Files.createDirectories(fileStorageLocation);
+
+                // ファイル保存
+                Path targetLocation = fileStorageLocation.resolve(newFileName);
+                file.transferTo(targetLocation.toFile());
+
+                return newFileName;
+            } catch (IOException e) {
+                throw new RuntimeException("Could not store file " + fileName + ". Please try again!", e);
+            }
+        } else {
+            System.out.println("保存するThumbnailがありません。");
+        }
+        return null;
+    }
+
+    public List<String> saveInstructionImg(List<MultipartFile> files) {
+
+        // 調理手順の画像の登録
+        List<String> imgUrlList = new ArrayList<>();
+        for (int i = 0; i < files.size(); i++) {
+            if (!files.get(i).isEmpty()) {
+
+                // オリジナルファイル名をクリーンアップ
+                String originalFilename = StringUtils.cleanPath(files.get(i).getOriginalFilename());
+                UUID uuid = UUID.randomUUID();
+                String fileName2 = uuid + "_" + originalFilename;
+
+                try {
+                    // ファイル保存する場所を作成
+                    Files.createDirectories(fileStorageLocation);
+                    // ファイル保存
+                    Path targetLocation2 = fileStorageLocation.resolve(fileName2);
+                    files.get(i).transferTo(targetLocation2.toFile());
+                    imgUrlList.add(fileName2);
+
+                } catch (IOException e) {
+                    throw new RuntimeException("ファイルを保存できませんでした。 " + fileName2 + ". もう一度やり直してください!", e);
+                }
+            } else {
+                imgUrlList.add("");
+            }
+        }
+
+        return imgUrlList;
     }
 
 }
