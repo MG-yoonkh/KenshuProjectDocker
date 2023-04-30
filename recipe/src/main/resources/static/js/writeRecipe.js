@@ -1,6 +1,7 @@
 let selectedItems = [];
 let savedList = [];
 let commonList = [];
+let ingList = [];
 let tableBody;
 localStorage.clear();
 
@@ -73,23 +74,22 @@ $(document).ready(function () {
         resetQty();
 
         // 3. データ: savedList (Object) 出力
-        var savedListData = localStorage.getItem('savedList');
-        savedList = savedListData ? JSON.parse(savedListData) : [];
+        ingList = getIngListFromLocalStorage();
 
         tableBody = document.querySelector("#selected-items");
         tableBody.innerHTML = "";
 
-        var selectedItemsData = localStorage.getItem('selectedItems');
-        selectedItems = selectedItemsData ? JSON.parse(selectedItemsData) : [];
-        if(selectedItems) {
-        console.log('selectedItems is exist: ' + selectedItems);
-            paintTableOnModal(selectedItems,tableBody);
-//            return false;
-        }
+//        var selectedItemsData = localStorage.getItem('selectedItems');
+//        selectedItems = selectedItemsData ? JSON.parse(selectedItemsData) : [];
+//        if(selectedItems != "") {
+//        console.log('selectedItems is exist: ' + selectedItemsData);
+//        paintTableOnModal(selectedItems,tableBody);
+////            return false;
+//        }
 
-       if(savedList) {
-       console.log('savedList is exist: ' + savedList);
-        paintTableOnModal(savedList, tableBody);
+       if(ingList != "") {
+       console.log('ingList is exist: ');
+        paintTableOnModal(ingList, tableBody);
         return false;
        }
 
@@ -280,26 +280,38 @@ document.querySelector("#reset-button").addEventListener("click", function () {
 
 });
 
+function getIngListFromLocalStorage() {
+    var ingListData = localStorage.getItem('ingList');
+    ingList = ingListData ? JSON.parse(ingListData) : [];
+    console.log('ingList.length: ' + ingList.length);
+    return ingList;
+}
+
+function setIngListToLocalStorage() {
+    // 재료리스트 로컬에 다시 저장
+    localStorage.setItem("ingList", JSON.stringify(ingList));
+    console.log('JSON string:', JSON.stringify(ingList));
+}
 
 // Dynamic Table 材料
 document.querySelector("#add-button").addEventListener("click", function () {
 
-    // max check
-    resetSavedList();
-    var savedListData = localStorage.getItem('savedList');
-    savedList = savedListData ? JSON.parse(savedListData) : [];
-    console.log('savedList.length: ' + savedList.length);
-    if (savedList.length > 9) {
-        console.log("savedList.length > 9");
+    // 로컬스토리지에서 재료리스트 불러오기
+    ingList = getIngListFromLocalStorage();
+
+    // 10개 이상 등록 불가
+    if (ingList.length > 9) {
+        console.log("ingList.length > 9");
         alert('材料は10個まで追加できます。')
         return false;
     } else {
-        console.log("savedList.length <= 9");
+        console.log("ingList.length <= 9");
     }
+
 
     //材料重複チェック
     let ingredientValue = document.querySelector("#ingredient-dropdown").value; // ingredient.id
-    let duplicate = savedList.some(item => item.ingredientId === ingredientValue);
+    let duplicate = ingList.some(item => item.ingredientId === ingredientValue);
     if (duplicate) {
         alert('この材料はすでに追加されています。');
         return false;
@@ -386,7 +398,7 @@ document.querySelector("#add-button").addEventListener("click", function () {
     }
 
     // Object: selectedItemsに保存
-    savedList.push({
+    ingList.push({
         mainCategory: mainCategory,
         subCategory: subCategory,
         ingredient: ingredient,
@@ -396,6 +408,12 @@ document.querySelector("#add-button").addEventListener("click", function () {
         qtyValue: qtyValue,
         unitValue: unitValue
     });
+
+    // 재료리스트 로컬에 다시 저장
+    localStorage.setItem("ingList", JSON.stringify(ingList));
+    console.log('JSON string:', JSON.stringify(ingList));
+
+    console.log('add-button -> savedList is saved in LocalStorage')
 
     resetMain();
     resetSub();
@@ -414,12 +432,7 @@ document.querySelector("#add-button").addEventListener("click", function () {
     console.log('tableBody: '+tableBody);
     tableBody.innerHTML = "";
 
-
-//    if (savedList.length > 0) {
-//        paintTableOnModal(savedList, tableBody);
-//    }
-//    paintTableOnModal(selectedItems, tableBody);
-paintTableOnModal(savedList, tableBody);
+    paintTableOnModal(ingList, tableBody);
 
 });
 
@@ -498,66 +511,74 @@ function updateTableLabels() {
 
 function resetSavedList() {
 
-
+updateTableLabels();
     // 保存の前、初期化
-    localStorage.removeItem("savedList");
-    console.log("local removed: " + localStorage.getItem("savedList"));
-    savedList = [];
-    console.log('table length: ' + tableBody.rows.length);
-    if (tableBody.rows.length != 0) {
-        for (let i = 0; i < tableBody.rows.length; i++) {
-
-            // TableBodyのi番目のcells
-            const cells = tableBody.rows[i].cells;
-
-            // RecipeIngredientに必要なデータ
-            let ingredient;
-            let qty;
-            let unit;
-            let ingredientValue; // ingredient.id
-            let qtyValue; // quantity
-            let unitValue; // unit.id
-
-            // 各cellsのj番目の要素
-            for (let j = 0; j < cells.length; j++) {
-                switch (j) {
-                    case 0:
-                        ingredient = cells[j].textContent;
-                        ingredientValue = cells[j].value;
-                        break;
-                    case 1:
-                        qty = cells[j].textContent;
-                        qtyValue = cells[j].value;
-                        break;
-                    case 2:
-                        unit = cells[j].textContent;
-                        unitValue = cells[j].value;
-                        break;
-                }
-            }
-
-            // Object: savedListに保存
-            savedList.push({
-                ingredient: ingredient,
-                unit: unit,
-                qty: qty,
-                ingredientId: ingredientValue,
-                qtyValue: qtyValue,
-                unitId: unitValue
-            });
-        }
-    }
-
-    localStorage.setItem("savedList", JSON.stringify(savedList));
-    console.log("local reset: " + localStorage.getItem("savedList"));
-
-    updateTableLabels();
+//    localStorage.removeItem("savedList");
+//    console.log("local removed: " + localStorage.getItem("savedList"));
+    //savedList = [];
+//    console.log('table length: ' + tableBody.rows.length);
+//    if (tableBody.rows.length != 0) {
+//        for (let i = 0; i < tableBody.rows.length; i++) {
+//
+//            // TableBodyのi番目のcells
+//            const cells = tableBody.rows[i].cells;
+//
+//            // RecipeIngredientに必要なデータ
+//            let ingredient;
+//            let qty;
+//            let unit;
+//            let ingredientValue; // ingredient.id
+//            let qtyValue; // quantity
+//            let unitValue; // unit.id
+//
+//            // 各cellsのj番目の要素
+//            for (let j = 0; j < cells.length; j++) {
+//                switch (j) {
+//                    case 0:
+//                        ingredient = cells[j].textContent;
+//                        ingredientValue = cells[j].value;
+//                        console.log('ingredient: ' + ingredient);
+//                        console.log('ingredientValue: ' + ingredientValue);
+//                        break;
+//                    case 1:
+//                        qty = cells[j].textContent;
+//                        qtyValue = cells[j].value;
+//                        console.log('qty: ' + qty);
+//                        console.log('qtyValue: ' + qtyValue);
+//                        break;
+//                    case 2:
+//                        unit = cells[j].textContent;
+//                        unitValue = cells[j].value;
+//                        console.log('unit: ' + unit);
+//                        console.log('unitValue: ' + unitValue);
+//                        break;
+//                }
+//            }
+//
+//            // Object: savedListに保存
+//            savedList.push({
+//                ingredient: ingredient,
+//                unit: unit,
+//                qty: qty,
+//                ingredientId: ingredientValue,
+//                qtyValue: qtyValue,
+//                unitId: unitValue
+//            });
+//        }
+//    }
+//
+//    localStorage.setItem("savedList", JSON.stringify(savedList));
+//    console.log("local reset: " + localStorage.getItem("savedList"));
+//
+//    updateTableLabels();
 }
 
 
 // Dynamic材料テーブルをModalに出力
 function paintTableOnModal(commonList, tableBody) {
     console.log('paintTableOnModal commonList.length: ' + commonList.length);
+
+    console.log('paintTableOnModal JSON string:', JSON.stringify(commonList));
 
     if(commonList.length>0) {
         tableBody = document.querySelector("#selected-items");
@@ -594,17 +615,21 @@ function paintTableOnModal(commonList, tableBody) {
         } else {
             cell1.textContent = commonList[i].ingredient;
         }
-        cell1.value = commonList[i].ingredientValue;
+        cell1.setAttribute("data-ingredient-value", commonList[i].ingredientValue);
+        let ingredientValue = cell1.getAttribute("data-ingredient-value");
+        console.log("ingredientValue " + ingredientValue);
 
         let cell2 = document.createElement("td");
         cell2.className = "table-ing-qty";
         cell2.textContent = commonList[i].qty;
-        cell2.value = commonList[i].qtyValue;
 
         let cell3 = document.createElement("td");
         cell3.className = "table-ing-unit";
         cell3.textContent = commonList[i].unit;
-        cell3.value = commonList[i].unitValue;
+
+
+
+
 
         let cell4 = document.createElement("td");
         cell4.className = "table-ing-unit";
@@ -629,6 +654,7 @@ function paintTableOnModal(commonList, tableBody) {
 
         tableBody.appendChild(row);
     }
+
 }
 
 function paintListOnMain(commonList, listElement) {
@@ -656,15 +682,21 @@ function paintListOnMain(commonList, listElement) {
             ingredient.textContent = commonList[i].ingredient;
         }
         ingredient.className = "list-ing-name";
+        ingredient.value = commonList[i].ingredientValue;
+        console.log('ingredient.value ' + ingredient.value);
         listItem.appendChild(ingredient);
 
         let quantity = document.createElement("td");
         quantity.textContent = commonList[i].qty;
+        quantity.value = commonList[i].qtyValue;
+        console.log('quantity.value ' + quantity.value);
         quantity.className = "list-ing-qty";
         listItem.appendChild(quantity);
 
         let unit = document.createElement("td");
         unit.textContent = commonList[i].unit;
+        unit.value = commonList[i].unitValue;
+        console.log('unit.value ' + unit.value);
         unit.className = "list-ing-unit";
         listItem.appendChild(unit);
 
@@ -722,22 +754,26 @@ document.addEventListener('click', function (event) {
     if (event.target && event.target.id === 'deleteBtn') {
         console.log("deleteBtn Clicked");
         let row = event.target.closest('tr');
-        let tableIngName = event.target.dataset.tableIngName;
+        let nameCell = row.querySelector('td.table-ing-name[data-ingredient-value]');
+        let textContent = nameCell.textContent;
+        let name = textContent.split(' ')[0];
+
         row.parentNode.removeChild(row);
-        for (let i = 0; i < selectedItems.length; i++) {
-            if (selectedItems[i].ingredientValue === tableIngName) {
-                selectedItems.splice(i, 1);
-                break;
-            }
+//        for (let i = 0; i < selectedItems.length; i++) {
+//            if (ingList[i].ingredientValue === name) {
+//                selectedItems.splice(i, 1);
+//                console.log("selectedItems splice");
+//                break;
+//            }
+//        }
+
+        const index = ingList.findIndex(item => item.ingredient === name);
+        if (index !== -1) {
+          ingList.splice(index, 1);
         }
-        for (let i = 0; i < savedList.length; i++) {
-            console.log('deleteBtn ingredientId: ' + savedList[i].ingredientId);
-            console.log('deleteBtn tableIngName: ' + savedList[i].tableIngName);
-            if (savedList[i].ingredientId === savedList[i].tableIngName) {
-                savedList.splice(i, 1);
-                break;
-            }
-        }
+
+        setIngListToLocalStorage();
+
         resetSavedList();
     }
 
@@ -746,12 +782,13 @@ document.addEventListener('click', function (event) {
 });
 
 function getDataFromLocalStorageAndDisplay() {
-    var savedListData = localStorage.getItem('savedList');
-    savedList = savedListData ? JSON.parse(savedListData) : [];
+    console.log("getDataFromLocalStorageAndDisplay");
+    ingList = getIngListFromLocalStorage();
+
     listElement = document.querySelector(".display-items");
     listElement.innerHTML = "";
-    if (savedList) {
-        paintListOnMain(savedList, listElement);
+    if (ingList) {
+        paintListOnMain(ingList, listElement);
         var riListTable = document.getElementById("riListTable");
         if(riListTable) {
             riListTable.style.display = "none";
@@ -862,27 +899,40 @@ document.getElementById('writeForm').addEventListener('submit', function (evt) {
         return false;
     }
 
-    var savedListData = localStorage.getItem('savedList');
-    savedList = savedListData ? JSON.parse(savedListData) : [];
+    ingList = getIngListFromLocalStorage();
+    console.log('ingList.length: ' + ingList.length);
 
-//    if (savedListData == null || savedList.length === 0) {
-//        checkOriginalList();
-//        var originalItemsData = localStorage.getItem('originalItems');
-//        if (originalItemsData == null) {
-//            alert("レシピの材料を登録してください。");
-//            moveToRecipeIngredientSmooth();
-//            return false;
-//        } else {
-//        originalItems = JSON.parse(originalItemsData);
-//            $('#send-list-input').val(JSON.stringify(originalItems));
-//            alert('1. ' + JSON.stringify(originalItems));
-//        }
-//    } else {
-//        $('#send-list-input').val(JSON.stringify(savedList));
-//        alert('2. ' + JSON.stringify(savedList));
-//    }
-$('#send-list-input').val(JSON.stringify(savedList));
-//console.log('3. ' + $('#send-list-input').value);
+    let valuesArray = ingList.map(item => {
+        return {
+            ingredientValue: item.ingredientValue,
+            qtyValue: item.qtyValue,
+            unitValue: item.unitValue
+        };
+    });
+    console.log(valuesArray);
+
+    if (valuesArray.length === 0) {
+        checkOriginalList();
+        var originalItemsData = localStorage.getItem('originalItems');
+        originalItems = originalItemsData ? JSON.parse(originalItems) : [];
+        console.log('JSON string:', JSON.stringify(originalItems));
+        if (originalItemsData == null) {
+            alert("レシピの材料を登録してください。");
+            moveToRecipeIngredientSmooth();
+            return false;
+        } else {
+            originalItems = JSON.parse(originalItemsData);
+            $('#send-list-input').val(JSON.stringify(originalItems));
+            alert('1. ' + JSON.stringify(originalItems));
+        }
+    } else {
+        $('#send-list-input').val(JSON.stringify(valuesArray));
+        alert('2. ' + JSON.stringify(valuesArray));
+    }
+console.log('3. ' + $('#send-list-input').value);
+for(let i = 0; i < localStorage.length; i++) {
+  console.log(localStorage.key(i) + " : " + localStorage.getItem(localStorage.key(i)));
+}
 
 
     var instructions = document.getElementById("instructions").value;
@@ -1414,7 +1464,13 @@ $(document).ready(function () {
           }
           localStorage.setItem('selectedItems', JSON.stringify(selectedItems));
           let checked = JSON.parse(localStorage.getItem('selectedItems'));
+          console.log("checked selectedItems: " + checked);
         }
+
+        for(let i = 0; i < localStorage.length; i++) {
+          console.log(localStorage.key(i) + " : " + localStorage.getItem(localStorage.key(i)));
+        }
+
     }
 
     function checkOriginalList() {
@@ -1441,5 +1497,11 @@ $(document).ready(function () {
               }
               localStorage.setItem('originalItems', JSON.stringify(originalItems));
               let checked = JSON.parse(localStorage.getItem('originalItems'));
+              console.log("checked originalItems: " + checked);
             }
+
+            for(let i = 0; i < localStorage.length; i++) {
+              console.log(localStorage.key(i) + " : " + localStorage.getItem(localStorage.key(i)));
+            }
+
         }

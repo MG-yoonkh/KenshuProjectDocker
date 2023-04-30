@@ -6,10 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class RecipeIngredientJson {
-    private String ingredient;
-    private String unit;
-    private String qty;
-    private Integer ingredientId;
+    private Integer ingredientValue;
     private String qtyValue;
-    private Integer unitId;
+    private Integer unitValue;
 }

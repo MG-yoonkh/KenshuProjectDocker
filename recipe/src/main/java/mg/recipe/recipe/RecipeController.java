@@ -343,23 +343,23 @@ public class RecipeController {
         List<RecipeIngredient> rList = new ArrayList<>();
         for (RecipeIngredientJson json : jsonList) {
             RecipeIngredient recipeIngredient = new RecipeIngredient();
-            recipeIngredient.setQuantity(json.getQty());
+            recipeIngredient.setQuantity(json.getQtyValue());
 
-            if (json.getUnitId() == null) {
+            if (json.getUnitValue() == null) {
                 throw new IllegalArgumentException("UnitIDはnullにできません");
             }
-            MeasurementUnit unit = measurementUnitService.getUnit(json.getUnitId());
+            MeasurementUnit unit = measurementUnitService.getUnit(json.getUnitValue());
             if (unit == null) {
-                throw new DataNotFoundException("Unitが見つかりません" + json.getUnitId());
+                throw new DataNotFoundException("Unitが見つかりません" + json.getUnitValue());
             }
             recipeIngredient.setMeasurementUnit(unit);
 
-            if (json.getIngredientId() == null) {
+            if (json.getIngredientValue() == null) {
                 throw new IllegalArgumentException("IngredientIDはnullにできません");
             }
-            Ingredient ingredient = ingredientService.getIng(json.getIngredientId());
+            Ingredient ingredient = ingredientService.getIng(json.getIngredientValue());
             if (ingredient == null) {
-                throw new DataNotFoundException("Ingredientが見つかりません " + json.getIngredientId());
+                throw new DataNotFoundException("Ingredientが見つかりません " + json.getIngredientValue());
             }
             recipeIngredient.setIngredient(ingredient);
 
