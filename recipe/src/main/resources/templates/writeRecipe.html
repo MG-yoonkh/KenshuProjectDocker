@@ -286,11 +286,11 @@
                         <input type="hidden" id="mainCategory" th:value="${icList[loop.index].name}" >
                         <input type="hidden" id="subCategory" th:value="${ing.ingredient.category.name}" >
                         <input type="hidden" id="ingredient" th:value="${ing.ingredient.name}" >
-                        <input type="hidden" id="ingredient" th:value="${ing.ingredient.id}" >
+                        <input type="hidden" id="ingredientValue" th:value="${ing.ingredient.id}" >
                         <input type="hidden" id="qty" th:value="${ing.quantity}">
                         <input type="hidden" id="qtyValue" th:value="${ing.quantity}">
-                        <input type="hidden" id="qty" th:value="${ing.measurementUnit.name}">
-                        <input type="hidden" id="qty" th:value="${ing.measurementUnit.id}">
+                        <input type="hidden" id="unit" th:value="${ing.measurementUnit.name}">
+                        <input type="hidden" id="unitValue" th:value="${ing.measurementUnit.id}">
                       </tr>
                       </tbody>
                     </table>

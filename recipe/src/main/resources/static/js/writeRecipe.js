@@ -84,13 +84,15 @@ $(document).ready(function () {
 //        if(selectedItems != "") {
 //        console.log('selectedItems is exist: ' + selectedItemsData);
 //        paintTableOnModal(selectedItems,tableBody);
-////            return false;
+//            return false;
 //        }
 
        if(ingList != "") {
        console.log('ingList is exist: ');
         paintTableOnModal(ingList, tableBody);
-        return false;
+       } else {
+        ingList = checkIngredientList();
+        paintTableOnModal(ingList, tableBody);
        }
 
     });
@@ -757,7 +759,7 @@ document.addEventListener('click', function (event) {
         let nameCell = row.querySelector('td.table-ing-name[data-ingredient-value]');
         let textContent = nameCell.textContent;
         let name = textContent.split(' ')[0];
-
+        console.log("deleteBtn name: " + name);
         row.parentNode.removeChild(row);
 //        for (let i = 0; i < selectedItems.length; i++) {
 //            if (ingList[i].ingredientValue === name) {
@@ -769,6 +771,7 @@ document.addEventListener('click', function (event) {
 
         const index = ingList.findIndex(item => item.ingredient === name);
         if (index !== -1) {
+            console.log("splice(index, 1): " + name);
           ingList.splice(index, 1);
         }
 
@@ -1462,14 +1465,18 @@ $(document).ready(function () {
             };
             selectedItems.push(item);
           }
-          localStorage.setItem('selectedItems', JSON.stringify(selectedItems));
-          let checked = JSON.parse(localStorage.getItem('selectedItems'));
-          console.log("checked selectedItems: " + checked);
+          localStorage.setItem("ingList", JSON.stringify(selectedItems));
+          let ingList = JSON.parse(localStorage.getItem('ingList'));
+          console.log("checkIngredientList(): " + ingList);
+
+          return ingList;
         }
 
         for(let i = 0; i < localStorage.length; i++) {
           console.log(localStorage.key(i) + " : " + localStorage.getItem(localStorage.key(i)));
         }
+
+        return null;
 
     }
 
