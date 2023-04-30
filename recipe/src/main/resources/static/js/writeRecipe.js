@@ -76,22 +76,20 @@ $(document).ready(function () {
         resetQty();
 
         // 3. データ: savedList (Object) 出力
-        ingList = getIngListFromLocalStorage();
-        backUpList =  getBackUpListFromLocalStorage();
-        tableBody = document.querySelector("#selected-items");
-        tableBody.innerHTML = "";
+        const ingList = getIngListFromLocalStorage();
+        const backUpList = getBackUpListFromLocalStorage();
+        const tableBody = document.querySelector("#selected-items");
 
-       if(ingList != "") {
-       console.log('ingList is exist: ');
+        if (ingList) {
+            console.log('ingList exists');
+        } else if (!backUpList.length) {
+            ingList = [];
+        }
+
         paintTableOnModal(ingList, tableBody);
-       } else if (backUpList.length == 0) {
-            paintTableOnModal(ingList, tableBody);
-       }
-       else {
-        ingList = checkIngredientList();
-        paintTableOnModal(ingList, tableBody);
-       }
+
         localStorage.setItem("backUpList", JSON.stringify(ingList));
+
     });
 }); // Modal Open
 
@@ -120,7 +118,7 @@ function populateUnitDropdown(response) {
 
     // Unitを入れる
     $.each(response, function (index, unit) {
-        var option = $("<option>").text(unit.name).attr("value", unit.id);
+        var option = $("<option>").text(unit.name).attr("value", unit.id).attr("hidden", true);
         $("#unit-dropdown").append(option);
     });
 }
@@ -212,7 +210,7 @@ function dropdownSub(categoryId) {
 
             // 詳細カテゴリーを選えらび直すと → 以下のリストリセット
             resetQty();
-            $("#qty-dropdown").removeAttr("disabled");
+            //$("#qty-dropdown").removeAttr("disabled");
             resetUnit();
 
             // 材料をリストに入れる subcategory.level == 0 && index == 0
@@ -221,7 +219,7 @@ function dropdownSub(categoryId) {
                     var option = $("<option>").text(ingredient.name).attr("value", ingredient.id);
                     $("#ingredient-dropdown").append(option);
                     $("#ingredient-dropdown option:last-child").prop("selected", true);
-//                    $("#ingredient-dropdown").attr("disabled", true);
+                    $("#qty-dropdown").removeAttr("disabled");
                   } else {
                     // 「選択してください」を入れる
                       if (index == 0) {
@@ -257,6 +255,45 @@ $(document).ready(function () {
     $("#qty-dropdown").change(function () {
         $("#unit-dropdown").removeAttr("disabled");
         removeAlert("qty");
+
+        function hideOptions(options, category) {
+          for (let i = 0; i < options.length; i++) {
+            if (
+              (category === "肉類" && ["g", "kg", "枚", "本"].includes(options[i].textContent)) ||
+              (category === "穀類" && ["g", "kg", "カップ", "袋", "本", "束", "大さじ", "小さじ", "斤", "枚"].includes(options[i].textContent)) ||
+              (category === "豆類" && ["g", "kg", "粒", "個", "カップ", "袋", "パック", "大さじ", "小さじ"].includes(options[i].textContent)) ||
+              (category === "種実類" && ["g", "kg", "粒", "個", "大さじ", "小さじ"].includes(options[i].textContent)) ||
+              (category === "野菜類" && ["g", "kg", "個", "本", "かけ", "束"].includes(options[i].textContent)) ||
+              (category === "きのこ類" && ["パック", "個", "袋", "枚", "束"].includes(options[i].textContent)) ||
+              (category === "鶏卵" && ["g", "カップ", "個"].includes(options[i].textContent)) ||
+              (category === "魚介類" && ["g", "kg", "尾", , "個","切れ", "枚"].includes(options[i].textContent)) ||
+              (category === "乳類" && ["ml", "l", "カップ", "本","大さじ", "小さじ"].includes(options[i].textContent)) ||
+              (category === "チーズ" && ["g", "kg", "切れ", "個","枚", "大さじ", "小さじ"].includes(options[i].textContent)) ||
+              (category === "植物油脂類" && ["g","ml", "l", "大さじ", "小さじ"].includes(options[i].textContent)) ||
+              (category === "バター" && ["g", "kg", "大さじ", "小さじ"].includes(options[i].textContent)) ||
+              (category === "マーガリン" && ["g", "大さじ", "小さじ"].includes(options[i].textContent)) ||
+              (category === "調味料" && ["g", "カップ", "大さじ", "小さじ", "かけ"].includes(options[i].textContent)) ||
+              (category === "ドレッシング" && ["g", "大さじ", "小さじ", "かけ"].includes(options[i].textContent)) ||
+              (category === "水" && ["ml", "l","カップ", "大さじ", "小さじ"].includes(options[i].textContent))
+            ) {
+              options[i].hidden = false;
+            } else {
+              options[i].hidden = true;
+            }
+          }
+        }
+
+        let mainCategory = document.querySelector("#main-category-dropdown option:checked").textContent;
+        console.log(mainCategory);
+        if ((mainCategory === "肉類" || mainCategory === "穀類" || mainCategory === "豆類"  || mainCategory === "種実類" || mainCategory === "野菜類"
+             || mainCategory === "きのこ類" || mainCategory === "鶏卵" || mainCategory === "魚介類" || mainCategory === "乳類"
+              || mainCategory === "チーズ" || mainCategory === "植物油脂類" || mainCategory === "バター" || mainCategory === "マーガリン"
+               || mainCategory === "調味料" || mainCategory === "ドレッシング" || mainCategory === "水")) {
+          const dropdown = document.querySelector("#unit-dropdown");
+          const options = dropdown.options;
+          hideOptions(options, mainCategory);
+        }
+
     });
 });
 
