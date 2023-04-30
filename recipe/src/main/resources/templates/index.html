@@ -157,7 +157,7 @@
                     <a th:href="@{|/recipe/detail/${recipe.id}|}" class="btn btn-light recipe_link">
                       <div class="image-container zoom">
                              <img class="card-img-top thumb-size" th:if="${not #strings.isEmpty(recipe.thumbnail)}"
-                             th:src="@{|\uploaded\${recipe.thumbnail}|}" alt="Card image cap" th:onerror="setDefaultImage(this)"/>
+                             th:src="@{/uploaded/${recipe.thumbnail}}" alt="Card image cap" th:onerror="setDefaultImage(this)"/>
                         <i class="like-btn fa-solid fa-heart like_color">
                           <span class="like-count" th:text="${#lists.size(recipe.voter)}"></span>
                         </i>
