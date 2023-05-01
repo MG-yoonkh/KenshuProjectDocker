@@ -408,47 +408,47 @@ document.querySelector("#add-button").addEventListener("click", function () {
       if (!mainAlert.querySelector("label")) {
         let mainLabel = document.createElement("label");
         mainLabel.innerHTML = "メインカテゴリーを選択してください";
-        mainLabel.style.color = "red";
         mainAlert.appendChild(mainLabel);
+        mainAlert.classList.add("alertLabel");
       }
     }
 
     if (subCategoryValue === "") {
-        if (!subAlert.querySelector("label")) {
+      if (!subAlert.querySelector("label")) {
         let subLabel = document.createElement("label");
         subLabel.innerHTML = "詳細カテゴリーを選択してください";
-        subLabel.style.color = "red";
-        document.querySelector(".subAlert").appendChild(subLabel);
-        }
+        subAlert.classList.add("alertLabel"); // add the alertLabel class
+        subAlert.appendChild(subLabel);
+      }
     }
 
-
     if (ingredientValue === "") {
-        if (!ingredientAlert.querySelector("label")) {
-            let ingredientLabel = document.createElement("label");
-            ingredientLabel.innerHTML = "材料を選択してください";
-            ingredientLabel.style.color = "red";
-            document.querySelector(".ingredientAlert").appendChild(ingredientLabel);
-        }
+      if (!ingredientAlert.querySelector("label")) {
+        let ingredientLabel = document.createElement("label");
+        ingredientLabel.innerHTML = "材料を選択してください";
+        ingredientLabel.classList.add("alertLabel");
+        document.querySelector(".ingredientAlert").appendChild(ingredientLabel);
+      }
     }
 
     if (qtyValue === "") {
-        if (!qtyAlert.querySelector("label")) {
-            let qtyLabel = document.createElement("label");
-            qtyLabel.innerHTML = "計量を選択してください";
-            qtyLabel.style.color = "red";
-            document.querySelector(".qtyAlert").appendChild(qtyLabel);
-        }
+      if (!qtyAlert.querySelector("label")) {
+        let qtyLabel = document.createElement("label");
+        qtyLabel.innerHTML = "計量を選択してください";
+        qtyLabel.classList.add("alertLabel");
+        document.querySelector(".qtyAlert").appendChild(qtyLabel);
+      }
     }
 
     if (unitValue === "") {
-        if (!unitAlert.querySelector("label")) {
-            let unitLabel = document.createElement("label");
-            unitLabel.innerHTML = "単位を選択してください";
-            unitLabel.style.color = "red";
-            document.querySelector(".unitAlert").appendChild(unitLabel);
-        }
+      if (!unitAlert.querySelector("label")) {
+        let unitLabel = document.createElement("label");
+        unitLabel.innerHTML = "単位を選択してください";
+        unitLabel.classList.add("alertLabel");
+        document.querySelector(".unitAlert").appendChild(unitLabel);
+      }
     }
+
 
     if (mainCategoryValue === "" || subCategoryValue === "" || ingredientValue === "" || qtyValue === "" || unitValue === "") {
       return false;

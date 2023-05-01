@@ -260,35 +260,73 @@
   display: flex;
 }
 
-.modal.modal-center {
-  text-align: center;
-}
+
 
 @media screen and (min-width: 768px) {
-  .modal.modal-center:before {
-    display: inline-block;
-    vertical-align: middle;
-    content: " ";
-    height: 100%;
-  }
-}
-@media (min-width: 576px) {
-  .modal-dialog {
-    max-width: 600px;
-    margin: 1.75rem auto;
-     /* Adjust the height as needed */
-  }
+    .modal-ing-content {
+        max-width: 800px;
+    }
+    #staticBackdrop {
+
+    }
+    .modal-title {
+        font-size: 18px;
+        font-family: "Roboto", sans-serif;
+        font-weight: bold;
+    }
+    .modal-ing-body {
+        max-height: 560px;
+    }
+    .form-label {
+        font-size: 17px;
+        font-family: "Roboto", sans-serif;
+        margin-bottom: 0.1rem;
+    }
+    .alertLabel {
+        color: red;
+        font-size: 15px;
+        font-family: "Roboto", sans-serif;
+        font-weight: normal;
+        padding-top: 3px;
+    }
+    .draggable {
+            font-size: 15px;
+        }
 }
 
-.modal-dialog.modal-center {
-  display: inline-block;
-  text-align: left;
-  vertical-align: middle;
+@media screen and (max-width: 767px) {
+    .modal-ing-content {
+        max-width: 50%;
+        margin: auto;
+      }
+
+    #staticBackdrop {
+        margin: 1rem;
+
+    }
+    .modal-title {
+            font-size: 18px;
+            margin: auto;
+            font-family: "Roboto", sans-serif;
+            font-weight: bold;
+        }
+    .form-label {
+            font-size: 15px;
+            font-family: "Roboto", sans-serif;
+            margin-bottom: 0.1rem;
+        }
+    .alertLabel {
+        color: red;
+        font-size: 13px;
+        font-family: "Roboto", sans-serif;
+        font-weight: normal;
+        padding-top: 3px;
+    }
+    .draggable {
+        font-size: 14px;
+    }
 }
 
-.modal-dialog {
-  max-width: 800px;
-}
 
 .table-ing {
   width: 100%;
@@ -296,6 +334,7 @@
 
 .table-ing .table-ing-title {
   margin: 0px 0px 0px 0px;
+  font-size: 16px;
 }
 
 .el>.table-ing-name {
