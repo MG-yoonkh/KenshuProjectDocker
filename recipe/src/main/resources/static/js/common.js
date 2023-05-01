@@ -39,3 +39,13 @@ function setDefaultImage(img) {
 
   }
   }
+
+const toggle_btn = document.querySelector(".nav-toggle");
+const toggle_menu = document.querySelector(".nav-menu");
+
+toggle_btn.addEventListener("click", () => {
+  toggle_menu.classList.toggle("active");
+});
+
+
+

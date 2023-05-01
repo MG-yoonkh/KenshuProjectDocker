@@ -37,6 +37,7 @@ dependencies {
 	implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.0'
 	implementation 'commons-fileupload:commons-fileupload:1.4'
 	implementation 'commons-io:commons-io:2.6'
+	implementation 'org.springframework:spring-tx:5.3.9'
 //	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
 //	testImplementation 'org.mockito:mockito-core:3.5.13'
 //	testImplementation 'org.mockito:mockito-junit-jupiter:3.5.13'

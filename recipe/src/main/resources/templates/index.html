@@ -7,7 +7,8 @@
       <!-- 検索 -->
       <div class="row justify-content-center">
         <div class="content col-md-6 justify-content-center search">
-            <label for="" class="search_label">キーワードでレシピ検索!</label>
+            <label for="" class="search_label" id="search_label-big">キーワードでレシピ検索!</label>
+          <label for="" class="search_label" id="search_label-small">キーワード検索!</label>
             <div class="search_input">
               <div class="input-group">
                 <input type="text" id="search_kw" class="form-control" th:value="${kw}" />
@@ -106,11 +107,11 @@
       <!-- end carousel-->
     </div>
     <!-- end 検索 -->
-    <div class="container-fluid my-5 container_recipe">
-      <div class="row" id="">
+    <div class="container-fluid container_recipe">
+      <div class="row">
         <!-- カテゴリー -->
         <div class="col-md-2">
-          <h3>カテゴリ</h3>
+          <h3 id="category-menu">カテゴリ</h3>
           <div class="form-group">
             <ul class="list-group">
               <li class="list-group-item" id="list_korean">
@@ -138,7 +139,7 @@
           <div class="container mt-3">
             <div class="recipe_list">
               <div class="row p-2">
-                <div>
+                <div  id="search-index">
                   <h3 style="display: inline-block;" th:if="${not #strings.isEmpty(kw)}" th:text="@{|「${kw}」|}"></h3>
                   <h3 style="display: inline-block;" th:if="${not #strings.isEmpty(category)}" th:text="@{|「${category}」|}"></h3>
                   <h3 style="display: inline-block;" th:if="${not #strings.isEmpty(cookTime)}" th:text="@{|「${cookTime}分以内」|}"></h3>
@@ -233,6 +234,7 @@
   </main>
   <footer th:replace="~{footer :: footerFragment}"></footer>
   <script type="text/javascript" th:src="@{/js/loading.js}"></script>
+  <script type="text/javascript" th:src="@{/js/common.js}"></script>
 </div>
 <script layout:fragment="script" type='text/javascript'>
 /*  const recommend_elements = document.getElementsByClassName("recommend");

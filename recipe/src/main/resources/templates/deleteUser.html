@@ -43,6 +43,7 @@
   <footer th:replace="~{footer :: footerFragment}"></footer>
 </div>
 <script type="text/javascript" src="js/delete.js"></script>
+<script type="text/javascript" th:src="@{/js/common.js}"></script>
 <script layout:fragment="script" type="text/javascript">
   function openAlert() {
   $('#customAlert').modal('show');
