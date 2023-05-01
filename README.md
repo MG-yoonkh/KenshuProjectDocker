@@ -52,7 +52,7 @@
  6. プロジェクトのzipファイルを展開し、kenshu-mainフォルダの内のrecipeフォルダでcmdを開け、docker-compose up -dを入力する。
  7. もう一度docker-compose up -dを入力し、docker-compose exec db mysql -u rootを入力する。(DB初期化作業)
  8. dataフォルダのinit.sqlを開き、内容を全部コピーしてcmdにペーストし、エンターキーを押す。
- 9. もう一度docker-compose down、docker-compose upを入力する。
+ 9. exitを入力して、もう一度docker-compose down、docker-compose upを入力する。
  10. ブラウザを開き、localhost:8080に接続する。
  
 
