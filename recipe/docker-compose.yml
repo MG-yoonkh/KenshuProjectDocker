@@ -29,7 +29,6 @@ services:
     command: ["java", "-jar", "app.jar"]
     volumes:
       - C:\KenshuProject\recipe\src\main\resources\static\uploaded:/app/img_files
-#      - /mnt/C/KenshuProject/recipe/src/main/resources/static/uploaded:/app/img_files
 volumes:
   db_data:
 networks:
