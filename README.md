@@ -39,7 +39,7 @@
  11. IntelliJのFile - project structureでJAVAのバージョンを17に設定
  12. recipe - src - main - java - RecipeApplicationを実行する。
  13. DATAフォルダのcsvファイルをMySQLにインポートする。
- 14. localhost:8080に接続する。
+ 14. localhost:8080に接続する。    
 
 
 
