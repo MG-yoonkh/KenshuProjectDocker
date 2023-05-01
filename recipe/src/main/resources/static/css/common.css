@@ -52,6 +52,10 @@ header .header_area {
   padding-top: 7px;
 }
 
+.footer_area {
+background-color: #FAF0E6;
+}
+
 header {
   position: fixed;
   width: 100%;

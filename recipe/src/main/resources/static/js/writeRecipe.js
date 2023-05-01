@@ -926,7 +926,7 @@ document.getElementById('writeForm').addEventListener('submit', function (evt) {
     let valuesArray = ingList.map(item => {
         return {
             ingredientValue: item.ingredientValue,
-            qtyValue: item.qtyValue,
+            qtyValue: item.qty,
             unitValue: item.unitValue
         };
     });
