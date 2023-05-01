@@ -1,5 +1,9 @@
 CREATE DATABASE Recipe;
 
+create user 'root'@'%' identified by '1111';
+
+grant all privileges on Recipe.* to root@'%' with grant option;
+
 USE Recipe;
 
 SET FOREIGN_KEY_CHECKS = 0;
