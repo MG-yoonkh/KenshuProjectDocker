@@ -23,5 +23,5 @@ ingredient_category_id,level,ingredient_category_name,parent_id
 22,0,バター,12
 23,0,マーガリン,13
 24,0,調味料,14
-25,1,ドレッシング,14
-26,0,水,15
+25,0,ドレッシング,15
+26,0,水,16

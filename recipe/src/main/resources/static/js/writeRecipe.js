@@ -335,8 +335,8 @@ function getBackUpListFromLocalStorage() {
     return backUpList;
 }
 
+// 材料リストをローカルストレージに再度保存
 function setBackUpListToLocalStorage() {
-    // 재료리스트 로컬에 다시 저장
     localStorage.setItem("backUpList", JSON.stringify(backUpList));
     console.log('JSON string:', JSON.stringify(backUpList));
 }
@@ -344,10 +344,10 @@ function setBackUpListToLocalStorage() {
 // Dynamic Table 材料
 document.querySelector("#add-button").addEventListener("click", function () {
 
-    // 로컬스토리지에서 재료리스트 불러오기
+    // ローカルストレージから材料リストを取得する
     ingList = getIngListFromLocalStorage();
 
-    // 10개 이상 등록 불가
+    // Dynamic Table 材料
     if (ingList.length > 9) {
         console.log("ingList.length > 9");
         alert('材料は10個まで追加できます。')
@@ -387,7 +387,6 @@ document.querySelector("#add-button").addEventListener("click", function () {
     let unit = document.querySelector("#unit-dropdown option:checked").textContent;
 
     // データ送信用
-//    let ingredientValue = document.querySelector("#ingredient-dropdown").value;
     let qtyValue = document.querySelector("#qty-dropdown").value; // quantity
     let unitValue = document.querySelector("#unit-dropdown").value; // unit.id
 
@@ -901,8 +900,16 @@ document.getElementById('writeForm').addEventListener('submit', function (evt) {
     if (thumbFile2Input) {
       recipe_image = thumbFile2Input.value;
     } else {
-      recipe_image = document.getElementById("preview").querySelector('img').getAttribute('src');
+      const previewImg = document.getElementById("preview").querySelector('img');
+      if (previewImg) {
+        recipe_image = previewImg.getAttribute('src');
+      } else {
+            alert("レシピのイメージを登録してください。")
+            moveToRecipeImageSmooth();
+            return false;
+      }
     }
+
 
     if(recipe_image == ""){
         alert("レシピのイメージを登録してください。")
