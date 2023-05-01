@@ -47,9 +47,8 @@ header nav ul li:hover a {
   text-decoration: none;
 }
 
-header .header_area {
-  margin: 0px 30px 10px 30px;
-  padding-top: 7px;
+.footer_area {
+background-color: #FAF0E6;
 }
 
 header {
@@ -112,12 +111,6 @@ header nav ul li:hover a:after {
   opacity: 1;
 }
 
-
-header .thumb_nail {
-  width: 45px;
-  height: 45px;
-}
-
 .head-tagline {
   position: absolute;
   display: inline;
@@ -130,6 +123,37 @@ header .thumb_nail {
 
 .indexSearch {
   z-index: auto;
+}
+
+.img-cover {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  opacity: 0.9;
+  z-index: 1;
+}
+
+.img-bg .content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 5rem;
+  color: white;
+  z-index: 2;
+  text-align: center;
+}
+.img-bg .search_label {
+  font-size: 40px;
+  font-family: "Roboto", sans-serif;
+  font-weight: bold;
+  color: white;
+  /* text-shadow: -3px 1px black, 0px 2px black, 2px 0px black, 0px -2px black; */
+}
+.img-bg .search input[type="text"] {
+  height: 35px;
+  margin-top: 0px;
 }
 
 
@@ -214,3 +238,215 @@ footer {
   color: white;
 }
 
+@media (max-width: 576px) {
+
+
+  #menu {
+    display: none;
+  }
+
+  .nav-menu {
+    display: none;
+  }
+
+  .nav-menu.active {
+    flex-direction: column;
+    display: flex;
+    position: relative;
+    top: 18px;
+  }
+
+  #small-menu {
+
+  flex-direction: column;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  }
+  .fa-bars {
+    display: block;
+    font-size: 2em;
+    cursor: pointer;
+    padding-top: 20px;
+  }
+
+  .fas {
+      position: absolute;
+      right: 20px;
+      top: 3px;
+      right: 24px;
+  }
+
+  .head-tagline {
+    display: none;
+  }
+
+  .search-col {
+    display: none;
+  }
+
+  #search_label-big {
+  display: none;
+  }
+
+   #hamburger-menu {
+    padding-top: 11px;
+   }
+
+   .header_area {
+     margin: 0px 10px 11px 10px;
+     padding-top: 8px;
+   }
+
+   .img-bg {
+       top: -11px;
+       position: relative;
+           height: 70vh;
+           background-size: cover;
+       }
+
+   header .thumb_nail {
+       width: 35px;
+       height: 35px;
+       margin-top: 12px;
+   }
+
+   #search-index{
+   margin-top: 20px;
+   }
+
+   #category-menu {
+   display: inline-block;
+   }
+}
+
+@media (min-width: 576px) and (max-width: 992px) {
+
+
+  #menu {
+    display: none;
+  }
+
+  .nav-menu {
+    display: none;
+  }
+
+  .nav-menu.active {
+    flex-direction: column;
+    display: flex;
+    position: relative;
+    top: 18px;
+  }
+
+  #small-menu {
+
+  flex-direction: column;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  }
+  .fa-bars {
+    display: block;
+    font-size: 2em;
+    cursor: pointer;
+    padding-top: 20px;
+  }
+
+  .fas {
+      position: absolute;
+      right: 20px;
+      top: 3px;
+      right: 24px;
+  }
+
+  .head-tagline {
+    display: none;
+  }
+
+  .search-col {
+    min-width: 205px;
+  }
+
+  #search_label-big {
+  display: none;
+  }
+
+   #hamburger-menu {
+    padding-top: 11px;
+   }
+
+   .header_area {
+     margin: 0px 10px 11px 10px;
+     padding-top: 8px;
+   }
+
+   .img-bg {
+       top: -11px;
+       position: relative;
+           height: 70vh;
+           background-size: cover;
+       }
+
+   header .thumb_nail {
+       width: 35px;
+       height: 35px;
+       margin-top: 12px;
+   }
+
+   #search-index{
+   margin-top: 20px;
+   }
+
+   #category-menu {
+   display: inline-block;
+   }
+}
+
+@media (min-width: 992px) {
+
+    header .header_area {
+      margin: 0px 10px 6px 10px;
+      padding-top: 7px;
+    }
+  #menu {
+      display: flex;
+    }
+    #header-all {
+        display: flex;
+      }
+  li > a {
+    color: white;
+  }
+  .fa-bars {
+    display: none;
+  }
+  #hamburger-menu {
+    display: none;
+  }
+
+  #small-menu {
+  display: none;
+  }
+
+    #search_label-small {
+    display: none;
+    }
+
+  header .thumb_nail {
+        width: 40px;
+        height: 40px;
+        margin-top: 9px;
+  }
+
+  .img-bg {
+    position: relative;
+    top: -3px;
+    height: 70vh;
+    background-size: cover;
+  }
+
+  .container_recipe {
+        margin-top: 3rem;
+        margin-bottom: 3rem;
+  }
+}

@@ -10,6 +10,9 @@ localStorage.clear();
 // Modal Click
 $(document).ready(function () {
 
+    const preview = document.getElementById("preview2_1");
+    //preview.setAttribute('hidden', true);
+
     document.querySelector(".modal-ing").addEventListener("click", function () {
 
     resetSavedList();
@@ -405,47 +408,47 @@ document.querySelector("#add-button").addEventListener("click", function () {
       if (!mainAlert.querySelector("label")) {
         let mainLabel = document.createElement("label");
         mainLabel.innerHTML = "メインカテゴリーを選択してください";
-        mainLabel.style.color = "red";
         mainAlert.appendChild(mainLabel);
+        mainAlert.classList.add("alertLabel");
       }
     }
 
     if (subCategoryValue === "") {
-        if (!subAlert.querySelector("label")) {
+      if (!subAlert.querySelector("label")) {
         let subLabel = document.createElement("label");
         subLabel.innerHTML = "詳細カテゴリーを選択してください";
-        subLabel.style.color = "red";
-        document.querySelector(".subAlert").appendChild(subLabel);
-        }
+        subAlert.classList.add("alertLabel"); // add the alertLabel class
+        subAlert.appendChild(subLabel);
+      }
     }
 
-
     if (ingredientValue === "") {
-        if (!ingredientAlert.querySelector("label")) {
-            let ingredientLabel = document.createElement("label");
-            ingredientLabel.innerHTML = "材料を選択してください";
-            ingredientLabel.style.color = "red";
-            document.querySelector(".ingredientAlert").appendChild(ingredientLabel);
-        }
+      if (!ingredientAlert.querySelector("label")) {
+        let ingredientLabel = document.createElement("label");
+        ingredientLabel.innerHTML = "材料を選択してください";
+        ingredientLabel.classList.add("alertLabel");
+        document.querySelector(".ingredientAlert").appendChild(ingredientLabel);
+      }
     }
 
     if (qtyValue === "") {
-        if (!qtyAlert.querySelector("label")) {
-            let qtyLabel = document.createElement("label");
-            qtyLabel.innerHTML = "計量を選択してください";
-            qtyLabel.style.color = "red";
-            document.querySelector(".qtyAlert").appendChild(qtyLabel);
-        }
+      if (!qtyAlert.querySelector("label")) {
+        let qtyLabel = document.createElement("label");
+        qtyLabel.innerHTML = "計量を選択してください";
+        qtyLabel.classList.add("alertLabel");
+        document.querySelector(".qtyAlert").appendChild(qtyLabel);
+      }
     }
 
     if (unitValue === "") {
-        if (!unitAlert.querySelector("label")) {
-            let unitLabel = document.createElement("label");
-            unitLabel.innerHTML = "単位を選択してください";
-            unitLabel.style.color = "red";
-            document.querySelector(".unitAlert").appendChild(unitLabel);
-        }
+      if (!unitAlert.querySelector("label")) {
+        let unitLabel = document.createElement("label");
+        unitLabel.innerHTML = "単位を選択してください";
+        unitLabel.classList.add("alertLabel");
+        document.querySelector(".unitAlert").appendChild(unitLabel);
+      }
     }
+
 
     if (mainCategoryValue === "" || subCategoryValue === "" || ingredientValue === "" || qtyValue === "" || unitValue === "") {
       return false;
@@ -923,7 +926,7 @@ document.getElementById('writeForm').addEventListener('submit', function (evt) {
     let valuesArray = ingList.map(item => {
         return {
             ingredientValue: item.ingredientValue,
-            qtyValue: item.qtyValue,
+            qtyValue: item.qty,
             unitValue: item.unitValue
         };
     });
@@ -1143,123 +1146,7 @@ function el(nodeName, attributes, ...children) {
 
 
 
-//
-//
-//var input = document.getElementById("input");
-//var initLabel = document.getElementById("label");
-//
-//input.addEventListener("change", (event) => {
-//    const files = changeEvent(event);
-//    handleUpdate(files);
-//});
-//
-//initLabel.addEventListener("mouseover", (event) => {
-//    event.preventDefault();
-//    const label = document.getElementById("label");
-//    label?.classList.add("label--hover");
-//});
-//
-//initLabel.addEventListener("mouseout", (event) => {
-//    event.preventDefault();
-//    const label = document.getElementById("label");
-//    label?.classList.remove("label--hover");
-//});
-//
-//initLabel.addEventListener("dragenter", (event) => {
-//    event.preventDefault();
-//    console.log("dragenter");
-//    const label = document.getElementById("label");
-//    label?.classList.add("label--hover");
-//});
-//
-//initLabel.addEventListener("dragover", (event) => {
-//    console.log("dragover");
-//    event.preventDefault();
-//});
-//
-//initLabel.addEventListener("dragleave", (event) => {
-//    event.preventDefault();
-//    console.log("dragleave");
-//    const label = document.getElementById("label");
-//    label?.classList.remove("label--hover");
-//});
-//
-//initLabel.addEventListener("drop", (event) => {
-//    event.preventDefault();
-//    console.log("drop");
-//    const label = document.getElementById("label");
-//    label?.classList.remove("label--hover");
-//    const files = event.dataTransfer?.files;
-//    handleUpdate([...files]);
-//});
-//
-//function changeEvent(event) {
-//    const { target } = event;
-//    return [...target.files];
-//};
-//
-//function handleUpdate(event) {
-//  const preview = document.getElementById("preview");
-//  const dragIcon = document.querySelector(".dragicon");
-//
-//  const fileList = event.target.files;
-//  if (!fileList) {
-//    return; // exit the function if no file is selected
-//  }
-//
-//  const file = fileList[0];
-//  const reader = new FileReader();
-//
-//  reader.addEventListener("load", (event) => {
-//    const img = document.createElement("img");
-//    img.className = "embed-img";
-//    img.src = event.target.result;
-//
-//    const imgContainer = document.createElement("div");
-//    imgContainer.className = "container-img";
-//    imgContainer.appendChild(img);
-//
-//    preview.innerHTML = ""; // clear any existing preview
-//    preview.appendChild(imgContainer);
-//    dragIcon.style.display = "none";
-//  });
-//
-//  reader.readAsDataURL(file);
-//}
-//
-//
-//function el(nodeName, attributes, ...children) {
-//    const node =
-//        nodeName === "fragment"
-//            ? document.createDocumentFragment()
-//            : document.createElement(nodeName);
-//
-//    Object.entries(attributes).forEach(([key, value]) => {
-//        if (key === "events") {
-//            Object.entries(value).forEach(([type, listener]) => {
-//                node.addEventListener(type, listener);
-//            });
-//        } else if (key in node) {
-//            try {
-//                node[key] = value;
-//            } catch (err) {
-//                node.setAttribute(key, value);
-//            }
-//        } else {
-//            node.setAttribute(key, value);
-//        }
-//    });
-//
-//    children.forEach((childNode) => {
-//        if (typeof childNode === "string") {
-//            node.appendChild(document.createTextNode(childNode));
-//        } else {
-//            node.appendChild(childNode);
-//        }
-//    });
-//
-//    return node;
-//}
+
 
 $(document).ready(function () {
     // セクションの数を追跡する
@@ -1285,7 +1172,7 @@ $(document).ready(function () {
     <div class="col-md-4">
       <label class="label2" for="input2_${sectionCount}">
         <div class="inner2">
-          <img src="/assets/icon/dragndrop.png" class="dragicon2_${sectionCount} img-fluid recipe_image border border-secondary rounded" alt="">
+          <img src="/assets/icon/dragndrop.png" class="dragicon2_${sectionCount} img-fluid border border-secondary rounded" alt="">
           <div class="preview2" id="preview2_${sectionCount}"></div>
         </div>
       </label>
@@ -1335,7 +1222,7 @@ $(document).ready(function () {
         // Get the section number from the data-section-id attribute
         var sectionNum = section.find(".input2").data("section-id");
         // Set the preview image source of the selected section to the data URL
-        section.find(`#preview2_${sectionNum}`).html('<img src="' + dataURL + '" class="img-fluid recipe_image border border-secondary rounded">');
+        section.find(`#preview2_${sectionNum}`).html('<img src="' + dataURL + '" class="img-fluid border border-secondary rounded">');
         // Hide the dragicon image element of the selected section
         section.find(`.dragicon2_${sectionNum}`).hide();
       };
@@ -1355,6 +1242,8 @@ $(document).ready(function () {
         var dataURL = e.target.result;
         preview.html('<img src="' + dataURL + '">');
         preview.siblings(`.dragicon2_${sectionNum}`).hide();
+        preview.removeAttribute('hidden');
+
       };
       reader.readAsDataURL(files[0]);
     }

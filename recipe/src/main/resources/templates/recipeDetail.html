@@ -76,7 +76,7 @@
               <h1 th:text="${recipe.recipeName}" class="p-2 font-face"></h1>
             </div>
             <div class="col-md-9">
-              <img th:src="@{/uploaded/${recipe.thumbnail}}" class="img-fluid border border-secondary rounded" alt="Recipe Image" id="recipe_image"
+              <img th:src="@{|/uploaded/${recipe.thumbnail}|}" class="img-fluid border border-secondary rounded" alt="Recipe Image" id="recipe_image"
                 th:onerror="setDefaultImage(this)" />
               <div class="p-3 g-3">
                 <a href="javascript:void(0);" th:data-uri="@{|/recipe/modify/${recipe.id}|}" class="modify btn btn-sm btn-outline-secondary"
@@ -212,6 +212,7 @@
     </div>
   </main>
   <footer th:replace="~{footer :: footerFragment}"></footer>
+  <script type="text/javascript" th:src="@{/js/common.js}"></script>
 </div>
 
 <script layout:fragment="script" type="text/javascript">

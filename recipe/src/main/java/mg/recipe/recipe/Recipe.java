@@ -73,10 +73,13 @@ public class Recipe {
     }
 
 
+    @Version
+    private int version;
 
     // レシピ＆材料
-    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RecipeIngredient> recipeIngredientList;
+
 
     // 調理方法
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)

@@ -2,14 +2,14 @@
   <div class="header_area" id="">
     <div class="container-fluid">
       <div class="row">
-        <div class="col-md-4">
+        <div class="col">
           <a class="navbar-brand" th:href="@{/index}">
             <img th:src="@{/assets/img/food.png}" title="" class="thumb_nail" />
             <p class="head-tagline"><img th:src="@{/assets/img/head-tagline.png}" alt="" id="iii"></p>
           </a>
         </div>
-        <div class="col-md-4 mt-2">
-          <nav>
+        <div class="col mt-3 search-col">
+          <nav id="search">
             <form th:action="@{/index}" method="get" id="headerSearchForm">
               <div class="input-group">
                 <input type="text" name="kw" class="form-control" placeholder="キーワード検索" />
@@ -23,11 +23,11 @@
             </form>
           </nav>
         </div>
-        <div class="col-md-4 text-end justify-content-end">
-          <nav class="ms-auto">
-            <ul>
+        <div class="col text-end justify-content-end">
+          <nav class="ms-auto float-end">
+            <ul id="menu">
               <li th:classappend="${header} == 'index' ? 'active'"><a th:href="@{/index}">ホーム</a></li>
-              <li class="incomplete" sec:authorize="hasRole('USER')"><a th:href="@{/recipe/write}">レシピ投稿</a></li>
+              <li sec:authorize="hasRole('USER')"><a th:href="@{/recipe/write}">レシピ投稿</a></li>
               <li sec:authorize="hasRole('USER')"><a th:href="@{/mypage}">マイページ</a></li>
               <li sec:authorize="hasRole('ADMIN')">
                 <a th:href="@{/adminPage}" >管理者ページ</a>
@@ -39,7 +39,28 @@
               </li>
             </ul>
           </nav>
+          <div id="hamburger-menu" class="nav-toggle">
+            <i class="fas fa-bars" id="menu-icon"></i>
+          </div>
         </div>
+
+        <nav>
+
+          <ul id="small-menu" class="nav-menu">
+            <li th:classappend="${header} == 'index' ? 'active'"><a th:href="@{/index}">ホーム</a></li>
+            <li sec:authorize="hasRole('USER')"><a th:href="@{/recipe/write}">レシピ投稿</a></li>
+            <li sec:authorize="hasRole('USER')"><a th:href="@{/mypage}">マイページ</a></li>
+            <li sec:authorize="hasRole('ADMIN')">
+              <a th:href="@{/adminPage}" >管理者ページ</a>
+            </li>
+            <li sec:authorize="isAnonymous()"><a th:href="@{/signin}" >会員登録</a></li>
+            <li>
+              <a th:href="@{/login}" sec:authorize="isAnonymous()">ログイン</a>
+              <a th:href="@{/logout}" sec:authorize="isAuthenticated()">ログアウト</a>
+            </li>
+          </ul>
+
+        </nav>
       </div>
     </div>
   </div>

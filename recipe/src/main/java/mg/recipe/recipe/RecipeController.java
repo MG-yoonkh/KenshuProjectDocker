@@ -20,6 +20,7 @@ import mg.recipe.recipeIngredient.RecipeIngredientJson;
 import mg.recipe.recipeIngredient.RecipeIngredientService;
 import mg.recipe.user.SiteUser;
 import mg.recipe.user.UserService;
+import org.hibernate.StaleObjectStateException;
 import org.springframework.core.io.PathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
@@ -29,6 +30,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
@@ -375,9 +377,17 @@ public class RecipeController {
         if (!recipe.getAuthor().getUsername().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "削除権限がありません。");
         }
-        this.recipeService.delete(recipe);
+        try {
+            this.recipeService.delete(recipe);
+        } catch (StaleObjectStateException e) {
+            // Refresh the entity from the database and try again
+            recipe = this.recipeService.getRecipe(id);
+            this.recipeService.delete(recipe);
+        }
         return "redirect:/";
     }
+
+
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/recipe/vote/{id}")

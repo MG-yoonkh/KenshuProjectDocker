@@ -72,7 +72,7 @@
                         <!-- イメージ preview-->
                         <div class="preview" id="preview">
                           <img class="preview" th:if="${recipeForm.thumbnail}"
-                            th:src="@{/uploaded/${recipeForm.thumbnail}}"  th:onerror="setDefaultImage(this)" />
+                            th:src="@{|/uploaded/${recipeForm.thumbnail}|}"  th:onerror="setDefaultImage(this)" />
                         </div>
                         <img th:src="@{/assets/icon/dragndrop.png}" class="dragicon" alt=""
                           th:classappend="${recipeForm.thumbnail} ? 'hidden' : ''">
@@ -164,18 +164,18 @@
               <!-- Modal -->
               <div class="modal fade" id="staticBackdrop" tabindex="-1" aria-labelledby="staticBackdrop"
                 aria-hidden="true">
-                <div class="modal-dialog " style="width: 800px;">
+                <div class="modal-ing-content modal-dialog modal-dialog modal-dialog-centered modal-dialog-scrollable" style="">
                   <div class="modal-content">
                     <div class="modal-header">
                       <h5 class="modal-title" id="staticBackdrop">材料</h5>
                       <button type="button" class="btn-close" id="close-ingredient-modal" data-bs-dismiss="modal"
                         aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body modal-ing-body">
                       <div class="row">
                         <div class="col-md-6">
                           <!-- メインリスト -->
-                          <div class="mb-3">
+                          <div class="mb-2">
                             <label for="main-category-dropdown" class="form-label">メインカテゴリー</label>
                             <select class="form-select" id="main-category-dropdown" name="mainCategoryId">
                               <option value="">選択してください</option>
@@ -183,7 +183,7 @@
                             <div class="mainAlert alertLabel" id="mainAlert"></div>
                           </div>
                           <!-- 詳細リスト -->
-                          <div class="mb-3">
+                          <div class="mb-2">
                             <label for="sub-category-dropdown" class="form-label">詳細カテゴリー</label>
                             <select class="form-select" id="sub-category-dropdown" name="subCategoryId">
                               <option value="">選択してください</option>
@@ -191,7 +191,7 @@
                             <div class="subAlert alertLabel"></div>
                           </div>
                           <!-- 材料リスト -->
-                          <div class="mb-3">
+                          <div class="mb-2">
                             <label for="ingredient-dropdown" class="form-label">材料</label>
                             <select class="form-select" id="ingredient-dropdown" name="name">
                               <option value="">選択してください</option>
@@ -199,7 +199,7 @@
                             <div class="ingredientAlert alertLabel"></div>
                           </div>
                           <!-- 計量リスト -->
-                          <div class="mb-3">
+                          <div class="mb-2">
                             <label for="qty-dropdown" class="form-label">計量</label>
                             <select class="form-select" id="qty-dropdown" name="measurementUnitId">
                               <option value="" disabled selected hidden>選択してください</option>
@@ -215,7 +215,7 @@
                             <div class="qtyAlert alertLabel"></div>
                           </div>
                           <!-- 単位リスト -->
-                          <div class="mb-3">
+                          <div class="mb-2">
                             <label for="unit-dropdown" class="form-label">単位</label>
                             <select class="form-select" id="unit-dropdown" name="measurementUnitId">
                               <option value="">選択してください</option>
@@ -343,10 +343,10 @@
                           placeholder="作り方を入力"></textarea>
                       </div>
                       <div class="col-md-4">
-                        <label class="label2" for="input2_1">
-                          <div class="inner2">
-                            <img src="/assets/icon/dragndrop.png" class="dragicon2_1" alt="">
-                            <div class="preview2" id="preview2_1">
+                        <label class="label2 image_container" for="input2_1">
+                          <div class="inner2 ">
+                            <img src="/assets/icon/dragndrop.png" class="dragicon2_1 img-fluid border border-secondary rounded" alt="">
+                            <div class="preview2 img-fluid border border-secondary rounded recipe_image_dynamic" id="preview2_1">
                             </div>
                           </div>
                         </label>
@@ -431,6 +431,7 @@
   </main>
   <footer th:replace="~{footer :: footerFragment}"></footer>
   <script layout:fragment="script" type="text/javascript" th:src="@{/js/writeRecipe.js}"></script>
+  <script type="text/javascript" th:src="@{/js/common.js}"></script>
   <script th:inline="javascript">
     /*<![CDATA[*/
     let errorMessage = /*[[${error}]]*/ '';
