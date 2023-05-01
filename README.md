@@ -33,7 +33,8 @@
  6. IntelliJ設置 : IntelliJのダウンロードページに接続 - Ultimate(有料) or Community(無料)をダウンロード - インストールする。  
  [IntelliJダウンロード](https://www.jetbrains.com/idea/download/#section=windows)
  8. MySQLWorkbenchを開き、新規コネクションを作って'Recipe' Databaseを生成する。(CREATE DATABASE Recipe;)
- 9. プロジェクトをzipファイルでダウンロードし、管理しやすい経路に展開
+ 9. プロジェクトをzipファイルでダウンロードし、管理しやすい経路に展開  
+ [プロジェクトzipファイル](https://github.com/MG-yoonkh/kenshu/archive/refs/heads/main.zip)
  10. IntelliJを開けて、recipe - build.gradleを開ける。
  11. IntelliJのFile - project structureでJAVAのバージョンを17に設定
  12. recipe - src - main - java - RecipeApplicationを実行する。
@@ -46,11 +47,13 @@
  1. Docker desktopを設置する  
  [Docker desktop ダウンロード](https://www.docker.com/products/docker-desktop/)
  3. Docker desktopを実行する。
- 4. recipetarfile.zipファイルをダウンロードする。  
- [recipetarfile.zip ダウンロード](https://drive.google.com/file/d/16TcQ87fWujOzH8VApu2gG5aMpw_-7Pdx/view?usp=share_link)
- 6. recipetarfile.zipファイルを展開し、recipetarfileフォルダの内でcmdを開け、docker load -i recipe.tarを入力する。
- 7. docker-compose up -dを入力する。
- 8. ブラウザを開き、localhost:8080に接続する。
+ 4. プロジェクトをzipファイルでダウンロードし、管理しやすい経路に展開  
+ [プロジェクトzipファイル](https://github.com/MG-yoonkh/kenshu/archive/refs/heads/main.zip)
+ 6. プロジェクトのzipファイルを展開し、kenshu-mainフォルダの内のrecipeフォルダでcmdを開け、docker-compose up -dを入力する。
+ 7. もう一度docker-compose up -dを入力し、docker-compose exec db mysql -u rootを入力する。(DB初期化作業)
+ 8. dataフォルダのinit.sqlを開き、内容を全部コピーしてcmdにペーストし、エンターキーを押す。
+ 9. もう一度docker-compose down、docker-compose upを入力する。
+ 10. ブラウザを開き、localhost:8080に接続する。
  
 
 
