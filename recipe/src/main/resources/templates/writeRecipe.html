@@ -72,7 +72,7 @@
                         <!-- イメージ preview-->
                         <div class="preview" id="preview">
                           <img class="preview" th:if="${recipeForm.thumbnail}"
-                            th:src="@{/uploaded/${recipeForm.thumbnail}}"  th:onerror="setDefaultImage(this)" />
+                            th:src="@{|/uploaded/${recipeForm.thumbnail}|}"  th:onerror="setDefaultImage(this)" />
                         </div>
                         <img th:src="@{/assets/icon/dragndrop.png}" class="dragicon" alt=""
                           th:classappend="${recipeForm.thumbnail} ? 'hidden' : ''">
