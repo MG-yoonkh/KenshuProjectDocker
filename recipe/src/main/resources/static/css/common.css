@@ -48,7 +48,7 @@ header nav ul li:hover a {
 }
 
 header .header_area {
-  margin: 0px 30px 10px 30px;
+  margin: 0px 10px 10px 10px;
   padding-top: 7px;
 }
 
@@ -114,8 +114,9 @@ header nav ul li:hover a:after {
 
 
 header .thumb_nail {
-  width: 45px;
-  height: 45px;
+      width: 40px;
+      height: 40px;
+      margin-top: 9px;
 }
 
 .head-tagline {

@@ -24,10 +24,10 @@
           </nav>
         </div>
         <div class="col-md-4 text-end justify-content-end">
-          <nav class="ms-auto">
+          <nav class="ms-auto float-end">
             <ul>
               <li th:classappend="${header} == 'index' ? 'active'"><a th:href="@{/index}">ホーム</a></li>
-              <li class="incomplete" sec:authorize="hasRole('USER')"><a th:href="@{/recipe/write}">レシピ投稿</a></li>
+              <li sec:authorize="hasRole('USER')"><a th:href="@{/recipe/write}">レシピ投稿</a></li>
               <li sec:authorize="hasRole('USER')"><a th:href="@{/mypage}">マイページ</a></li>
               <li sec:authorize="hasRole('ADMIN')">
                 <a th:href="@{/adminPage}" >管理者ページ</a>
