@@ -165,3 +165,14 @@
     width: 163px;
     height: 120px;
 }
+
+.recipe_image_dynamic {
+    width : 100 %;
+    height : 0;
+    padding-top : calc (300 / 1000 * 100 %);
+}
+
+.image_container {
+    grid-template-column: repeat(auto-fill,minmax(300px,auto));
+}
+
