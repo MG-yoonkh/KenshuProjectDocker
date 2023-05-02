@@ -400,10 +400,10 @@ public class RecipeController {
 
     // 画像ファイルの保存先ディレクトリを設定
     // local
-//    Path fileStorageLocation = Paths.get("recipe","src", "main", "resources", "static", "uploaded")
-//            .toAbsolutePath();
+    Path fileStorageLocation = Paths.get("recipe","src", "main", "resources", "static", "uploaded")
+            .toAbsolutePath();
     //docker
-    Path fileStorageLocation = Paths.get("/app/img_files").toAbsolutePath().normalize();
+//    Path fileStorageLocation = Paths.get("/app/img_files").toAbsolutePath().normalize();
 
     @GetMapping("/uploaded/{filename:.+}")
     public ResponseEntity<Resource> getImage(@PathVariable String filename) throws IOException {
