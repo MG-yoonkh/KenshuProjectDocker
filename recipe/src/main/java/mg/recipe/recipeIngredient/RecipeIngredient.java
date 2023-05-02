@@ -32,4 +32,7 @@ public class RecipeIngredient {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "recipe_id")
     private Recipe recipe;
+
+    @Version
+    private int version;
 }

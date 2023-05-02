@@ -65,13 +65,13 @@
                   <nav>
                     <ul class="pagination justify-content-center p-3">
                       <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled' : ''">
-                        <a class="page-link" th:href="@{'/admin/user?page=' + ${currentPage - 1}}" tabindex="-1" aria-disabled="true">&laquo;</a>
+                        <a class="page-link" th:href="@{'/admin/recipe?page=' + ${currentPage - 1}}" tabindex="-1" aria-disabled="true">&laquo;</a>
                       </li>
-                      <li class="page-item" th:each="page : ${#numbers.sequence(0, totalPages - 1)}" th:classappend="${currentPage == page} ? 'active' : ''">
-                        <a class="page-link" th:href="@{'/admin/user?page=' + ${page}}" th:text="${page + 1}"></a>
+                      <li class="page-item" th:each="page : ${totalPages == 1 ? #numbers.sequence(0, 0) : #numbers.sequence(0, totalPages - 1)}" th:classappend="${currentPage == page} ? 'active' : ''">
+                        <a class="page-link" th:href="@{'/admin/recipe?page=' + ${page}}" th:text="${page + 1}"></a>
                       </li>
                       <li class="page-item" th:classappend="${currentPage + 1 >= totalPages} ? 'disabled' : ''">
-                        <a class="page-link" th:href="@{'/admin/user?page=' + ${currentPage + 1}}">&raquo;</a>
+                        <a class="page-link" th:href="@{'/admin/recipe?page=' + ${currentPage + 1}}">&raquo;</a>
                       </li>
                     </ul>
                   </nav>
