@@ -2,20 +2,21 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content">
   <link rel="stylesheet" type="text/css" th:href="@{/css/index.css}" />
-  <link rel="stylesheet" type="text/css" th:href="@{/css/index.css}" />
   <link rel="stylesheet" type="text/css" th:href="@{/css/writeRecipe.css}">
   <script type="text/javascript" th:src="@{/js/loading.js}"></script>
   <script type="text/javascript" th:src="@{/js/recipeInfo.js}"></script>
   <header th:replace="~{header :: headerFragment}"></header>
   <main id="top">
+    <div class="mt-3 bread">
+      <nav aria-label="breadcrumb" >
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a th:href="@{/index}">ホーム</a></li>
+          <li class="breadcrumb-item active" aria-current="page">レシピ詳細</li>
+        </ol>
+      </nav>
+    </div>
     <div class="container-fluid text-center" >
       <div id="test_obj">
-<!--        <button class="btn scroll-btn" onclick="moveToTopSmooth()">レシピのタイトル</button>-->
-<!--        <button class="btn scroll-btn" onclick="moveToRecipeImageSmooth()">レシピの写真</button>-->
-<!--        <button class="btn scroll-btn" onclick="moveToRecipeCategorySmooth()">カテゴリ・時間・予算</button>-->
-<!--        <button class="btn scroll-btn" onclick="moveToRecipeIngredientSmooth()">材料</button>-->
-<!--        <button class="btn scroll-btn" onclick="moveToRecipeInstructionSmooth()">作り方</button>-->
-<!--        <button class="btn scroll-btn" onclick="moveToBottomSmooth()">YouTube</button>-->
         <a href="javascript:void(0);" class="recommend btn scroll-btn sub-btn"
            th:data-uri="@{|/recipe/vote/${recipe.id}|}"
            th:data-voted="${userHasVoted != null ? userHasVoted : false}">
@@ -63,14 +64,7 @@
 
 
         <div class="col-md-8">
-          <div class="mt-3">
-            <nav aria-label="breadcrumb">
-              <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a th:href="@{/index}">ホーム</a></li>
-                <li class="breadcrumb-item active" aria-current="page">レシピ詳細</li>
-              </ol>
-            </nav>
-          </div>
+
           <div class="row justify-content-center">
             <div class="text-center" id="recipe_title">
               <h1 th:text="${recipe.recipeName}" class="p-2 font-face"></h1>
