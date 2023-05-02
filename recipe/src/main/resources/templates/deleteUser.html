@@ -31,7 +31,7 @@
                   <button id="cancelButton" type="button">取消</button>
                 </div>
               </div>
-              <button type="button" class="btn btn-danger" onclick="openAlert()">退会を完了する</button>
+              <button type="submit" class="btn btn-danger" onclick="">退会を完了する</button>
             </div>
             <a th:href="@{/mypage}">マイページに戻る</a>
           </form>
@@ -45,25 +45,35 @@
 <script type="text/javascript" src="js/delete.js"></script>
 <script type="text/javascript" th:src="@{/js/common.js}"></script>
 <script layout:fragment="script" type="text/javascript">
+
+document.querySelector('form').addEventListener('submit', function (evt) {
+  evt.preventDefault();
+  openAlert();
+
+  document.getElementById('confirmButton').addEventListener('click', function() {
+
+    this.submit();
+    closeAlert();
+  });
+
+  document.getElementById('cancelButton').addEventListener('click', function() {
+    closeAlert();
+    return false;
+  });
+})
+
+
   function openAlert() {
   $('#customAlert').modal('show');
   }
-  function openAlert() {
-  document.getElementById('customAlert').style.display = 'block';
-}
+<!--  function openAlert() {-->
+<!--  document.getElementById('customAlert').style.display = 'block';-->
+<!--}-->
 
 function closeAlert() {
   document.getElementById('customAlert').style.display = 'none';
 }
 
-document.getElementById('confirmButton').addEventListener('click', function() {
-  document.querySelector('form').submit();
-  closeAlert();
-});
-
-document.getElementById('cancelButton').addEventListener('click', function() {
-  closeAlert();
-});
 </script>
 
 </html>

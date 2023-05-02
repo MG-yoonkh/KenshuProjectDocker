@@ -24,4 +24,8 @@ public interface RecipeRepository extends JpaRepository<Recipe, Integer> {
     Page<Recipe> findLikedRecipesByUserId(@Param("userId") Integer userId, Pageable pageable);
 
     int countByAuthorAndCreateDateBetween(SiteUser author, LocalDateTime startDate, LocalDateTime endDate);
+
+    List<Recipe> findAllRecipeByAuthor(SiteUser author);
+
+    List<Recipe> findByVoterContains(SiteUser siteUser);
 }

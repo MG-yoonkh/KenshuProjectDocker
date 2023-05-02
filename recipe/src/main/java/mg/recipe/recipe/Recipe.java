@@ -42,7 +42,8 @@ public class Recipe {
     private String thumbnail;
 
     // 作成者
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "author_id")
     private SiteUser author;
 
 

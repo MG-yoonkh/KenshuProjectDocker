@@ -5,6 +5,9 @@ import lombok.RequiredArgsConstructor;
 import mg.recipe.DataNotFoundException;
 import mg.recipe.admin.SiteVisit;
 import mg.recipe.admin.SiteVisitRepository;
+import mg.recipe.recipe.Recipe;
+import mg.recipe.recipe.RecipeService;
+import org.hibernate.StaleObjectStateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,6 +34,8 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     @Autowired
     private final SiteVisitRepository siteVisitRepository;
+
+    private final RecipeService recipeService;
 
     public SiteUser create(String username, String email, String password){
         SiteUser user = new SiteUser();
@@ -108,9 +113,21 @@ public class UserService {
         this.userRepository.save(siteUser);
     }
 
-    public void deleteUser(SiteUser user){
+    public void deleteUser(SiteUser user) {
+        List<Recipe> votedRecipeList = this.recipeService.getAllRecipeByVoter(user);
+        this.recipeService.deleteAllVote(votedRecipeList, user);
+        List<Recipe> rList = this.recipeService.findAllRecipeByAuthor(user);
+        for (Recipe recipe : rList) {
+            try {
+                this.recipeService.delete(recipe);
+            } catch (StaleObjectStateException ex) {
+                // Handle exception here
+                System.out.println("StaleObjectStateException caught while deleting recipe: " + ex.getMessage());
+            }
+        }
         userRepository.delete(user);
     }
+
     public boolean checkCredentials(SiteUser user, String rawPassword) {
         return passwordEncoder.matches(rawPassword, user.getPassword());
     }

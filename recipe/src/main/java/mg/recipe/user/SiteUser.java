@@ -4,8 +4,10 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.Getter;
 import lombok.Setter;
+import mg.recipe.recipe.Recipe;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -30,5 +32,8 @@ public class SiteUser {
 
     private LocalDateTime createDate;
     private LocalDateTime modifyDate;
+
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Recipe> recipeList;
 
 }

@@ -58,6 +58,9 @@ public class RecipeService {
         return recipeRepository.findLikedRecipesByUserId(userId, pageable);
     }
 
+    public List<Recipe> findAllRecipeByAuthor(SiteUser author) {
+        return recipeRepository.findAllRecipeByAuthor(author);
+    }
 
 
     public Recipe getRecipe(Integer id){
@@ -149,6 +152,18 @@ public class RecipeService {
 
         recipeRepository.save(recipe);
     }
+
+    public void deleteAllVote(List<Recipe> rList, SiteUser siteUser) {
+        for (int i = 0; i < rList.size() ; i++) {
+            rList.get(i).removeVoter(siteUser);
+            recipeRepository.save(rList.get(i));
+        }
+    }
+
+    public List<Recipe> getAllRecipeByVoter(SiteUser siteUser) {
+        return recipeRepository.findByVoterContains(siteUser);
+    }
+
 
 
     private Specification<Recipe> search(String kw, String category, String cookTime, String budget) {
