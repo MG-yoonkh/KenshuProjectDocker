@@ -129,7 +129,7 @@ public class RecipeService {
     }
 
 
-    @Transactional
+
     public void delete(Recipe recipe) {
         try {
             List<RecipeIngredient> irList = this.recipeIngredientRepository.findAllByRecipe(recipe);
