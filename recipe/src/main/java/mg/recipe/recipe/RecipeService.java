@@ -5,6 +5,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import mg.recipe.DataNotFoundException;
 import mg.recipe.ingredient.Ingredient;
+import mg.recipe.recipeIngredient.RecipeIngredient;
+import mg.recipe.recipeIngredient.RecipeIngredientRepository;
 import mg.recipe.user.SiteUser;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,6 +28,7 @@ import java.util.regex.Pattern;
 public class RecipeService {
 
     private final RecipeRepository recipeRepository;
+    private final RecipeIngredientRepository recipeIngredientRepository;
 
     public Page<Recipe> getList(int page, String kw, String category, String cookTime, String budget, String orderBy){
         List<Sort.Order> sorts = new ArrayList<>();
@@ -122,8 +125,19 @@ public class RecipeService {
     }
 
     public void delete(Recipe recipe) {
-        this.recipeRepository.delete(recipe);
+        try {
+            List<RecipeIngredient> irList = this.recipeIngredientRepository.findAllByRecipe(recipe);
+            for (int i = 0; i < irList.size(); i++) {
+                System.out.println("delete: " + irList.get(i).getId());
+                this.recipeIngredientRepository.deleteById(irList.get(i).getId());
+            }
+            this.recipeRepository.delete(recipe);
+        } catch (Exception e) {
+            // Log the error message and handle the exception here
+            e.printStackTrace();
+        }
     }
+
 
 
     public void handleVote(Recipe recipe, SiteUser siteUser) {
