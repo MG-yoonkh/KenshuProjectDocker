@@ -377,13 +377,21 @@ public class RecipeController {
         if (!recipe.getAuthor().getUsername().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "削除権限がありません。");
         }
-        try {
-            this.recipeService.delete(recipe);
-        } catch (StaleObjectStateException e) {
-            // Refresh the entity from the database and try again
-            recipe = this.recipeService.getRecipe(id);
-            this.recipeService.delete(recipe);
+
+        int maxRetries = 3;
+        for (int i = 0; i < maxRetries; i++) {
+            try {
+                this.recipeService.delete(recipe);
+                break;
+            } catch (StaleObjectStateException e) {
+                if (i == maxRetries - 1) {
+                    throw new ResponseStatusException(HttpStatus.CONFLICT, "同時に削除しようとしています。しばらく待ってからもう一度お試しください。");
+                }
+                // Refresh the entity from the database and try again
+                recipe = this.recipeService.getRecipe(id);
+            }
         }
+
         return "redirect:/";
     }
 
@@ -400,10 +408,10 @@ public class RecipeController {
 
     // 画像ファイルの保存先ディレクトリを設定
     // local
-//    Path fileStorageLocation = Paths.get("recipe","src", "main", "resources", "static", "uploaded")
-//            .toAbsolutePath();
+    Path fileStorageLocation = Paths.get("recipe","src", "main", "resources", "static", "uploaded")
+            .toAbsolutePath();
     //docker
-    Path fileStorageLocation = Paths.get("/app/img_files").toAbsolutePath().normalize();
+//    Path fileStorageLocation = Paths.get("/app/img_files").toAbsolutePath().normalize();
 
     @GetMapping("/uploaded/{filename:.+}")
     public ResponseEntity<Resource> getImage(@PathVariable String filename) throws IOException {
