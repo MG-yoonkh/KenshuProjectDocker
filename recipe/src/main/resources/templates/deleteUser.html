@@ -19,18 +19,18 @@
         </div>
         <div class="col-md-4">
           <h1><i class="fa-solid fa-user"></i>会員退会</h1>
-          <form th:action="@{/delete}" method="post" autocomplete="off">
+          <form th:action="@{/delete}" id="deleteForm" method="post" autocomplete="on">
             <p>登録情報の入力してくだたい。</p>
             <div class="form-group p-3">
               <input type="text" class="form-control m-3" name="username" placeholder="IDを入力" autocomplete="off"/>
               <input type="password" class="form-control m-3" name="password" placeholder="パスワード" autocomplete="off"/>
-              <div id="customAlert" class="custom-alert">
-                <div class="custom-alert-content text-center">
-                  <p>本当に削除しますか？削除後、戻すことが出来ません。</p>
-                  <button id="confirmButton" type="button">削除</button>
-                  <button id="cancelButton" type="button">取消</button>
-                </div>
-              </div>
+<!--              <div id="customAlert" class="custom-alert">-->
+<!--                <div class="custom-alert-content text-center">-->
+<!--                  <p>本当に削除しますか？削除後、戻すことが出来ません。</p>-->
+<!--                  <button id="confirmButton" type="button">削除</button>-->
+<!--                  <button id="cancelButton" type="button">取消</button>-->
+<!--                </div>-->
+<!--              </div>-->
               <button type="submit" class="btn btn-danger" onclick="">退会を完了する</button>
             </div>
             <a th:href="@{/mypage}">マイページに戻る</a>
@@ -46,33 +46,14 @@
 <script type="text/javascript" th:src="@{/js/common.js}"></script>
 <script layout:fragment="script" type="text/javascript">
 
-document.querySelector('form').addEventListener('submit', function (evt) {
+document.getElementById('deleteForm').addEventListener('submit', function (evt) {
   evt.preventDefault();
-  openAlert();
+  if(confirm('本当に会員退会しますか？退会後、戻すことが出来ません。')) {
+        this.submit();
+        alert("会員退会しました!");
+    }
+});
 
-  document.getElementById('confirmButton').addEventListener('click', function() {
-
-    this.submit();
-    closeAlert();
-  });
-
-  document.getElementById('cancelButton').addEventListener('click', function() {
-    closeAlert();
-    return false;
-  });
-})
-
-
-  function openAlert() {
-  $('#customAlert').modal('show');
-  }
-<!--  function openAlert() {-->
-<!--  document.getElementById('customAlert').style.display = 'block';-->
-<!--}-->
-
-function closeAlert() {
-  document.getElementById('customAlert').style.display = 'none';
-}
 
 </script>
 
