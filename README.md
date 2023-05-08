@@ -38,10 +38,10 @@
  10. IntelliJを開けて、recipe - build.gradleを開ける。
  11. IntelliJのFile - project structureでJAVAのバージョンを17に設定
  <details>
-<summary>여기를 눌러주세요</summary>
+<summary>もっと見る</summary>
 <div markdown="1">       
+![image](https://user-images.githubusercontent.com/125540360/236721210-f4d6322a-c83c-444f-b330-d7f23a04d924.png)
 
-😎숨겨진 내용😎
 
 </div>
 </details>
