@@ -40,10 +40,10 @@
  <details>
 <summary>もっと見る</summary>
 <div markdown="1">   
-    <img src="https://user-images.githubusercontent.com/125540360/236721467-d0f72c01-eb98-4b27-ada6-e766580f2560.png" alt="">
-
-    <img src="![image](https://user-images.githubusercontent.com/125540360/236722229-2b7d01b1-7ac8-4c4f-8678-8d90dc308eeb.png)" alt="">
-
+ <center>
+    <img src="https://user-images.githubusercontent.com/125540360/236724252-e96eaa71-cec2-4cf1-8d90-444b462e637d.png" alt=""  >
+    <img src="https://user-images.githubusercontent.com/125540360/236724020-8a2a4a3b-acb2-4086-8d01-f2f2e8c061ad.png" alt="" >
+<center>
 </div>
 </details>
  12. recipe - src - main - java - RecipeApplicationを実行する。
