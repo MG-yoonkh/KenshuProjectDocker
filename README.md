@@ -39,9 +39,10 @@
  11. IntelliJのFile - project structureでJAVAのバージョンを17に設定
  <details>
 <summary>もっと見る</summary>
-<div markdown="1">       
-![initial](https://user-images.githubusercontent.com/125540360/236721467-d0f72c01-eb98-4b27-ada6-e766580f2560.png)
+<div markdown="1">   
+    <img src="https://user-images.githubusercontent.com/125540360/236721467-d0f72c01-eb98-4b27-ada6-e766580f2560.png" alt="">
 
+    <img src="![image](https://user-images.githubusercontent.com/125540360/236722229-2b7d01b1-7ac8-4c4f-8678-8d90dc308eeb.png)" alt="">
 
 </div>
 </details>
