@@ -420,3 +420,8 @@ padding-bottom: 3px;
 padding: 10px 0px 10px 0px;
 white-space: pre-wrap;
 }
+
+.write-recipe-icon {
+    width: 48px;
+    height: 48px;
+  }
