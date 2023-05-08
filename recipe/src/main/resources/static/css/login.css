@@ -65,13 +65,13 @@ input[type="checkbox"] {
 }
 
 .form-control-custom {
-    border: 1px solid #ced4da;
-    border-radius: 0.25rem;
-    padding: 0.375rem 0.75rem;
-    font-size: 1rem;
-    line-height: 1.5;
+    border: 1px solid #969696 !important;
+    border-radius: 0.25rem !important;
+    padding: 0.375rem 0.75rem !important;
+    font-size: 1rem !important;
+    line-height: 2;
     color: #495057;
-    background-color: #fff;
+    background-color: #eae7e7c5;
     background-clip: padding-box;
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
