@@ -1,6 +1,11 @@
 package mg.recipe;
 
 import jakarta.persistence.EntityNotFoundException;
+import mg.recipe.admin.AdminService;
+import mg.recipe.admin.SiteVisit;
+import mg.recipe.admin.SiteVisitRepository;
+import mg.recipe.recipe.Recipe;
+import mg.recipe.recipe.RecipeService;
 import mg.recipe.user.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,6 +16,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -22,8 +29,11 @@ public class UserServiceTest {
 
     @InjectMocks
     private UserService userService;
+
     @Mock
     private UserRepository userRepository;
+    @Mock
+    private RecipeService recipeService;
     @Mock
     private PasswordEncoder passwordEncoder;
 
@@ -104,8 +114,9 @@ public class UserServiceTest {
 //        // リポジトリの呼び出しを確認
 //        verify(userRepository, times(1)).findByUsername(notExistingUsername);
 //    }
-//
-//
+
+
+
 //    private SiteUser user;
 //    private Integer userId;
 //    private UserRole role;
@@ -139,6 +150,8 @@ public class UserServiceTest {
 //        verify(userRepository, times(1)).findById(userId);
 //        verify(userRepository, times(0)).save(any(SiteUser.class));
 //    }
+
+
 
 //    private SiteUser user;
 //    private String username;
@@ -185,51 +198,263 @@ public class UserServiceTest {
 //    }
 
 
-    private SiteUser user;
-    private String username;
-    private String currentPassword;
-    private String newPassword;
 
-    @BeforeEach
-    void setUp(){
-        username = "testuser";
-        currentPassword = "currentPassword";
-        newPassword = "newPassword";
+//    private SiteUser user;
+//    private String username;
+//    private String currentPassword;
+//    private String newPassword;
+//
+//    @BeforeEach
+//    void setUp(){
+//        username = "testuser";
+//        currentPassword = "currentPassword";
+//        newPassword = "newPassword";
+//
+//        user = new SiteUser();
+//        user.setUsername(username);
+//        user.setPassword("encodedNewPassword");
+//    }
+//
+//    @Test
+//    void updatePasswordSuccess() {
+//        // Arrange
+//        when(userRepository.findByUsername(username)).thenReturn(Optional.of(user));
+//        when(passwordEncoder.matches(currentPassword, user.getPassword())).thenReturn(true);
+//        when(passwordEncoder.encode(newPassword)).thenReturn("encodedNewPassword");
+//
+//        // Act
+//        userService.updatePassword(username, currentPassword, newPassword);
+//
+//        // Assert
+//        verify(userRepository, times(1)).findByUsername(username);
+//        verify(passwordEncoder, times(1)).matches(currentPassword, user.getPassword());
+//        verify(passwordEncoder, times(1)).encode(newPassword);
+//        verify(userRepository, times(1)).save(any(SiteUser.class));
+//    }
+//
+//    @Test
+//    void updatePasswordFailure() {
+//        // Arrange
+//        when(userRepository.findByUsername(username)).thenReturn(Optional.of(user));
+//        when(passwordEncoder.matches(currentPassword, user.getPassword())).thenReturn(false);
+//
+//        // Act & Assert
+//        assertThrows(InvalidPasswordException.class, () -> userService.updatePassword(username, currentPassword, newPassword));
+//        verify(userRepository, times(1)).findByUsername(username);
+//        verify(passwordEncoder, times(1)).matches(currentPassword, user.getPassword());
+//        verify(passwordEncoder, times(0)).encode(newPassword);
+//        verify(userRepository, times(0)).save(any(SiteUser.class));
+//    }
 
-        user = new SiteUser();
-        user.setUsername(username);
-        user.setPassword("encodedNewPassword");
-    }
 
-    @Test
-    void updatePasswordSuccess() {
-        // Arrange
-        when(userRepository.findByUsername(username)).thenReturn(Optional.of(user));
-        when(passwordEncoder.matches(currentPassword, user.getPassword())).thenReturn(true);
-        when(passwordEncoder.encode(newPassword)).thenReturn("encodedNewPassword");
 
-        // Act
-        userService.updatePassword(username, currentPassword, newPassword);
+//    private SiteUser user;
+//    private String email;
+//
+//    @BeforeEach
+//    void setUp() {
+//        email = "testuser@example.com";
+//
+//        user = new SiteUser();
+//        user.setEmail(email);
+//    }
+//
+//    @Test
+//    void getUserByEmailSuccess() {
+//        // Arrange
+//        when(userRepository.findByEmail(email)).thenReturn(Optional.of(user));
+//
+//        // Act
+//        Optional<SiteUser> result = userService.getUserByEmail(email);
+//
+//        // Assert
+//        assertTrue(result.isPresent());
+//        assertEquals(user, result.get());
+//        verify(userRepository, times(1)).findByEmail(email);
+//    }
+//
+//    @Test
+//    void getUserByEmailNotFound() {
+//        // Arrange
+//        when(userRepository.findByEmail(email)).thenReturn(Optional.empty());
+//
+//        // Act
+//        Optional<SiteUser> result = userService.getUserByEmail(email);
+//
+//        // Assert
+//        assertFalse(result.isPresent());
+//        verify(userRepository, times(1)).findByEmail(email);
+//    }
 
-        // Assert
-        verify(userRepository, times(1)).findByUsername(username);
-        verify(passwordEncoder, times(1)).matches(currentPassword, user.getPassword());
-        verify(passwordEncoder, times(1)).encode(newPassword);
-        verify(userRepository, times(1)).save(any(SiteUser.class));
-    }
 
-    @Test
-    void updatePasswordFailure() {
-        // Arrange
-        when(userRepository.findByUsername(username)).thenReturn(Optional.of(user));
-        when(passwordEncoder.matches(currentPassword, user.getPassword())).thenReturn(false);
 
-        // Act & Assert
-        assertThrows(InvalidPasswordException.class, () -> userService.updatePassword(username, currentPassword, newPassword));
-        verify(userRepository, times(1)).findByUsername(username);
-        verify(passwordEncoder, times(1)).matches(currentPassword, user.getPassword());
-        verify(passwordEncoder, times(0)).encode(newPassword);
-        verify(userRepository, times(0)).save(any(SiteUser.class));
-    }
+//    private SiteUser user;
+//    private String username;
+//    private String email;
+//    private String newEmail;
+//
+//    @BeforeEach
+//    void setUp() {
+//        username = "testuser";
+//        email = "testuser@example.com";
+//        newEmail = "newuser@example.com";
+//
+//        user = new SiteUser();
+//        user.setUsername(username);
+//        user.setEmail(email);
+//    }
+//
+//    @Test
+//    void updateEmailSuccess() {
+//        // Arrange
+//        when(userRepository.findByUsername(username)).thenReturn(Optional.of(user));
+//        when(userRepository.findByEmail(newEmail)).thenReturn(Optional.empty());
+//
+//        // Act
+//        userService.updateEmail(username, newEmail);
+//
+//        // Assert
+//        assertEquals(newEmail, user.getEmail());
+//        assertNotNull(user.getModifyDate());
+//        verify(userRepository, times(1)).findByUsername(username);
+//        verify(userRepository, times(1)).findByEmail(newEmail);
+//        verify(userRepository, times(1)).save(any(SiteUser.class));
+//    }
+//
+//    @Test
+//    void updateEmailFailure() {
+//        // Arrange
+//        SiteUser anotherUser = new SiteUser();
+//        anotherUser.setUsername("anotherUser");
+//        anotherUser.setEmail(newEmail);
+//
+//        when(userRepository.findByUsername(username)).thenReturn(Optional.of(user));
+//        when(userRepository.findByEmail(newEmail)).thenReturn(Optional.of(anotherUser));
+//
+//        // Act & Assert
+//        assertThrows(EmailAlreadyExistsException.class, () -> userService.updateEmail(username, newEmail));
+//
+//        verify(userRepository, times(1)).findByUsername(username);
+//        verify(userRepository, times(1)).findByEmail(newEmail);
+//        verify(userRepository, times(0)).save(any(SiteUser.class));
+//    }
+
+
+
+//    private SiteUser user;
+//    private Recipe recipe1;
+//    private Recipe recipe2;
+//
+//    @BeforeEach
+//    void setUp() {
+//        user = new SiteUser();
+//        recipe1 = new Recipe();
+//        recipe2 = new Recipe();
+//
+//        user.setId(1);
+//        user.setUsername("testuser");
+//        user.setEmail("testuser@example.com");
+//    }
+//
+//    @Test
+//    void deleteUserSuccess() {
+//        // Arrange
+//        List<Recipe> votedRecipeList = Arrays.asList(recipe1, recipe2);
+//        List<Recipe> authoredRecipeList = Arrays.asList(recipe1, recipe2);
+//
+//        when(recipeService.getAllRecipeByVoter(user)).thenReturn(votedRecipeList);
+//        when(recipeService.findAllRecipeByAuthor(user)).thenReturn(authoredRecipeList);
+//
+//        // Act
+//        userService.deleteUser(user);
+//
+//        // Assert
+//        verify(recipeService, times(1)).getAllRecipeByVoter(user);
+//        verify(recipeService, times(1)).deleteAllVote(votedRecipeList, user);
+//        verify(recipeService, times(2)).delete(any(Recipe.class));
+//        verify(userRepository, times(1)).delete(user);
+//    }
+
+
+//    private SiteUser user;
+//    private String rawPassword;
+//    private String encodedPassword;
+//
+//    @BeforeEach
+//    void setUp() {
+//        user = new SiteUser();
+//        rawPassword = "password123";
+//        encodedPassword = "encodedPassword";
+//
+//        user.setId(1);
+//        user.setUsername("testuser");
+//        user.setPassword(encodedPassword);
+//    }
+//
+//    @Test
+//    void checkCredentialsSuccess() {
+//        // Arrange
+//        when(passwordEncoder.matches(rawPassword, encodedPassword)).thenReturn(true);
+//
+//        // Act
+//        boolean result = userService.checkCredentials(user, rawPassword);
+//
+//        // Assert
+//        assertTrue(result);
+//    }
+//
+//    @Test
+//    void checkCredentialsFailure() {
+//        // Arrange
+//        String wrongPassword = "wrongPassword";
+//        when(passwordEncoder.matches(wrongPassword, encodedPassword)).thenReturn(false);
+//
+//        // Act
+//        boolean result = userService.checkCredentials(user, wrongPassword);
+//
+//        // Assert
+//        assertFalse(result);
+//    }
+
+
+
+//    private SiteUser user;
+//    private Integer userId;
+//
+//    @BeforeEach
+//    void setUp() {
+//        user = new SiteUser();
+//        userId = 1;
+//
+//        user.setId(userId);
+//        user.setUsername("testuser");
+//        user.setRole(UserRole.USER);
+//    }
+//
+//    @Test
+//    void grantAdminRoleSuccess() {
+//        // Arrange
+//        when(userRepository.findById(userId)).thenReturn(Optional.of(user));
+//        when(userRepository.save(any(SiteUser.class))).thenAnswer(invocation -> invocation.getArgument(0));
+//
+//        // Act
+//        userService.grantAdminRole(userId);
+//
+//        // Assert
+//        assertEquals(UserRole.ADMIN, user.getRole());
+//        verify(userRepository).findById(userId);
+//        verify(userRepository).save(user);
+//    }
+//
+//    @Test
+//    void grantAdminRoleUserNotFound() {
+//        // Arrange
+//        when(userRepository.findById(userId)).thenReturn(Optional.empty());
+//
+//        // Act & Assert
+//        assertThrows(IllegalArgumentException.class, () -> userService.grantAdminRole(userId));
+//        verify(userRepository).findById(userId);
+//        verify(userRepository, never()).save(any(SiteUser.class));
+//    }
 
 }
