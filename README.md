@@ -37,6 +37,14 @@
  [プロジェクトzipファイル](https://github.com/MG-yoonkh/kenshu/archive/refs/heads/main.zip)
  10. IntelliJを開けて、recipe - build.gradleを開ける。
  11. IntelliJのFile - project structureでJAVAのバージョンを17に設定
+ <details>
+<summary>여기를 눌러주세요</summary>
+<div markdown="1">       
+
+😎숨겨진 내용😎
+
+</div>
+</details>
  12. recipe - src - main - java - RecipeApplicationを実行する。
  13. DATAフォルダのcsvファイルをMySQLにインポートする。
  14. localhost:8080に接続する。    
