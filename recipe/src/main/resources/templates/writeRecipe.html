@@ -44,13 +44,16 @@
               <div class="col-md-8">
                 <div class="row justify-content-center text-center p-5">
                   <div class="col-md-8">
-                    <h2>レシピのタイトル</h2>
+                    <h2>
+                      <img class="write-recipe-icon" src="/assets/icon/title.png" alt="Icon for recipe title"/>
+                      レシピのタイトル</h2>
                     <div class="input-title">
                       <input type="text" th:field="*{recipeName}" id="floatingInput" class="form-control" />
                     </div>
                     <h6>
                       レシピに合ったタイトルをつけてください。
                     </h6>
+
                   </div>
                 </div>
               </div>
@@ -66,7 +69,7 @@
               <div class="col-md-8">
                 <div class="row justify-content-center text-center">
                   <div class="col-md-8">
-                    <h2>レシピの写真</h2>
+                    <h2><img class="write-recipe-icon" src="/assets/icon/title.png" alt="Icon for recipe title"/>レシピの写真</h2>
                     <label class="label" id="label" for="input" th:attr="data-thumbnail=${recipeForm.thumbnail}">
                       <!-- Drag N Drop Icon -->
                       <div class="inner" id="inner">
@@ -88,7 +91,7 @@
                       <input type="hidden" id="OriginalThumbFile" th:value="${recipeForm.thumbnail}" />
                     </th:block>
 
-                    <h5>ドラッグ＆ドロップで登録</h5>
+                    <h5>クリックして登録</h5>
                   </div>
                 </div>
               </div>
@@ -106,7 +109,7 @@
               <!-- カテゴリ -->
               <div class="col-md-2 form-group">
                 <label for="" class="p-2">
-                  <h3>カテゴリ</h3>
+                  <h3><img class="write-recipe-icon" src="/assets/icon/title.png" alt="Icon for recipe title"/>カテゴリ</h3>
                 </label>
                 <select class="form-select" th:field="*{category}" id="write_category">
                   <option value="韓国料理" selected>韓国料理</option>
@@ -118,7 +121,7 @@
               <!-- 調理時間 -->
               <div class="col-md-2 form-group">
                 <label for="" class="p-2">
-                  <h3>調理時間</h3>
+                  <h3><img class="write-recipe-icon" src="/assets/icon/title.png" alt="Icon for recipe title"/>調理時間</h3>
                 </label>
                 <div class="row justify-content-center">
                   <div class="col-md-auto">
@@ -137,7 +140,7 @@
               <!-- 予算 -->
               <div class="col-md-2">
                 <label for="" class="p-2">
-                  <h3>予算</h3>
+                  <h3><img class="write-recipe-icon" src="/assets/icon/title.png" alt="Icon for recipe title"/>予算</h3>
                 </label>
                 <div class="col-md-auto" id="recipe-ingredient">
                   <select class="form-select" th:field="*{budget}" id="write_budget">
@@ -160,7 +163,7 @@
             <!-- 材料登録 -->
             <div class="row justify-content-center text-center">
               <label for="">
-                <h1 class="p-2">材料</h1>
+                <h2 class="p-2"><img class="write-recipe-icon" src="/assets/icon/title.png" alt="Icon for recipe title"/>材料</h2>
               </label>
               <!-- Modal -->
               <div class="modal fade" id="staticBackdrop" tabindex="-1" aria-labelledby="staticBackdrop"
@@ -309,7 +312,7 @@
               <div class="row justify-content-center text-center" th:object="${instructionForm}">
                 <div class="col-md-6">
                   <label class="" for="">
-                    <h1>作り方</h1>
+                    <h2><img class="write-recipe-icon" src="/assets/icon/title.png" alt="Icon for recipe title"/>作り方</h2>
                   </label>
                   <div th:if="${not #lists.isEmpty(istList)}">
                     <div class="row text-start p-2" th:each="ist, loop : ${istList}">
@@ -380,11 +383,11 @@
               <!-- YouTube登録 -->
               <div class="row justify-content-center">
                 <label class="text-center" for="">
-                  <h1>YouTube動画</h1>
+                  <h2><img class="write-recipe-icon" src="/assets/icon/title.png" alt="Icon for recipe title"/>YouTube動画</h2>
                 </label>
                 <a href='https://www.youtube.com/results?search_query=recipe+for+dinner' target='_blank' class="block_none">
                   <img th:src="@{/assets/icon/youtube.png}" title="" class="youtube-icon" th:onerror="setDefaultImage(this)" />
-                  サイト</a>
+                  クリックしてYouTubeページを見る</a>
                 </a>
                 <div class="col-md-6">
                   <div class="row p-3">

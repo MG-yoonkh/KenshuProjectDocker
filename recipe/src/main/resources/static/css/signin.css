@@ -21,7 +21,7 @@
 }
 
 .join_title {
-    margin: 7px 0 -2px;
+    margin: 7px 0 4px;
     font-size: 15px;
     font-weight:600
 }
@@ -54,9 +54,22 @@
     border-radius: 6px;
     color: #fff;
     font-size: 16px;
-    background-color: #e53222;
+    background-color: #87465d;
+    opacity: 0.8;
     margin-top: 20px;
     text-align: center;
+}
+
+.form-control-custom {
+    border: 1px solid #969696 !important;
+    border-radius: 0.25rem !important;
+    padding: 0.375rem 0.75rem !important;
+    font-size: 1rem !important;
+    line-height: 2;
+    color: #495057;
+    background-color: #eae7e7c5;
+    background-clip: padding-box;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
 #signin_form > input[type="checkbox"] {
@@ -153,4 +166,10 @@
     top: 50%;
     width: 16px;
   }
-  
+
+  .login-title {
+      font-size: 38px;
+      color: #87465d;
+      font-weight: bold;
+        font-family: "Roboto", sans-serif;
+  }

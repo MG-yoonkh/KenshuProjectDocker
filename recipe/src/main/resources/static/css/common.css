@@ -5,7 +5,7 @@
   /* color */
   --baseColor-black: #333;
   --baseColor-white: white;
-  --selectColor-red: #e53222;
+  --selectColor-red: #87465d;
   --selectColor-black: black;
   --selectColor-background: #FAEBD7;
   /* font */
@@ -152,7 +152,6 @@ header nav ul li:hover a:after {
   /* text-shadow: -3px 1px black, 0px 2px black, 2px 0px black, 0px -2px black; */
 }
 .img-bg .search input[type="text"] {
-  height: 35px;
   margin-top: 0px;
 }
 
@@ -455,4 +454,69 @@ footer {
 .bread {
     position: relative;
     left:200px;
+}
+
+.table-row {
+  font-size: 15px;
+}
+
+.table-index {
+    font-size: 20px;
+}
+
+.table {
+  padding: 5px;
+}
+
+.table-style {
+border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 8px;
+  vertical-align: middle;
+}
+
+.table-style td, .table-style th {
+  height: 50px;
+  vertical-align: middle;
+}
+
+.table-style tr:last-child td {
+  border-bottom: none;
+}
+
+.table-style tr:last-child th {
+  border-bottom: none;
+}
+
+.last-row {
+  border-bottom: none;
+}
+
+.modify-btn {
+width: 150px;
+}
+
+.page-link {
+  color: black;
+}
+
+.pagination {
+  padding: 10px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.page-item {
+  margin: 0 5px;
+}
+
+.active>.page-link, .page-link.active {
+    z-index: 3;
+    background-color: #87465d;
+    border-color: black;
+}
+
+.common-btn {
+background-color: #87465d;
+    border-color: #87465d;
 }

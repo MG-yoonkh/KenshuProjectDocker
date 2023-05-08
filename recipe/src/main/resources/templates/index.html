@@ -1,5 +1,6 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content">
+  <link rel="stylesheet" type="text/css" th:href="@{/css/common.css}" />
   <link rel="stylesheet" type="text/css" th:href="@{/css/index.css}" />
   <header th:replace="~{header :: headerFragment}"></header>
   <main>
@@ -12,7 +13,7 @@
             <div class="search_input">
               <div class="input-group">
                 <input type="text" id="search_kw" class="form-control" th:value="${kw}" />
-                <button class="btn btn-dark indexSearch" type="button" id="btn_search">
+                <button class="btn btn-dark indexSearch common-btn" type="button" id="btn_search">
                   検索
                 </button>
               </div>

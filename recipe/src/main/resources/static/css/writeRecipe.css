@@ -383,7 +383,7 @@ padding: 15px;
 }
 
 .scroll-btn {
-  background-color:#f4511e;
+  background-color:#87465d;
   border: none;
   color: white;
   padding: 13px 32px;
@@ -420,3 +420,8 @@ padding-bottom: 3px;
 padding: 10px 0px 10px 0px;
 white-space: pre-wrap;
 }
+
+.write-recipe-icon {
+    width: 48px;
+    height: 48px;
+  }
