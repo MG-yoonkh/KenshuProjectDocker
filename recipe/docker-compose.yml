@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   db:
-    image: mysql
+    image: mysql:8.0.32
     environment:
       MYSQL_ROOT_PASSWORD: 1111
       MYSQL_ROOT_HOST: '%'
@@ -11,7 +11,7 @@ services:
     command: --default-authentication-plugin=mysql_native_password --secure-file-priv=/csv_files --local-infile=1 --init-file=/csv_files/init.sql --loose-local-infile=1
     volumes:
       - db_data:/var/lib/mysql
-      - ./DATA:/csv_files
+      - ./dockerData:/csv_files
     networks:
       - my-network
   app:
