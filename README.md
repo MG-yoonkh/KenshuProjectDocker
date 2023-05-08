@@ -40,7 +40,7 @@
  <details>
 <summary>もっと見る</summary>
 <div markdown="1">       
-![image](https://user-images.githubusercontent.com/125540360/236721210-f4d6322a-c83c-444f-b330-d7f23a04d924.png)
+![image](https://user-images.githubusercontent.com/125540360/236721467-d0f72c01-eb98-4b27-ada6-e766580f2560.png)
 
 
 </div>
