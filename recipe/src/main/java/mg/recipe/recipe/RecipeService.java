@@ -4,7 +4,6 @@ import jakarta.persistence.criteria.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import mg.recipe.DataNotFoundException;
-import mg.recipe.ingredient.Ingredient;
 import mg.recipe.recipeIngredient.RecipeIngredient;
 import mg.recipe.recipeIngredient.RecipeIngredientRepository;
 import mg.recipe.user.SiteUser;
@@ -14,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -47,10 +45,6 @@ public class RecipeService {
         return this.recipeRepository.findAll(spec, pageable);
     }
 
-    public long getTotalRecipeCount(){
-        return recipeRepository.count();
-    }
-
     public Page<Recipe> findRecipesByAuthor(SiteUser author, Pageable pageable) {
         return recipeRepository.findByAuthor(author, pageable);
     }
@@ -73,10 +67,7 @@ public class RecipeService {
         }
     }
 
-    public Recipe getRecipe(String recipeName) {
-        Recipe recipe = this.recipeRepository.findByRecipeName(recipeName);
-        return recipe;
-    }
+
     public int countDailyRecipesByUser(SiteUser user, LocalDate date) {
         return recipeRepository.countByAuthorAndCreateDateBetween(user, date.atStartOfDay(), date.plusDays(1).atStartOfDay());
     }
@@ -95,7 +86,6 @@ public class RecipeService {
         String videoId = extractVideoIdFromUrl(videoUrl);
         r1.setVideoUrl(videoId);
 
-        //r1.setInstructionList(null);
         return this.recipeRepository.save(r1);
     }
 
@@ -139,7 +129,6 @@ public class RecipeService {
             }
             this.recipeRepository.delete(recipe);
         } catch (Exception e) {
-            // Log the error message and handle the exception here
             e.printStackTrace();
         }
     }
@@ -169,7 +158,7 @@ public class RecipeService {
 
 
 
-    private Specification<Recipe> search(String kw, String category, String cookTime, String budget) {
+    public Specification<Recipe> search(String kw, String category, String cookTime, String budget) {
         return new Specification<>() {
             private static final long serialVersionUID = 1L;
             @Override
