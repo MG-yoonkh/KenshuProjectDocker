@@ -158,7 +158,7 @@ public class RecipeService {
 
 
 
-    public Specification<Recipe> search(String kw, String category, String cookTime, String budget) {
+    private Specification<Recipe> search(String kw, String category, String cookTime, String budget) {
         return new Specification<>() {
             private static final long serialVersionUID = 1L;
             @Override
@@ -205,6 +205,4 @@ public class RecipeService {
             }
         };
     }
-
-
 }
