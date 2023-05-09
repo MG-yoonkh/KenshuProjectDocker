@@ -9,13 +9,11 @@ import mg.recipe.recipe.Recipe;
 import mg.recipe.recipe.RecipeService;
 import org.hibernate.StaleObjectStateException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.util.Arrays;
@@ -48,6 +46,8 @@ public class UserService {
         this.userRepository.save(user);
         return user;
     }
+
+
     public boolean existsByUsername(String username) {
         return userRepository.existsByUsername(username);
     }
@@ -57,7 +57,7 @@ public class UserService {
         if(siteUser.isPresent()){
             return siteUser.get();
         } else{
-            throw new DataNotFoundException("ユーザー情報が見つかりません。");
+            throw new DataNotFoundException("ユーザーIDが存在しません。");
         }
     }
 
@@ -94,7 +94,7 @@ public class UserService {
             siteUser.setModifyDate(LocalDateTime.now());
             userRepository.save(siteUser);
         }else {
-            throw new InvalidPasswordException("パスワードが一致していません。");
+            throw new InvalidPasswordException("パスワードが一致しません。");
         }
     }
 
@@ -121,7 +121,6 @@ public class UserService {
             try {
                 this.recipeService.delete(recipe);
             } catch (StaleObjectStateException ex) {
-                // Handle exception here
                 System.out.println("StaleObjectStateException caught while deleting recipe: " + ex.getMessage());
             }
         }
@@ -154,6 +153,7 @@ public class UserService {
         }
         return "";
     }
+
     public Map<YearMonth, Long> getMonthlyRegistrations(YearMonth startMonth, YearMonth endMonth) {
         LocalDateTime startDateTime = startMonth.atDay(1).atStartOfDay();
         LocalDateTime endDateTime = endMonth.plusMonths(1).atDay(1).atStartOfDay();
@@ -177,9 +177,5 @@ public class UserService {
                         row -> YearMonth.of(((Number) row[0]).intValue(), ((Number) row[1]).intValue()),
                         row -> ((Number) row[2]).longValue()
                 ));
-    }
-
-    public long getTotalUserCount() {
-        return userRepository.count();
     }
 }

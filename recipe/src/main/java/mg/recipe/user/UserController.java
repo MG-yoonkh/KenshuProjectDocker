@@ -1,34 +1,22 @@
 package mg.recipe.user;
 
 
-import jakarta.persistence.EntityNotFoundException;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
 import mg.recipe.recipe.Recipe;
 import mg.recipe.recipe.RecipeService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
@@ -36,8 +24,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.regex.Matcher;
-import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -67,7 +53,7 @@ public class UserController {
                     userCreateForm.getPassword1());
         } catch (DataIntegrityViolationException e){
             e.printStackTrace();
-            bindingResult.reject("signupFailed","既に登録されたIDです。");
+            bindingResult.reject("signupFailed","既に登録されているIDです。");
             model.addAttribute("firstErrorMessage", userService.getFirstErrorMessage(bindingResult));
             return "signin";
         } catch (Exception e){
@@ -138,7 +124,7 @@ public class UserController {
         String username = principal.getName();
 
         if (!newPassword.equals(confirmPassword)) {
-            throw new PasswordMismatchException("パスワードが一致していません。");
+            throw new PasswordMismatchException("パスワードが一致しません。");
         }
         userService.updatePassword(username,currentPassword,newPassword);
         return "redirect:/mypage";
