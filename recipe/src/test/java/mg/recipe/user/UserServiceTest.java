@@ -1,4 +1,4 @@
-package mg.recipe;
+package mg.recipe.user;
 
 import jakarta.persistence.EntityNotFoundException;
 import mg.recipe.admin.AdminService;

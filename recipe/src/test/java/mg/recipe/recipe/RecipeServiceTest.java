@@ -1,9 +1,12 @@
-package mg.recipe;
+package mg.recipe.recipe;
 
+import jakarta.persistence.criteria.*;
 import mg.recipe.recipe.Recipe;
 import mg.recipe.recipe.RecipeForm;
 import mg.recipe.recipe.RecipeRepository;
 import mg.recipe.recipe.RecipeService;
+import mg.recipe.recipeIngredient.RecipeIngredient;
+import mg.recipe.recipeIngredient.RecipeIngredientRepository;
 import mg.recipe.user.SiteUser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,6 +21,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -32,6 +37,8 @@ public class RecipeServiceTest {
 
     @Mock
     private RecipeRepository recipeRepository;
+    @Mock
+    private RecipeIngredientRepository recipeIngredientRepository;
 
 //    @BeforeEach
 //    void setUp(){
@@ -130,6 +137,81 @@ public class RecipeServiceTest {
 //        assertEquals("modified_id", recipe.getVideoUrl());
 //
 //        verify(recipeRepository, times(1)).save(any(Recipe.class));
+//    }
+
+
+
+//    private Recipe recipe;
+//    private List<RecipeIngredient> recipeIngredients;
+//
+//    @BeforeEach
+//    void setUp(){
+//        recipe = new Recipe();
+//        recipe.setId(1);
+//
+//        RecipeIngredient ingredient1 = new RecipeIngredient();
+//        ingredient1.setId(1);
+//        RecipeIngredient ingredient2 = new RecipeIngredient();
+//        ingredient2.setId(2);
+//
+//        recipeIngredients = Arrays.asList(ingredient1, ingredient2);
+//    }
+//
+//    @Test
+//    void delete(){
+//        // Arrange
+//        when(recipeIngredientRepository.findAllByRecipe(recipe)).thenReturn(recipeIngredients);
+//
+//        // Act
+//        recipeService.delete(recipe);
+//
+//        // Assert
+//        verify(recipeIngredientRepository, times(1)).findAllByRecipe(recipe);
+//        verify(recipeIngredientRepository, times(1)).deleteById(1);
+//        verify(recipeIngredientRepository, times(1)).deleteById(2);
+//        verify(recipeRepository, times(1)).delete(recipe);
+//    }
+
+
+
+
+//    private CriteriaBuilder cb;
+//    private CriteriaQuery<?> query;
+//    private Root<Recipe> root;
+//    private Join<Recipe, SiteUser> authorJoin;
+//    private Join<Recipe, RecipeIngredient> ingredientsJoin;
+//
+//    @BeforeEach
+//    void setUp() {
+//        cb = mock(CriteriaBuilder.class);
+//        query = mock(CriteriaQuery.class);
+//        root = mock(Root.class);
+//    }
+//
+//    @Test
+//    void search(){
+//        int page = 0;
+//        String kw = "keyword";
+//        String category = "category";
+//        String cookTime = "cookTime";
+//        String budget = "budget";
+//        String orderBy = "popular";
+//
+//        RecipeService spyRecipeService = spy(recipeService);
+//
+//        Pageable pageable = PageRequest.of(page, 9, Sort.by(Sort.Order.desc("voterCount")));
+//        Specification<Recipe> spec = mock(Specification.class);
+//        Page<Recipe> expectedPage = mock(Page.class);
+//
+//        lenient().doReturn(spec).when(spyRecipeService).search(kw, category, cookTime, budget);
+//        when(recipeRepository.findAll(spec, pageable)).thenReturn(expectedPage);
+//
+//        Page<Recipe> result = spyRecipeService.getList(page, kw, category, cookTime, budget, orderBy);
+//
+//        assertEquals(expectedPage, result);
+//
+//        verify(spyRecipeService).search(kw, category, cookTime, budget);
+//        verify(recipeRepository).findAll(spec, pageable);
 //    }
 
 

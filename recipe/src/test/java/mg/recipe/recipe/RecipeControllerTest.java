@@ -1,4 +1,4 @@
-package mg.recipe;
+package mg.recipe.recipe;
 
 import jakarta.servlet.http.HttpSession;
 import mg.recipe.ingredient.Ingredient;
