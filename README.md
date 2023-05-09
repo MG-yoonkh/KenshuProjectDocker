@@ -41,9 +41,9 @@
     <summary>詳細画像を參照</summary>
     <div markdown="1">
       <br>
-      <div>7-1. recipe[mg.recipe] > build.gradleを開ける</div>
+      <div>7-1. recipe > build.gradleを開ける</div>
       <center>
-        <img src="https://user-images.githubusercontent.com/125540360/236735226-3018ddd1-4956-4331-a77c-12a083e6bb56.png" alt=""  >
+        <img src="https://user-images.githubusercontent.com/124640307/237041942-4a3eb49d-5352-4337-80c6-98d082de3370.png" alt=""  >
       </center>
       <br><br>
     </div>
