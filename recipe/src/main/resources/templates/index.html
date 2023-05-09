@@ -141,10 +141,10 @@
             <div class="recipe_list">
               <div class="row p-2">
                 <div  id="search-index">
-                  <h3 style="display: inline-block;" th:if="${not #strings.isEmpty(kw)}" th:text="@{|「${kw}」|}"></h3>
-                  <h3 style="display: inline-block;" th:if="${not #strings.isEmpty(category)}" th:text="@{|「${category}」|}"></h3>
-                  <h3 style="display: inline-block;" th:if="${not #strings.isEmpty(cookTime)}" th:text="@{|「${cookTime}分以内」|}"></h3>
-                  <h3 style="display: inline-block;" th:if="${not #strings.isEmpty(budget)}" th:text="@{|「${budget}円以内」|}"></h3>
+                  <h3 style="display: inline-block;" th:if="${not #strings.isEmpty(kw)}" th:text="@{|「キーワード:  ${kw}」|}"></h3>
+                  <h3 style="display: inline-block;" th:if="${not #strings.isEmpty(category)}" th:text="@{|「カテゴリー: ${category}」|}"></h3>
+                  <h3 style="display: inline-block;" th:if="${not #strings.isEmpty(cookTime)}" th:text="@{|「調理時間: ${cookTime}分以内」|}"></h3>
+                  <h3 style="display: inline-block;" th:if="${not #strings.isEmpty(budget)}" th:text="@{|「予算: ${budget}円以内」|}"></h3>
                   <h3 style="display: inline-block;" th:if="${not #strings.isEmpty(kw) or not #strings.isEmpty(category) or
                   not #strings.isEmpty(cookTime) or not #strings.isEmpty(budget)}"
                       th:text="@{|の検索結果|}"></h3>

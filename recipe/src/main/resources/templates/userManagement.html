@@ -56,7 +56,8 @@
                       <div class="col-md-4" th:text="${user.id}"></div>
                       <div class="col-md-4" th:text="${user.username}"></div>
                       <div class="col-md-4 mb-3">
-                        <form th:action="@{'/admin/user/' + ${user.id}}" method="post">
+                        <form th:action="@{'/admin/user/' + ${user.id}}" method="post"
+                              onsubmit="return confirm('本当に削除してよろしいですか？')">
                           <button class="btn btn-outline-danger" type="submit">削除</button>
                         </form>
                       </div>

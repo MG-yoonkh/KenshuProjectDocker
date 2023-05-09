@@ -178,4 +178,13 @@ public class UserService {
                         row -> ((Number) row[2]).longValue()
                 ));
     }
+
+    public SiteUser getUser(Integer id){
+        Optional<SiteUser> user = this.userRepository.findById(id);
+        if(user.isPresent()){
+            return user.get();
+        }else{
+            throw new DataNotFoundException("ユーザーがありません。");
+        }
+    }
 }

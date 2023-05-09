@@ -22,13 +22,14 @@
           <form th:action="@{/delete}" id="deleteForm" method="post" autocomplete="on">
             <p>登録情報の入力してくだたい。</p>
             <div class="form-group p-3">
-              <input type="text" class="form-control m-3" name="username" placeholder="IDを入力" />
-              <input type="password" class="form-control m-3" name="password" placeholder="パスワード" autocomplete="off"/>
-              <button type="submit" class="btn btn-danger" onclick="">退会を完了する</button>
+              <input type="text" class="form-control form-control-custom m-3" name="username" placeholder="IDを入力" />
+              <input type="password" class="form-control form-control-custom m-3" name="password" placeholder="パスワード" autocomplete="off"/>
+              <button type="submit" class="form-control btn btn-dark common-btn m-3" onclick="">退会を完了する</button>
             </div>
-            <a th:href="@{/mypage}">マイページに戻る</a>
           </form>
         </div>
+
+        <a th:href="@{/mypage}">マイページに戻る</a>
       </div>
     </div>
   </main>
