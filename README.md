@@ -44,7 +44,7 @@
       <div>7-1. recipe[mg.recipe] > build.gradleを開ける</div>
       <center>
         <img src="https://user-images.githubusercontent.com/125540360/236735226-3018ddd1-4956-4331-a77c-12a083e6bb56.png" alt=""  >
-      <center>
+      </center>
       <br><br>
     </div>
   </details>
@@ -52,24 +52,25 @@
 
  8. IntelliJのJAVAのバージョンを17に設定
  <blockquote>
- <details>
-   <summary>詳細画像を參照</summary>
-   <div markdown="1">   
-    <br>
-    <div>8-1. File > Project Structure</div>
-    <center>
+  <details>
+    <summary>詳細画像を參照</summary>
+    <div markdown="1">   
+     <br>
+      <div>8-1. File > Project Structure</div>
+     <center>
       <img src="https://user-images.githubusercontent.com/125540360/236724252-e96eaa71-cec2-4cf1-8d90-444b462e637d.png" alt=""  >
-    <center>
-     <br><br>
-    <div>8-2. Project > SDK > Java Version "17"に設定</div>
-    <center>
-      <img src="https://user-images.githubusercontent.com/125540360/236724020-8a2a4a3b-acb2-4086-8d01-f2f2e8c061ad.png" alt="" >
-   <center>
-   </div>
-  </details>
+     </center>
+      <br><br>
+     <div>8-2. Project > SDK > Java Version "17"に設定</div>
+     <center>
+       <img src="https://user-images.githubusercontent.com/125540360/236724020-8a2a4a3b-acb2-4086-8d01-f2f2e8c061ad.png" alt="" >
+     </center>
+    </div>
+   </details>
   </blockquote>
- 9. recipe - src - main - java - RecipeApplicationを実行する。
- 10. DATAフォルダのcsvファイルをMySQLにインポートする。
+    
+ 9. recipe - src - main - java - RecipeApplicationを実行する。　　
+ 10. DATAフォルダのcsvファイルをMySQLにインポートする。　　
  11. localhost:8080に接続する。    
 
 
