@@ -398,6 +398,16 @@ padding: 15px;
   width: 191px;
 }
 
+.scroll-obj {
+    margin-right: -58px;
+    margin-left: 24px;
+    margin-bottom: 3px;
+    font-size: small;
+    font-style: italic;
+    color: rebeccapurple;
+}
+
+
 .sub-btn {
     background-color: #9B91A3;
 }

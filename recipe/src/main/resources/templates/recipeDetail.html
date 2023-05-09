@@ -18,11 +18,12 @@
     </div>
     <div class="container-fluid text-center" >
       <div id="test_obj">
+        <label class="scroll-obj" for="test_obj">* クリックしてスクロールする。</label>
         <a href="javascript:void(0);" class="recommend btn scroll-btn sub-btn"
            th:data-uri="@{|/recipe/vote/${recipe.id}|}"
            th:data-voted="${userHasVoted != null ? userHasVoted : false}">
           いいね
-          <span class="badge rounded-pill bg-success" th:text="${#lists.size(recipe.voter)}"></span>
+          <span class="badge rounded-pill bg-danger text-white" th:text="${#lists.size(recipe.voter)}"></span>
         </a>
         <a href="javascript:void(0);" th:data-uri="@{|/recipe/modify/${recipe.id}|}" class="modify btn scroll-btn sub-btn"
            sec:authorize="isAuthenticated()"
@@ -69,6 +70,9 @@
           <div class="row justify-content-center">
             <div class="text-center" id="recipe_title">
               <h1 th:text="${recipe.recipeName}" class="p-2 font-face"></h1>
+              <p th:text="'投稿者： ' + ${recipe.author.username}" class="text-muted"></p>
+
+
             </div>
             <div class="col-md-9">
               <img th:src="@{|/uploaded/${recipe.thumbnail}|}" class="img-fluid border border-secondary rounded" alt="Recipe Image" id="recipe_image"
@@ -86,7 +90,7 @@
                   th:data-uri="@{|/recipe/vote/${recipe.id}|}"
                   th:data-voted="${userHasVoted != null ? userHasVoted : false}">
                   いいね
-                  <span class="badge rounded-pill bg-success" th:text="${#lists.size(recipe.voter)}"></span>
+                  <span class="badge rounded-pill bg-danger" th:text="${#lists.size(recipe.voter)}"></span>
                 </a>
               </div>
             </div>
