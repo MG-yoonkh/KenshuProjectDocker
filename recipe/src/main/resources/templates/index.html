@@ -74,7 +74,7 @@
         </div>
       </div>
       <!-- carousel -->
-      <div id="carouselExampleIndicators" class="carousel slide carousel-fade" data-bs-ride="true">
+      <div id="carouselExampleIndicators" class="carousel slide carousel-fade" data-bs-ride="true" >
         <div class="carousel-indicators">
           <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
                   aria-current="true" aria-label="Slide 1"></button>
@@ -102,7 +102,8 @@
         <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
                 data-bs-slide="next">
           <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Next</span>
+          <span class="visually-hidden" id="anchor" th:if="${not #strings.isEmpty(kw) or not #strings.isEmpty(category) or
+                  not #strings.isEmpty(cookTime) or not #strings.isEmpty(budget)}">Next</span>
         </button>
       </div>
       <!-- end carousel-->
@@ -115,23 +116,22 @@
           <h3 id="category-menu">カテゴリ</h3>
           <div class="form-group">
             <ul class="list-group">
-              <li class="list-group-item" id="list_korean">
-                <a th:href="@{/index(category='韓国料理')}" class="block_none">韓国料理<img src="assets/img/thumb_peppers.png" title=""
-                                                                class="thumb_nail" /></a>
+              <li class="list-group-item" id="list_korean" th:classappend="${category == '韓国料理'} ? 'bg-warning'">
+                <a th:href="@{/index(category='韓国料理')}" class="block_none">
+                  韓国料理<img src="assets/img/thumb_peppers.png" title="" class="thumb_nail" />
+                </a>
               </li>
-              <li class="list-group-item" id="list_japanese">
-                <a th:href="@{/index(category='日本料理')}" class="block_none">日本料理<img src="assets/img/thumb_sushi.png" title=""
-                                                                class="thumb_nail" /></a>
+              <li class="list-group-item" id="list_japanese" th:classappend="${category == '日本料理'} ? 'bg-warning'">
+                <a th:href="@{/index(category='日本料理')}" class="block_none">日本料理<img src="assets/img/thumb_sushi.png" title="" class="thumb_nail" /></a>
               </li>
-              <li class="list-group-item" id="list_chinese">
-                <a th:href="@{/index(category='中華料理')}" class="block_none">中華料理<img src="assets/img/thumb_takeaway.png" title=""
-                                                                class="thumb_nail" /></a>
+              <li class="list-group-item" id="list_chinese" th:classappend="${category == '中華料理'} ? 'bg-warning'">
+                <a th:href="@{/index(category='中華料理')}" class="block_none">中華料理<img src="assets/img/thumb_takeaway.png" title="" class="thumb_nail" /></a>
               </li>
-              <li class="list-group-item" id="list_western">
-                <a th:href="@{/index(category='西洋料理')}" class="block_none">西洋料理<img src="assets/img/thumb_quesadilla.png" title=""
-                                                                class="thumb_nail" /></a>
+              <li class="list-group-item" id="list_western" th:classappend="${category == '西洋料理'} ? 'bg-warning'">
+                <a th:href="@{/index(category='西洋料理')}" class="block_none">西洋料理<img src="assets/img/thumb_quesadilla.png" title="" class="thumb_nail" /></a>
               </li>
             </ul>
+
           </div>
         </div>
         <!-- end カテゴリー -->
@@ -141,10 +141,10 @@
             <div class="recipe_list">
               <div class="row p-2">
                 <div  id="search-index">
-                  <h3 style="display: inline-block;" th:if="${not #strings.isEmpty(kw)}" th:text="@{|「${kw}」|}"></h3>
-                  <h3 style="display: inline-block;" th:if="${not #strings.isEmpty(category)}" th:text="@{|「${category}」|}"></h3>
-                  <h3 style="display: inline-block;" th:if="${not #strings.isEmpty(cookTime)}" th:text="@{|「${cookTime}分以内」|}"></h3>
-                  <h3 style="display: inline-block;" th:if="${not #strings.isEmpty(budget)}" th:text="@{|「${budget}円以内」|}"></h3>
+                  <h3 style="display: inline-block;" th:if="${not #strings.isEmpty(kw)}" th:text="@{|「キーワード:  ${kw}」|}"></h3>
+                  <h3 style="display: inline-block;" th:if="${not #strings.isEmpty(category)}" th:text="@{|「カテゴリー: ${category}」|}"></h3>
+                  <h3 style="display: inline-block;" th:if="${not #strings.isEmpty(cookTime)}" th:text="@{|「調理時間: ${cookTime}分以内」|}"></h3>
+                  <h3 style="display: inline-block;" th:if="${not #strings.isEmpty(budget)}" th:text="@{|「予算: ${budget}円以内」|}"></h3>
                   <h3 style="display: inline-block;" th:if="${not #strings.isEmpty(kw) or not #strings.isEmpty(category) or
                   not #strings.isEmpty(cookTime) or not #strings.isEmpty(budget)}"
                       th:text="@{|の検索結果|}"></h3>
@@ -270,7 +270,16 @@ function performSearch() {
 document.getElementById('btn_search').addEventListener('click', performSearch);
 
 
-
-
+window.onload = function() {
+  const element = document.getElementById("anchor");
+  if (element) {
+    const elementRect = element.getBoundingClientRect();
+    const offsetTop = elementRect.top + window.pageYOffset + 180;
+    window.scroll({
+      top: offsetTop,
+      behavior: "smooth"
+    });
+  }
+};
 </script>
 </html>

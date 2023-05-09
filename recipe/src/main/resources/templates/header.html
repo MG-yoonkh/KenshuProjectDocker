@@ -35,7 +35,8 @@
               <li sec:authorize="isAnonymous()"><a th:href="@{/signin}" >会員登録</a></li>
               <li>
                 <a th:href="@{/login}" sec:authorize="isAnonymous()">ログイン</a>
-                <a th:href="@{/logout}" sec:authorize="isAuthenticated()">ログアウト</a>
+                <a th:href="@{/logout}" sec:authorize="isAuthenticated()"
+                   onclick="return confirm('ログアウトしてよろしいですか？')">ログアウト</a>
               </li>
             </ul>
           </nav>
@@ -56,7 +57,8 @@
             <li sec:authorize="isAnonymous()"><a th:href="@{/signin}" >会員登録</a></li>
             <li>
               <a th:href="@{/login}" sec:authorize="isAnonymous()">ログイン</a>
-              <a th:href="@{/logout}" sec:authorize="isAuthenticated()">ログアウト</a>
+              <a th:href="@{/logout}" sec:authorize="isAuthenticated()"
+                 onclick="return confirm('ログアウトしてよろしいですか？')">ログアウト</a>
             </li>
           </ul>
 
@@ -66,4 +68,5 @@
   </div>
 </header>
 <script layout:fragment="script" type="text/javascript">
+
 </script>
