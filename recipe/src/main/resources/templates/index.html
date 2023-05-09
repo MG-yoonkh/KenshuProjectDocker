@@ -115,23 +115,27 @@
           <h3 id="category-menu">カテゴリ</h3>
           <div class="form-group">
             <ul class="list-group">
-              <li class="list-group-item" id="list_korean">
-                <a th:href="@{/index(category='韓国料理')}" class="block_none">韓国料理<img src="assets/img/thumb_peppers.png" title=""
-                                                                class="thumb_nail" /></a>
+              <li class="list-group-item" id="list_korean" th:classappend="${category == '韓国料理'} ? 'bg-warning'">
+                <a th:href="@{/index(category='韓国料理')}" class="block_none">
+                  韓国料理<img src="assets/img/thumb_peppers.png" title="" class="thumb_nail" />
+                </a>
               </li>
-              <li class="list-group-item" id="list_japanese">
+
+
+              <li class="list-group-item" id="list_japanese" th:classappend="${category == '日本料理'} ? 'bg-warning'">
                 <a th:href="@{/index(category='日本料理')}" class="block_none">日本料理<img src="assets/img/thumb_sushi.png" title=""
-                                                                class="thumb_nail" /></a>
+                                                                                            class="thumb_nail" /></a>
               </li>
-              <li class="list-group-item" id="list_chinese">
+              <li class="list-group-item" id="list_chinese" th:classappend="${category == '中華料理'} ? 'bg-warning'">
                 <a th:href="@{/index(category='中華料理')}" class="block_none">中華料理<img src="assets/img/thumb_takeaway.png" title=""
-                                                                class="thumb_nail" /></a>
+                                                                                            class="thumb_nail" /></a>
               </li>
-              <li class="list-group-item" id="list_western">
+              <li class="list-group-item" id="list_western" th:classappend="${category == '西洋料理'} ? 'bg-warning'">
                 <a th:href="@{/index(category='西洋料理')}" class="block_none">西洋料理<img src="assets/img/thumb_quesadilla.png" title=""
-                                                                class="thumb_nail" /></a>
+                                                                                            class="thumb_nail" /></a>
               </li>
             </ul>
+
           </div>
         </div>
         <!-- end カテゴリー -->

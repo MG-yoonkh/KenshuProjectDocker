@@ -520,3 +520,11 @@ width: 150px;
 background-color: #87465d;
     border-color: #87465d;
 }
+
+.bg-purple {
+  background-color: #87465d;
+}
+
+.border-red {
+  border-color: red;
+}
