@@ -39,7 +39,7 @@
               <h3 class="join_title">
                 <label for="password1">* パスワード</label>
               </h3>
-            <input type="password" class="form-control form-control-custom" id="password1" th:field="*{password1}" placeholder="パスワードを入力してください" autocomplete="off"/>
+            <input type="password" class="form-control form-control-custom" id="password1" th:field="*{password1}" placeholder="8~16字アルファベット、数字、特集文字を入力してください。" autocomplete="off"/>
             </div>
           </div>
           <div class="join_row">
@@ -56,15 +56,6 @@
                 <label for="email">* メールアドレス</label>
               </h3>
               <input type="email" class="form-control form-control-custom" id="email" th:field="*{email}" placeholder="メールアドレスを入力してください" autocomplete="off"/>
-            </div>
-          </div>
-
-          <div class="join_row">
-            <div class="form-group form-check">
-              <h3 class="join_title">
-                <input type="checkbox" class="form-check-input" id="terms" />
-              </h3>
-              <label class="form-check-label" for="terms">利用規約に同意する</label>
             </div>
           </div>
           <div class="btn_area">
