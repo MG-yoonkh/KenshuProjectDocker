@@ -153,7 +153,7 @@ public class RecipeController {
      @throws IOException ファイルの処理中にエラーが発生した場合にスローされます
      */
 
-    private static final int MAX_DAILY_RECIPES = 10;
+    private static final int MAX_DAILY_RECIPES = 100;
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/recipe/write")
