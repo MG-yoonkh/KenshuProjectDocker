@@ -9,4 +9,10 @@ public class RecipeIngredientJson {
     private Integer ingredientValue;
     private String qtyValue;
     private Integer unitValue;
+
+    private String subCategory;
+
+    private String mainCategory;
+
+    private String ingredient;
 }

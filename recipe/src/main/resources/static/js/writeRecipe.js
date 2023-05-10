@@ -9,6 +9,9 @@ localStorage.clear();
 
 // Modal Click
 $(document).ready(function () {
+const backUpList = getBackUpListFromLocalStorage();
+    console.log('backUpList.length: ' + backUpList.length);
+    console.log('ingList.length: ' + ingList.length);
 
     const preview = document.getElementById("preview2_1");
     //preview.setAttribute('hidden', true);
@@ -549,6 +552,8 @@ closeButton.addEventListener('click', function() {
   console.log('______closeModal______');
 
   ingList = getIngListFromLocalStorage();
+  backUpList = getBackUpListFromLocalStorage();
+  console.log('______closeModal______' + backUpList.length);
   if(ingList.length > 0) {
     console.log('ingList.length 가 남아있음');
 
@@ -564,7 +569,11 @@ closeButton.addEventListener('click', function() {
     }
   } else {
   console.log('ingList.length 이 남아있지 않음');
-
+if(backUpList > ingList) {
+      localStorage.setItem("ingList", JSON.stringify(backUpList));
+      ingListData = localStorage.getItem('ingList');
+      console.log('closeModal_ingList: ' + ingListData);
+    }
   }
 
   console.log('______closeModal______');
