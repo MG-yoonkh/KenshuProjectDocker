@@ -277,6 +277,13 @@ function performSearch() {
 document.getElementById('btn_search').addEventListener('click', performSearch);
 
 
+document.getElementById('search_kw').addEventListener('keydown', function(event) {
+  if (event.key === 'Enter') {
+    event.preventDefault();
+    performSearch();
+  }
+});
+
 window.onload = function() {
   const element = document.getElementById("anchor");
   if (element) {
