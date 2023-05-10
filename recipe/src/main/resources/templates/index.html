@@ -23,11 +23,11 @@
               <div class="col-md-3 category_box">
                 <div class="form-group">
                   <select class="form-select" id="search_category" th:value="${category}" aria-label="category">
-                    <option value="" selected>カテゴリ</option>
-                    <option value="韓国料理">韓国料理</option>
-                    <option value="日本料理">日本料理</option>
-                    <option value="中華料理">中華料理</option>
-                    <option value="西洋料理">西洋料理</option>
+                    <option value="" th:selected="${#strings.isEmpty(category)}">カテゴリ</option>
+                    <option value="韓国料理" th:selected="${category == '韓国料理'}">韓国料理</option>
+                    <option value="日本料理" th:selected="${category == '日本料理'}">日本料理</option>
+                    <option value="中華料理" th:selected="${category == '中華料理'}">中華料理</option>
+                    <option value="西洋料理" th:selected="${category == '西洋料理'}">西洋料理</option>
                   </select>
                 </div>
               </div>
@@ -35,15 +35,14 @@
               <div class="col-md-3 category_box">
                 <div class="form-group">
                   <select class="form-select" id="search_cookTime" th:value="${cookTime}" aria-label="cookTime">
-                    <option value="" selected>調理時間</option>
-                    <option value="">全体</option>
-                    <option value="10">10分以内</option>
-                    <option value="20">20分以内</option>
-                    <option value="30">30分以内</option>
-                    <option value="40">40分以内</option>
-                    <option value="50">50分以内</option>
-                    <option value="60">60分以内</option>
-                    <option value="61">60分以上</option>
+                    <option value="" th:selected="${#strings.isEmpty(cookTime)}">調理時間</option>
+                    <option value="10" th:selected="${cookTime == '10'}">10分以内</option>
+                    <option value="20" th:selected="${cookTime == '20'}">20分以内</option>
+                    <option value="30" th:selected="${cookTime == '30'}">30分以内</option>
+                    <option value="40" th:selected="${cookTime == '40'}">40分以内</option>
+                    <option value="50" th:selected="${cookTime == '50'}">50分以内</option>
+                    <option value="60" th:selected="${cookTime == '60'}">60分以内</option>
+                    <option value="61" th:selected="${cookTime == '61'}">60分以上</option>
                   </select>
                 </div>
               </div>
@@ -51,25 +50,27 @@
               <div class="col-md-3 category_box">
                 <div class="form-group">
                   <select class="form-select" id="search_budget" th:value="${budget}" aria-label="budget">
-                    <option value="" selected>予算</option>
-                    <option value="100">100円以内</option>
-                    <option value="500">101~500円</option>
-                    <option value="1000">501~1000円</option>
-                    <option value="2000">1000~2000円</option>
-                    <option value="5000">2000~5000円</option>
-                    <option value="5001">5000円以上</option>
+                    <option value="" th:selected="${#strings.isEmpty(budget)}">予算</option>
+                    <option value="100" th:selected="${budget == '100'}">100円以内</option>
+                    <option value="500" th:selected="${budget == '500'}">101~500円</option>
+                    <option value="1000" th:selected="${budget == '1000'}">501~1000円</option>
+                    <option value="2000" th:selected="${budget == '2000'}">1000~2000円</option>
+                    <option value="5000" th:selected="${budget == '5000'}">2000~5000円</option>
+                    <option value="5001" th:selected="${budget == '5001'}">5000円以上</option>
                   </select>
                 </div>
               </div>
+
               <!-- ソート順 (人気・日付) -->
               <div class="col-md-3 category_box">
                 <div class="form-group">
                   <select class="form-select" id="search_orderBy" th:value="${orderBy}" aria-label="orderBy">
-                    <option value="date" selected>日付順</option>
-                    <option value="popular">人気順</option>
+                    <option value="date" th:selected="${orderBy == 'date'}">日付順</option>
+                    <option value="popular" th:selected="${orderBy == 'popular'}">人気順</option>
                   </select>
                 </div>
               </div>
+
             </div>
         </div>
       </div>
@@ -143,8 +144,14 @@
                 <div  id="search-index">
                   <h3 style="display: inline-block;" th:if="${not #strings.isEmpty(kw)}" th:text="@{|「キーワード:  ${kw}」|}"></h3>
                   <h3 style="display: inline-block;" th:if="${not #strings.isEmpty(category)}" th:text="@{|「カテゴリー: ${category}」|}"></h3>
-                  <h3 style="display: inline-block;" th:if="${not #strings.isEmpty(cookTime)}" th:text="@{|「調理時間: ${cookTime}分以内」|}"></h3>
-                  <h3 style="display: inline-block;" th:if="${not #strings.isEmpty(budget)}" th:text="@{|「予算: ${budget}円以内」|}"></h3>
+                  <h3 style="display: inline-block;" th:if="${not #strings.isEmpty(cookTime)}">
+                    <span th:if="${cookTime == '61'}" th:text="@{|「調理時間: ${cookTime}分以上」|}"></span>
+                    <span th:if="${cookTime != '61'}" th:text="@{|「調理時間: ${cookTime}分以内」|}"></span>
+                  </h3>
+                  <h3 style="display: inline-block;" th:if="${not #strings.isEmpty(budget)}">
+                    <span th:if="${budget == '5001'}" th:text="@{|「予算: ${budget}円以上」|}"></span>
+                    <span th:if="${budget != '5001'}" th:text="@{|「予算: ${budget}円以内」|}"></span>
+                  </h3>
                   <h3 style="display: inline-block;" th:if="${not #strings.isEmpty(kw) or not #strings.isEmpty(category) or
                   not #strings.isEmpty(cookTime) or not #strings.isEmpty(budget)}"
                       th:text="@{|の検索結果|}"></h3>
