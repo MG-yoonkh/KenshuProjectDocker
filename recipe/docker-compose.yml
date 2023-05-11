@@ -28,9 +28,10 @@ services:
       - my-network
     command: ["java", "-jar", "app.jar"]
     volumes:
-      - ./images:/app/img_files
+      - image_data:/app/img_files
 volumes:
   db_data:
+  image_data:
 networks:
   my-network:
     driver: bridge
