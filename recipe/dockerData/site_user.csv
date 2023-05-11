@@ -1,5 +1,0 @@
-id,create_date,email,modify_date,password,role,username
-3,"2023-05-01 09:08:03.428928",mirine01@gmail.com,"2023-05-01 09:08:03.428928",$2a$10$zyw5qmQYmsniDeQ23uAQ3ufyH/4xe5COHr8RbW7PUvsGJ8mD/Rc1K,USER,user02
-4,"2023-05-02 15:56:04.691562",admin01@gamil.com,"2023-05-02 15:56:04.691562",$2a$10$0rIolYyN8GshCBGOD6WDlOvOTFUJACpKJiEYLwv4pFV1uIBSL8K8u,ADMIN,admin01
-7,"2023-05-02 16:15:43.942154",user01@gmail.com,"2023-05-02 16:15:43.942154",$2a$10$9YZD1fRehbkvQF24F7rSeO1/2VsJ5RvOW9Ee4L1RyHTgyt/1CaOr.,USER,user01
-8,"2023-05-08 09:51:24.749332",user03@gmail.com,"2023-05-08 09:51:24.749332",$2a$10$LRxqszxpvwdQasDcsh1GNOeZvJoFxUovlZ2KkVObZ72Y0JvaJCsuG,USER,user03
