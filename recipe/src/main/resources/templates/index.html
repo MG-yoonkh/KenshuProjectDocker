@@ -20,7 +20,7 @@
             </div>
             <div class="row justify-content-center mt-3">
               <!-- カテゴリー -->
-              <div class="col-md-3 category_box">
+              <div class="col-sm-3 category_box">
                 <div class="form-group">
                   <select class="form-select" id="search_category" th:value="${category}" aria-label="category">
                     <option value="" th:selected="${#strings.isEmpty(category)}">カテゴリ</option>
@@ -32,7 +32,7 @@
                 </div>
               </div>
               <!-- 調理時間 -->
-              <div class="col-md-3 category_box">
+              <div class="col-sm-3 category_box">
                 <div class="form-group">
                   <select class="form-select" id="search_cookTime" th:value="${cookTime}" aria-label="cookTime">
                     <option value="" th:selected="${#strings.isEmpty(cookTime)}">調理時間</option>
@@ -47,7 +47,7 @@
                 </div>
               </div>
               <!-- 予算 -->
-              <div class="col-md-3 category_box">
+              <div class="col-sm-3 category_box">
                 <div class="form-group">
                   <select class="form-select" id="search_budget" th:value="${budget}" aria-label="budget">
                     <option value="" th:selected="${#strings.isEmpty(budget)}">予算</option>
@@ -62,7 +62,7 @@
               </div>
 
               <!-- ソート順 (人気・日付) -->
-              <div class="col-md-3 category_box">
+              <div class="col-sm-3 category_box">
                 <div class="form-group">
                   <select class="form-select" id="search_orderBy" th:value="${orderBy}" aria-label="orderBy">
                     <option value="date" th:selected="${orderBy == 'date'}">日付順</option>
