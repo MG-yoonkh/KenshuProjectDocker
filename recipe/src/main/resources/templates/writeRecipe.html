@@ -48,12 +48,12 @@
                   <div class="col-md-8">
                     <h2>
                       <img class="write-recipe-icon" src="/assets/icon/title.png" alt="Icon for recipe title"/>
-                      レシピのタイトル</h2>
+                      レシピのタイトル&nbsp;&nbsp;&nbsp;</h2>
                     <div class="input-title">
                       <input type="text" th:field="*{recipeName}" id="floatingInput" class="form-control" />
                     </div>
-                    <h6>
-                      レシピに合ったタイトルをつけてください。
+                    <h6 style="color: red">
+                      *100文字以内で書いてください。
                     </h6>
 
                   </div>
@@ -71,7 +71,7 @@
               <div class="col-md-8">
                 <div class="row justify-content-center text-center">
                   <div class="col-md-8">
-                    <h2><img class="write-recipe-icon" src="/assets/icon/title.png" alt="Icon for recipe title"/>レシピの写真</h2>
+                    <h2><img class="write-recipe-icon" src="/assets/icon/title.png" alt="Icon for recipe title"/>レシピの写真&nbsp;&nbsp;&nbsp;&nbsp;</h2>
                     <label class="label" id="label" for="input" th:attr="data-thumbnail=${recipeForm.thumbnail}">
                       <!-- Drag N Drop Icon -->
                       <div class="inner" id="inner">
@@ -91,14 +91,15 @@
                      th:attr="data-thumbnail=${recipeForm.thumbnail}">
                     <th:block th:if="${recipeForm.thumbnail != null}">
                       <input type="hidden" id="OriginalThumbFile" th:value="${recipeForm.thumbnail}" />
+                      <h6 style="color: red">*クリックして編集してください。</h6>
                     </th:block>
-
-                    <h5>クリックして登録</h5>
+                    <th:block th:if="${recipeForm.thumbnail == null}">
+                      <h6 style="color: red">*クリックして登録してください。</h6>
+                    </th:block>
                   </div>
                 </div>
               </div>
             </div>
-
 
             <!--  区切り線 -->
             <div class="row justify-content-center p-5" id="recipe-category">
@@ -165,7 +166,7 @@
             <!-- 材料登録 -->
             <div class="row justify-content-center text-center">
               <label for="">
-                <h2 class="p-2"><img class="write-recipe-icon" src="/assets/icon/title.png" alt="Icon for recipe title"/>材料</h2>
+                <h2 class="p-2"><img class="write-recipe-icon" src="/assets/icon/title.png" alt="Icon for recipe title"/>材料&nbsp;&nbsp;&nbsp;</h2>
               </label>
               <!-- Modal -->
               <div class="modal fade" id="staticBackdrop" tabindex="-1" aria-labelledby="staticBackdrop"
@@ -206,7 +207,7 @@
                           </div>
                           <!-- 計量リスト -->
                           <div class="mb-2">
-                            <label for="qty-dropdown" class="form-label">計量</label>
+                            <label for="qty-dropdown" class="form-label">数量</label>
                             <select class="form-select" id="qty-dropdown" name="measurementUnitId">
                               <option value="" disabled selected hidden>選択してください</option>
                               <option value="direct">直接入力する</option>
@@ -231,7 +232,7 @@
                           <!--  Modal　Footer 1. 追加 -->
                           <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" id="reset-button">取消</button>
-                            <button type="button" class="btn btn-primary" id="add-button">追加</button>
+                            <button type="button" class="btn btn-dark common-btn" id="add-button">追加</button>
                           </div>
                         </div>
                         <!-- 追加された材料リスト -->
@@ -250,7 +251,7 @@
                             </div>
                             <!--  Modal　Footer 2. 保存 -->
                             <div class="modal-footer">
-                              <button type="button" class="btn btn-primary" id="save-button">保存</button>
+                              <button type="button" class="btn btn-dark common-btn" id="save-button">保存</button>
                             </div>
                           </form>
                         </div><!-- 追加された材料リスト End -->
@@ -263,9 +264,6 @@
                 <!-- Modal Button -->
                 <div class="modal-div">
                   <button type="button" class="btn modal-ing" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                    <span class="modal-ing-content" >クリックして材料をのせる</span>
-                    <div>
-                    </div>
                     <table class="table">
                       <thead>
                         <tr>
@@ -304,6 +302,7 @@
                 </div>
               </div>
 
+              <h6 style="color: red">*クリックして材料をのせてください。</h6>
               <!--  区切り線 -->
               <div class="row justify-content-center p-5" id="recipe-instruction">
                 <div class="col-md-7">
@@ -315,6 +314,8 @@
                 <div class="col-md-6">
                   <label class="" for="">
                     <h2><img class="write-recipe-icon" src="/assets/icon/title.png" alt="Icon for recipe title"/>作り方</h2>
+                    <h6 th:if="${#lists.isEmpty(istList)}"　style="color: red">*クリックしてイメージを登録してください。</h6>
+                    <h6 th:if="${not #lists.isEmpty(istList)}"　style="color: red">*クリックしてイメージを編集してください。</h6>
                   </label>
                   <div th:if="${not #lists.isEmpty(istList)}">
                     <div class="row text-start p-2" th:each="ist, loop : ${istList}">
@@ -353,7 +354,7 @@
                         <label class="label2 image_container" for="input2_1">
                           <div class="inner2 ">
                             <img src="/assets/icon/dragndrop.png" class="dragicon2_1 img-fluid border border-secondary rounded" alt="">
-                            <div class="preview2 img-fluid border border-secondary rounded recipe_image_dynamic" id="preview2_1">
+                            <div class="preview2 img-fluid  recipe_image_dynamic" id="preview2_1">
                             </div>
                           </div>
                         </label>
@@ -404,6 +405,7 @@
                     <div class="col-md-8">
                       <input type="text" id="video-url" class="form-control" th:field="*{videoUrl}"
                         placeholder="URL入力" />
+                      <h6 class="writeLabel">*例）https://www.youtube.com/watch?VideoId</h6>
                     </div>
                   </div>
                   <div class="row mt-3">
