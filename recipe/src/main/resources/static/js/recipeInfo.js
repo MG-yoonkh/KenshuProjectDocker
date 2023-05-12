@@ -20,3 +20,4 @@ const moveToRecipeCategorySmooth = () => scrollToElementSmooth('recipe-category'
 const moveToRecipeIngredientSmooth = () => scrollToElementSmooth('recipe-ingredient');
 const moveToRecipeInstructionSmooth = () => scrollToElementSmooth('recipe-instruction');
 const moveToBottomSmooth = () => scrollToElementSmooth('recipe-youtube');
+

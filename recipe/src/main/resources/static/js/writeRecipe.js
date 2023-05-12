@@ -886,7 +886,18 @@ document.getElementById('writeForm').addEventListener('submit', function (evt) {
 
     var recipeName = document.getElementById("floatingInput").value;
     if(recipeName == ""){
-        alert("レシピ名を入力してください。")
+        alert("レシピ名を入力してください。");
+        moveToTopSmooth();
+        return false;
+    }
+    if(recipeName.length > 100){
+        alert("レシピ名は100文字以下で入力してください。");
+        moveToTopSmooth();
+        return false;
+    }
+    var scriptPattern = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi;
+    if(scriptPattern.test(recipeName)){
+        alert("レシピ名にスクリプトを含めることはできません。");
         moveToTopSmooth();
         return false;
     }
@@ -984,8 +995,6 @@ document.getElementById('writeForm').addEventListener('submit', function (evt) {
         alert("投稿しました!");
     }
 })
-
-
 
 
 

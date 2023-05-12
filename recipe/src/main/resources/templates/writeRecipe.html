@@ -333,6 +333,7 @@
                             </div>
                           </div>
                         </label>
+                        <div class="istLabel1">クリックしてイメージ修正</div>
                         <input th:id="'input2_' + ${loop.index+1}" class="input2" accept="image/*" type="file" name="imgUrl" required="true"
                                multiple="true" hidden="true" th:data-section-id="${loop.index+1}">
                       </div>
@@ -454,6 +455,15 @@
 </div>
 
 <script layout:fragment="script" type='text/javascript'>
+
+
+function setDefaultImage(img) {
+  img.onerror = null;
+  img.src = ''; // Set src to empty string first
+  img.src = '/assets/icon/garlic.png';
+}
+
+
   /* 動画挿入 */
   function extractVideoIdFromUrl(url) {
     const pattern = /(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})(?:.+)?$/;
