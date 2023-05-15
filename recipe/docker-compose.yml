@@ -8,7 +8,7 @@ services:
       MYSQL_DATABASE: Recipe
     ports:
       - "3307:3306"
-    command: --default-authentication-plugin=mysql_native_password --secure-file-priv=/csv_files --init-file=/csv_files/init.sql --local-infile=1 --loose-local-infile=1
+    command: --default-authentication-plugin=mysql_native_password --secure-file-priv=/csv_files --local-infile=1 --loose-local-infile=1
     volumes:
       - db_data:/var/lib/mysql
       - ./data:/csv_files
