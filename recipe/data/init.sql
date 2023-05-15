@@ -1,3 +1,5 @@
+CREATE DATABASE Recipe;
+
 USE Recipe;
 
 SET FOREIGN_KEY_CHECKS = 0;
